@@ -4,7 +4,9 @@ import {
   setCustomTextInput,
   setCustomText,
 } from 'react-native-global-props';
-import {Platform} from 'react-native';
+import {
+  responsiveScreenFontSize,
+} from "react-native-responsive-dimensions";
 
 
 export type Theme = 'dark' | 'light';
@@ -84,5 +86,20 @@ const ProviderTheme = ({children}: any) => {
   );
 };
 
-export {useTheme};
+const f = (z: number) => {
+  const x = (16 / 9) * 187.5;
+
+  return (100 * z) / ( Math.sqrt(
+    Math.pow(x, 2) + Math.pow(187.5, 2)
+  ))
+};
+
+const fontSizes: any = {
+};
+
+for(let i = 4; i <= 32; i++) {
+  fontSizes[i] = responsiveScreenFontSize(f(i));
+}
+
+export {useTheme, fontSizes};
 export default ProviderTheme;
