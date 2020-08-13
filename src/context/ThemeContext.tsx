@@ -6,8 +6,12 @@ import {
 } from 'react-native-global-props';
 import {
   responsiveScreenFontSize,
+  responsiveScreenWidth,
+  responsiveFontSize
 } from "react-native-responsive-dimensions";
-
+import {getFontFamily} from '../utils/getFontFamily';
+import {Dimensions} from 'react-native';
+const window = Dimensions.get('window');
 
 export type Theme = 'dark' | 'light';
 
@@ -35,7 +39,7 @@ const ProviderTheme = ({children}: any) => {
 
   const value: IThemeContext = useMemo(() => {
     const primary = theme === 'light' ? '#01a6e6' : '#01a6e6';
-    const background = theme === 'light' ? 'transparent' : '#3c4162';
+    const background = theme === 'light' ? '#fff' : '#3c4162';
     const card = theme === 'light' ? '#fff' : '#fff';
     const text = theme === 'light' ? '#3c4162' : '#fff';
     const border = theme === 'light' ? '#dadeea' : '#fff';
@@ -43,27 +47,22 @@ const ProviderTheme = ({children}: any) => {
 
     const customTextProps = {
       style: {
-        fontSize: 14,
+        fontSize: sizes[8],
         color: text,
-      },
-    };
-
-    const customViewProps = {
-      style: {
-        backgroundColor: background,
+        fontFamily: getFontFamily('300')
       },
     };
 
     const customTextInputProps = {
       underlineColorAndroid: 'rgba(0,0,0,0)',
       style: {
-        fontSize: 14,
+        fontSize: sizes[8],
         backgroundColor: 'transparent',
         color: text,
+        fontFamily: getFontFamily('300')
       },
     };
 
-    setCustomView(customViewProps);
     setCustomTextInput(customTextInputProps);
     setCustomText(customTextProps);
 
@@ -86,6 +85,8 @@ const ProviderTheme = ({children}: any) => {
   );
 };
 
+const isTablet = window.width > 600;
+
 const f = (z: number) => {
   const x = (16 / 9) * 187.5;
 
@@ -94,12 +95,12 @@ const f = (z: number) => {
   ))
 };
 
-const fontSizes: any = {
+const sizes: any = {
 };
 
-for(let i = 4; i <= 32; i++) {
-  fontSizes[i] = responsiveScreenFontSize(f(i));
+for(let i = 4; i <= 50; i++) {
+  sizes[i] = responsiveFontSize(f(i) * (isTablet ? 0.5 : 1));
 }
 
-export {useTheme, fontSizes};
+export {useTheme, sizes};
 export default ProviderTheme;
