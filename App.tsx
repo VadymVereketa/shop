@@ -1,4 +1,4 @@
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, Theme} from '@react-navigation/native';
 import React from 'react';
 import {useTheme} from './src/context/ThemeContext';
 import StartNavigator from './src/navigators/Start.navigator';
@@ -7,9 +7,16 @@ import StartNavigator from './src/navigators/Start.navigator';
 const App = () => {
   const {theme, onChangeTheme, ...colors} = useTheme();
 
-  const MyTheme = {
+  const MyTheme: Theme = {
     dark: theme === 'dark',
-    colors,
+    colors: {
+      primary: colors.primary,
+      background: colors.background,
+      border: colors.border,
+      card: colors.background,
+      text: colors.text,
+      notification: 'red'
+    },
   };
 
   return <NavigationContainer theme={MyTheme}>

@@ -36,7 +36,7 @@ const Stack = createStackNavigator<StartNavigatorParamList>();
 
 const StartNavigator = () => {
   return (
-      <Stack.Navigator initialRouteName={'MainNavigator'}>
+      <Stack.Navigator initialRouteName={'MainNavigator'} headerMode="none">
         <Stack.Screen name="MainNavigator" component={MainNavigator} />
         <Stack.Screen name="SecondaryNavigator" component={SecondaryNavigator} />
         <Stack.Screen name="AuthNavigator" component={AuthNavigator} />

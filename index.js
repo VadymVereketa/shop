@@ -5,16 +5,28 @@ import App from './App';
 import {name as appName} from './app.json';
 import ProviderTheme from './src/context/ThemeContext';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import configureStore from './src/redux/store';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import ProviderFormattingContext from './src/context/FormattingContext';
+
+const store = configureStore();
 
 const Main = () => {
   return (
-    <SafeAreaProvider>
-      <ProviderTheme>
-        <SafeAreaProvider>
-          <App />
-        </SafeAreaProvider>
-      </ProviderTheme>
-    </SafeAreaProvider>
+    <Provider store={store.store}>
+      <PersistGate loading={null} persistor={store.persistor}>
+        <ProviderFormattingContext>
+          <SafeAreaProvider>
+            <ProviderTheme>
+              <SafeAreaProvider>
+                <App />
+              </SafeAreaProvider>
+            </ProviderTheme>
+          </SafeAreaProvider>
+        </ProviderFormattingContext>
+      </PersistGate>
+    </Provider>
   );
 };
 

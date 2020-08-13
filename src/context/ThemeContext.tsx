@@ -7,8 +7,8 @@ import {
 import {
   responsiveScreenFontSize,
   responsiveScreenWidth,
-  responsiveFontSize
-} from "react-native-responsive-dimensions";
+  responsiveFontSize,
+} from 'react-native-responsive-dimensions';
 import {getFontFamily} from '../utils/getFontFamily';
 import {Dimensions} from 'react-native';
 const window = Dimensions.get('window');
@@ -20,11 +20,13 @@ interface IThemeContext {
   theme: Theme;
 
   primary: string;
+  accent: string;
   background: string;
-  card: string;
-  text: string;
+  lightBackground: string;
   border: string;
-  notification: string;
+  text: string;
+  lightText: string;
+  darkText: string;
 }
 
 const ThemeContext = React.createContext({} as IThemeContext);
@@ -39,17 +41,19 @@ const ProviderTheme = ({children}: any) => {
 
   const value: IThemeContext = useMemo(() => {
     const primary = theme === 'light' ? '#01a6e6' : '#01a6e6';
+    const accent = theme === 'light' ? '#18aa13' : '#18aa13';
     const background = theme === 'light' ? '#fff' : '#3c4162';
-    const card = theme === 'light' ? '#fff' : '#fff';
+    const lightBackground = theme === 'light' ? '#f2f4fa' : '#f2f4fa';
+    const lightText = theme === 'light' ? '#a0a9ba' : '#fff';
+    const darkText = theme === 'light' ? '#121826' : '#fff';
     const text = theme === 'light' ? '#3c4162' : '#fff';
     const border = theme === 'light' ? '#dadeea' : '#fff';
-    const notification = theme === 'light' ? '#810' : '#810';
 
     const customTextProps = {
       style: {
         fontSize: sizes[8],
         color: text,
-        fontFamily: getFontFamily('300')
+        fontFamily: getFontFamily('300'),
       },
     };
 
@@ -59,7 +63,7 @@ const ProviderTheme = ({children}: any) => {
         fontSize: sizes[8],
         backgroundColor: 'transparent',
         color: text,
-        fontFamily: getFontFamily('300')
+        fontFamily: getFontFamily('300'),
       },
     };
 
@@ -73,10 +77,12 @@ const ProviderTheme = ({children}: any) => {
       theme,
       primary,
       background,
-      card,
+      lightText,
       text,
       border,
-      notification
+      accent,
+      darkText,
+      lightBackground,
     };
   }, [theme]);
 
@@ -90,17 +96,16 @@ const isTablet = window.width > 600;
 const f = (z: number) => {
   const x = (16 / 9) * 187.5;
 
-  return (100 * z) / ( Math.sqrt(
-    Math.pow(x, 2) + Math.pow(187.5, 2)
-  ))
+  return (100 * z) / Math.sqrt(Math.pow(x, 2) + Math.pow(187.5, 2));
 };
 
-const sizes: any = {
-};
+const sizes: any = {};
+const widths: any = {};
 
-for(let i = 4; i <= 50; i++) {
-  sizes[i] = responsiveFontSize(f(i) * (isTablet ? 0.5 : 1));
+for (let i = 1; i <= 100; i++) {
+  sizes[i] = responsiveFontSize(f(i) * (isTablet ? 0.7 : 1));
+  widths[i] = responsiveFontSize(f(i));
 }
 
-export {useTheme, sizes};
+export {useTheme, sizes, widths};
 export default ProviderTheme;
