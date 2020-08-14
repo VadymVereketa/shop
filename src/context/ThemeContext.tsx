@@ -91,7 +91,7 @@ const ProviderTheme = ({children}: any) => {
   );
 };
 
-const isTablet = window.width > 600;
+const isTablet = Math.min(window.height, window.width) > 600;
 
 const f = (z: number) => {
   const x = (16 / 9) * 187.5;

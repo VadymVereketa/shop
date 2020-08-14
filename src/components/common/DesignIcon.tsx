@@ -1,48 +1,46 @@
 import React from 'react';
-const RestaurantIcon = require("../../assets/svg/ic-restaurant.svg").default;
-const StoreIcon = require("../../assets/svg/ic-store.svg").default;
-const EyeIcon = require("../../assets/svg/ic-eye.svg").default;
-const MapIcon = require("../../assets/svg/ic-map.svg").default;
-const MenuMoreIcon = require("../../assets/svg/ic-menu-more.svg").default;
-const ArrowIcon = require("../../assets/svg/ic-arrow.svg").default;
-const ArrowRightIcon = require("../../assets/svg/ic-arrow-right.svg").default;
-const CheckIcon = require("../../assets/svg/ic-check-mark.svg").default;
-const CloseIcon = require("../../assets/svg/ic-close.svg").default;
-const CopyIcon = require("../../assets/svg/ic-copy.svg").default;
-const FingerprintIcon = require("../../assets/svg/ic-fingerprint.svg").default;
-const LogOutIcon = require("../../assets/svg/ic-log-out.svg").default;
-const NextIcon = require("../../assets/svg/ic-next.svg").default;
-const OpenEyeIcon = require("../../assets/svg/ic-open-eye.svg").default;
-const PhoneIcon = require("../../assets/svg/ic-phone.svg").default;
-const SaleIcon = require("../../assets/svg/ic-sale.svg").default;
-const SearchIcon = require("../../assets/svg/ic-search.svg").default;
-const ShareIcon = require("../../assets/svg/ic-share.svg").default;
-const StarEmptyIcon = require("../../assets/svg/ic-star-empty.svg").default;
-const StarFillIcon = require("../../assets/svg/ic-star-filled.svg").default;
-
+const RestaurantIcon = require('../../assets/svg/ic-restaurant.svg').default;
+const StoreIcon = require('../../assets/svg/ic-store.svg').default;
+const EyeIcon = require('../../assets/svg/ic-eye.svg').default;
+const MapIcon = require('../../assets/svg/ic-map.svg').default;
+const MenuMoreIcon = require('../../assets/svg/ic-menu-more.svg').default;
+const ArrowIcon = require('../../assets/svg/ic-arrow.svg').default;
+const ArrowRightIcon = require('../../assets/svg/ic-arrow-right.svg').default;
+const CheckIcon = require('../../assets/svg/ic-check-mark.svg').default;
+const CloseIcon = require('../../assets/svg/ic-close.svg').default;
+const CopyIcon = require('../../assets/svg/ic-copy.svg').default;
+const FingerprintIcon = require('../../assets/svg/ic-fingerprint.svg').default;
+const LogOutIcon = require('../../assets/svg/ic-log-out.svg').default;
+const NextIcon = require('../../assets/svg/ic-next.svg').default;
+const OpenEyeIcon = require('../../assets/svg/ic-open-eye.svg').default;
+const PhoneIcon = require('../../assets/svg/ic-phone.svg').default;
+const SaleIcon = require('../../assets/svg/ic-sale.svg').default;
+const SearchIcon = require('../../assets/svg/ic-search.svg').default;
+const ShareIcon = require('../../assets/svg/ic-share.svg').default;
+const StarEmptyIcon = require('../../assets/svg/ic-star-empty.svg').default;
+const StarFillIcon = require('../../assets/svg/ic-star-filled.svg').default;
 
 type IName =
-  'restaurant' |
-  'store' |
-  'eye' |
-  'map' |
-  'menu-more' |
-  'arrow' |
-  'arrow-right' |
-  'check-mark' |
-  'close' |
-  'copy' |
-  'fingerprint' |
-  'log-out' |
-  'next' |
-  'open-eye' |
-  'phone' |
-  'sale' |
-  'search' |
-  'share' |
-  'star-empty' |
-  'star-filled'
-  ;
+  | 'restaurant'
+  | 'store'
+  | 'eye'
+  | 'map'
+  | 'menu-more'
+  | 'arrow'
+  | 'arrow-right'
+  | 'check-mark'
+  | 'close'
+  | 'copy'
+  | 'fingerprint'
+  | 'log-out'
+  | 'next'
+  | 'open-eye'
+  | 'phone'
+  | 'sale'
+  | 'search'
+  | 'share'
+  | 'star-empty'
+  | 'star-filled';
 
 const getIcon = (name: IName) => {
   switch (name) {
@@ -107,8 +105,8 @@ interface IDesignIconProps {
   originY?: number;
 }
 const DesignIcon = ({name, size, ...props}: IDesignIconProps) => {
-    const Icon = getIcon(name);
-    return <Icon width={size} height={size} {...props} />
+  const Icon = getIcon(name);
+  return <Icon width={size} height={size} {...props} />;
 };
 
 export default DesignIcon;

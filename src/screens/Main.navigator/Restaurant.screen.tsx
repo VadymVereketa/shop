@@ -9,8 +9,14 @@ import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import Header from '../../components/common/Header';
 import MyButton from '../../components/common/MyButton';
 import AsyncStorage from '@react-native-community/async-storage';
+import {
+  responsiveScreenWidth,
+  responsiveWidth,
+} from 'react-native-responsive-dimensions';
 
 const window = Dimensions.get('window');
+
+const width = Math.min(window.width, window.height);
 
 const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -37,26 +43,22 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
     {name: 'ASBESTOS', code: '#7f8c8d'},
   ]);
 
-  useEffect(() => {
-    AsyncStorage.getItem('persist:other').then((res) => {
-      console.log(JSON.parse(res));
-    });
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <View style={[styles.container]}>
       <Header />
-      <MyButton>asdsasd</MyButton>
+      <MyButton ultraWidth>asdsasd</MyButton>
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'space-between',
           marginHorizontal: sizes[5],
         }}>
-        <MyButton type={'default'} style={{width: widths[85]}}>
+        <MyButton type={'default'} style={{marginRight: sizes[5]}}>
           asdsasd
         </MyButton>
-        <MyButton type={'default'} style={{width: widths[85]}} isActive>
+        <MyButton type={'default'} style={{marginLeft: sizes[5]}} isActive>
           asdsasd
         </MyButton>
       </View>
@@ -87,9 +89,7 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
           width: '100%',
         }}>{`${insets.bottom}, ${insets.top}, ${insets.left}, ${insets.right}`}</Text>
       <FlatGrid
-        itemDimension={
-          window.width / Math.max(Math.floor(window.width / 260), 2)
-        }
+        itemDimension={width / Math.max(Math.floor(width / 260), 2)}
         data={items}
         style={styles.gridView}
         // staticDimension={300}

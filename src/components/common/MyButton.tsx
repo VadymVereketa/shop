@@ -17,16 +17,19 @@ interface IMyButtonProps
     TouchableWithoutFeedbackProps {
   children?: any;
   isActive?: boolean;
+  ultraWidth?: boolean;
   type?: 'filled' | 'default';
   styleText?: StyleProp<TextStyle>;
 }
 const MyButton = ({
   children,
   isActive = false,
+  ultraWidth = false,
   disabled = false,
   type = 'filled',
   style = {},
   styleText = {},
+  containerStyle = {},
   ...props
 }: IMyButtonProps) => {
   const {primary, border, text, background} = useTheme();
@@ -52,11 +55,19 @@ const MyButton = ({
 
   return (
     <TouchableOpacity
+      containerStyle={[
+        styles.con,
+        {
+          flexGrow: !ultraWidth ? 1 : 0,
+        },
+        containerStyle,
+      ]}
       style={[
         styles.btn,
         {
           backgroundColor: bg,
           borderColor: borderColor,
+          flexGrow: 1,
         },
         style,
       ]}
@@ -76,6 +87,9 @@ const styles = StyleSheet.create({
     fontSize: sizes[8],
     textAlign: 'center',
     paddingVertical: sizes[6],
+  },
+  con: {
+    flexDirection: 'row',
   },
 });
 
