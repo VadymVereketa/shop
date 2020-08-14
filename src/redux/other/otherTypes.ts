@@ -22,6 +22,8 @@ export interface IOtherState {
   content: string[];
   connectKey: string;
   draftId: number | null;
+  isGlobalSearch: string;
+  search: string;
 }
 
 export interface Settings {

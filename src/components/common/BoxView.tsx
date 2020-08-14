@@ -13,9 +13,8 @@ const BoxView = ({children}: any) => {
     border: 3,
     radius: 0,
     opacity: 0.3,
-    side: 'bottom',
     x: 0,
-    y: 1,
+    y: 0,
     style: {},
   };
 

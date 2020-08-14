@@ -54,6 +54,7 @@ const TabBar = (props: BottomTabBarProps<BottomTabBarOptions>) => {
           if (r.name === 'Cart') {
             return (
               <MyButton
+                onPress={() => props.navigation.navigate(r.name)}
                 ultraWidth={false}
                 styleText={styles.cart}
                 containerStyle={styles.cartCon}>

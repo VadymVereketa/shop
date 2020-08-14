@@ -8,7 +8,7 @@ import MyButton from './MyButton';
 import {getFontFamily} from '../../utils/getFontFamily';
 
 interface ICategoryBarProps {
-  tags: IChildCategory[];
+  tags: {id: number; name: string}[];
   onPress: (id: number) => any;
   currentId: number;
 }

@@ -17,7 +17,7 @@ import {
   IDeliveryPrice,
   ICard,
 } from '../typings/FetchData';
-import {IOrderPost} from '../typings/ServiceTypes';
+import {IGetProducts, IOrderPost} from '../typings/ServiceTypes';
 import queries from './queries';
 import {IOrderState} from '../redux/order/orderTypes';
 import config from '../config';
@@ -97,13 +97,8 @@ const service = {
       };
     }
   },
-  getProducts: async (ids: number[]) => {
-    const filter = {
-      or: ids.map((id) => ({id: id})),
-    };
-    return await customFetch(() =>
-      instance.get('/products' + buildQuery({filter})),
-    );
+  getProducts: async (opt: IGetProducts) => {
+    return await customFetch(() => instance.get(queries.getProducts(opt).url!));
   },
   login: async (phone: string, password: string) => {
     return await customFetch(() =>

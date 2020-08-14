@@ -1,8 +1,7 @@
 import {NavigationContainer, Theme} from '@react-navigation/native';
 import React from 'react';
 import {useTheme} from './src/context/ThemeContext';
-import StartNavigator from './src/navigators/Start.navigator';
-
+import StartNavigator from './src/components/navigators/Start.navigator';
 
 const App = () => {
   const {theme, onChangeTheme, ...colors} = useTheme();
@@ -15,13 +14,15 @@ const App = () => {
       border: colors.border,
       card: colors.background,
       text: colors.text,
-      notification: 'red'
+      notification: 'red',
     },
   };
 
-  return <NavigationContainer theme={MyTheme}>
-    <StartNavigator />
-  </NavigationContainer>;
+  return (
+    <NavigationContainer theme={MyTheme}>
+      <StartNavigator />
+    </NavigationContainer>
+  );
 };
 
 export default App;
