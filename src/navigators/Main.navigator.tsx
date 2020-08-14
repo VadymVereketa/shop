@@ -12,14 +12,8 @@ import {CompositeNavigationProp, RouteProp} from '@react-navigation/native';
 import CartScreen from '../screens/Main.navigator/Cart.screen';
 import TagProductsScreen from '../screens/Main.navigator/TagProducts.screen';
 import MenuScreen from '../screens/Main.navigator/Menu.screen';
-import {View, Text, Platform} from 'react-native';
 import DesignIcon from '../components/common/DesignIcon';
-import {sizes, useTheme} from '../context/ThemeContext';
-import MyButton from '../components/common/MyButton';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {BoxShadow} from 'react-native-shadow';
-import {useResponsiveWidth} from 'react-native-responsive-dimensions';
+import TabBar from '../components/common/TabBar';
 
 export type MainNavigatorParamList = {
   Restaurant: {};
@@ -57,79 +51,10 @@ export type ShopScreenProps = {
 const Tab = createBottomTabNavigator<MainNavigatorParamList>();
 
 const MainNavigator = (props: MainNavigatorScreenProps) => {
-  const {lightText, darkText, background} = useTheme();
-  const {bottom} = useSafeAreaInsets();
-  const w = useResponsiveWidth(100);
-
-  const shadowOpt = {
-    width: w,
-    height: 100,
-    color: '#5c5c5c',
-    border: 4,
-    radius: 1,
-    opacity: 0.1,
-    x: 0,
-    y: -0.5,
-    style: {
-      height: 0,
-    },
-  };
-
   return (
     <Tab.Navigator
-      initialRouteName={'Shop'}
-      tabBar={(props) => {
-        const current = props.state.index;
-
-        return (
-          <View>
-            <BoxShadow setting={shadowOpt} />
-            <View
-              style={{
-                flexDirection: 'row',
-                paddingVertical: sizes[5],
-                paddingBottom: bottom ? bottom : sizes[5],
-                backgroundColor: background,
-              }}>
-              {props.state.routes.map((r, index) => {
-                const description = props.descriptors[r.key].options;
-                const color = current === index ? darkText : lightText;
-                if (r.name === 'Cart') {
-                  return (
-                    <MyButton
-                      ultraWidth={false}
-                      styleText={{fontSize: sizes[7]}}
-                      containerStyle={{marginHorizontal: sizes[5]}}>
-                      Cart
-                    </MyButton>
-                  );
-                } else {
-                  const Icon: any = description.tabBarIcon;
-                  return (
-                    <TouchableOpacity
-                      onPress={() => props.navigation.navigate(r.name)}
-                      style={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flex: 1,
-                      }}
-                      containerStyle={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flex: 1,
-                      }}>
-                      <Icon color={color} size={sizes[10]} />
-                      <Text style={{color: color, fontSize: sizes[5]}}>
-                        {description.title}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                }
-              })}
-            </View>
-          </View>
-        );
-      }}>
+      initialRouteName={'Restaurant'}
+      tabBar={(props) => <TabBar {...props} />}>
       <Tab.Screen
         name="Restaurant"
         options={{

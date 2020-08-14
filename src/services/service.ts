@@ -31,6 +31,9 @@ const service = {
   getSellPoints: async () => {
     return await customFetch(() => instance.get(queries.getRestaurants().url!));
   },
+  getTags: async () => {
+    return customFetch(() => instance.get(queries.getTags().url!));
+  },
   getCategories: async () => {
     try {
       const res = await instance.get('categories?$filter=isActive');

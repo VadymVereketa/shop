@@ -9,8 +9,12 @@ import configureStore from './src/redux/store';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import ProviderFormattingContext from './src/context/FormattingContext';
+import {thunkGetCustomCategories, thunkGetTags} from './src/redux/category/categoryReducer';
 
 const store = configureStore();
+store.store.dispatch(thunkGetCustomCategories);
+store.store.dispatch(thunkGetTags);
+
 
 const Main = () => {
   return (

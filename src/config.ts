@@ -3,7 +3,7 @@ const MODE: string = 'dev';
 
 const config = (() => {
   switch (MODE) {
-    case 'test':
+    case 'dev':
       return {
         canLink: 'http://huspi.com:3022',
         baseURL: 'http://huspi.com:3026/api/v1/',

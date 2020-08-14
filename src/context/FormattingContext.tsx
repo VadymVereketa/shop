@@ -26,8 +26,6 @@ interface IConstant {
   w1000: string;
   w100: string;
   piece: string;
-  shortDate: any;
-  longDate: any;
 }
 
 type ILocaleConstant = {
@@ -40,18 +38,32 @@ const CONSTANTS_UNIT: ILocaleConstant = {
     piece: '',
     w100: 'gr',
     w1000: 'kg',
-    shortDate: {},
-    longDate: {},
   },
   uk: {
     currency: 'грн',
     piece: 'шт',
     w100: 'г',
     w1000: 'кг',
-    shortDate: {},
-    longDate: {},
   },
 };
+
+const formatDate = (
+  d: Date,
+  isLongFormat: boolean = false,
+  locale: Locale = 'uk',
+) => {
+  const separator = locale === 'uk' ? '.' : '/';
+  const day = d.getDate();
+  const month = d.getMonth();
+  const year = d.getFullYear();
+  let arr =
+    locale === 'uk'
+      ? [day, month.toString().padStart(2, '0')]
+      : [month.toString().padStart(2, '0'), day];
+  arr = isLongFormat ? [...arr, year] : arr;
+  return arr.join(separator);
+};
+
 const FormattingContext = React.createContext({} as IFormattingContext);
 
 const useFormattingContext = () => {
@@ -62,7 +74,7 @@ const ProviderFormattingContext: React.FC<IFormattingContextProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  const currentLocale = useSelector(selectorsOther.getLocale);
+  const currentLocale = useSelector(selectorsOther.getLocale) || 'uk';
   const value: IFormattingContext = useMemo(() => {
     return {
       currentLocale,
@@ -70,16 +82,7 @@ const ProviderFormattingContext: React.FC<IFormattingContextProps> = ({
         dispatch(actionsOther.setLocale(locale));
       },
       formatPrice: (price: number) => {
-        /* const formatter = new Intl.NumberFormat(currentLocale, {
-          style: 'decimal',
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 2,
-        });
-
-        return `${formatter.format(price)} ${
-          CONSTANTS_UNIT[currentLocale].currency
-        }`;*/
-        return price.toString();
+        return `${price.toFixed(2)} ${CONSTANTS_UNIT[currentLocale].currency}`;
       },
       formatUnit: (value: number, unit: string) => {
         let strValue = value.toFixed(FRACTION_DIGIT);
@@ -101,10 +104,10 @@ const ProviderFormattingContext: React.FC<IFormattingContextProps> = ({
         }`;
       },
       formatDate: (date: Date) => {
-        return CONSTANTS_UNIT[currentLocale].shortDate.format(date);
+        return formatDate(date, false, currentLocale);
       },
       longFormatDate: (date: Date) => {
-        return CONSTANTS_UNIT[currentLocale].longDate.format(date);
+        return formatDate(date, true, currentLocale);
       },
       defaultPhoneCustom: currentLocale === 'en',
       defaultPhone: currentLocale === 'en' ? '' : '+380',

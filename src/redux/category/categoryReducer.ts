@@ -3,30 +3,32 @@ import {IBaseActions} from '../base/baseTypes';
 import {ICategoryState} from './categoryTypes';
 import service from '../../services/service';
 import {RootState} from '../reducer';
-import {IRootCategory} from '../../typings/FetchData';
+import {IRootCategory, ITag} from '../../typings/FetchData';
 
-interface ICategoryActions extends IBaseActions {}
+interface ICategoryActions extends IBaseActions {
+  setTags: (tags: ITag[]) => any;
+}
 
 const init: ICategoryState = {
   data: [],
   error: null,
   isLoading: false,
+  tags: [],
 };
 
 const creator = new CreatorReducer<ICategoryActions, ICategoryState>(
   'category',
 );
-creator.addAction('setCategories', (state, action) => {
-  return {...state, categories: action.payload};
+creator.addAction('setTags', (state, action) => {
+  return {...state, tags: action.payload};
 });
-const {setLoading, setData, setError} = creator.createActions();
+const actionsCategory = creator.createActions();
 
 const thunkGetCustomCategories = async (
   dispatch: any,
   getStore: () => RootState,
 ) => {
-  if (getStore().category.data.length > 0) return;
-  dispatch(setLoading(false));
+  dispatch(actionsCategory.setLoading(false));
   try {
     const data: IRootCategory[] = [];
     const res = await service.getRootCategories();
@@ -57,48 +59,78 @@ const thunkGetCustomCategories = async (
           });
         }
       });
-      dispatch(setData(data));
+      dispatch(actionsCategory.setData(data));
     }
   } catch (e) {
-    dispatch(setError(null));
+    dispatch(actionsCategory.setError(null));
   } finally {
-    dispatch(setLoading(false));
+    dispatch(actionsCategory.setLoading(false));
   }
 };
 
-const getCustomCategories = (state: RootState) => state.category.data;
-const getRootId = (id: number) => (state: RootState) => {
-  const root = state.category.data.find((r) =>
-    r.children.some((c) => c.id === id),
-  )!;
-  return root.id;
+const thunkGetTags = async (dispatch: any) => {
+  service
+    .getTags()
+    .then((res) => {
+      if (res.success) {
+        dispatch(actionsCategory.setTags(res.data));
+      }
+    })
+    .catch((e) => {
+      console.log({e});
+    });
 };
-const getFirstCaterogry = (id: number) => (state: RootState) => {
-  if (state.category.data.length === 0) return null;
-  const findItem = state.category.data.find((c) => c.id === id);
-  if (findItem) {
-    return findItem.children[0].id;
-  }
-  return null;
-};
-const getNameCategory = (id: number) => (state: RootState) => {
-  for (let root of state.category.data) {
-    for (let c of root.children) {
-      if (c.id === id) {
-        return c.name;
+
+const selectorCategory = {
+  getCustomCategories: (state: RootState) => state.category.data,
+  getRestaurant: (state: RootState) => {
+    if (state.category.data.length > 0) {
+      return state.category.data[0].children || [];
+    }
+    return [];
+  },
+  getShop: (state: RootState) => {
+    if (state.category.data.length > 0) {
+      return state.category.data[1].children || [];
+    }
+    return [];
+  },
+  getTags: (state: RootState) => {
+    if (state.category.tags.length > 0) {
+      return state.category.tags;
+    }
+    return [];
+  },
+  getRootId: (id: number) => (state: RootState) => {
+    const root = state.category.data.find((r) =>
+      r.children.some((c) => c.id === id),
+    )!;
+    return root.id;
+  },
+  getFirstCategory: (id: number) => (state: RootState) => {
+    if (state.category.data.length === 0) return null;
+    const findItem = state.category.data.find((c) => c.id === id);
+    if (findItem) {
+      return findItem.children[0].id;
+    }
+    return null;
+  },
+  getNameCategory: (id: number) => (state: RootState) => {
+    for (let root of state.category.data) {
+      for (let c of root.children) {
+        if (c.id === id) {
+          return c.name;
+        }
       }
     }
-  }
-  return '';
+    return '';
+  },
 };
+
 export {
-  setLoading,
-  setData,
-  setError,
+  actionsCategory,
   thunkGetCustomCategories,
-  getCustomCategories,
-  getFirstCaterogry,
-  getRootId,
-  getNameCategory,
+  selectorCategory,
+  thunkGetTags,
 };
 export default creator.createReducerFetch(init);

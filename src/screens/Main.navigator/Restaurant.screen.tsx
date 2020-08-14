@@ -1,18 +1,16 @@
-import React, {useEffect} from 'react';
-import {View, StyleSheet, Text, PixelRatio} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet, Text, PixelRatio, PointPropType} from 'react-native';
 import {RestaurantScreenProps} from '../../navigators/Main.navigator';
-import {sizes, widths} from '../../context/ThemeContext';
+import {sizes, useTheme, widths} from '../../context/ThemeContext';
 import {Dimensions} from 'react-native';
 import {FlatGrid} from 'react-native-super-grid';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import Header from '../../components/common/Header';
-import MyButton from '../../components/common/MyButton';
-import AsyncStorage from '@react-native-community/async-storage';
-import {
-  responsiveScreenWidth,
-  responsiveWidth,
-} from 'react-native-responsive-dimensions';
+import {useFormattingContext} from '../../context/FormattingContext';
+import {useSelector} from 'react-redux';
+import {selectorCategory} from '../../redux/category/categoryReducer';
+import CategoryBar from '../../components/common/CategoryBar';
+import BoxView from '../../components/common/BoxView';
 
 const window = Dimensions.get('window');
 
@@ -20,6 +18,9 @@ const width = Math.min(window.width, window.height);
 
 const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
   const insets = useSafeAreaInsets();
+  const categories = useSelector(selectorCategory.getRestaurant);
+  const [idCategory, setIdCategory] = useState(-1);
+  const {formatDate, longFormatDate} = useFormattingContext();
   const [items, setItems] = React.useState([
     {name: 'TURQUOISE', code: '#1abc9c'},
     {name: 'EMERALD', code: '#2ecc71'},
@@ -43,51 +44,25 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
     {name: 'ASBESTOS', code: '#7f8c8d'},
   ]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (categories.length > 0) {
+      setIdCategory(categories[0].id);
+    }
+  }, [categories]);
 
+  const handlePress = (id: number) => {
+    setIdCategory(id);
+  };
   return (
     <View style={[styles.container]}>
-      <Header />
-      <MyButton ultraWidth>asdsasd</MyButton>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginHorizontal: sizes[5],
-        }}>
-        <MyButton type={'default'} style={{marginRight: sizes[5]}}>
-          asdsasd
-        </MyButton>
-        <MyButton type={'default'} style={{marginLeft: sizes[5]}} isActive>
-          asdsasd
-        </MyButton>
-      </View>
-      <TouchableWithoutFeedback
-        style={{
-          margin: sizes[5],
-        }}
-        onPress={() => {
-          navigation.navigate('SecondaryNavigator', {screen: 'Product'});
-        }}>
-        <Text
-          style={{
-            textTransform: 'uppercase',
-            fontSize: sizes[9],
-            color: 'white',
-            backgroundColor: '#01a6e6',
-            paddingHorizontal: sizes[13],
-            paddingVertical: sizes[5],
-          }}>
-          замовити
-        </Text>
-      </TouchableWithoutFeedback>
-      <Text style={{width: '100%'}}>{`${window.width}, ${
-        window.height
-      }, ${PixelRatio.get()}, ${window.fontScale}`}</Text>
-      <Text
-        style={{
-          width: '100%',
-        }}>{`${insets.bottom}, ${insets.top}, ${insets.left}, ${insets.right}`}</Text>
+      <BoxView>
+        <Header />
+        <CategoryBar
+          tags={categories}
+          currentId={idCategory}
+          onPress={handlePress}
+        />
+      </BoxView>
       <FlatGrid
         itemDimension={width / Math.max(Math.floor(width / 260), 2)}
         data={items}
@@ -107,7 +82,6 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
                 fontSize: sizes[10],
                 color: 'white',
                 backgroundColor: '#01a6e6',
-                paddingHorizontal: sizes[13],
                 paddingVertical: sizes[5],
               }}>
               замовити
