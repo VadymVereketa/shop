@@ -11,6 +11,7 @@ import getUrlImg from '../../utils/getUrlImg';
 import {getFontFamily} from '../../utils/getFontFamily';
 import MyButton from './MyButton';
 import {BoxShadow} from 'react-native-shadow';
+import MyText from './MyText';
 
 const window = Dimensions.get('window');
 
@@ -58,9 +59,9 @@ const ProductItem = ({product}: IProductItemProps) => {
         style={styles.image}
       />
       <View style={[styles.content, {backgroundColor: background}]}>
-        <Text style={styles.title}>{product.title}</Text>
+        <MyText style={styles.title}>{product.title}</MyText>
         <View>
-          <Text style={styles.price}>{formatPrice(price)}</Text>
+          <MyText style={styles.price}>{formatPrice(price)}</MyText>
           <MyButton ultraWidth={true} styleText={styles.btnText}>
             замовити
           </MyButton>

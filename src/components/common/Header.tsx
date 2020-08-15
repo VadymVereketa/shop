@@ -4,6 +4,7 @@ import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import DesignIcon from './DesignIcon';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import IconButton from './IconButton';
 
 const Logo = () => {
   return (
@@ -13,6 +14,7 @@ const Logo = () => {
       style={{
         height: sizes[12],
         width: sizes[38],
+        zIndex: 100,
       }}
     />
   );
@@ -24,9 +26,13 @@ const Header = () => {
   return (
     <View style={[styles.con, {paddingTop: top ? top : sizes[7]}]}>
       <Logo />
-      <TouchableWithoutFeedback>
-        <DesignIcon name={'search'} size={sizes[12]} fill={text} />
-      </TouchableWithoutFeedback>
+      <IconButton
+        icon={{
+          name: 'search',
+          size: sizes[12],
+          fill: text,
+        }}
+      />
     </View>
   );
 };
@@ -37,6 +43,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: sizes[5],
+    zIndex: 100,
+    backgroundColor: 'white',
   },
 });
 

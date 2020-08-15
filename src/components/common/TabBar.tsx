@@ -13,6 +13,7 @@ import {
   BottomTabBarOptions,
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
+import MyText from './MyText';
 
 const TabBar = (props: BottomTabBarProps<BottomTabBarOptions>) => {
   const sum = useSelector(selectorsCart.getGeneralSum);
@@ -69,9 +70,11 @@ const TabBar = (props: BottomTabBarProps<BottomTabBarOptions>) => {
                 style={styles.btn}
                 containerStyle={styles.btn}>
                 <Icon color={color} size={sizes[10]} />
-                <Text style={[styles.textBtn, {color: color}]}>
+                <MyText
+                  style={[styles.textBtn, {color: color}]}
+                  maxFontSizeMultiplier={1.1}>
                   {description.title}
-                </Text>
+                </MyText>
               </TouchableOpacity>
             );
           }

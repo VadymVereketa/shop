@@ -4,17 +4,18 @@ import {
   StyleSheet,
   Text,
   TextStyle,
-  TouchableWithoutFeedbackProps,
+  TouchableOpacityProps,
 } from 'react-native';
 import {
   ContainedTouchableProperties,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
 import {sizes, useTheme} from '../../context/ThemeContext';
+import MyText from './MyText';
 
 interface IMyButtonProps
   extends ContainedTouchableProperties,
-    TouchableWithoutFeedbackProps {
+    TouchableOpacityProps {
   children?: any;
   isActive?: boolean;
   ultraWidth?: boolean;
@@ -72,7 +73,9 @@ const MyButton = ({
         style,
       ]}
       {...props}>
-      <Text style={[styles.text, {color: color}, styleText]}>{children}</Text>
+      <MyText style={[styles.text, {color: color}, styleText]}>
+        {children}
+      </MyText>
     </TouchableOpacity>
   );
 };

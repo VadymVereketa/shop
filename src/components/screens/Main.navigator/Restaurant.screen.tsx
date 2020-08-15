@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -26,7 +26,6 @@ import {getIndexProductOption} from '../../../utils/getIndexProductOption';
 import getUrlImg from '../../../utils/getUrlImg';
 import MyButton from '../../common/MyButton';
 import {getFontFamily} from '../../../utils/getFontFamily';
-import {BoxShadow} from 'react-native-shadow';
 import {
   responsiveHeight,
   responsiveWidth,
@@ -34,13 +33,34 @@ import {
 } from 'react-native-responsive-dimensions';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import ProductItem from '../../common/ProductItem';
+import {BoxShadow} from 'react-native-shadow';
+import Animated, {diffClamp, interpolate} from 'react-native-reanimated';
 
 const window = Dimensions.get('window');
 const width = Math.min(window.width, window.height);
 
 const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
   const perPage = 12;
+  const w = useResponsiveWidth(100);
+  const shadowOpt = {
+    width: w,
+    height: 0,
+    color: '#a0a0a0',
+    border: 3,
+    radius: 0,
+    opacity: 0.3,
+    x: 0,
+    y: 0,
+    style: {},
+  };
   const insets = useSafeAreaInsets();
+  const HEADER_HEIGHT = useRef(0);
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const diffClampScrollY = Animated.diffClamp(
+    scrollY,
+    0,
+    HEADER_HEIGHT.current,
+  );
   const categories = route.params.categories;
   const [idCategory, setIdCategory] = useState(-1);
   const [skip, setSkip] = useState(-1);
@@ -91,6 +111,8 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
   };
 
   const handleEventScroll = (event) => {
+    scrollY.setValue(event.nativeEvent.contentOffset.y);
+
     if (event.nativeEvent && countItems > products.length && !isLoading) {
       const {
         contentOffset: {y},
@@ -101,16 +123,32 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
     }
   };
 
+  const headerY = Animated.interpolate(diffClampScrollY, {
+    inputRange: [0, HEADER_HEIGHT.current],
+    outputRange: [0, -HEADER_HEIGHT.current],
+  });
+
   return (
     <View style={[styles.container]}>
-      <BoxView>
+      <Animated.View
+        style={{
+          position: 'absolute',
+          zIndex: 100,
+          transform: [
+            {
+              translateY: headerY,
+            },
+          ],
+        }}
+        onLayout={(e) => (HEADER_HEIGHT.current = e.nativeEvent.layout.height)}>
         <Header />
         <CategoryBar
           tags={categories}
           currentId={idCategory}
           onPress={handlePress}
         />
-      </BoxView>
+        <BoxShadow setting={shadowOpt} />
+      </Animated.View>
       {!isLoading && countItems === 0 ? (
         <View
           style={{
@@ -129,9 +167,13 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
         <FlatGrid
           itemDimension={width / Math.max(Math.floor(width / 260), 2)}
           data={products}
-          style={styles.gridView}
+          bounces={false}
+          contentContainerStyle={[
+            styles.gridView,
+            {paddingTop: HEADER_HEIGHT.current},
+          ]}
           onScroll={handleEventScroll}
-          scrollEventThrottle={100}
+          scrollEventThrottle={16}
           spacing={-1}
           renderItem={({item}) => (
             <View
@@ -153,16 +195,6 @@ const styles = StyleSheet.create({
   gridView: {},
   itemContainer: {
     flex: 1,
-  },
-  itemName: {
-    fontSize: 16,
-    color: '#fff',
-    fontWeight: '600',
-  },
-  itemCode: {
-    fontWeight: '600',
-    fontSize: 12,
-    color: '#fff',
   },
 });
 

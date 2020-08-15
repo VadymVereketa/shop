@@ -20,7 +20,7 @@ const ShareIcon = require('../../assets/svg/ic-share.svg').default;
 const StarEmptyIcon = require('../../assets/svg/ic-star-empty.svg').default;
 const StarFillIcon = require('../../assets/svg/ic-star-filled.svg').default;
 
-type IName =
+export type IName =
   | 'restaurant'
   | 'store'
   | 'eye'
@@ -87,10 +87,10 @@ const getIcon = (name: IName) => {
   }
 };
 
-interface IDesignIconProps {
+export interface IDesignIconProps {
   name: IName;
   size: number;
-  fill?: string;
+  fill: string;
   fillOpacity?: number;
   rotation?: number;
   fillRule?: 'nonzero' | 'evenodd';
