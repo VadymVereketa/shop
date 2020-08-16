@@ -22,9 +22,6 @@ import {selectorsOther} from '../../../redux/other/otherReducer';
 import {IImgProduct, IProduct} from '../../../typings/FetchData';
 import service from '../../../services/service';
 import {useAxios} from '../../../useHooks/useAxios';
-import {getIndexProductOption} from '../../../utils/getIndexProductOption';
-import getUrlImg from '../../../utils/getUrlImg';
-import MyButton from '../../common/MyButton';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import {
   responsiveHeight,
@@ -63,10 +60,11 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
   );
   const categories = route.params.categories;
   const [idCategory, setIdCategory] = useState(-1);
+  const [isShow, setIsShow] = useState(false);
   const [skip, setSkip] = useState(-1);
   const [countItems, setCountItems] = useState(0);
   const isGlobalSearch = useSelector(selectorsOther.getIsGlobalSearch);
-  const search = useSelector(selectorsOther.getSearch);
+  const [search, setSearch] = useState('');
   const [products, setProducts] = useState([] as IProduct[]);
   const {isLoading, request} = useAxios(service.getProducts);
 
@@ -79,9 +77,13 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
   useDidUpdateEffect(() => {
     setSkip(0);
     setProducts([]);
-  }, [idCategory]);
+  }, [idCategory, search]);
 
   useDidUpdateEffect(() => {
+    handleRequest();
+  }, [skip, idCategory, search]);
+
+  const handleRequest = () => {
     request<any>({
       idTag: route.params.isTag ? idCategory : null,
       top: perPage,
@@ -96,10 +98,11 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
         setCountItems(res.data.count);
       }
     });
-  }, [skip, idCategory]);
+  };
 
   const handlePress = (id: number) => {
     setIdCategory(id);
+    setSearch('');
   };
 
   const handleLoad = ({height, y}) => {
@@ -141,7 +144,12 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
           ],
         }}
         onLayout={(e) => (HEADER_HEIGHT.current = e.nativeEvent.layout.height)}>
-        <Header />
+        <Header
+          isShow={isShow}
+          setIsShow={setIsShow}
+          initValue={search}
+          onChange={setSearch}
+        />
         <CategoryBar
           tags={categories}
           currentId={idCategory}
@@ -165,6 +173,7 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
         </View>
       ) : (
         <FlatGrid
+          scrollEnabled={!isShow}
           itemDimension={width / Math.max(Math.floor(width / 260), 2)}
           data={products}
           bounces={false}

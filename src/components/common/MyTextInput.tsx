@@ -38,6 +38,8 @@ const MyTextInput = ({
   value,
   keyboardType,
   onChangeText,
+  onFocus,
+  onBlur,
   isClear = false,
   style = {},
   styleCon = {},
@@ -46,6 +48,7 @@ const MyTextInput = ({
   ...props
 }: IMyTextInput) => {
   const {border, lightText, primary, text} = useTheme();
+  const [isFocus, setIsFocus] = useState(false);
   const [isOpenEye, setIsOpenEye] = useState(
     keyboardType === 'visible-password',
   );
@@ -67,10 +70,28 @@ const MyTextInput = ({
     };
   }
 
+  const handleFocus = (e: any) => {
+    if (onFocus) {
+      onFocus(e);
+    }
+    setIsFocus(true);
+  };
+
+  const handleBlur = (e: any) => {
+    if (onBlur) {
+      onBlur(e);
+    }
+    setIsFocus(false);
+  };
   return (
     <View>
       {label && <MyText style={[styles.textLabel, styleLabel]}>{label}</MyText>}
-      <View style={[styles.con, {borderColor: border}, styleCon]}>
+      <View
+        style={[
+          styles.con,
+          {borderColor: isFocus ? primary : border},
+          styleCon,
+        ]}>
         <TextInput
           selectionColor={primary}
           placeholderTextColor={lightText}
@@ -82,6 +103,8 @@ const MyTextInput = ({
           keyboardType={isPassword ? 'default' : keyboardType}
           value={value}
           onChangeText={onChangeText}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           {...props}
         />
         {(isClear || afterIcon) && (
@@ -95,8 +118,6 @@ const MyTextInput = ({
                 onPress={clear}
                 style={{
                   paddingHorizontal: afterIcon ? sizes[5] : paddingAfterIcon,
-                  flex: 1,
-                  justifyContent: 'center',
                 }}
                 icon={{
                   name: 'close',

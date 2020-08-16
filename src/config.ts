@@ -1,4 +1,4 @@
-type M = 'dev' | 'test' | 'prod';
+type M = 'dev' | 'test' | 'prod' | 'uat';
 const MODE: string = 'dev';
 
 const config = (() => {
@@ -19,6 +19,15 @@ const config = (() => {
         baseURLV2: 'http://huspi.com:3026/api/v2/',
         baseURLCallback: 'http://huspi.com:3024/api/v1/',
         baseUrlImg: 'http://huspi.com:3026/api/v1/images/',
+        payeeId: '25989',
+      };
+    case 'uat':
+      return {
+        canLink: 'http://huspi.com:3022',
+        baseURL: 'https://egersund-uat-client.huspi.com/api/v1/',
+        baseURLV2: 'https://egersund-uat-client.huspi.com/api/v2/',
+        baseURLCallback: 'http://huspi.com:3024/api/v1/',
+        baseUrlImg: 'https://egersund-uat-client.huspi.com/api/v1/images/',
         payeeId: '25989',
       };
     default:

@@ -1,38 +1,130 @@
-import React from 'react';
-import {Image, StyleSheet, View} from 'react-native';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
-import DesignIcon from './DesignIcon';
+import React, {useEffect, useRef, useState} from 'react';
+import {Dimensions, Image, StyleSheet, View} from 'react-native';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import IconButton from './IconButton';
+import MyTextInput from './MyTextInput';
+import Animated, {
+  Easing,
+  Extrapolate,
+  interpolate,
+  timing,
+} from 'react-native-reanimated';
+import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import Logo from './Logo';
 
-const Logo = () => {
-  return (
-    <Image
-      source={require('../../assets/images/logo.png')}
-      resizeMode={'cover'}
-      style={{
-        height: sizes[12],
-        width: sizes[38],
-        zIndex: 100,
-      }}
-    />
-  );
-};
+const window = Dimensions.get('window');
 
-const Header = () => {
-  const {text} = useTheme();
+interface IHeaderProps {
+  isShow: boolean;
+  setIsShow: any;
+  onChange: any;
+  initValue: string;
+}
+const Header = ({isShow, setIsShow, onChange, initValue}: IHeaderProps) => {
+  const HEIGHT = useRef(-200);
+  const [search, setSearch] = useState('');
+  const valueY = useRef(new Animated.Value(HEIGHT.current)).current;
+  const {text, background} = useTheme();
   const {top} = useSafeAreaInsets();
+
+  useDidUpdateEffect(() => {
+    timing(valueY, {
+      duration: 300,
+      toValue: isShow ? 0 : HEIGHT.current,
+      easing: Easing.ease,
+    }).start();
+  }, [isShow]);
+
+  useDidUpdateEffect(() => {
+    setSearch(initValue);
+  }, [initValue]);
+
+  const handleHide = () => {
+    setSearch(initValue);
+    setIsShow(false);
+  };
+
+  const translateY = interpolate(valueY, {
+    inputRange: [HEIGHT.current, HEIGHT.current / 4],
+    outputRange: [-window.height, 0],
+    extrapolate: Extrapolate.CLAMP,
+  });
+
   return (
     <View style={[styles.con, {paddingTop: top ? top : sizes[7]}]}>
       <Logo />
       <IconButton
+        onPress={() => setIsShow(true)}
         icon={{
           name: 'search',
           size: sizes[12],
           fill: text,
         }}
       />
+      <Animated.View
+        style={[
+          styles.back,
+          {
+            backgroundColor: text,
+            transform: [
+              {
+                translateY,
+              },
+            ],
+          },
+        ]}>
+        <TouchableWithoutFeedback
+          onPress={handleHide}
+          containerStyle={styles.backTouch}
+        />
+      </Animated.View>
+      <Animated.View
+        onLayout={(e) => (HEIGHT.current = -e.nativeEvent.layout.height)}
+        style={[
+          styles.searchBar,
+          {
+            backgroundColor: background,
+            paddingTop: top + sizes[30],
+            transform: [
+              {
+                translateY: valueY,
+              },
+            ],
+          },
+        ]}>
+        <IconButton
+          style={styles.backIcon}
+          onPress={handleHide}
+          icon={{
+            name: 'arrow',
+            size: sizes[12],
+            fill: text,
+          }}
+        />
+        <View style={styles.inputCon}>
+          {isShow && (
+            <MyTextInput
+              autoFocus
+              placeholder="Що ви шукайте сьогодні?"
+              value={search}
+              onChangeText={setSearch}
+              onSubmitEditing={(e) => {
+                onChange(search);
+                setIsShow(false);
+              }}
+              afterIcon={{
+                name: 'close',
+                onPress: () => {
+                  setSearch('');
+                  onChange('');
+                },
+              }}
+            />
+          )}
+        </View>
+      </Animated.View>
     </View>
   );
 };
@@ -45,6 +137,35 @@ const styles = StyleSheet.create({
     paddingHorizontal: sizes[5],
     zIndex: 100,
     backgroundColor: 'white',
+  },
+  back: {
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: window.height,
+    position: 'absolute',
+    opacity: 0.8,
+    zIndex: 100,
+  },
+  backTouch: {
+    flex: 1,
+  },
+  searchBar: {
+    position: 'absolute',
+    flexDirection: 'row',
+    left: 0,
+    right: 0,
+    zIndex: 100,
+    paddingBottom: sizes[6],
+    alignItems: 'center',
+  },
+  inputCon: {
+    flex: 1,
+    paddingRight: sizes[5],
+  },
+  backIcon: {
+    paddingHorizontal: sizes[7],
   },
 });
 
