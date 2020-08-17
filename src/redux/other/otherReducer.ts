@@ -18,7 +18,6 @@ const init: IOtherState = {
   connectKey: '',
   draftId: null,
   isGlobalSearch: '',
-  search: '',
 };
 const MAX = 5;
 
@@ -123,9 +122,6 @@ const selectorsOther = {
   },
   getDraftId: (state: RootState) => {
     return state.other.draftId;
-  },
-  getSearch: (state: RootState) => {
-    return state.other.search;
   },
   getIsGlobalSearch: (state: RootState) => {
     return state.other.isGlobalSearch;

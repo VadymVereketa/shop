@@ -1,47 +1,67 @@
-import React, {useState} from 'react';
-import {View, StyleSheet, PixelRatio} from 'react-native';
+import React from 'react';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import MyText from '../../common/MyText';
-import IconButton from '../../common/IconButton';
-import {sizes} from '../../../context/ThemeContext';
-import MyTextInput from '../../common/MyTextInput';
-import DesignIcon from '../../common/DesignIcon';
+import {sizes, useTheme} from '../../../context/ThemeContext';
+import PressTitle from '../../common/PressTitle';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {getFontFamily} from '../../../utils/getFontFamily';
+import {MenuScreenProps} from '../../navigators/Main.navigator';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  selectorCategory,
+  thunkGetCustomCategories,
+} from '../../../redux/category/categoryReducer';
 
-const MenuScreen = () => {
-  const [text, setText] = useState('');
+const MenuScreen = ({navigation}: MenuScreenProps) => {
+  const dis = useDispatch();
+  const {border, lightBackground} = useTheme();
+  const data = useSelector(selectorCategory.getCustomCategories);
+  const err = useSelector(selectorCategory.getError);
+
+  const handle = () => {
+    dis(thunkGetCustomCategories);
+  };
 
   return (
-    <View style={[styles.container]}>
-      <MyTextInput
-        placeholder={'vadim'}
-        isClear={true}
-        value={text}
-        onChangeText={(t) => setText(t)}
-        afterIcon={{
-          onPress: () => null,
-          name: 'search',
+    <SafeAreaView style={[styles.container]}>
+      <MyText style={[styles.text]}>Профiль</MyText>
+      <View style={{height: 1, backgroundColor: border}} />
+      <PressTitle
+        onPress={() => {
+          navigation.navigate('AuthNavigator', {screen: 'Login'});
         }}
-      />
-      <MyTextInput
-        label={'password'}
-        textContentType={'password'}
-        keyboardType={'visible-password'}
-      />
-      <MyTextInput
-        placeholder={'vadim'}
-        afterIcon={{
-          onPress: () => null,
-          name: 'search',
+        style={[styles.btn, styles.btnTop, {backgroundColor: lightBackground}]}>
+        Увiйдiть
+      </PressTitle>
+      <PressTitle
+        onPress={() => {
+          navigation.navigate('AuthNavigator', {screen: 'SignUp'});
         }}
-      />
-    </View>
+        style={[styles.btn, {backgroundColor: lightBackground}]}>
+        Реєстрація
+      </PressTitle>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: 'column',
-    margin: 40,
+    marginHorizontal: sizes[5],
+    flex: 1,
+  },
+  text: {
+    textAlign: 'center',
+    paddingVertical: sizes[5],
+    fontSize: sizes[10],
+    fontFamily: getFontFamily('500'),
+  },
+  btnTop: {
+    marginTop: sizes[10],
+    marginBottom: sizes[5],
+  },
+  btn: {
+    borderRadius: sizes[1],
   },
 });
 

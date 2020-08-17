@@ -9,6 +9,7 @@ import Animated, {
   Extrapolate,
   interpolate,
   timing,
+  add,
 } from 'react-native-reanimated';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
@@ -27,7 +28,7 @@ const Header = ({isShow, setIsShow, onChange, initValue}: IHeaderProps) => {
   const [search, setSearch] = useState('');
   const valueY = useRef(new Animated.Value(HEIGHT.current)).current;
   const {text, background} = useTheme();
-  const {top} = useSafeAreaInsets();
+  const {top, ...insets} = useSafeAreaInsets();
 
   useDidUpdateEffect(() => {
     timing(valueY, {
@@ -53,8 +54,16 @@ const Header = ({isShow, setIsShow, onChange, initValue}: IHeaderProps) => {
   });
 
   return (
-    <View style={[styles.con, {paddingTop: top ? top : sizes[7]}]}>
-      <Logo />
+    <View
+      style={[
+        styles.con,
+        {
+          paddingTop: top ? top : sizes[7],
+          paddingRight: insets.right ? insets.right : sizes[5],
+          paddingLeft: insets.left ? insets.left : sizes[5],
+        },
+      ]}>
+      <Logo resizeMode={'cover'} width={sizes[38]} height={sizes[12]} />
       <IconButton
         onPress={() => setIsShow(true)}
         icon={{
@@ -81,7 +90,10 @@ const Header = ({isShow, setIsShow, onChange, initValue}: IHeaderProps) => {
         />
       </Animated.View>
       <Animated.View
-        onLayout={(e) => (HEIGHT.current = -e.nativeEvent.layout.height)}
+        onLayout={(e) => {
+          console.log(e.nativeEvent.layout.y);
+          HEIGHT.current = -e.nativeEvent.layout.height;
+        }}
         style={[
           styles.searchBar,
           {
@@ -134,7 +146,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: sizes[5],
     zIndex: 100,
     backgroundColor: 'white',
   },

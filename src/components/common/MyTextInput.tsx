@@ -84,18 +84,13 @@ const MyTextInput = ({
     setIsFocus(false);
   };
   return (
-    <View>
+    <View style={styleCon}>
       {label && <MyText style={[styles.textLabel, styleLabel]}>{label}</MyText>}
-      <View
-        style={[
-          styles.con,
-          {borderColor: isFocus ? primary : border},
-          styleCon,
-        ]}>
+      <View style={[styles.con, {borderColor: isFocus ? primary : border}]}>
         <TextInput
           selectionColor={primary}
           placeholderTextColor={lightText}
-          style={[styles.textInput, style]}
+          style={[styles.textInput, {color: text}, style]}
           maxFontSizeMultiplier={1.5}
           autoCapitalize={'none'}
           onSubmitEditing={Keyboard.dismiss}
@@ -165,6 +160,8 @@ const styles = StyleSheet.create({
     padding: 0,
     alignItems: 'center',
     paddingHorizontal: sizes[8],
+    backgroundColor: 'transparent',
+    fontFamily: getFontFamily('300'),
   },
   icons: {
     flexDirection: 'row',
@@ -175,6 +172,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'white',
+    borderRadius: sizes[1],
   },
   split: {
     width: 1,

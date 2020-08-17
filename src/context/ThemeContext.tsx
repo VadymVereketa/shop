@@ -49,27 +49,6 @@ const ProviderTheme = ({children}: any) => {
     const text = theme === 'light' ? '#3c4162' : '#fff';
     const border = theme === 'light' ? '#dadeea' : '#fff';
 
-    const customTextProps = {
-      style: {
-        fontSize: sizes[8],
-        color: text,
-        fontFamily: getFontFamily('300'),
-      },
-    };
-
-    const customTextInputProps = {
-      underlineColorAndroid: 'rgba(0,0,0,0)',
-      style: {
-        fontSize: sizes[8],
-        backgroundColor: 'transparent',
-        color: text,
-        fontFamily: getFontFamily('300'),
-      },
-    };
-
-    setCustomTextInput(customTextInputProps);
-    setCustomText(customTextProps);
-
     return {
       onChangeTheme: (theme: Theme) => {
         setTheme(theme);

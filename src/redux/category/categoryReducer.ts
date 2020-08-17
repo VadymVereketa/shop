@@ -62,7 +62,7 @@ const thunkGetCustomCategories = async (
       dispatch(actionsCategory.setData(data));
     }
   } catch (e) {
-    dispatch(actionsCategory.setError(null));
+    dispatch(actionsCategory.setError(e));
   } finally {
     dispatch(actionsCategory.setLoading(false));
   }
@@ -83,6 +83,7 @@ const thunkGetTags = async (dispatch: any) => {
 
 const selectorCategory = {
   getCustomCategories: (state: RootState) => state.category.data,
+  getError: (state: RootState) => state.category.error,
   getRestaurant: (state: RootState) => {
     if (state.category.data.length > 0) {
       return state.category.data[0].children || [];

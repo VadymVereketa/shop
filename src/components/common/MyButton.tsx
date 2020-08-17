@@ -80,6 +80,37 @@ const MyButton = ({
   );
 };
 
+interface IGhostProps
+  extends ContainedTouchableProperties,
+    TouchableOpacityProps {
+  children?: any;
+  isActive?: boolean;
+  ultraWidth?: boolean;
+  styleText?: StyleProp<TextStyle>;
+}
+
+const GhostButton = ({
+  children,
+  isActive = false,
+  ultraWidth = false,
+  disabled = false,
+  style = {},
+  styleText = {},
+  containerStyle = {},
+  ...props
+}: IGhostProps) => {
+  const {primary, text} = useTheme();
+  return (
+    <MyButton
+      style={[styles.gStyle, style]}
+      styleText={[styles.gText, {color: isActive ? primary : text}, styleText]}
+      containerStyle={[containerStyle]}
+      {...props}>
+      {children}
+    </MyButton>
+  );
+};
+
 const styles = StyleSheet.create({
   btn: {
     borderRadius: sizes[1],
@@ -94,6 +125,15 @@ const styles = StyleSheet.create({
   con: {
     flexDirection: 'row',
   },
+  gText: {
+    textTransform: 'none',
+    fontSize: sizes[8],
+  },
+  gStyle: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+  },
 });
 
+export {GhostButton};
 export default MyButton;

@@ -1,24 +1,24 @@
 type M = 'dev' | 'test' | 'prod' | 'uat';
-const MODE: string = 'dev';
+const MODE: string = 'test';
 
 const config = (() => {
   switch (MODE) {
     case 'dev':
       return {
         canLink: 'http://huspi.com:3022',
-        baseURL: 'http://huspi.com:3026/api/v1/',
-        baseURLV2: 'http://huspi.com:3026/api/v2/',
-        baseURLCallback: 'http://huspi.com:3024/api/v1/',
+        baseURL: 'http://192.168.31.66:3006/api/v1/',
+        baseURLV2: 'http://192.168.31.66:3006/api/v2/',
+        baseURLCallback: 'http://192.168.31.66:3004/api/v1/',
         baseUrlImg: 'http://huspi.com:3026/api/v1/images/',
         payeeId: '25989',
       };
     case 'prod':
       return {
         canLink: 'http://huspi.com:3022',
-        baseURL: 'http://huspi.com:3026/api/v1/',
-        baseURLV2: 'http://huspi.com:3026/api/v2/',
+        baseURL: 'https://client-api.egersund.ua/api/v1/',
+        baseURLV2: 'https://client-api.egersund.uas/api/v2/',
         baseURLCallback: 'http://huspi.com:3024/api/v1/',
-        baseUrlImg: 'http://huspi.com:3026/api/v1/images/',
+        baseUrlImg: 'https://client-api.egersund.ua/api/v1/images/',
         payeeId: '25989',
       };
     case 'uat':
@@ -31,11 +31,12 @@ const config = (() => {
         payeeId: '25989',
       };
     default:
+      //todo test
       return {
         canLink: 'http://huspi.com:3022',
-        baseURL: 'http://192.168.31.66:3006/api/v1/',
-        baseURLV2: 'http://192.168.31.66:3006/api/v2/',
-        baseURLCallback: 'http://192.168.31.66:3004/api/v1/',
+        baseURL: 'http://huspi.com:3026/api/v1/',
+        baseURLV2: 'http://huspi.com:3026/api/v2/',
+        baseURLCallback: 'http://huspi.com:3024/api/v1/',
         baseUrlImg: 'http://huspi.com:3026/api/v1/images/',
         payeeId: '25989',
       };

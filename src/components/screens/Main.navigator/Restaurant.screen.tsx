@@ -31,7 +31,6 @@ import {
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import ProductItem from '../../common/ProductItem';
 import {BoxShadow} from 'react-native-shadow';
-import Animated, {diffClamp, interpolate} from 'react-native-reanimated';
 
 const window = Dimensions.get('window');
 const width = Math.min(window.width, window.height);
@@ -52,12 +51,6 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
   };
   const insets = useSafeAreaInsets();
   const HEADER_HEIGHT = useRef(0);
-  const scrollY = useRef(new Animated.Value(0)).current;
-  const diffClampScrollY = Animated.diffClamp(
-    scrollY,
-    0,
-    HEADER_HEIGHT.current,
-  );
   const categories = route.params.categories;
   const [idCategory, setIdCategory] = useState(-1);
   const [isShow, setIsShow] = useState(false);
@@ -114,8 +107,6 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
   };
 
   const handleEventScroll = (event) => {
-    scrollY.setValue(event.nativeEvent.contentOffset.y);
-
     if (event.nativeEvent && countItems > products.length && !isLoading) {
       const {
         contentOffset: {y},
@@ -126,24 +117,25 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
     }
   };
 
-  const headerY = Animated.interpolate(diffClampScrollY, {
-    inputRange: [0, HEADER_HEIGHT.current],
-    outputRange: [0, -HEADER_HEIGHT.current],
-  });
-
   return (
-    <View style={[styles.container]}>
-      <Animated.View
+    <View
+      style={[
+        styles.container,
+        {
+          paddingRight: insets.right,
+          paddingLeft: insets.left,
+        },
+      ]}>
+      <View
         style={{
           position: 'absolute',
           zIndex: 100,
-          transform: [
-            {
-              translateY: headerY,
-            },
-          ],
         }}
-        onLayout={(e) => (HEADER_HEIGHT.current = e.nativeEvent.layout.height)}>
+        onLayout={(e) => {
+          if (HEADER_HEIGHT.current === 0) {
+            HEADER_HEIGHT.current = e.nativeEvent.layout.height;
+          }
+        }}>
         <Header
           isShow={isShow}
           setIsShow={setIsShow}
@@ -156,7 +148,7 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
           onPress={handlePress}
         />
         <BoxShadow setting={shadowOpt} />
-      </Animated.View>
+      </View>
       {!isLoading && countItems === 0 ? (
         <View
           style={{
@@ -179,15 +171,15 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
           bounces={false}
           contentContainerStyle={[
             styles.gridView,
-            {paddingTop: HEADER_HEIGHT.current},
+            {
+              paddingTop: HEADER_HEIGHT.current,
+            },
           ]}
           onScroll={handleEventScroll}
           scrollEventThrottle={16}
           spacing={-1}
           renderItem={({item}) => (
-            <View
-              key={item.id}
-              style={[styles.itemContainer, {margin: sizes[5]}]}>
+            <View key={item.id} style={[styles.itemContainer]}>
               <ProductItem product={item} />
             </View>
           )}
@@ -204,6 +196,7 @@ const styles = StyleSheet.create({
   gridView: {},
   itemContainer: {
     flex: 1,
+    margin: sizes[5],
   },
 });
 

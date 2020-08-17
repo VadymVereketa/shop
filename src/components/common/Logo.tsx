@@ -2,14 +2,23 @@ import {Image} from 'react-native';
 import {sizes} from '../../context/ThemeContext';
 import React from 'react';
 
-const Logo = () => {
+interface ILogoProps {
+  width: any;
+  height: any;
+  resizeMode: 'cover' | 'contain' | 'center' | 'stretch';
+}
+const Logo = ({
+  height = sizes[12],
+  resizeMode = 'cover',
+  width = sizes[38],
+}: ILogoProps) => {
   return (
     <Image
       source={require('../../assets/images/logo.png')}
-      resizeMode={'cover'}
+      resizeMode={resizeMode}
       style={{
-        height: sizes[12],
-        width: sizes[38],
+        height,
+        width,
         zIndex: 10,
       }}
     />

@@ -102,16 +102,10 @@ const service = {
   },
   login: async (phone: string, password: string) => {
     return await customFetch(() =>
-      instance.post<IUser>(
-        'auth/login',
-        {
-          phone,
-          password,
-        },
-        {
-          withCredentials: true,
-        },
-      ),
+      instance.post<IUser>('auth/login', {
+        phone,
+        password,
+      }),
     );
   },
   signup: async (data: ISignUp) => {
@@ -137,10 +131,7 @@ const service = {
   },
   refreshUser: async (headers?: any) => {
     try {
-      const res = await instance.get('clients/profile', {
-        withCredentials: true,
-        headers,
-      });
+      const res = await instance.get('clients/profile');
       return res.data;
     } catch (e) {
       return null;
@@ -459,7 +450,6 @@ const service = {
 const customFetch = async <T>(func: () => Promise<AxiosResponse<T>>) => {
   try {
     const res = await func();
-
     return {
       success: true,
       data: res.data,

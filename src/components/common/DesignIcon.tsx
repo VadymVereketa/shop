@@ -1,4 +1,5 @@
 import React from 'react';
+import {SvgCss} from 'react-native-svg';
 const RestaurantIcon = require('../../assets/svg/ic-restaurant.svg').default;
 const StoreIcon = require('../../assets/svg/ic-store.svg').default;
 const EyeIcon = require('../../assets/svg/ic-eye.svg').default;
@@ -104,6 +105,7 @@ export interface IDesignIconProps {
   originX?: number;
   originY?: number;
 }
+
 const DesignIcon = ({name, size, ...props}: IDesignIconProps) => {
   const Icon = getIcon(name);
   return <Icon width={size} height={size} {...props} />;

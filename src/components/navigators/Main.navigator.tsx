@@ -46,15 +46,15 @@ export type RestaurantScreenProps = {
   navigation: RestaurantScreenNavigationProp;
 };
 
-type ShopScreenNavigationProp = CompositeNavigationProp<
-  BottomTabNavigationProp<MainNavigatorParamList, 'Shop'>,
+type MenuScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<MainNavigatorParamList, 'Menu'>,
   StackNavigationProp<StartNavigatorParamList>
 >;
-type ShopScreenRouteProp = RouteProp<MainNavigatorParamList, 'Shop'>;
+type MenuScreenRouteProp = RouteProp<MainNavigatorParamList, 'Menu'>;
 
-export type ShopScreenProps = {
-  route: ShopScreenNavigationProp;
-  navigation: ShopScreenRouteProp;
+export type MenuScreenProps = {
+  route: MenuScreenRouteProp;
+  navigation: MenuScreenNavigationProp;
 };
 
 const Tab = createBottomTabNavigator<MainNavigatorParamList>();
