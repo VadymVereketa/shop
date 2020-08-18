@@ -15,6 +15,7 @@ import {selectorsUser} from '../../../redux/user/userReducer';
 import DesignIcon from '../../common/DesignIcon';
 import {getSellPoints} from '../../../redux/sellPoints/sellPointsReducer';
 import {selectorsOther} from '../../../redux/other/otherReducer';
+import t from '../../../utils/translate';
 
 const MenuScreen = ({navigation}: MenuScreenProps) => {
   const phone = useSelector(selectorsOther.getPhone);
@@ -28,7 +29,7 @@ const MenuScreen = ({navigation}: MenuScreenProps) => {
         <ScrollView>
           <View style={[styles.infoBlock, {backgroundColor: lightBackground}]}>
             <View>
-              <MyText style={{fontSize: sizes[7]}}>Дзвони з</MyText>
+              <MyText style={{fontSize: sizes[7]}}>{t('profileCall')}</MyText>
               <MyText
                 style={{fontSize: sizes[7], fontFamily: getFontFamily('500')}}>
                 10:00 - 19:00
@@ -46,17 +47,17 @@ const MenuScreen = ({navigation}: MenuScreenProps) => {
               {borderTopColor: border},
             ]}
             isBorder>
-            Профіль
+            {t('profileTitle')}
           </PressTitle>
           <PressTitle style={styles.itemMenu} isBorder>
-            Мої замовлення
+            {t('profileMyOrders')}
           </PressTitle>
           <PressTitle style={styles.itemMenu} isBorder>
-            Налаштування
+            {t('profileSettings')}
           </PressTitle>
 
           <View style={[styles.locations, {borderBottomColor: border}]}>
-            <MyText>Локації </MyText>
+            <MyText>{t('profileLocations')}</MyText>
           </View>
           {sellPoints.map((s) => {
             return (
@@ -68,7 +69,7 @@ const MenuScreen = ({navigation}: MenuScreenProps) => {
         </ScrollView>
       ) : (
         <React.Fragment>
-          <MyText style={[styles.text]}>Профiль</MyText>
+          <MyText style={[styles.text]}> {t('profileTitle')}</MyText>
           <View style={{height: 1, backgroundColor: border}} />
           <PressTitle
             onPress={() => {
@@ -79,14 +80,14 @@ const MenuScreen = ({navigation}: MenuScreenProps) => {
               styles.btnTop,
               {backgroundColor: lightBackground},
             ]}>
-            Увiйдiть
+            {t('profileLogin')}
           </PressTitle>
           <PressTitle
             onPress={() => {
               navigation.navigate('AuthNavigator', {screen: 'SignUp'});
             }}
             style={[styles.btn, {backgroundColor: lightBackground}]}>
-            Реєстрація
+            {t('profileSignUp')}
           </PressTitle>
         </React.Fragment>
       )}

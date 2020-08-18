@@ -33,6 +33,7 @@ import {
 } from '../../../redux/user/userReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/core';
+import t from '../../../utils/translate';
 
 interface IFormData {
   name: string;
@@ -98,14 +99,14 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
           <View style={styles.empty} />
           <Logo height={sizes[16]} width={sizes[50]} resizeMode={'contain'} />
           <View style={styles.viewText}>
-            <MyText style={styles.text}>Вітаємо Вас в Egersund!</MyText>
+            <MyText style={styles.text}>{t('signUpWelcome')}</MyText>
           </View>
           <Controller
             control={control}
             render={({onChange, onBlur, value}) => (
               <MyTextInput
-                label={"Ім'я"}
-                placeholder={"Введіть ім'я"}
+                label={t('tINameLabel')}
+                placeholder={t('tINamePlaceholder')}
                 keyboardType={'default'}
                 textContentType={'name'}
                 styleCon={styles.inputText}
@@ -121,8 +122,8 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
             control={control}
             render={({onChange, onBlur, value}) => (
               <MyTextInput
-                label={'Мобільний телефон'}
-                placeholder={'Введіть мобільний телефон'}
+                label={t('tIPhoneLabel')}
+                placeholder={t('tIPhonePlaceholder')}
                 keyboardType={'phone-pad'}
                 textContentType={'telephoneNumber'}
                 styleCon={styles.inputText}
@@ -138,8 +139,8 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
             control={control}
             render={({onChange, onBlur, value}) => (
               <MyTextInput
-                label={'Введіть пароль'}
-                placeholder={'Введіть пароль'}
+                label={t('tIPasswordLabel')}
+                placeholder={t('tIPasswordPlaceholder')}
                 keyboardType={'visible-password'}
                 textContentType={'password'}
                 styleCon={styles.inputText}
@@ -156,8 +157,8 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
             control={control}
             render={({onChange, onBlur, value}) => (
               <MyTextInput
-                label={'Введіть пароль'}
-                placeholder={'Введіть пароль'}
+                label={t('tIPasswordLabel')}
+                placeholder={t('tIPasswordPlaceholder')}
                 keyboardType={'visible-password'}
                 textContentType={'password'}
                 styleCon={styles.inputText}
@@ -182,7 +183,7 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
             </MyText>
           )}
           <MyButton onPress={handleSubmit(onSubmit)} disabled={isLoading}>
-            Зареєструватися
+            {t('signUpSubmit')}
           </MyButton>
           <GhostButton
             onPress={() => navigation.replace('Login', {})}
@@ -191,7 +192,7 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
             containerStyle={{
               flexGrow: 0,
             }}>
-            У мене є аккаунт! Увійти
+            {t('signUpYesAccount')}
           </GhostButton>
         </View>
       </View>

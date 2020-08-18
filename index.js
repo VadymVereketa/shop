@@ -13,6 +13,17 @@ import {thunkGetCustomCategories, thunkGetTags} from './src/redux/category/categ
 import {fetchGetAllSettings} from './src/redux/other/otherReducer';
 import {refreshUser} from './src/redux/user/userReducer';
 import {thunkGetSellPoints} from './src/redux/sellPoints/sellPointsReducer';
+import I18n from 'react-native-i18n';
+import en from './src/assets/translations/en';
+import uk from './src/assets/translations/uk';
+
+I18n.defaultLocale = "uk";
+I18n.fallbacks = true;
+
+I18n.translations = {
+  uk,
+  en,
+};
 
 const store = configureStore();
 store.store.dispatch(thunkGetCustomCategories);

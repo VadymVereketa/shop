@@ -14,6 +14,7 @@ import Animated, {
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import Logo from './Logo';
+import t from '../../utils/translate';
 
 const window = Dimensions.get('window');
 
@@ -119,7 +120,7 @@ const Header = ({isShow, setIsShow, onChange, initValue}: IHeaderProps) => {
           {isShow && (
             <MyTextInput
               autoFocus
-              placeholder="Що ви шукайте сьогодні?"
+              placeholder={t('tiSearchPlaceholder')}
               value={search}
               onChangeText={setSearch}
               onSubmitEditing={(e) => {

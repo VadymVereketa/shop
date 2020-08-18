@@ -14,6 +14,7 @@ import MyButton from './MyButton';
 import {BoxShadow} from 'react-native-shadow';
 import MyText from './MyText';
 import {ProductScreenNavigationProp} from '../navigators/Secondary.navigator';
+import t from '../../utils/translate';
 
 const window = Dimensions.get('window');
 
@@ -79,7 +80,7 @@ const ProductItem = ({product}: IProductItemProps) => {
             ultraWidth={true}
             styleText={styles.btnText}
             onPress={handlePress}>
-            замовити
+            {t('btnOrder')}
           </MyButton>
         </View>
       </View>

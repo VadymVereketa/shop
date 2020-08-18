@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {actionsOther, selectorsOther} from '../redux/other/otherReducer';
 import {FRACTION_DIGIT, ID_UNIT_WEIGHT} from '../constants/constantsId';
+import I18n from 'react-native-i18n';
 
 export interface IFormattingContext {
   currentLocale: Locale;
@@ -80,6 +81,7 @@ const ProviderFormattingContext: React.FC<IFormattingContextProps> = ({
       currentLocale,
       setLocale: (locale: Locale) => {
         dispatch(actionsOther.setLocale(locale));
+        I18n.locale = locale;
       },
       formatPrice: (price: number) => {
         return `${price.toFixed(2)} ${CONSTANTS_UNIT[currentLocale].currency}`;
@@ -121,7 +123,9 @@ const ProviderFormattingContext: React.FC<IFormattingContextProps> = ({
           locale: 'uk',
         }),
       );
+      I18n.locale = 'uk';
     }
+    I18n.locale = currentLocale;
   }, []);
 
   return (

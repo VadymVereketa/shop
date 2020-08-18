@@ -4,6 +4,8 @@ import DesignIcon from './DesignIcon';
 import MyText from './MyText';
 import {getFontFamily} from '../../utils/getFontFamily';
 import React from 'react';
+import t from '../../utils/translate';
+import {GhostButton} from './MyButton';
 
 interface IBlockCheckPasswordProps {
   password: string;
@@ -44,22 +46,21 @@ const ItemCheckPassword = ({
   );
 };
 
-const checks = [
-  {
-    check: (str: string = '') => (str || '').length >= 8,
-    text: '8-м сімволів',
-  },
-  {
-    check: (str: string = '') => /[a-z]/.test(str),
-    text: 'прописна буква',
-  },
-  {
-    check: (str: string = '') => /[A-Z]/.test(str),
-    text: 'велика буква',
-  },
-];
-
 const BlockCheckPassword = ({password}: IBlockCheckPasswordProps) => {
+  const checks = [
+    {
+      check: (str: string = '') => (str || '').length >= 8,
+      text: t('checkPasswordMinLength'),
+    },
+    {
+      check: (str: string = '') => /[a-z]/.test(str),
+      text: t('checkPasswordLowerCase'),
+    },
+    {
+      check: (str: string = '') => /[A-Z]/.test(str),
+      text: t('checkPasswordMUpperCase'),
+    },
+  ];
   return (
     <View>
       {checks.map((c) => (

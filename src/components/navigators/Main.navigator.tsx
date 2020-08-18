@@ -14,6 +14,7 @@ import DesignIcon from '../common/DesignIcon';
 import TabBar from '../common/TabBar';
 import {useSelector} from 'react-redux';
 import {selectorCategory} from '../../redux/category/categoryReducer';
+import t from '../../utils/translate';
 
 export type MainNavigatorParamList = {
   Restaurant: {
@@ -83,7 +84,7 @@ const MainNavigator = (props: MainNavigatorScreenProps) => {
             isTag: false,
           }}
           options={{
-            title: 'Ресторан',
+            title: t('tabBarRestaurant'),
             tabBarIcon: (props) => {
               return (
                 <DesignIcon
@@ -105,7 +106,7 @@ const MainNavigator = (props: MainNavigatorScreenProps) => {
             isTag: false,
           }}
           options={{
-            title: 'Магазин',
+            title: t('tabBarShop'),
             tabBarIcon: (props) => {
               return (
                 <DesignIcon
@@ -128,7 +129,7 @@ const MainNavigator = (props: MainNavigatorScreenProps) => {
             isTag: true,
           }}
           options={{
-            title: 'Пропозиций',
+            title: t('tabBarTagProducts'),
             tabBarIcon: (props) => {
               return (
                 <DesignIcon
@@ -145,7 +146,7 @@ const MainNavigator = (props: MainNavigatorScreenProps) => {
       <Tab.Screen
         name="Menu"
         options={{
-          title: 'Быльше',
+          title: t('tabBarMenu'),
           tabBarIcon: (props) => {
             return (
               <DesignIcon

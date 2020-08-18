@@ -28,6 +28,7 @@ import {
   fetchLogin,
   selectorsUser,
 } from '../../../redux/user/userReducer';
+import t from '../../../utils/translate';
 
 const window = Dimensions.get('window');
 
@@ -70,15 +71,15 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
           <View style={styles.empty} />
           <Logo height={sizes[16]} width={sizes[50]} resizeMode={'contain'} />
           <View style={styles.viewText}>
-            <MyText style={styles.text}>Вітаємо в Egersund,</MyText>
-            <MyText style={styles.text}>з поверненням!</MyText>
+            <MyText style={styles.text}>{t('loginWelcome1')}</MyText>
+            <MyText style={styles.text}>{t('loginWelcome2')}</MyText>
           </View>
           <Controller
             control={control}
             render={({onChange, onBlur, value}) => (
               <MyTextInput
-                label={'Мобільний телефон'}
-                placeholder={'Введіть мобільний телефон'}
+                label={t('tIPhoneLabel')}
+                placeholder={t('tIPhonePlaceholder')}
                 keyboardType={'phone-pad'}
                 textContentType={'telephoneNumber'}
                 styleCon={styles.inputText}
@@ -94,8 +95,8 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
             control={control}
             render={({onChange, onBlur, value}) => (
               <MyTextInput
-                label={'Введіть пароль'}
-                placeholder={'Введіть пароль'}
+                label={t('tIPasswordLabel')}
+                placeholder={t('tIPasswordPlaceholder')}
                 keyboardType={'visible-password'}
                 textContentType={'password'}
                 styleCon={styles.inputText}
@@ -118,7 +119,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
                 flexGrow: 0,
               }}
               isActive>
-              Забув пароль?
+              {t('loginForgetPassword')}
             </GhostButton>
           </View>
         </ScrollView>
@@ -141,7 +142,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
             disabled={isLoading}
             styleText={{fontSize: sizes[9]}}
             onPress={handleSubmit(onSubmit)}>
-            Увійти
+            {t('loginSubmit')}
           </MyButton>
           <GhostButton
             onPress={() => navigation.replace('SignUp', {})}
@@ -150,7 +151,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
             containerStyle={{
               flexGrow: 0,
             }}>
-            Немає аккаунту? Реєстрація
+            {t('loginNoAccount')}
           </GhostButton>
         </View>
       </View>
