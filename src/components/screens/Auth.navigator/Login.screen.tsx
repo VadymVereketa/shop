@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,97 +8,163 @@ import {
   Keyboard,
   Dimensions,
   TouchableWithoutFeedback,
-  ScrollView,
 } from 'react-native';
 import {LoginScreenProps} from '../../navigators/Auth.navigator';
-import PressTitle from '../../common/PressTitle';
+import {useFocusEffect} from '@react-navigation/native';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import Logo from '../../common/Logo';
-import {sizes} from '../../../context/ThemeContext';
+import {sizes, useTheme} from '../../../context/ThemeContext';
 import MyText from '../../common/MyText';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import MyTextInput from '../../common/MyTextInput';
 import MyButton, {GhostButton} from '../../common/MyButton';
-import {responsiveHeight} from 'react-native-responsive-dimensions';
+import {ScrollView} from 'react-native-gesture-handler';
+import {Controller, useForm} from 'react-hook-form';
+import getErrorByObj from '../../../utils/getErrorByObj';
+import validation from '../../../utils/validation';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  actionsUser,
+  fetchLogin,
+  selectorsUser,
+} from '../../../redux/user/userReducer';
 
 const window = Dimensions.get('window');
+
 const LoginScreen = ({navigation}: LoginScreenProps) => {
   const insets = useSafeAreaInsets();
+  const {errorColor} = useTheme();
+  const error = useSelector(selectorsUser.getError);
+  const isLoading = useSelector(selectorsUser.getLoading);
+  const dispatch = useDispatch();
+  const {control, handleSubmit, errors} = useForm({
+    reValidateMode: 'onChange',
+    mode: 'onChange',
+  });
+  const onSubmit = (data) => {
+    dispatch(fetchLogin(data.phone, data.password));
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch(actionsUser.setError(null));
+    };
+  }, []);
 
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
-      keyboardVerticalOffset={-responsiveHeight(9)}
-      behavior={Platform.OS === 'ios' ? 'position' : 'height'}>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View
-          style={[
-            styles.container,
-            {
-              paddingLeft: insets.left || sizes[5],
-              paddingRight: insets.right || sizes[5],
-              paddingBottom: insets.bottom,
-            },
-          ]}>
-          <View>
-            <Logo height={sizes[16]} width={sizes[50]} resizeMode={'contain'} />
-            <View style={styles.viewText}>
-              <MyText style={styles.text}>Вітаємо в Egersund,</MyText>
-              <MyText style={styles.text}>з поверненням!</MyText>
-            </View>
-            <MyTextInput
-              label={'Мобільний телефон'}
-              keyboardType={'phone-pad'}
-              textContentType={'telephoneNumber'}
-              styleCon={styles.inputText}
-            />
-            <MyTextInput
-              label={'Пароль'}
-              keyboardType={'visible-password'}
-              textContentType={'password'}
-            />
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-              }}>
-              <GhostButton
-                ultraWidth={false}
-                containerStyle={{
-                  flexGrow: 0,
-                }}
-                isActive>
-                Забув пароль?
-              </GhostButton>
-            </View>
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <View
+        style={[
+          styles.container,
+          {
+            paddingLeft: insets.left || sizes[5],
+            paddingRight: insets.right || sizes[5],
+            paddingBottom: insets.bottom,
+          },
+        ]}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{flex: 1, zIndex: 1000}}>
+          <View style={styles.empty} />
+          <Logo height={sizes[16]} width={sizes[50]} resizeMode={'contain'} />
+          <View style={styles.viewText}>
+            <MyText style={styles.text}>Вітаємо в Egersund,</MyText>
+            <MyText style={styles.text}>з поверненням!</MyText>
           </View>
+          <Controller
+            control={control}
+            render={({onChange, onBlur, value}) => (
+              <MyTextInput
+                label={'Мобільний телефон'}
+                placeholder={'Введіть мобільний телефон'}
+                keyboardType={'phone-pad'}
+                textContentType={'telephoneNumber'}
+                styleCon={styles.inputText}
+                value={value}
+                onChangeText={onChange}
+                error={getErrorByObj(errors, 'phone')}
+              />
+            )}
+            name="phone"
+            rules={validation.required}
+          />
+          <Controller
+            control={control}
+            render={({onChange, onBlur, value}) => (
+              <MyTextInput
+                label={'Введіть пароль'}
+                placeholder={'Введіть пароль'}
+                keyboardType={'visible-password'}
+                textContentType={'password'}
+                styleCon={styles.inputText}
+                value={value}
+                onChangeText={onChange}
+                error={getErrorByObj(errors, 'password')}
+              />
+            )}
+            name="password"
+            rules={validation.required}
+          />
           <View
             style={{
-              flexDirection: 'column',
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
             }}>
-            <MyButton styleText={{fontSize: sizes[9]}}>Увійти</MyButton>
             <GhostButton
-              onPress={() => navigation.replace('SignUp', {})}
               ultraWidth={false}
-              styleText={{fontFamily: getFontFamily('500')}}
               containerStyle={{
                 flexGrow: 0,
-              }}>
-              Немає аккаунту? Реєстрація
+              }}
+              isActive>
+              Забув пароль?
             </GhostButton>
           </View>
+        </ScrollView>
+        <View
+          style={{
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
+          {error && (
+            <MyText
+              style={{
+                color: errorColor,
+                paddingVertical: sizes[5],
+                fontSize: sizes[7],
+              }}>
+              {error}
+            </MyText>
+          )}
+          <MyButton
+            disabled={isLoading}
+            styleText={{fontSize: sizes[9]}}
+            onPress={handleSubmit(onSubmit)}>
+            Увійти
+          </MyButton>
+          <GhostButton
+            onPress={() => navigation.replace('SignUp', {})}
+            ultraWidth={false}
+            styleText={{fontFamily: getFontFamily('500')}}
+            containerStyle={{
+              flexGrow: 0,
+            }}>
+            Немає аккаунту? Реєстрація
+          </GhostButton>
         </View>
-      </TouchableWithoutFeedback>
+      </View>
     </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  empty: {
     paddingTop: sizes[15],
+  },
+  container: {
     justifyContent: 'space-between',
-    height: Platform.OS === 'android' ? undefined : responsiveHeight(90),
-    flex: Platform.OS === 'android' ? 1 : 0,
+    flex: 1,
   },
   text: {
     fontSize: sizes[12],
@@ -108,7 +174,7 @@ const styles = StyleSheet.create({
     marginVertical: sizes[15],
   },
   inputText: {
-    marginBottom: sizes[10],
+    paddingBottom: sizes[8],
   },
 });
 

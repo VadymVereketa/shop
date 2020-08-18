@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   StyleSheet,
@@ -19,86 +19,71 @@ import {responsiveHeight} from 'react-native-responsive-dimensions';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import DesignIcon from '../../common/DesignIcon';
 import {ScrollView} from 'react-native-gesture-handler';
+import {useForm, Controller} from 'react-hook-form';
+import getErrorByObj from '../../../utils/getErrorByObj';
+import validation from '../../../utils/validation';
+import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
+import BlockCheckPassword from '../../common/BlockCheckPassword';
+import {ISignUp} from '../../../typings/FetchData';
+import {
+  actionsUser,
+  fetchLogin,
+  fetchSignup,
+  selectorsUser,
+} from '../../../redux/user/userReducer';
+import {useDispatch, useSelector} from 'react-redux';
+import {useFocusEffect} from '@react-navigation/core';
 
-interface IBlockCheckPasswordProps {
+interface IFormData {
+  name: string;
+  phone: string;
   password: string;
+  confirmedPassword: string;
 }
-interface IItemCheckPasswordProps {
-  password: string;
-  check: (str: string) => boolean;
-  text: string;
-}
-const ItemCheckPassword = ({
-  check,
-  password,
-  text,
-}: IItemCheckPasswordProps) => {
-  const {text: color, lightText, primary, background} = useTheme();
-  const isCheck = check(text);
-
-  return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: sizes[4],
-      }}>
-      <View
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: sizes[8],
-          height: sizes[8],
-          borderRadius: sizes[4],
-          borderWidth: 0.5,
-          borderColor: isCheck ? primary : lightText,
-          marginRight: sizes[8],
-          backgroundColor: isCheck ? primary : background,
-        }}>
-        <DesignIcon name={'check-mark'} size={sizes[5]} fill={background} />
-      </View>
-      <MyText
-        style={{
-          color: isCheck ? color : lightText,
-          fontFamily: getFontFamily(isCheck ? '500' : '300'),
-        }}>
-        {text}
-      </MyText>
-    </View>
-  );
-};
-
-const checks = [
-  {
-    check: (str: string) => true,
-    text: '8-м сімволів',
-  },
-  {
-    check: (str: string) => false,
-    text: '8-м сімволів',
-  },
-  {
-    check: (str: string) => true,
-    text: '8-м сімволів',
-  },
-];
-
-const BlockCheckPassword = ({password}: IBlockCheckPasswordProps) => {
-  return (
-    <View>
-      {checks.map((c) => (
-        <ItemCheckPassword password={password} check={c.check} text={c.text} />
-      ))}
-    </View>
-  );
-};
 
 const SignUpScreen = ({navigation}: SignUpScreenProps) => {
+  const error = useSelector(selectorsUser.getError);
+  const isLoading = useSelector(selectorsUser.getLoading);
+  const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
+  const {errorColor} = useTheme();
+  const {control, handleSubmit, errors, watch, clearErrors} = useForm({
+    reValidateMode: 'onChange',
+    mode: 'onChange',
+  });
+
+  const onSubmit = async (data: IFormData) => {
+    const [firstName, lastName] = data.name.split(' ');
+    const fetchData: ISignUp = {
+      isPhoneCustom: false,
+      phone: data.phone,
+      firstName,
+      lastName: lastName || '',
+      confirmedPassword: data.confirmedPassword,
+      password: data.password,
+    };
+    const resSignUp: any = await dispatch(fetchSignup(fetchData));
+    if (resSignUp.success) {
+      await dispatch(fetchLogin(data.phone, data.password));
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      dispatch(actionsUser.setError(null));
+    };
+  }, []);
+
+  useDidUpdateEffect(() => {
+    if (watch('password') === watch('confirmedPassword')) {
+      clearErrors('confirmedPassword');
+    }
+  }, [watch('password')]);
+
   return (
     <KeyboardAvoidingView
       style={{flex: 1}}
-      keyboardVerticalOffset={-responsiveHeight(7)}
+      keyboardVerticalOffset={-responsiveHeight(3)}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View
         style={[
@@ -109,47 +94,96 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
             paddingBottom: insets.bottom,
           },
         ]}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          style={{flex: 1, zIndex: 1000}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{flex: 1}}>
+          <View style={styles.empty} />
           <Logo height={sizes[16]} width={sizes[50]} resizeMode={'contain'} />
           <View style={styles.viewText}>
             <MyText style={styles.text}>Вітаємо Вас в Egersund!</MyText>
           </View>
-          <MyTextInput
-            label={"Ім'я"}
-            placeholder={"Введіть ім'я"}
-            keyboardType={'default'}
-            textContentType={'name'}
-            styleCon={styles.inputText}
+          <Controller
+            control={control}
+            render={({onChange, onBlur, value}) => (
+              <MyTextInput
+                label={"Ім'я"}
+                placeholder={"Введіть ім'я"}
+                keyboardType={'default'}
+                textContentType={'name'}
+                styleCon={styles.inputText}
+                value={value}
+                onChangeText={onChange}
+                error={getErrorByObj(errors, 'name')}
+              />
+            )}
+            name="name"
+            rules={validation.required}
           />
-          <MyTextInput
-            label={'Мобільний телефон'}
-            keyboardType={'phone-pad'}
-            textContentType={'telephoneNumber'}
-            styleCon={styles.inputText}
+          <Controller
+            control={control}
+            render={({onChange, onBlur, value}) => (
+              <MyTextInput
+                label={'Мобільний телефон'}
+                placeholder={'Введіть мобільний телефон'}
+                keyboardType={'phone-pad'}
+                textContentType={'telephoneNumber'}
+                styleCon={styles.inputText}
+                value={value}
+                onChangeText={onChange}
+                error={getErrorByObj(errors, 'phone')}
+              />
+            )}
+            name="phone"
+            rules={validation.required}
           />
-          <MyTextInput
-            label={'Введіть пароль'}
-            placeholder="Введіть пароль"
-            keyboardType={'visible-password'}
-            textContentType={'password'}
-            styleCon={styles.passwordText}
+          <Controller
+            control={control}
+            render={({onChange, onBlur, value}) => (
+              <MyTextInput
+                label={'Введіть пароль'}
+                placeholder={'Введіть пароль'}
+                keyboardType={'visible-password'}
+                textContentType={'password'}
+                styleCon={styles.inputText}
+                value={value}
+                onChangeText={onChange}
+                error={getErrorByObj(errors, 'password')}
+              />
+            )}
+            name="password"
+            rules={validation.password}
           />
-          <BlockCheckPassword password={''} />
-          <MyTextInput
-            placeholder="Введіть пароль"
-            label={'Повторіть пароль'}
-            keyboardType={'visible-password'}
-            textContentType={'newPassword'}
-            styleCon={styles.repeatPasswordText}
+          <BlockCheckPassword password={watch('password')} />
+          <Controller
+            control={control}
+            render={({onChange, onBlur, value}) => (
+              <MyTextInput
+                label={'Введіть пароль'}
+                placeholder={'Введіть пароль'}
+                keyboardType={'visible-password'}
+                textContentType={'password'}
+                styleCon={styles.inputText}
+                value={value}
+                onChangeText={onChange}
+                error={getErrorByObj(errors, 'confirmedPassword')}
+              />
+            )}
+            name="confirmedPassword"
+            rules={validation.repeatPassword(watch('password'))}
           />
         </ScrollView>
-        <View
-          style={{
-            flexDirection: 'column',
-          }}>
-          <MyButton>Зареєструватися</MyButton>
+        <View style={styles.bottomBlock}>
+          {error && (
+            <MyText
+              style={{
+                color: errorColor,
+                paddingVertical: sizes[5],
+                fontSize: sizes[7],
+              }}>
+              {error}
+            </MyText>
+          )}
+          <MyButton onPress={handleSubmit(onSubmit)} disabled={isLoading}>
+            Зареєструватися
+          </MyButton>
           <GhostButton
             onPress={() => navigation.replace('Login', {})}
             ultraWidth={false}
@@ -166,10 +200,17 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  empty: {
     paddingTop: sizes[15],
+  },
+  container: {
     justifyContent: 'space-between',
     flex: 1,
+  },
+  bottomBlock: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    paddingTop: sizes[5],
   },
   text: {
     fontSize: sizes[12],
@@ -179,7 +220,7 @@ const styles = StyleSheet.create({
     marginVertical: sizes[15],
   },
   inputText: {
-    marginBottom: sizes[10],
+    paddingBottom: sizes[8],
   },
   passwordText: {
     marginBottom: sizes[5],

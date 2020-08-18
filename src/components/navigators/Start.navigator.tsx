@@ -5,6 +5,8 @@ import SecondaryNavigator from './Secondary.navigator';
 import {StackScreenProps} from '@react-navigation/stack/src/types';
 import AuthNavigator from './Auth.navigator';
 import MenuNavigator from './Menu.navigator';
+import {useSelector} from 'react-redux';
+import {selectorsUser} from '../../redux/user/userReducer';
 
 export type StartNavigatorParamList = {
   MainNavigator: {};
@@ -31,11 +33,14 @@ export type AuthNavigatorScreenProps = StackScreenProps<
 const Stack = createStackNavigator<StartNavigatorParamList>();
 
 const StartNavigator = () => {
+  const isAuth = useSelector(selectorsUser.isAuth);
   return (
     <Stack.Navigator initialRouteName={'MainNavigator'} headerMode="none">
       <Stack.Screen name="MainNavigator" component={MainNavigator} />
       <Stack.Screen name="SecondaryNavigator" component={SecondaryNavigator} />
-      <Stack.Screen name="AuthNavigator" component={AuthNavigator} />
+      {!isAuth && (
+        <Stack.Screen name="AuthNavigator" component={AuthNavigator} />
+      )}
       <Stack.Screen name="MenuNavigator" component={MenuNavigator} />
     </Stack.Navigator>
   );

@@ -11,11 +11,15 @@ import {PersistGate} from 'redux-persist/integration/react';
 import ProviderFormattingContext from './src/context/FormattingContext';
 import {thunkGetCustomCategories, thunkGetTags} from './src/redux/category/categoryReducer';
 import {fetchGetAllSettings} from './src/redux/other/otherReducer';
+import {refreshUser} from './src/redux/user/userReducer';
+import {thunkGetSellPoints} from './src/redux/sellPoints/sellPointsReducer';
 
 const store = configureStore();
 store.store.dispatch(thunkGetCustomCategories);
 store.store.dispatch(thunkGetTags);
 store.store.dispatch(fetchGetAllSettings);
+store.store.dispatch(refreshUser);
+store.store.dispatch(thunkGetSellPoints);
 
 const Main = () => {
   return (

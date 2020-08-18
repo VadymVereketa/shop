@@ -3,6 +3,7 @@ import {useResponsiveWidth} from 'react-native-responsive-dimensions';
 import React, {useState} from 'react';
 import {useFormattingContext} from '../../context/FormattingContext';
 import {useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import {selectorsOther} from '../../redux/other/otherReducer';
 import {getIndexProductOption} from '../../utils/getIndexProductOption';
 import {sizes, useTheme} from '../../context/ThemeContext';
@@ -12,6 +13,7 @@ import {getFontFamily} from '../../utils/getFontFamily';
 import MyButton from './MyButton';
 import {BoxShadow} from 'react-native-shadow';
 import MyText from './MyText';
+import {ProductScreenNavigationProp} from '../navigators/Secondary.navigator';
 
 const window = Dimensions.get('window');
 
@@ -22,6 +24,7 @@ interface IProductItemProps {
 const borderRadius = sizes[1];
 
 const ProductItem = ({product}: IProductItemProps) => {
+  const navigation = useNavigation<ProductScreenNavigationProp>();
   const w = useResponsiveWidth(100);
   const {background} = useTheme();
   const [layout, setLayout] = useState({height: 100, width: w});
@@ -50,6 +53,16 @@ const ProductItem = ({product}: IProductItemProps) => {
     },
   };
 
+  const handlePress = () => {
+    navigation.navigate('SecondaryNavigator', {
+      screen: 'Product',
+      params: {
+        id: product.id,
+        product,
+      },
+    });
+  };
+
   return (
     <View onLayout={(e) => setLayout(e.nativeEvent.layout)} style={styles.con}>
       <BoxShadow setting={shadowOpt} />
@@ -62,7 +75,10 @@ const ProductItem = ({product}: IProductItemProps) => {
         <MyText style={styles.title}>{product.title}</MyText>
         <View>
           <MyText style={styles.price}>{formatPrice(price)}</MyText>
-          <MyButton ultraWidth={true} styleText={styles.btnText}>
+          <MyButton
+            ultraWidth={true}
+            styleText={styles.btnText}
+            onPress={handlePress}>
             замовити
           </MyButton>
         </View>

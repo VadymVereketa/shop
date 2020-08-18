@@ -17,6 +17,8 @@ import {sizes, useTheme} from '../../context/ThemeContext';
 import {getFontFamily} from '../../utils/getFontFamily';
 import {IName} from './DesignIcon';
 import IconButton from './IconButton';
+import Animated, {Easing, timing} from 'react-native-reanimated';
+import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 
 type IMyTextInput = NativeViewGestureHandlerProperties &
   TextInputProps & {
@@ -28,6 +30,7 @@ type IMyTextInput = NativeViewGestureHandlerProperties &
     };
     styleLabel?: StyleProp<TextStyle>;
     styleCon?: StyleProp<ViewStyle>;
+    error?: string;
   };
 
 const paddingAfterIcon = sizes[8];
@@ -41,13 +44,15 @@ const MyTextInput = ({
   onFocus,
   onBlur,
   isClear = false,
+  error = '',
   style = {},
   styleCon = {},
   styleLabel = {},
   afterIcon,
   ...props
 }: IMyTextInput) => {
-  const {border, lightText, primary, text} = useTheme();
+  const animError = useRef(new Animated.Value(-sizes[10])).current;
+  let {border, lightText, primary, text, errorColor} = useTheme();
   const [isFocus, setIsFocus] = useState(false);
   const [isOpenEye, setIsOpenEye] = useState(
     keyboardType === 'visible-password',
@@ -70,6 +75,9 @@ const MyTextInput = ({
     };
   }
 
+  if (error !== '') {
+    border = errorColor;
+  }
   const handleFocus = (e: any) => {
     if (onFocus) {
       onFocus(e);
@@ -83,6 +91,15 @@ const MyTextInput = ({
     }
     setIsFocus(false);
   };
+
+  useDidUpdateEffect(() => {
+    timing(animError, {
+      duration: 200,
+      toValue: error === '' ? -sizes[10] : 0,
+      easing: Easing.ease,
+    }).start();
+  }, [error]);
+
   return (
     <View style={styleCon}>
       {label && <MyText style={[styles.textLabel, styleLabel]}>{label}</MyText>}
@@ -121,7 +138,12 @@ const MyTextInput = ({
                 }}
               />
             )}
-            <View style={[styles.split, {backgroundColor: border}]} />
+            <View
+              style={[
+                styles.split,
+                {backgroundColor: isFocus ? primary : border},
+              ]}
+            />
             {afterIcon && (
               <IconButton
                 style={styles.icon}
@@ -136,11 +158,32 @@ const MyTextInput = ({
           </View>
         )}
       </View>
+      <Animated.View
+        style={[
+          styles.error,
+          {
+            transform: [
+              {
+                translateY: animError,
+              },
+            ],
+          },
+        ]}>
+        <MyText style={[styles.errorText, {color: errorColor}]}>{error}</MyText>
+      </Animated.View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  error: {
+    position: 'absolute',
+    bottom: 0,
+    zIndex: -10,
+  },
+  errorText: {
+    fontSize: sizes[7],
+  },
   textLabel: {
     fontSize: sizes[8],
     paddingBottom: sizes[3],
@@ -152,6 +195,7 @@ const styles = StyleSheet.create({
     borderRadius: sizes[1],
     flexDirection: 'row',
     height: sizes[23],
+    backgroundColor: 'white',
   },
   textInput: {
     fontSize: sizes[9],
@@ -160,7 +204,6 @@ const styles = StyleSheet.create({
     padding: 0,
     alignItems: 'center',
     paddingHorizontal: sizes[8],
-    backgroundColor: 'transparent',
     fontFamily: getFontFamily('300'),
   },
   icons: {

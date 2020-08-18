@@ -27,6 +27,7 @@ interface IThemeContext {
   text: string;
   lightText: string;
   darkText: string;
+  errorColor: string;
 }
 
 const ThemeContext = React.createContext({} as IThemeContext);
@@ -48,6 +49,7 @@ const ProviderTheme = ({children}: any) => {
     const darkText = theme === 'light' ? '#121826' : '#fff';
     const text = theme === 'light' ? '#3c4162' : '#fff';
     const border = theme === 'light' ? '#dadeea' : '#fff';
+    const errorColor = theme === 'light' ? '#dc3545' : '#dc3545';
 
     return {
       onChangeTheme: (theme: Theme) => {
@@ -62,6 +64,7 @@ const ProviderTheme = ({children}: any) => {
       accent,
       darkText,
       lightBackground,
+      errorColor,
     };
   }, [theme]);
 

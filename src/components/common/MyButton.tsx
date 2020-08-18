@@ -33,7 +33,7 @@ const MyButton = ({
   containerStyle = {},
   ...props
 }: IMyButtonProps) => {
-  const {primary, border, text, background} = useTheme();
+  const {primary, border, text, background, lightBackground} = useTheme();
 
   let bg = '';
   let color = '';
@@ -52,6 +52,11 @@ const MyButton = ({
       color = text;
     }
     bg = background;
+  }
+  if (disabled) {
+    bg = lightBackground;
+    borderColor = lightBackground;
+    color = type === 'filled' ? color : lightBackground;
   }
 
   return (
