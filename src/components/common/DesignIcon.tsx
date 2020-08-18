@@ -20,6 +20,8 @@ const SearchIcon = require('../../assets/svg/ic-search.svg').default;
 const ShareIcon = require('../../assets/svg/ic-share.svg').default;
 const StarEmptyIcon = require('../../assets/svg/ic-star-empty.svg').default;
 const StarFillIcon = require('../../assets/svg/ic-star-filled.svg').default;
+const MinusIcon = require('../../assets/svg/ic-minus.svg').default;
+const PlusIcon = require('../../assets/svg/ic-plus.svg').default;
 
 export type IName =
   | 'restaurant'
@@ -41,12 +43,18 @@ export type IName =
   | 'search'
   | 'share'
   | 'star-empty'
+  | 'minus'
+  | 'plus'
   | 'star-filled';
 
 const getIcon = (name: IName) => {
   switch (name) {
     case 'arrow':
       return ArrowIcon;
+    case 'plus':
+      return PlusIcon;
+    case 'minus':
+      return MinusIcon;
     case 'arrow-right':
       return ArrowRightIcon;
     case 'check-mark':

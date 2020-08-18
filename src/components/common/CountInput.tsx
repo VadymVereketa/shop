@@ -4,6 +4,7 @@ import {sizes, useTheme} from '../../context/ThemeContext';
 import {GhostButton} from './MyButton';
 import {TextInput} from 'react-native-gesture-handler';
 import IconButton from './IconButton';
+import DesignIcon from './DesignIcon';
 
 interface ICountInputProps {
   isWeightUnit: boolean;
@@ -11,6 +12,8 @@ interface ICountInputProps {
   //value: number;
   isEditable?: boolean;
 }
+
+const iconSize = sizes[7];
 
 const CountInput = ({isEditable, isWeightUnit}: ICountInputProps) => {
   const {primary} = useTheme();
@@ -20,16 +23,41 @@ const CountInput = ({isEditable, isWeightUnit}: ICountInputProps) => {
         icon={{
           name: 'arrow-right',
           fill: primary,
-          size: sizes[10],
+          size: iconSize,
         }}
-        style={{
-          backgroundColor: 'red',
-          paddingHorizontal: sizes[5],
-          transform: [
-            {
-              rotate: '180deg',
-            },
-          ],
+        style={[
+          styles.incrBtn,
+          {
+            transform: [
+              {
+                rotate: '180deg',
+              },
+            ],
+          },
+        ]}
+      />
+      <TextInput
+        keyboardType={'numeric'}
+        style={[styles.inputText, {color: primary}]}
+        defaultValue={'1500'}
+      />
+      <IconButton
+        style={styles.incrBtn}
+        icon={{
+          name: 'arrow-right',
+          fill: primary,
+          size: iconSize,
+        }}
+      />
+    </View>
+  ) : (
+    <View style={[styles.con]}>
+      <IconButton
+        style={styles.incrBtn}
+        icon={{
+          name: 'minus',
+          fill: primary,
+          size: iconSize,
         }}
       />
       <TextInput
@@ -38,32 +66,13 @@ const CountInput = ({isEditable, isWeightUnit}: ICountInputProps) => {
         defaultValue={'1500'}
       />
       <IconButton
-        style={{
-          backgroundColor: 'red',
-          paddingHorizontal: sizes[5],
-        }}
+        style={styles.incrBtn}
         icon={{
-          name: 'arrow-right',
+          name: 'plus',
           fill: primary,
-          size: sizes[10],
+          size: iconSize,
         }}
       />
-    </View>
-  ) : (
-    <View style={[styles.con]}>
-      <GhostButton
-        style={{backgroundColor: 'red'}}
-        styleText={[styles.incrBtn, {color: primary}]}>
-        -
-      </GhostButton>
-      <TextInput
-        keyboardType={'numeric'}
-        style={[styles.inputText, {color: primary}]}
-        defaultValue={'1500'}
-      />
-      <GhostButton styleText={[styles.incrBtn, {color: primary}]}>
-        +
-      </GhostButton>
     </View>
   );
 };
@@ -72,16 +81,16 @@ const styles = StyleSheet.create({
   con: {
     flexDirection: 'row',
     backgroundColor: '#f9f9f9',
+    borderRadius: sizes[1],
     flex: 1,
   },
   incrBtn: {
-    fontSize: sizes[12],
+    paddingHorizontal: sizes[8],
+    paddingVertical: sizes[14],
   },
   inputText: {
     fontSize: sizes[10],
     textAlign: 'center',
-    marginHorizontal: -sizes[20],
-    minWidth: sizes[30],
     flexGrow: 1,
   },
 });
