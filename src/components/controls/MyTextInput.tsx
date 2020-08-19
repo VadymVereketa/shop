@@ -15,7 +15,7 @@ import {
 import MyText from './MyText';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {getFontFamily} from '../../utils/getFontFamily';
-import {IName} from './DesignIcon';
+import {IName} from '../common/DesignIcon';
 import IconButton from './IconButton';
 import Animated, {Easing, timing} from 'react-native-reanimated';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
@@ -212,8 +212,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     paddingHorizontal: paddingAfterIcon,
-    flex: 1,
-    justifyContent: 'center',
     backgroundColor: 'white',
     borderRadius: sizes[1],
   },

@@ -10,9 +10,9 @@ import {sizes, useTheme} from '../../context/ThemeContext';
 import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import getUrlImg from '../../utils/getUrlImg';
 import {getFontFamily} from '../../utils/getFontFamily';
-import MyButton from './MyButton';
+import MyButton from '../controls/MyButton';
 import {BoxShadow} from 'react-native-shadow';
-import MyText from './MyText';
+import MyText from '../controls/MyText';
 import {ProductScreenNavigationProp} from '../navigators/Secondary.navigator';
 import t from '../../utils/translate';
 
@@ -55,7 +55,7 @@ const ProductItem = ({product}: IProductItemProps) => {
   };
 
   const handlePress = () => {
-    navigation.navigate('SecondaryNavigator', {
+    navigation.push('SecondaryNavigator', {
       screen: 'Product',
       params: {
         id: product.id,
@@ -69,7 +69,7 @@ const ProductItem = ({product}: IProductItemProps) => {
       <BoxShadow setting={shadowOpt} />
       <Image
         source={getUrlImg(productImage.uuid)}
-        resizeMode={'cover'}
+        resizeMode={'contain'}
         style={styles.image}
       />
       <View style={[styles.content, {backgroundColor: background}]}>

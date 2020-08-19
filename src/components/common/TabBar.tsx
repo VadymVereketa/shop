@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {sizes, useTheme} from '../../context/ThemeContext';
-import MyButton from './MyButton';
+import MyButton from '../controls/MyButton';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
 import {selectorsCart} from '../../redux/cart/cartReducer';
@@ -13,7 +13,7 @@ import {
   BottomTabBarOptions,
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
-import MyText from './MyText';
+import MyText from '../controls/MyText';
 
 const TabBar = (props: BottomTabBarProps<BottomTabBarOptions>) => {
   const sum = useSelector(selectorsCart.getGeneralSum);

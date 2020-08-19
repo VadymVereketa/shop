@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
-import MyText from '../../common/MyText';
+import MyText from '../../controls/MyText';
 import {sizes, useTheme} from '../../../context/ThemeContext';
-import PressTitle from '../../common/PressTitle';
+import PressTitle from '../../controls/PressTitle';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import {MenuScreenProps} from '../../navigators/Main.navigator';

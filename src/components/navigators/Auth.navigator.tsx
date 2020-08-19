@@ -11,7 +11,7 @@ import {
   StartNavigatorParamList,
 } from './Start.navigator';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/core';
-import IconButton from '../common/IconButton';
+import IconButton from '../controls/IconButton';
 import {sizes} from '../../context/ThemeContext';
 
 export type AuthNavigatorParamList = {

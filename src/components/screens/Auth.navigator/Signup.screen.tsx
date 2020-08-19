@@ -11,9 +11,9 @@ import {
 import {SignUpScreenProps} from '../../navigators/Auth.navigator';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import Logo from '../../common/Logo';
-import MyText from '../../common/MyText';
-import MyTextInput from '../../common/MyTextInput';
-import MyButton, {GhostButton} from '../../common/MyButton';
+import MyText from '../../controls/MyText';
+import MyTextInput from '../../controls/MyTextInput';
+import MyButton, {GhostButton} from '../../controls/MyButton';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';

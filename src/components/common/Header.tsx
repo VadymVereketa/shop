@@ -2,8 +2,8 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Dimensions, Image, StyleSheet, View} from 'react-native';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import IconButton from './IconButton';
-import MyTextInput from './MyTextInput';
+import IconButton from '../controls/IconButton';
+import MyTextInput from '../controls/MyTextInput';
 import Animated, {
   Easing,
   Extrapolate,

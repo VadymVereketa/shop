@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {GhostButton} from './MyButton';
 import {
@@ -7,7 +7,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
 import IconButton from './IconButton';
-import DesignIcon from './DesignIcon';
+import DesignIcon from '../common/DesignIcon';
 import {useFormattingContext} from '../../context/FormattingContext';
 import {FRACTION_DIGIT} from '../../constants/constantsId';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
@@ -18,6 +18,7 @@ interface ICountInputProps {
   onChange: (o: number) => any;
   value: number;
   isEditable?: boolean;
+  style?: StyleProp<ViewStyle>;
 }
 
 const compateFloat = (a: number, b: number, c: number) => {
@@ -27,10 +28,11 @@ const compateFloat = (a: number, b: number, c: number) => {
 const iconSize = sizes[7];
 
 const CountInput = ({
-  isEditable,
+  isEditable = true,
   isWeightUnit,
   onChange,
   value,
+  style,
 }: ICountInputProps) => {
   const {primary} = useTheme();
   const {formatUnit} = useFormattingContext();
@@ -118,7 +120,7 @@ const CountInput = ({
   }, [value]);
 
   return (
-    <View style={[styles.con]}>
+    <View style={[styles.con, style]}>
       <IconButton
         onPress={decr}
         icon={{
@@ -175,8 +177,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   incrBtn: {
-    paddingHorizontal: sizes[8],
-    paddingVertical: sizes[14],
+    paddingHorizontal: sizes[7],
+    paddingVertical: sizes[10],
   },
   inputText: {
     fontSize: sizes[10],

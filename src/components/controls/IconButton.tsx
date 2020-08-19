@@ -4,7 +4,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
 import {StyleSheet, TouchableWithoutFeedbackProps} from 'react-native';
-import DesignIcon, {IDesignIconProps} from './DesignIcon';
+import DesignIcon, {IDesignIconProps} from '../common/DesignIcon';
 
 interface IIconButtonProps extends TouchableWithoutFeedbackProps {
   icon: IDesignIconProps;

@@ -4,7 +4,7 @@ import {useResponsiveWidth} from 'react-native-responsive-dimensions';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import MyButton from './MyButton';
+import MyButton from '../controls/MyButton';
 import {getFontFamily} from '../../utils/getFontFamily';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 

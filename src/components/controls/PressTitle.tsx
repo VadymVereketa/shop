@@ -7,7 +7,7 @@ import {
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import MyText from './MyText';
 import React, {useRef, useState} from 'react';
-import DesignIcon from './DesignIcon';
+import DesignIcon from '../common/DesignIcon';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {getFontFamily} from '../../utils/getFontFamily';
 import IconButton from './IconButton';

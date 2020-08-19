@@ -29,7 +29,7 @@ import {
   useResponsiveWidth,
 } from 'react-native-responsive-dimensions';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
-import ProductItem from '../../common/ProductItem';
+import ProductItem from '../../product/ProductItem';
 import {BoxShadow} from 'react-native-shadow';
 
 const window = Dimensions.get('window');

@@ -1,11 +1,11 @@
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {StyleSheet, View} from 'react-native';
 import DesignIcon from './DesignIcon';
-import MyText from './MyText';
+import MyText from '../controls/MyText';
 import {getFontFamily} from '../../utils/getFontFamily';
 import React from 'react';
 import t from '../../utils/translate';
-import {GhostButton} from './MyButton';
+import {GhostButton} from '../controls/MyButton';
 
 interface IBlockCheckPasswordProps {
   password: string;
