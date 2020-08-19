@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config';
+import {getLocale, getToken} from '../../index';
 
 const instance = axios.create({
   baseURL: config.baseURL,
@@ -8,9 +9,11 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   (value) => {
-    //todo locale
+    const token = getToken();
     value.headers = {
-      'Accept-Language': 'ua',
+      ...instance.defaults.headers,
+      'Accept-Language': getLocale() || 'uk',
+      ...(token ? {Authorization: `Bearer ${token}`} : {}),
     };
     return value;
   },

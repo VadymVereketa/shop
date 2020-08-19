@@ -11,7 +11,6 @@ import {PersistGate} from 'redux-persist/integration/react';
 import ProviderFormattingContext from './src/context/FormattingContext';
 import {thunkGetCustomCategories, thunkGetTags} from './src/redux/category/categoryReducer';
 import {fetchGetAllSettings} from './src/redux/other/otherReducer';
-import {refreshUser} from './src/redux/user/userReducer';
 import {thunkGetSellPoints} from './src/redux/sellPoints/sellPointsReducer';
 import I18n from 'react-native-i18n';
 import en from './src/assets/translations/en';
@@ -29,8 +28,15 @@ const store = configureStore();
 store.store.dispatch(thunkGetCustomCategories);
 store.store.dispatch(thunkGetTags);
 store.store.dispatch(fetchGetAllSettings);
-store.store.dispatch(refreshUser);
 store.store.dispatch(thunkGetSellPoints);
+
+export const getToken = () => {
+  return store.store.getState().user.token;
+};
+
+export const getLocale = () => {
+  return store.store.getState().other.locale;
+};
 
 const Main = () => {
   return (

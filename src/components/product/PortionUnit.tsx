@@ -12,11 +12,12 @@ import CountInput from '../controls/CountInput';
 import {useResponsiveWidth} from 'react-native-responsive-dimensions';
 import MyButton from '../controls/MyButton';
 import t from '../../utils/translate';
+import {ITranslate} from '../../assets/translations/uk';
 
 interface IPortionUnitProps {
   product: IProduct;
   addToCart: (count: number) => any;
-  title: string;
+  title: ITranslate;
   price: number;
 }
 
@@ -66,11 +67,12 @@ const PortionUnit = ({product, price, addToCart, title}: IPortionUnitProps) => {
         {t('btnOrderLong')}
       </MyButton>
       <MyButton
+        onPress={handleSubmit}
         style={styles.btnBot}
         styleText={styles.btnText}
         type={'default'}
         isActive>
-        {t('btnAddToCart')}
+        {t(title)}
       </MyButton>
 
       <MyText style={styles.garnish}>

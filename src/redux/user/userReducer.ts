@@ -3,11 +3,13 @@ import {IUserActions, IUserState} from './userTypes';
 import service from '../../services/service';
 import {RootState} from '../reducer';
 import {IAddress, ICard, ISignUp, IUser} from '../../typings/FetchData';
+import instance from '../../services/instance';
 
 const init: IUserState = {
   data: null,
   error: false,
   isLoading: false,
+  token: null,
 };
 
 const creator = new CreatorReducer<IUserActions, IUserState>('user');
@@ -81,6 +83,9 @@ creator.addAction<ICard[]>('setCards', (state, action) => {
   }
   return state;
 });
+creator.addAction('setToken', (state, action) => {
+  return {...state, token: action.payload};
+});
 const actionsUser = creator.createActions();
 
 const fetchLogin = (phone: string, password: string) => async (
@@ -88,7 +93,12 @@ const fetchLogin = (phone: string, password: string) => async (
 ) => {
   return fetchRedux(
     async () => await service.login(phone, password),
-    (data: any) => dispatch(actionsUser.setData(data)),
+    (data: any) => {
+      const token = data.token;
+      delete data.token;
+      dispatch(actionsUser.setToken(token));
+      dispatch(actionsUser.setData(data));
+    },
   )(dispatch);
 };
 const fetchSignup = (data: ISignUp) => async (dispatch: any) => {
@@ -121,6 +131,7 @@ const fetchRedux = (fetch: any, saveData: any) => async (dispatch: any) => {
 
 const refreshUser = async (dispatch: any) => {
   const res = await service.refreshUser();
+  console.log(res);
   if (res) {
     dispatch(actionsUser.setData(res));
   }

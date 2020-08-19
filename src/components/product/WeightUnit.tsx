@@ -16,12 +16,13 @@ import {
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import MyButton from '../controls/MyButton';
 import t from '../../utils/translate';
+import {ITranslate} from '../../assets/translations/uk';
 
 interface IWeightUnitProps {
   id: number;
   price: number;
   addToCart: (count: number, alternativeCount: number | null) => any;
-  title: string;
+  title: ITranslate;
   avgWeight: string | null;
 }
 
@@ -115,7 +116,6 @@ const WeightUnit = ({
   };
 
   const handleSubmit = (e: any) => {
-    e.preventDefault();
     if (isAlternativeCount) {
       addToCart(weight * +avgWeight!, weight);
     } else {
@@ -183,6 +183,8 @@ const WeightUnit = ({
         />
       </View>
       <Slider
+        animationType={'spring'}
+        animateTransitions={true}
         step={0.1}
         trackClickable={false}
         minimumValue={config.min}
@@ -192,13 +194,20 @@ const WeightUnit = ({
           return (
             <View
               style={[
-                styles.circle,
+                styles.circleBorder,
                 {
-                  backgroundColor: primary,
                   borderColor: background,
                 },
-              ]}
-            />
+              ]}>
+              <View
+                style={[
+                  styles.circle,
+                  {
+                    backgroundColor: primary,
+                  },
+                ]}
+              />
+            </View>
           );
         }}
         containerStyle={styles.conSlider}
@@ -236,8 +245,12 @@ const WeightUnit = ({
       <MyButton styleText={styles.btnText} style={styles.btnTop}>
         {t('btnOrderLong')}
       </MyButton>
-      <MyButton styleText={styles.btnText} type={'default'} isActive>
-        {t('btnAddToCart')}
+      <MyButton
+        styleText={styles.btnText}
+        type={'default'}
+        isActive
+        onPress={handleSubmit}>
+        {t(title)}
       </MyButton>
       <MyText style={styles.textInfo}>{t('productInfo')}</MyText>
       <MyText style={styles.textDesc}>
@@ -254,11 +267,14 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'center',
   },
+  circleBorder: {
+    borderWidth: sizes[1],
+    borderRadius: sizes[10],
+  },
   circle: {
-    width: sizes[15],
-    height: sizes[15],
+    width: sizes[13],
+    height: sizes[13],
     borderRadius: sizes[8],
-    borderWidth: 1,
   },
   mark: {
     fontSize: sizes[8],

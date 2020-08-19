@@ -20,6 +20,12 @@ const otherPersistConfig = {
   whitelist: ['searchQueries', 'draftId', 'locale'],
 };
 
+const userPersistConfig = {
+  key: 'user',
+  storage: AsyncStorage,
+  whitelist: ['token'],
+};
+
 export interface RootState {
   category: ICategoryState;
   cart: ICartState;
@@ -33,7 +39,7 @@ export default combineReducers({
   category: categoryReducer,
   cart: cartReducer,
   other: persistReducer(otherPersistConfig, otherReducer),
-  user: userReducer,
+  user: persistReducer(userPersistConfig, userReducer),
   order: orderReducer,
   sellPoints: sellPointsReducer,
 });

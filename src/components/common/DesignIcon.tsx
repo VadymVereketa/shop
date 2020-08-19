@@ -22,6 +22,8 @@ const StarEmptyIcon = require('../../assets/svg/ic-star-empty.svg').default;
 const StarFillIcon = require('../../assets/svg/ic-star-filled.svg').default;
 const MinusIcon = require('../../assets/svg/ic-minus.svg').default;
 const PlusIcon = require('../../assets/svg/ic-plus.svg').default;
+const CommentIcon = require('../../assets/svg/ic-comment.svg').default;
+const SendIcon = require('../../assets/svg/ic-send.svg').default;
 
 export type IName =
   | 'restaurant'
@@ -45,12 +47,18 @@ export type IName =
   | 'star-empty'
   | 'minus'
   | 'plus'
+  | 'comment'
+  | 'send'
   | 'star-filled';
 
 const getIcon = (name: IName) => {
   switch (name) {
     case 'arrow':
       return ArrowIcon;
+    case 'send':
+      return SendIcon;
+    case 'comment':
+      return CommentIcon;
     case 'plus':
       return PlusIcon;
     case 'minus':

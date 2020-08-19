@@ -18,17 +18,19 @@ import {
 } from 'react-native-responsive-dimensions';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {selectorsOther} from '../../../redux/other/otherReducer';
 import {getIndexProductOption} from '../../../utils/getIndexProductOption';
 import {ID_UNIT_WEIGHT} from '../../../constants/constantsId';
-import {selectorsCart} from '../../../redux/cart/cartReducer';
+import {actionsCart, selectorsCart} from '../../../redux/cart/cartReducer';
 import PortionUnit from '../../product/PortionUnit';
 import ProductSlider from '../../product/ProductSlider';
+import {ITranslate} from '../../../assets/translations/uk';
 
 const window = Dimensions.get('window');
 
 const ProductScreen = ({navigation, route}: ProductScreenProps) => {
+  const dispatch = useDispatch();
   const product = route.params.product;
   const insets = useSafeAreaInsets();
   const w = useResponsiveWidth(100) - (insets.right + insets.left);
@@ -48,7 +50,24 @@ const ProductScreen = ({navigation, route}: ProductScreenProps) => {
     product.unit && product.unit.externalId === ID_UNIT_WEIGHT;
   const productImage: IImgProduct =
     (product.productImages && product.productImages[0]) || {};
-  const title = isProductInCart ? 'Уже в кошику' : 'Хочу замовити';
+  const title: ITranslate = isProductInCart ? 'btnHasInCart' : 'btnAddToCart';
+
+  const addProductToCart = (
+    count: number,
+    alternativeCount: number | null = null,
+  ) => {
+    if (!isProductInCart) {
+      dispatch(
+        actionsCart.addProduct({
+          count: count,
+          comment: '',
+          product: product!,
+          alternativeCount,
+        }),
+      );
+    }
+    dispatch(actionsCart.toggleCart(true));
+  };
 
   return (
     <ScrollView
@@ -65,7 +84,7 @@ const ProductScreen = ({navigation, route}: ProductScreenProps) => {
         resizeMode={'cover'}
         style={{
           width: w,
-          height: w / 1.5,
+          height: w / 2,
         }}
       />
       <View style={styles.body}>
@@ -76,12 +95,12 @@ const ProductScreen = ({navigation, route}: ProductScreenProps) => {
             title={title}
             id={product.id}
             avgWeight={product.avgWeight}
-            addToCart={() => null}
+            addToCart={addProductToCart}
           />
         ) : (
           <PortionUnit
             product={product}
-            addToCart={() => null}
+            addToCart={addProductToCart}
             title={title}
             price={price}
           />

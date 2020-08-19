@@ -7,6 +7,7 @@ const uk = {
   btnOrder: 'замовити',
   btnOrderLong: 'оформити замовлення',
   btnAddToCart: 'Додати в кошик',
+  btnHasInCart: 'В кошику',
 
   productInfo:
     'Остаточна вага товару і сума буде відома після зважування і розділки.',

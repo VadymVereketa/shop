@@ -1,10 +1,13 @@
 import {NavigationContainer, Theme} from '@react-navigation/native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useTheme} from './src/context/ThemeContext';
 import StartNavigator from './src/components/navigators/Start.navigator';
 import {Platform, StatusBar} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {refreshUser} from './src/redux/user/userReducer';
 
 const App = () => {
+  const dispatch = useDispatch();
   const {theme, onChangeTheme, ...colors} = useTheme();
 
   const MyTheme: Theme = {
@@ -18,6 +21,10 @@ const App = () => {
       notification: 'red',
     },
   };
+
+  useEffect(() => {
+    dispatch(refreshUser);
+  }, []);
 
   return (
     <NavigationContainer theme={MyTheme}>
