@@ -56,6 +56,7 @@ const queries = {
         }),
       method: 'get',
     };
+    console.log(config.url);
     return config;
   },
   getOrders: ({top, skip}: {top: number; skip: number}) => {

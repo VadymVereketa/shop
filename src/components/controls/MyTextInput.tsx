@@ -45,14 +45,14 @@ const MyTextInput = ({
   onBlur,
   isClear = false,
   error = '',
-  style = {},
-  styleCon = {},
-  styleLabel = {},
+  style = undefined,
+  styleCon = undefined,
+  styleLabel = undefined,
   afterIcon,
   ...props
 }: IMyTextInput) => {
   const animError = useRef(new Animated.Value(-sizes[10])).current;
-  let {border, lightText, primary, text, errorColor} = useTheme();
+  let {border, lightText, primary, text, errorColor, background} = useTheme();
   const [isFocus, setIsFocus] = useState(false);
   const [isOpenEye, setIsOpenEye] = useState(
     keyboardType === 'visible-password',
@@ -194,8 +194,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: sizes[1],
     flexDirection: 'row',
-    height: sizes[23],
     backgroundColor: 'white',
+    paddingVertical: sizes[1],
   },
   textInput: {
     fontSize: sizes[9],
@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
     padding: 0,
     alignItems: 'center',
     paddingHorizontal: sizes[8],
+    paddingVertical: sizes[5],
     fontFamily: getFontFamily('300'),
   },
   icons: {
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
   },
   split: {
     width: 1,
-    height: sizes[20],
+    height: '100%',
   },
 });
 

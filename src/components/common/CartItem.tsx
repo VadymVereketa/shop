@@ -1,4 +1,5 @@
 import React, {useRef, useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {ICartItem} from '../../typings/FetchData';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectorsOrder} from '../../redux/order/orderReducer';
@@ -15,6 +16,9 @@ import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import DesignIcon from './DesignIcon';
 import getUrlImg from '../../utils/getUrlImg';
 import Animated, {timing, Easing} from 'react-native-reanimated';
+import t from '../../utils/translate';
+import {CartScreenNavigationProp} from '../navigators/Cart.navigator';
+import {ID_UNIT_WEIGHT} from '../../constants/constantsId';
 
 interface ICartItemProps {
   item: ICartItem;
@@ -22,7 +26,8 @@ interface ICartItemProps {
   isEdit?: boolean;
 }
 
-const CartItem = ({defaultSellPoint, item, isEdit}: ICartItemProps) => {
+const CartItem = ({defaultSellPoint, item, isEdit = true}: ICartItemProps) => {
+  const navigation = useNavigation<any>();
   const offsetY = useRef(new Animated.Value(0)).current;
   const {width} = Dimensions.get('window');
   const [willRemove, setWillRemove] = useState(false);
@@ -30,8 +35,9 @@ const CartItem = ({defaultSellPoint, item, isEdit}: ICartItemProps) => {
   const {text, border, background} = useTheme();
   const step = useSelector(selectorsOrder.getStep);
   const idSellPoint = useSelector(selectorsCart.getIdSellPoint);
-  const {formatPrice} = useFormattingContext();
+  const {formatPrice, formatUnit} = useFormattingContext();
   const {product} = item;
+  const isWeightUnit = product.units === ID_UNIT_WEIGHT;
 
   const removeItem = () => {
     setWillRemove(true);
@@ -74,15 +80,17 @@ const CartItem = ({defaultSellPoint, item, isEdit}: ICartItemProps) => {
           left: offsetY,
         },
       ]}>
-      <IconButton
-        onPress={removeItem}
-        icon={{
-          name: 'close',
-          size: sizes[10],
-          fill: text,
-        }}
-        style={[styles.iconRemove, {borderColor: border}]}
-      />
+      {isEdit && (
+        <IconButton
+          onPress={removeItem}
+          icon={{
+            name: 'close',
+            size: sizes[10],
+            fill: text,
+          }}
+          style={[styles.iconRemove, {borderColor: border}]}
+        />
+      )}
       <View style={{flexGrow: 1}}>
         <View style={{flexDirection: 'row'}}>
           <Image
@@ -96,28 +104,44 @@ const CartItem = ({defaultSellPoint, item, isEdit}: ICartItemProps) => {
           <MyText style={styles.title}>{product.title}</MyText>
         </View>
         <View style={styles.viewPrice}>
-          <CartCountItem item={item} />
+          {isEdit ? (
+            <CartCountItem item={item} />
+          ) : (
+            <MyText style={styles.textPrice}>
+              {formatUnit(item.count, product.units)}
+            </MyText>
+          )}
           <MyText style={styles.textPrice}>{formatPrice(quantityPrice)}</MyText>
         </View>
-        <TouchableOpacity style={{flexDirection: 'row'}}>
-          {item.comment === '' ? (
-            <React.Fragment>
-              <DesignIcon
-                name={'comment'}
-                size={sizes[10]}
-                fill={border}
-                stroke={border}
-              />
-              <MyText style={[styles.titleComment, {marginLeft: sizes[7]}]}>
-                Додати коментар
-              </MyText>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <MyText style={styles.titleComment}>Коментар: </MyText>
-              <MyText>{item.comment}</MyText>
-            </React.Fragment>
-          )}
+        <TouchableOpacity
+          style={{flexDirection: 'row'}}
+          onPress={() =>
+            navigation.navigate('SecondaryNavigator', {
+              screen: 'CommentCart',
+              params: {
+                item,
+              },
+            })
+          }>
+          {isEdit &&
+            (item.comment === '' ? (
+              <React.Fragment>
+                <DesignIcon
+                  name={'comment'}
+                  size={sizes[10]}
+                  fill={border}
+                  stroke={border}
+                />
+                <MyText style={[styles.titleComment, {marginLeft: sizes[7]}]}>
+                  {t('cartAddComment')}
+                </MyText>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <MyText style={styles.titleComment}>{t('cartComment')}:</MyText>
+                <MyText>{item.comment}</MyText>
+              </React.Fragment>
+            ))}
         </TouchableOpacity>
       </View>
     </Animated.View>

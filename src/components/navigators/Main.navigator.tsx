@@ -8,7 +8,7 @@ import {
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/native';
-import CartScreen from '../screens/Main.navigator/Cart.screen';
+import CartScreen from '../screens/Cart.navigator/Cart.screen';
 import MenuScreen from '../screens/Main.navigator/Menu.screen';
 import DesignIcon from '../common/DesignIcon';
 import TabBar from '../common/TabBar';
@@ -56,6 +56,17 @@ type MenuScreenRouteProp = RouteProp<MainNavigatorParamList, 'Menu'>;
 export type MenuScreenProps = {
   route: MenuScreenRouteProp;
   navigation: MenuScreenNavigationProp;
+};
+
+type CartNavigatorNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<MainNavigatorParamList, 'Cart'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type CartNavigatorRouteProp = RouteProp<MainNavigatorParamList, 'Cart'>;
+
+export type CartNavigatorProps = {
+  route: CartNavigatorRouteProp;
+  navigation: CartNavigatorNavigationProp;
 };
 
 const Tab = createBottomTabNavigator<MainNavigatorParamList>();

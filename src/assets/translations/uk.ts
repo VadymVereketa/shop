@@ -22,6 +22,12 @@ const uk = {
   profileLocations: 'Локації',
   profileCall: 'Дзвони з',
 
+  cartTitle: 'Кошик',
+  cartEmptyItems: 'Кошик порожній',
+  cartSum: 'Сума за замовлення',
+  cartAddComment: 'Додати коментар',
+  cartComment: 'Коментар',
+
   loginWelcome1: 'Вітаємо в Egersund,',
   loginWelcome2: 'з поверненням!',
   loginForgetPassword: 'Забув пароль?',

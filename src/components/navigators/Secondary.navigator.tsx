@@ -9,15 +9,19 @@ import {
   SecondaryNavigatorScreenProps,
   StartNavigatorParamList,
 } from './Start.navigator';
-import {IProduct} from '../../typings/FetchData';
+import {ICartItem, IProduct} from '../../typings/FetchData';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/core';
 import IconButton from '../controls/IconButton';
 import {sizes} from '../../context/ThemeContext';
+import CommentCartScreen from '../screens/Secondary.navigator/CommentCart.screen';
 
 export type SecondaryNavigatorParamList = {
   Product: {
     product: IProduct;
     id: number;
+  };
+  CommentCart: {
+    item: ICartItem;
   };
 };
 
@@ -63,6 +67,7 @@ const SecondaryNavigator = ({navigation}: SecondaryNavigatorScreenProps) => {
         },
       }}>
       <Stack.Screen name="Product" component={ProductScreen} />
+      <Stack.Screen name="CommentCart" component={CommentCartScreen} />
     </Stack.Navigator>
   );
 };

@@ -5,6 +5,8 @@ import StartNavigator from './src/components/navigators/Start.navigator';
 import {Platform, StatusBar} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {refreshUser} from './src/redux/user/userReducer';
+import config from './src/config';
+import queries from './src/services/queries';
 
 const App = () => {
   const dispatch = useDispatch();
