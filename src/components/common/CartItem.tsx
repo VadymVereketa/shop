@@ -17,7 +17,6 @@ import DesignIcon from './DesignIcon';
 import getUrlImg from '../../utils/getUrlImg';
 import Animated, {timing, Easing} from 'react-native-reanimated';
 import t from '../../utils/translate';
-import {CartScreenNavigationProp} from '../navigators/Cart.navigator';
 import {ID_UNIT_WEIGHT} from '../../constants/constantsId';
 
 interface ICartItemProps {
@@ -50,14 +49,6 @@ const CartItem = ({defaultSellPoint, item, isEdit = true}: ICartItemProps) => {
     });
   };
 
-  const handleBlur = (value: string) => {
-    dispatch(
-      actionsCart.setComment({
-        id: product.id,
-        comment: value,
-      }),
-    );
-  };
   const index = getIndexProductOption(
     item.product,
     defaultSellPoint || idSellPoint,
