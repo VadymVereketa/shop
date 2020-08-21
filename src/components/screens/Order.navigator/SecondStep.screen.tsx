@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import {View, StyleSheet, Text, Dimensions} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import PressTitle from '../../controls/PressTitle';
@@ -13,17 +13,33 @@ import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {BoxShadow} from 'react-native-shadow';
 import {useResponsiveWidth} from 'react-native-responsive-dimensions';
 import BlockDelivery from '../../common/BlockDelivery';
-import {selectorsOther} from '../../../redux/other/otherReducer';
-import {selectorsTypes} from '../../../redux/types/typeReducer';
-import {TypeDelivery} from '../../../constants/constantsId';
+import Animated, {Easing, timing} from 'react-native-reanimated';
+import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
+import CartItem from '../../common/CartItem';
 
 const window = Dimensions.get('window');
+const h = sizes[100] + sizes[50];
 
 const SecondStepScreen = (props: any) => {
+  const offsetY = useRef(new Animated.Value(-h)).current;
+  const [isShow, setIsShow] = useState(false);
   const insets = useSafeAreaInsets();
   const w = useResponsiveWidth(100);
   const sum = useSelector(selectorsCart.getGeneralSum);
+  const items = useSelector(selectorsCart.getCartProducts);
   const {formatPrice} = useFormattingContext();
+
+  const handleToggle = () => {
+    setIsShow((s) => !s);
+  };
+
+  useDidUpdateEffect(() => {
+    timing(offsetY, {
+      toValue: isShow ? 0 : -h,
+      duration: 300,
+      easing: Easing.ease,
+    }).start();
+  }, [isShow]);
 
   const shadowOpt = {
     width: Math.max(window.width, window.height) + (insets.left + insets.right),
@@ -44,14 +60,44 @@ const SecondStepScreen = (props: any) => {
 
   return (
     <SafeAreaView style={[styles.container, {marginTop: -insets.top}]}>
-      <ScrollView>
-        <PressTitle expand style={styles.order}>
+      <ScrollView
+        style={{marginBottom: isShow ? 0 : -h}}
+        bounces={false}
+        scrollEnabled={!isShow}>
+        <PressTitle expand style={styles.order} onPress={handleToggle}>
           Замовлення
         </PressTitle>
-        <View style={styles.body}>
+        <Animated.ScrollView
+          scrollEnabled={true}
+          showsVerticalScrollIndicator={false}
+          style={{
+            height: h,
+            zIndex: -10,
+            marginHorizontal: sizes[5],
+            transform: [
+              {
+                translateY: offsetY,
+              },
+            ],
+          }}>
+          {items.map((item) => (
+            <CartItem key={item.product.id} item={item} />
+          ))}
+        </Animated.ScrollView>
+        <Animated.View
+          style={[
+            styles.body,
+            {
+              transform: [
+                {
+                  translateY: offsetY,
+                },
+              ],
+            },
+          ]}>
           <MyText style={styles.text}>Оберіть спосіб отримання</MyText>
           <BlockDelivery />
-        </View>
+        </Animated.View>
       </ScrollView>
       <BoxShadow setting={shadowOpt}>
         <View
