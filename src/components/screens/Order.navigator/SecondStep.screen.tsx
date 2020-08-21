@@ -4,7 +4,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import PressTitle from '../../controls/PressTitle';
 import MyText from '../../controls/MyText';
 import {getFontFamily} from '../../../utils/getFontFamily';
-import {sizes} from '../../../context/ThemeContext';
+import {sizes, useTheme} from '../../../context/ThemeContext';
 import MyButton from '../../controls/MyButton';
 import {useSelector} from 'react-redux';
 import {selectorsCart} from '../../../redux/cart/cartReducer';
@@ -27,6 +27,7 @@ const SecondStepScreen = (props: any) => {
   const w = useResponsiveWidth(100);
   const sum = useSelector(selectorsCart.getGeneralSum);
   const items = useSelector(selectorsCart.getCartProducts);
+  const {border} = useTheme();
   const {formatPrice} = useFormattingContext();
 
   const handleToggle = () => {
@@ -99,23 +100,20 @@ const SecondStepScreen = (props: any) => {
           <BlockDelivery />
         </Animated.View>
       </ScrollView>
-      <BoxShadow setting={shadowOpt}>
-        <View
-          style={{
+      <View
+        style={[
+          styles.bottomBlock,
+          {
             backgroundColor: 'white',
-            paddingBottom: sizes[20],
-            paddingRight: insets.right || sizes[5],
-            paddingLeft: insets.left || sizes[5],
-
-            width: w,
-          }}>
-          <View style={styles.price}>
-            <MyText style={styles.bottomBlockText}>Сума за замовлення</MyText>
-            <MyText style={styles.priceText}>{formatPrice(sum)}</MyText>
-          </View>
-          <MyButton styleText={styles.btn}>продовжити</MyButton>
+            borderTopColor: border,
+          },
+        ]}>
+        <View style={styles.price}>
+          <MyText style={styles.bottomBlockText}>Сума за замовлення</MyText>
+          <MyText style={styles.priceText}>{formatPrice(sum)}</MyText>
         </View>
-      </BoxShadow>
+        <MyButton styleText={styles.btn}>продовжити</MyButton>
+      </View>
     </SafeAreaView>
   );
 };
@@ -135,7 +133,12 @@ const styles = StyleSheet.create({
   body: {
     marginHorizontal: sizes[5],
   },
-  bottomBlock: {},
+  bottomBlock: {
+    paddingBottom: sizes[20],
+    paddingRight: sizes[5],
+    paddingLeft: sizes[5],
+    borderTopWidth: 1,
+  },
   btn: {
     fontSize: sizes[9],
   },
