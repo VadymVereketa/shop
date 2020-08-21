@@ -131,9 +131,10 @@ const fetchRedux = (fetch: any, saveData: any) => async (dispatch: any) => {
 
 const refreshUser = async (dispatch: any) => {
   const res = await service.refreshUser();
-  console.log(res);
   if (res) {
     dispatch(actionsUser.setData(res));
+  } else {
+    dispatch(actionsUser.setToken(null));
   }
 };
 

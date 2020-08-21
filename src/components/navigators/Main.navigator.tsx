@@ -8,7 +8,7 @@ import {
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/native';
-import CartScreen from '../screens/Cart.navigator/Cart.screen';
+import CartScreen from '../screens/Main.navigator/Cart.screen';
 import MenuScreen from '../screens/Main.navigator/Menu.screen';
 import DesignIcon from '../common/DesignIcon';
 import TabBar from '../common/TabBar';

@@ -16,7 +16,10 @@ import {
   responsiveScreenWidth,
   useResponsiveWidth,
 } from 'react-native-responsive-dimensions';
-import {ScrollView} from 'react-native-gesture-handler';
+import {
+  ScrollView,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectorsOther} from '../../../redux/other/otherReducer';
@@ -28,12 +31,18 @@ import ProductSlider from '../../product/ProductSlider';
 import {ITranslate} from '../../../assets/translations/uk';
 import {selectorsUser} from '../../../redux/user/userReducer';
 import MyButton from '../../controls/MyButton';
-import Animated from 'react-native-reanimated';
-
-const window = Dimensions.get('window');
+import Animated, {
+  Easing,
+  Extrapolate,
+  interpolate,
+  timing,
+} from 'react-native-reanimated';
+import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 
 const ProductScreen = ({navigation, route}: ProductScreenProps) => {
-  const offsetY = useRef(new Animated.Value(0)).current;
+  const window = Dimensions.get('window');
+  const offsetY = useRef(new Animated.Value(200)).current;
+
   const dispatch = useDispatch();
   const product = route.params.product;
   const insets = useSafeAreaInsets();
@@ -43,8 +52,7 @@ const ProductScreen = ({navigation, route}: ProductScreenProps) => {
   const isProductInCart = useSelector(
     selectorsCart.checkProductInCart(product.id),
   );
-  const {border} = useTheme();
-  const {setLocale, currentLocale} = useFormattingContext();
+  const {border, text} = useTheme();
   const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
   const index = getIndexProductOption(product, ID_SELL_POINT);
   const price =
@@ -62,6 +70,10 @@ const ProductScreen = ({navigation, route}: ProductScreenProps) => {
     count: number,
     alternativeCount: number | null = null,
   ) => {
+    if (!isAuth) {
+      setIsShow(true);
+      return;
+    }
     if (!isProductInCart) {
       dispatch(
         actionsCart.addProduct({
@@ -75,6 +87,24 @@ const ProductScreen = ({navigation, route}: ProductScreenProps) => {
     dispatch(actionsCart.toggleCart(true));
   };
 
+  const handleOrder = () => {
+    if (!isAuth) {
+      setIsShow(true);
+      return;
+    }
+    navigation.push('OrderNavigator', {
+      screen: 'FirstStep',
+    });
+  };
+
+  useDidUpdateEffect(() => {
+    timing(offsetY, {
+      toValue: isShow ? 0 : 200,
+      duration: 300,
+      easing: Easing.ease,
+    }).start();
+  }, [isShow]);
+
   const shadowOpt = {
     width: w + (insets.right + insets.left),
     height: sizes[65] + insets.bottom,
@@ -86,12 +116,17 @@ const ProductScreen = ({navigation, route}: ProductScreenProps) => {
     y: -1,
     style: {
       position: 'absolute',
-      backgroundColor: 'white',
       bottom: 0,
       left: 0,
       right: 0,
     },
   };
+
+  const translateY = interpolate(offsetY, {
+    inputRange: [0, 200],
+    outputRange: [0, window.height],
+    extrapolate: Extrapolate.CLAMP,
+  });
 
   return (
     <View
@@ -118,6 +153,7 @@ const ProductScreen = ({navigation, route}: ProductScreenProps) => {
               id={product.id}
               avgWeight={product.avgWeight}
               addToCart={addProductToCart}
+              onOrder={handleOrder}
             />
           ) : (
             <PortionUnit
@@ -125,54 +161,97 @@ const ProductScreen = ({navigation, route}: ProductScreenProps) => {
               addToCart={addProductToCart}
               title={title}
               price={price}
+              onOrder={handleOrder}
             />
           )}
           <View style={[styles.border, {backgroundColor: border}]} />
           <ProductSlider idCategory={product.customCategory.id} />
         </View>
       </ScrollView>
-
-      <BoxShadow setting={shadowOpt}>
-        <View
+      {!isAuth && (
+        <Animated.View
+          style={[
+            styles.back,
+            {
+              backgroundColor: text,
+              height: window.height,
+              transform: [
+                {
+                  translateY,
+                },
+              ],
+            },
+          ]}>
+          <TouchableWithoutFeedback
+            containerStyle={styles.backTouch}
+            onPress={() => setIsShow(false)}
+          />
+        </Animated.View>
+      )}
+      {!isAuth && (
+        <Animated.View
           style={{
-            flex: 1,
             backgroundColor: 'white',
             position: 'absolute',
             left: 0,
             right: 0,
             bottom: 0,
-            paddingLeft: insets.left || sizes[5],
-            paddingRight: insets.right || sizes[5],
-            paddingBottom: insets.bottom + sizes[6],
+            zIndex: 100,
+            transform: [
+              {
+                translateY: offsetY,
+              },
+            ],
           }}>
-          <MyText style={styles.text}>Щоб додати до кошика увійдіть</MyText>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <MyButton
-              containerStyle={{maxWidth: (w - sizes[20]) / 2}}
-              styleText={styles.btn}
-              type={'default'}
-              isActive>
-              Увiйдiть
-            </MyButton>
-            <MyButton
-              containerStyle={{maxWidth: (w - sizes[20]) / 2}}
-              styleText={styles.btn}
-              type={'default'}>
-              Реєстрація
-            </MyButton>
-          </View>
-        </View>
-      </BoxShadow>
+          <BoxShadow setting={shadowOpt}>
+            <View
+              style={{
+                paddingLeft: insets.left || sizes[5],
+                paddingRight: insets.right || sizes[5],
+                paddingBottom: (insets.bottom + sizes[10]) * 1,
+                backgroundColor: 'white',
+              }}>
+              <MyText style={styles.text}>Щоб додати до кошика увійдіть</MyText>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  backgroundColor: 'white',
+                }}>
+                <MyButton
+                  containerStyle={{maxWidth: (w - sizes[20]) / 2}}
+                  styleText={styles.btn}
+                  type={'default'}
+                  onPress={() =>
+                    navigation.push('AuthNavigator', {
+                      screen: 'Login',
+                    })
+                  }
+                  isActive>
+                  Увiйдiть
+                </MyButton>
+                <MyButton
+                  containerStyle={{maxWidth: (w - sizes[20]) / 2}}
+                  styleText={styles.btn}
+                  onPress={() =>
+                    navigation.push('AuthNavigator', {
+                      screen: 'SignUp',
+                    })
+                  }
+                  type={'default'}>
+                  Реєстрація
+                </MyButton>
+              </View>
+            </View>
+          </BoxShadow>
+        </Animated.View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {},
-  image: {
-    height: Math.min(window.height, window.width) / 1.5,
-    width: Math.min(window.height, window.width),
-  },
   body: {
     marginHorizontal: sizes[5],
     marginTop: sizes[5],
@@ -194,6 +273,18 @@ const styles = StyleSheet.create({
   },
   btn: {
     fontSize: sizes[10],
+  },
+  back: {
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    position: 'absolute',
+    opacity: 0.8,
+    zIndex: 100,
+  },
+  backTouch: {
+    flex: 1,
   },
 });
 

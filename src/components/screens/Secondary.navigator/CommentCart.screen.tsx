@@ -53,7 +53,7 @@ const CommentCartScreen = ({navigation, route}: any) => {
   };
 
   const handleKeyboardHide = (event) => {
-    navigation.navigate('CartNavigator', {});
+    Platform.OS === 'android' && navigation.goBack();
   };
 
   const saveComment = () => {
@@ -63,7 +63,7 @@ const CommentCartScreen = ({navigation, route}: any) => {
         id: item.product.id,
       }),
     );
-    navigation.navigate('CartNavigator', {});
+    Platform.OS === 'ios' && navigation.goBack();
   };
 
   return (

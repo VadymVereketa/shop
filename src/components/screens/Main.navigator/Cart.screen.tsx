@@ -12,12 +12,18 @@ import CartItem from '../../common/CartItem';
 import {useFormattingContext} from '../../../context/FormattingContext';
 import MyButton from '../../controls/MyButton';
 
-const CartScreen = (props: any) => {
+const CartScreen = ({navigation}: any) => {
   const insets = useSafeAreaInsets();
   const {border} = useTheme();
   const {formatPrice} = useFormattingContext();
   const items = useSelector(selectorsCart.getCartProducts);
   const sum = useSelector(selectorsCart.getGeneralSum);
+
+  const handleOrder = () => {
+    navigation.push('OrderNavigator', {
+      screen: 'FirstStep',
+    });
+  };
 
   return (
     <View
@@ -44,7 +50,10 @@ const CartScreen = (props: any) => {
             <MyText style={styles.title}> {t('cartSum')}:</MyText>
             <MyText style={styles.textPrice}>{formatPrice(sum)}</MyText>
           </View>
-          <MyButton ultraWidth={true} styleText={{fontSize: sizes[9]}}>
+          <MyButton
+            ultraWidth={true}
+            styleText={{fontSize: sizes[9]}}
+            onPress={handleOrder}>
             {t('btnOrderLong')}
           </MyButton>
         </React.Fragment>

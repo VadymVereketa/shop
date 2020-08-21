@@ -8,6 +8,7 @@ const uk = {
   btnOrderLong: 'оформити замовлення',
   btnAddToCart: 'Додати в кошик',
   btnHasInCart: 'В кошику',
+  btnExit: 'Вихід',
 
   productInfo:
     'Остаточна вага товару і сума буде відома після зважування і розділки.',
@@ -21,6 +22,9 @@ const uk = {
   profileSettings: 'Налаштування',
   profileLocations: 'Локації',
   profileCall: 'Дзвони з',
+  profileLocaleData: 'Особисті дані',
+  profileCertificate: 'Подарунковий сертифікат',
+  profileLoyaltyCard: 'Карта лояльності',
 
   cartTitle: 'Кошик',
   cartEmptyItems: 'Кошик порожній',

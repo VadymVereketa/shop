@@ -19,9 +19,16 @@ interface IPortionUnitProps {
   addToCart: (count: number) => any;
   title: ITranslate;
   price: number;
+  onOrder: () => any;
 }
 
-const PortionUnit = ({product, price, addToCart, title}: IPortionUnitProps) => {
+const PortionUnit = ({
+  product,
+  price,
+  addToCart,
+  title,
+  onOrder,
+}: IPortionUnitProps) => {
   const w = useResponsiveWidth(100);
   const {formatPrice} = useFormattingContext();
   const dispatch = useDispatch();
@@ -38,8 +45,13 @@ const PortionUnit = ({product, price, addToCart, title}: IPortionUnitProps) => {
     );
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = () => {
     addToCart(count);
+  };
+
+  const handleOrder = () => {
+    handleSubmit();
+    onOrder();
   };
 
   useDidUpdateEffect(() => {
@@ -63,7 +75,10 @@ const PortionUnit = ({product, price, addToCart, title}: IPortionUnitProps) => {
       <MyText style={styles.garnish}>Склад:</MyText>
       <MyText style={styles.ingredients}>{product.ingredients}</MyText>
 
-      <MyButton styleText={styles.btnText} style={styles.btnTop}>
+      <MyButton
+        styleText={styles.btnText}
+        style={styles.btnTop}
+        onPress={handleOrder}>
         {t('btnOrderLong')}
       </MyButton>
       <MyButton

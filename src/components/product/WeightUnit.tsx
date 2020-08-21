@@ -24,6 +24,7 @@ interface IWeightUnitProps {
   addToCart: (count: number, alternativeCount: number | null) => any;
   title: ITranslate;
   avgWeight: string | null;
+  onOrder: () => any;
 }
 
 const LENGTH_SLIDER = 1.2;
@@ -61,6 +62,7 @@ const WeightUnit = ({
   addToCart,
   title,
   avgWeight,
+  onOrder,
 }: IWeightUnitProps) => {
   const w = useResponsiveWidth(100);
   const insets = useSafeAreaInsets();
@@ -115,12 +117,17 @@ const WeightUnit = ({
     setWeight(n);
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = () => {
     if (isAlternativeCount) {
       addToCart(weight * +avgWeight!, weight);
     } else {
       addToCart(weight, null);
     }
+  };
+
+  const handleOrder = () => {
+    handleSubmit();
+    onOrder();
   };
 
   const handleAfterChange = (newValue) => {
@@ -242,7 +249,10 @@ const WeightUnit = ({
           );
         })}
       </View>
-      <MyButton styleText={styles.btnText} style={styles.btnTop}>
+      <MyButton
+        styleText={styles.btnText}
+        style={styles.btnTop}
+        onPress={handleOrder}>
         {t('btnOrderLong')}
       </MyButton>
       <MyButton

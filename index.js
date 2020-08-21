@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
-import React from 'react';
-import {AppRegistry} from 'react-native';
+import React, {useEffect} from 'react';
+import {AppRegistry, AppState} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
 import ProviderTheme from './src/context/ThemeContext';
@@ -15,6 +15,10 @@ import {thunkGetSellPoints} from './src/redux/sellPoints/sellPointsReducer';
 import I18n from 'react-native-i18n';
 import en from './src/assets/translations/en';
 import uk from './src/assets/translations/uk';
+import {refreshUser} from './src/redux/user/userReducer';
+import service from './src/services/service';
+import {actionsCart} from './src/redux/cart/cartReducer';
+import {DEFAULT_NAME_SETTING} from './src/constants/constantsId';
 
 I18n.defaultLocale = "uk";
 I18n.fallbacks = true;
@@ -29,6 +33,22 @@ store.store.dispatch(thunkGetCustomCategories);
 store.store.dispatch(thunkGetTags);
 store.store.dispatch(fetchGetAllSettings);
 store.store.dispatch(thunkGetSellPoints);
+
+const handleAppStateChange = async (nextAppState) => {
+  if (nextAppState === 'background' || nextAppState === 'inactive') {
+    const items = store.store.getState().cart.data;
+    const id = store.store.getState().other.settings[DEFAULT_NAME_SETTING].default_price_sell_point;
+
+    if(items.length > 0) {
+      await service.saveCart(items, id);
+    }
+    else {
+      await service.deleteCart();
+    }
+  }
+};
+
+AppState.addEventListener('change', handleAppStateChange);
 
 export const getToken = () => {
   return store.store.getState().user.token;

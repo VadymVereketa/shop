@@ -7,7 +7,7 @@ import {
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import MyText from './MyText';
 import React, {useRef, useState} from 'react';
-import DesignIcon from '../common/DesignIcon';
+import DesignIcon, {IDesignIconProps, IName} from '../common/DesignIcon';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {getFontFamily} from '../../utils/getFontFamily';
 import IconButton from './IconButton';
@@ -19,6 +19,7 @@ interface IPressTitleProps extends TouchableWithoutFeedbackProps {
   styleText?: StyleProp<TextStyle>;
   expand?: boolean;
   isBorder?: boolean;
+  afterIcon?: IDesignIconProps;
 }
 const PressTitle = ({
   style = {},
@@ -27,6 +28,7 @@ const PressTitle = ({
   isBorder = false,
   onPress,
   children,
+  afterIcon,
 }: IPressTitleProps) => {
   const rotate = useRef(new Animated.Value(90)).current;
   const [isRotate, setIsRotate] = useState(false);
@@ -61,20 +63,28 @@ const PressTitle = ({
       ]}
       onPress={handlePress}>
       <MyText style={[styles.text, styleText]}>{children}</MyText>
-      {expand ? (
-        <Animated.View
-          style={{
-            justifyContent: 'center',
-            transform: [
-              {
-                rotate: concat(rotate, 'deg'),
-              },
-            ],
-          }}>
+      {!afterIcon ? (
+        expand ? (
+          <Animated.View
+            style={{
+              justifyContent: 'center',
+              transform: [
+                {
+                  rotate: concat(rotate, 'deg'),
+                },
+              ],
+            }}>
+            <DesignIcon name={'next'} size={sizes[8]} fill={text} />
+          </Animated.View>
+        ) : (
           <DesignIcon name={'next'} size={sizes[8]} fill={text} />
-        </Animated.View>
+        )
       ) : (
-        <DesignIcon name={'next'} size={sizes[8]} fill={text} />
+        <DesignIcon
+          name={afterIcon.name}
+          size={afterIcon.size}
+          fill={afterIcon.fill}
+        />
       )}
     </TouchableWithoutFeedback>
   );

@@ -6,6 +6,7 @@ import cartReducer from './cart/cartReducer';
 import {ICartState} from './cart/cartTypes';
 import {IOtherState} from './other/otherTypes';
 import otherReducer from './other/otherReducer';
+import typesReducer from './types/typeReducer';
 import {IUserState} from './user/userTypes';
 import userReducer from './user/userReducer';
 import {IOrderState} from './order/orderTypes';
@@ -13,6 +14,7 @@ import orderReducer from './order/orderReducer';
 import {ISellPointsState} from './sellPoints/sellPointsTypes';
 import sellPointsReducer from './sellPoints/sellPointsReducer';
 import AsyncStorage from '@react-native-community/async-storage';
+import {ITypeState} from './types/typeTypes';
 
 const otherPersistConfig = {
   key: 'other',
@@ -33,6 +35,7 @@ export interface RootState {
   user: IUserState;
   order: IOrderState;
   sellPoints: ISellPointsState;
+  types: ITypeState;
 }
 
 export default combineReducers({
@@ -42,4 +45,5 @@ export default combineReducers({
   user: persistReducer(userPersistConfig, userReducer),
   order: orderReducer,
   sellPoints: sellPointsReducer,
+  types: typesReducer,
 });

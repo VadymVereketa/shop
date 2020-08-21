@@ -41,6 +41,11 @@ const MenuScreen = ({navigation}: MenuScreenProps) => {
             </View>
           </View>
           <PressTitle
+            onPress={() =>
+              navigation.navigate('MenuNavigator', {
+                screen: 'Profile',
+              })
+            }
             style={[
               styles.itemMenu,
               styles.itemMenuBorder,
@@ -49,10 +54,24 @@ const MenuScreen = ({navigation}: MenuScreenProps) => {
             isBorder>
             {t('profileTitle')}
           </PressTitle>
-          <PressTitle style={styles.itemMenu} isBorder>
+          <PressTitle
+            onPress={() =>
+              navigation.navigate('MenuNavigator', {
+                screen: 'Orders',
+              })
+            }
+            style={styles.itemMenu}
+            isBorder>
             {t('profileMyOrders')}
           </PressTitle>
-          <PressTitle style={styles.itemMenu} isBorder>
+          <PressTitle
+            onPress={() =>
+              navigation.navigate('MenuNavigator', {
+                screen: 'Settings',
+              })
+            }
+            style={styles.itemMenu}
+            isBorder>
             {t('profileSettings')}
           </PressTitle>
 

@@ -16,6 +16,8 @@ import {
   Location,
   IDeliveryPrice,
   ICard,
+  IDeliveryType,
+  IPaymentType,
 } from '../typings/FetchData';
 import {IGetProducts, IOrderPost} from '../typings/ServiceTypes';
 import queries from './queries';
@@ -152,17 +154,15 @@ const service = {
         };
       }),
       sellPoint: {
-        id: idSellPoint,
+        id: +idSellPoint,
       },
     };
     return await customFetch(() =>
-      instance.put<IUpdateCart>('clients/cart', data, {
-        withCredentials: true,
-      }),
+      instance.put<IUpdateCart>('clients/cart', data),
     );
   },
-  deleteCart: () => {
-    //todo delete cart
+  deleteCart: async () => {
+    return await customFetch(() => instance.delete('clients/cart'));
   },
   getCart: async () => {
     try {
@@ -400,6 +400,16 @@ const service = {
     };
     return await customFetch(() =>
       instance.get<IDeliveryPrice[]>('delivery_prices' + buildQuery({filter})),
+    );
+  },
+  getDeliveryTypes: async () => {
+    return await customFetch(() =>
+      instance.get<IDeliveryType[]>(queries.getDeliveryTypes().url!),
+    );
+  },
+  getPaymentsTypes: async () => {
+    return await customFetch(() =>
+      instance.get<IPaymentType[]>(queries.getPaymentTypes().url!),
     );
   },
   resetPassword: async (phone: string) => {

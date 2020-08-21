@@ -74,6 +74,7 @@ const selectorsOrder = {
   getStatusPayment: (state: RootState) => state.order.statusPayment,
   getIsEditable: (state: RootState) =>
     state.order.statusPayment !== StatusPayment.payment,
+  getDeliveryType: (state: RootState) => state.order.deliveryType,
 };
 
 export {actionsOrder, selectorsOrder};

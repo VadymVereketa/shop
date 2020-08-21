@@ -6,9 +6,7 @@ const instance = axios.create({
   baseURL: config.baseURL,
   //withCredentials: true
 });
-//%27%25D1%2581%25D0%25B0%27
-//%27%25D1%2581%25D0%25B0%27
-//'%2525D1%252581%2525D0%2525B0'
+
 instance.interceptors.request.use(
   (value) => {
     const token = getToken();
@@ -17,6 +15,7 @@ instance.interceptors.request.use(
       'Accept-Language': getLocale() || 'uk',
       ...(token ? {Authorization: `Bearer ${token}`} : {}),
     };
+    console.log(value);
     return value;
   },
   (error) => {
@@ -29,6 +28,7 @@ instance.interceptors.response.use(
     return value;
   },
   (error) => {
+    console.log({error});
     if (
       !(error.response && error.response.data && error.response.data.message)
     ) {
