@@ -26,9 +26,7 @@ const borderRadius = sizes[1];
 
 const ProductItem = ({product}: IProductItemProps) => {
   const navigation = useNavigation<ProductScreenNavigationProp>();
-  const w = useResponsiveWidth(100);
   const {background} = useTheme();
-  const [layout, setLayout] = useState({height: 100, width: w});
   const {formatPrice} = useFormattingContext();
   const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
   const index = getIndexProductOption(product, ID_SELL_POINT);
@@ -39,20 +37,6 @@ const ProductItem = ({product}: IProductItemProps) => {
   let available = price !== 0;
   const productImage: IImgProduct =
     (product.productImages && product.productImages[0]) || {};
-
-  const shadowOpt = {
-    width: layout.width,
-    height: layout.height,
-    color: '#a0a0a0',
-    border: 3,
-    radius: borderRadius,
-    opacity: 0.1,
-    x: 0,
-    y: 1,
-    style: {
-      position: 'absolute',
-    },
-  };
 
   const handlePress = () => {
     navigation.push('SecondaryNavigator', {
@@ -65,8 +49,7 @@ const ProductItem = ({product}: IProductItemProps) => {
   };
 
   return (
-    <View onLayout={(e) => setLayout(e.nativeEvent.layout)} style={styles.con}>
-      <BoxShadow setting={shadowOpt} />
+    <View style={styles.con}>
       <Image
         source={getUrlImg(productImage.uuid)}
         resizeMode={'contain'}
@@ -93,6 +76,15 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     flex: 1,
+    borderRadius: 3,
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    elevation: 2,
+    backgroundColor: 'white',
   },
   image: {
     height: (Math.min(window.height, window.width) * 25) / 100,

@@ -17,14 +17,12 @@ import Animated, {Easing, timing} from 'react-native-reanimated';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import CartItem from '../../common/CartItem';
 
-const window = Dimensions.get('window');
 const h = sizes[100] + sizes[50];
 
 const SecondStepScreen = (props: any) => {
   const offsetY = useRef(new Animated.Value(-h)).current;
   const [isShow, setIsShow] = useState(false);
   const insets = useSafeAreaInsets();
-  const w = useResponsiveWidth(100);
   const sum = useSelector(selectorsCart.getGeneralSum);
   const items = useSelector(selectorsCart.getCartProducts);
   const {border} = useTheme();
@@ -42,25 +40,12 @@ const SecondStepScreen = (props: any) => {
     }).start();
   }, [isShow]);
 
-  const shadowOpt = {
-    width: Math.max(window.width, window.height) + (insets.left + insets.right),
-    height: sizes[65],
-    color: '#a0a0a0',
-    border: 5,
-    radius: 0,
-    opacity: 0.2,
-    x: 0,
-    y: 0,
-    style: {
-      backgroundColor: 'white',
-      marginRight: -insets.right,
-      marginLeft: -insets.left,
-      maxWidth: '100%',
-    },
-  };
-
   return (
-    <SafeAreaView style={[styles.container, {marginTop: -insets.top}]}>
+    <SafeAreaView
+      style={[
+        styles.container,
+        {marginTop: -insets.top, marginBottom: -insets.bottom},
+      ]}>
       <ScrollView
         style={{marginBottom: isShow ? 0 : -h}}
         bounces={false}
@@ -105,7 +90,11 @@ const SecondStepScreen = (props: any) => {
           styles.bottomBlock,
           {
             backgroundColor: 'white',
-            borderTopColor: border,
+            paddingBottom: insets.bottom || sizes[5],
+            paddingLeft: insets.left || sizes[5],
+            paddingRight: insets.right || sizes[5],
+            marginLeft: -insets.left,
+            marginRight: -insets.right,
           },
         ]}>
         <View style={styles.price}>
@@ -134,10 +123,16 @@ const styles = StyleSheet.create({
     marginHorizontal: sizes[5],
   },
   bottomBlock: {
-    paddingBottom: sizes[20],
     paddingRight: sizes[5],
     paddingLeft: sizes[5],
-    borderTopWidth: 1,
+    paddingBottom: sizes[5],
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    elevation: 15,
   },
   btn: {
     fontSize: sizes[9],

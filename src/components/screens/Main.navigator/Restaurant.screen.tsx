@@ -11,7 +11,7 @@ import {RestaurantScreenProps} from '../../navigators/Main.navigator';
 import {sizes, useTheme, widths} from '../../../context/ThemeContext';
 import {Dimensions} from 'react-native';
 import {FlatGrid} from 'react-native-super-grid';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import Header from '../../common/Header';
 import {useFormattingContext} from '../../../context/FormattingContext';
 import {useSelector} from 'react-redux';
@@ -23,32 +23,14 @@ import {IImgProduct, IProduct} from '../../../typings/FetchData';
 import service from '../../../services/service';
 import {useAxios} from '../../../useHooks/useAxios';
 import {getFontFamily} from '../../../utils/getFontFamily';
-import {
-  responsiveHeight,
-  responsiveWidth,
-  useResponsiveWidth,
-} from 'react-native-responsive-dimensions';
+import {useResponsiveWidth} from 'react-native-responsive-dimensions';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import ProductItem from '../../product/ProductItem';
-import {BoxShadow} from 'react-native-shadow';
-
-const window = Dimensions.get('window');
-const width = Math.min(window.width, window.height);
+import {FlatList} from 'react-native-gesture-handler';
 
 const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
   const perPage = 12;
   const w = useResponsiveWidth(100);
-  const shadowOpt = {
-    width: w,
-    height: 0,
-    color: '#a0a0a0',
-    border: 3,
-    radius: 0,
-    opacity: 0.3,
-    x: 0,
-    y: 0,
-    style: {},
-  };
   const insets = useSafeAreaInsets();
   const HEADER_HEIGHT = useRef(0);
   const categories = route.params.categories;
@@ -118,19 +100,15 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
   };
 
   return (
-    <View
+    <SafeAreaView
       style={[
         styles.container,
         {
-          paddingRight: insets.right,
-          paddingLeft: insets.left,
+          marginBottom: -insets.bottom,
         },
       ]}>
       <View
-        style={{
-          position: 'absolute',
-          zIndex: 100,
-        }}
+        style={styles.header}
         onLayout={(e) => {
           if (HEADER_HEIGHT.current === 0) {
             HEADER_HEIGHT.current = e.nativeEvent.layout.height;
@@ -147,7 +125,6 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
           currentId={idCategory}
           onPress={handlePress}
         />
-        <BoxShadow setting={shadowOpt} />
       </View>
       {!isLoading && countItems === 0 ? (
         <View
@@ -164,20 +141,21 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
           )}
         </View>
       ) : (
-        <FlatGrid
+        <FlatList
           scrollEnabled={!isShow}
-          itemDimension={width / Math.max(Math.floor(width / 260), 2)}
           data={products}
           bounces={false}
           contentContainerStyle={[
             styles.gridView,
             {
               paddingTop: HEADER_HEIGHT.current,
+              marginTop: -insets.top,
             },
           ]}
           onScroll={handleEventScroll}
           scrollEventThrottle={16}
-          spacing={-1}
+          numColumns={Math.max(Math.min(Math.floor(w / 230), 4), 2)}
+          key={Math.max(Math.min(Math.floor(w / 230), 4), 2)}
           renderItem={({item}) => (
             <View key={item.id} style={[styles.itemContainer]}>
               <ProductItem product={item} />
@@ -185,7 +163,7 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
           )}
         />
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -197,6 +175,18 @@ const styles = StyleSheet.create({
   itemContainer: {
     flex: 1,
     margin: sizes[5],
+  },
+  header: {
+    position: 'absolute',
+    zIndex: 100,
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    shadowOffset: {
+      height: 0,
+      width: 0,
+    },
+    elevation: 5,
+    backgroundColor: 'white',
   },
 });
 
