@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {ICartItem} from '../../typings/FetchData';
+import {ICartItem, IPurchase} from '../../typings/FetchData';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectorsOrder} from '../../redux/order/orderReducer';
 import {actionsCart, selectorsCart} from '../../redux/cart/cartReducer';
@@ -26,28 +26,10 @@ interface ICartItemProps {
 }
 
 const CartItem = ({defaultSellPoint, item, isEdit = true}: ICartItemProps) => {
-  const navigation = useNavigation<any>();
-  const offsetY = useRef(new Animated.Value(0)).current;
-  const {width} = Dimensions.get('window');
-  const [willRemove, setWillRemove] = useState(false);
-  const dispatch = useDispatch();
-  const {text, border, background} = useTheme();
   const step = useSelector(selectorsOrder.getStep);
   const idSellPoint = useSelector(selectorsCart.getIdSellPoint);
-  const {formatPrice, formatUnit} = useFormattingContext();
   const {product} = item;
   const isWeightUnit = product.units === ID_UNIT_WEIGHT;
-
-  const removeItem = () => {
-    setWillRemove(true);
-    timing(offsetY, {
-      toValue: -width,
-      duration: 400,
-      easing: Easing.ease,
-    }).start(() => {
-      dispatch(actionsCart.removeProduct(+product.id));
-    });
-  };
 
   const index = getIndexProductOption(
     item.product,
@@ -59,6 +41,90 @@ const CartItem = ({defaultSellPoint, item, isEdit = true}: ICartItemProps) => {
     item.product.productImages.length > 0
       ? item.product.productImages[0].uuid
       : null;
+
+  return (
+    <ViewProductItem
+      id={product.id}
+      imgId={imgId}
+      isEdit={isEdit}
+      item={item}
+      title={product.title}
+      price={quantityPrice}
+      count={+item.count}
+      units={product.units}
+      comment={item.comment}
+    />
+  );
+};
+
+interface IPurchaseItemProps {
+  item: IPurchase;
+}
+
+const PurchaseItem = ({item}: IPurchaseItemProps) => {
+  const {product} = item;
+
+  const quantityPrice = +item.price * +item.count;
+  const imgId =
+    item.product.productImages.length > 0
+      ? item.product.productImages[0].uuid
+      : null;
+
+  return (
+    <ViewProductItem
+      id={product.id}
+      imgId={imgId}
+      isEdit={false}
+      item={null as any}
+      title={product.title}
+      price={quantityPrice}
+      count={+item.count}
+      units={product.units}
+      comment={item.comment}
+    />
+  );
+};
+
+interface IViewProductItemProps {
+  id: number;
+  isEdit?: boolean;
+  item?: ICartItem;
+  imgId: any;
+  title: string;
+  count: number;
+  price: number;
+  units: any;
+  comment: string;
+}
+const ViewProductItem = ({
+  comment,
+  count,
+  id,
+  imgId,
+  isEdit,
+  price,
+  title,
+  units,
+  item,
+}: IViewProductItemProps) => {
+  const {width} = Dimensions.get('window');
+  const [willRemove, setWillRemove] = useState(false);
+  const dispatch = useDispatch();
+  const offsetY = useRef(new Animated.Value(0)).current;
+  const {formatPrice, formatUnit} = useFormattingContext();
+  const navigation = useNavigation<any>();
+  const {text, border, background} = useTheme();
+
+  const removeItem = () => {
+    setWillRemove(true);
+    timing(offsetY, {
+      toValue: -width,
+      duration: 400,
+      easing: Easing.ease,
+    }).start(() => {
+      dispatch(actionsCart.removeProduct(id));
+    });
+  };
 
   return (
     <Animated.View
@@ -92,30 +158,30 @@ const CartItem = ({defaultSellPoint, item, isEdit = true}: ICartItemProps) => {
               height: sizes[25],
             }}
           />
-          <MyText style={styles.title}>{product.title}</MyText>
+          <MyText style={styles.title}>{title}</MyText>
         </View>
         <View style={styles.viewPrice}>
           {isEdit ? (
-            <CartCountItem item={item} />
+            <CartCountItem item={item!} />
           ) : (
-            <MyText style={styles.textPrice}>
-              {formatUnit(item.count, product.units)}
+            <MyText style={{fontFamily: getFontFamily('500')}}>
+              {formatUnit(count, units)}
             </MyText>
           )}
-          <MyText style={styles.textPrice}>{formatPrice(quantityPrice)}</MyText>
+          <MyText style={styles.textPrice}>{formatPrice(price)}</MyText>
         </View>
         <TouchableOpacity
           style={{flexDirection: 'row'}}
-          onPress={() =>
+          onPress={() => {
             navigation.navigate('SecondaryNavigator', {
               screen: 'CommentCart',
               params: {
                 item,
               },
-            })
-          }>
-          {isEdit &&
-            (item.comment === '' ? (
+            });
+          }}>
+          {isEdit ? (
+            comment === '' ? (
               <React.Fragment>
                 <DesignIcon
                   name={'comment'}
@@ -130,9 +196,17 @@ const CartItem = ({defaultSellPoint, item, isEdit = true}: ICartItemProps) => {
             ) : (
               <React.Fragment>
                 <MyText style={styles.titleComment}>{t('cartComment')}:</MyText>
-                <MyText>{item.comment}</MyText>
+                <MyText>{comment}</MyText>
               </React.Fragment>
-            ))}
+            )
+          ) : (
+            comment && (
+              <React.Fragment>
+                <MyText style={styles.titleComment}>{t('cartComment')}:</MyText>
+                <MyText>{comment}</MyText>
+              </React.Fragment>
+            )
+          )}
         </TouchableOpacity>
       </View>
     </Animated.View>
@@ -162,10 +236,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: sizes[5],
-    marginBottom: sizes[10],
+    marginBottom: sizes[5],
   },
   textPrice: {
-    fontSize: sizes[12],
+    fontSize: sizes[9],
     fontFamily: getFontFamily('500'),
   },
   titleComment: {
@@ -173,4 +247,5 @@ const styles = StyleSheet.create({
     fontFamily: getFontFamily('500'),
   },
 });
+export {PurchaseItem};
 export default CartItem;

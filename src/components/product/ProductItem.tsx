@@ -52,7 +52,7 @@ const ProductItem = ({product}: IProductItemProps) => {
     <View style={styles.con}>
       <Image
         source={getUrlImg(productImage.uuid)}
-        resizeMode={'contain'}
+        resizeMode={'cover'}
         style={styles.image}
       />
       <View style={[styles.content, {backgroundColor: background}]}>

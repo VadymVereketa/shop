@@ -1,12 +1,9 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-} from 'react-native-gesture-handler';
-import {StyleSheet, TouchableWithoutFeedbackProps} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {StyleSheet, TouchableOpacityProps} from 'react-native';
 import DesignIcon, {IDesignIconProps} from '../common/DesignIcon';
 
-interface IIconButtonProps extends TouchableWithoutFeedbackProps {
+interface IIconButtonProps extends TouchableOpacityProps {
   icon: IDesignIconProps;
 }
 const IconButton = ({icon, style = {}, ...props}: IIconButtonProps) => {
@@ -19,7 +16,6 @@ const IconButton = ({icon, style = {}, ...props}: IIconButtonProps) => {
 
 const styles = StyleSheet.create({
   con: {
-    flex: 1,
     justifyContent: 'center',
   },
 });

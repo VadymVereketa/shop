@@ -10,11 +10,12 @@ const init: IUserState = {
   error: false,
   isLoading: false,
   token: null,
+  isAuth: false,
 };
 
 const creator = new CreatorReducer<IUserActions, IUserState>('user');
 creator.addAction('logout', (state, action) => {
-  return {...state, data: null};
+  return {...state, token: null, isAuth: false};
 });
 creator.addAction<IUser>('updateUser', (state, action) => {
   const user = {...state.data, ...action.payload};
@@ -86,6 +87,9 @@ creator.addAction<ICard[]>('setCards', (state, action) => {
 creator.addAction('setToken', (state, action) => {
   return {...state, token: action.payload};
 });
+creator.addAction('setAuth', (state, action) => {
+  return {...state, isAuth: action.payload};
+});
 const actionsUser = creator.createActions();
 
 const fetchLogin = (phone: string, password: string) => async (
@@ -98,6 +102,7 @@ const fetchLogin = (phone: string, password: string) => async (
       delete data.token;
       dispatch(actionsUser.setToken(token));
       dispatch(actionsUser.setData(data));
+      dispatch(actionsUser.setAuth(true));
     },
   )(dispatch);
 };
@@ -133,8 +138,9 @@ const refreshUser = async (dispatch: any) => {
   const res = await service.refreshUser();
   if (res) {
     dispatch(actionsUser.setData(res));
+    dispatch(actionsUser.setAuth(true));
   } else {
-    dispatch(actionsUser.setToken(null));
+    dispatch(actionsUser.logout());
   }
 };
 
@@ -142,7 +148,7 @@ const selectorsUser = {
   getUser: (state: RootState) => state.user.data,
   getError: (state: RootState) => state.user.error,
   getLoading: (state: RootState) => state.user.isLoading,
-  isAuth: (state: RootState) => state.user.data !== null,
+  isAuth: (state: RootState) => state.user.isAuth,
   getAddressById: (id?: number | null) => (state: RootState) => {
     if (state.user.data)
       return state.user.data!.addresses.find((a) => a.id === id);

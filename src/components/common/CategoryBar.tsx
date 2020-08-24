@@ -19,18 +19,14 @@ const CategoryBar = ({tags, currentId, onPress}: ICategoryBarProps) => {
   return (
     <View
       style={{
-        paddingVertical: sizes[8],
+        marginBottom: sizes[8],
+        marginTop: sizes[3],
         paddingRight: insets.right ? insets.right : sizes[5],
         paddingLeft: insets.left ? insets.left : sizes[5],
         backgroundColor: background,
         zIndex: 1,
       }}>
-      <ScrollView
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          marginHorizontal: -sizes[3],
-        }}>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {tags.map((t) => {
           return (
             <MyButton

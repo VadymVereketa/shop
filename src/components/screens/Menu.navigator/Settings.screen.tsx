@@ -6,12 +6,15 @@ import {sizes, useTheme} from '../../../context/ThemeContext';
 import MyText from '../../controls/MyText';
 import {useFormattingContext} from '../../../context/FormattingContext';
 
-const SettingsScreen = (props: SettingsScreenProps) => {
+const SettingsScreen = ({navigation}: SettingsScreenProps) => {
   const {border, primary, background} = useTheme();
   const {currentLocale, setLocale} = useFormattingContext();
   return (
     <View style={[styles.container]}>
-      <PressTitle style={styles.itemMenu} isBorder>
+      <PressTitle
+        style={styles.itemMenu}
+        isBorder
+        onPress={() => navigation.push('ChangePassword', {})}>
         Змінити пароль
       </PressTitle>
       <PressTitle style={styles.itemMenu} isBorder>

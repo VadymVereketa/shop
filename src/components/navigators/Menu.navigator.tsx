@@ -18,15 +18,31 @@ import OrdersScreen from '../screens/Menu.navigator/Orders.screen';
 import IconButton from '../controls/IconButton';
 import {sizes} from '../../context/ThemeContext';
 import t from '../../utils/translate';
+import {useSelector} from 'react-redux';
+import {selectorsUser} from '../../redux/user/userReducer';
+import {IOrderItem, ISellPoint} from '../../typings/FetchData';
+import OrderScreen from '../screens/Menu.navigator/Order.screen';
+import MenuScreen from '../screens/Main.navigator/Menu.screen';
+import ResultScreen from '../screens/Menu.navigator/Result.screen';
 
 export type MenuNavigatorParamList = {
   Certificate: {};
   ChangePassword: {};
-  Location: {};
+  Location: {
+    sellPoint: ISellPoint;
+  };
   LoyaltyCard: {};
   Profile: {};
   Settings: {};
   Orders: {};
+  Order: {
+    item: IOrderItem;
+  };
+  Result: {
+    title: string;
+    navigator: string;
+    screen: string;
+  };
 };
 
 /// Certificate props
@@ -116,8 +132,8 @@ export type SettingsScreenProps = {
 };
 /// Settings props
 
-/// Settings props
-type OrdersScreenNavigationProp = CompositeNavigationProp<
+/// Orders props
+export type OrdersScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<MenuNavigatorParamList, 'Orders'>,
   StackNavigationProp<StartNavigatorParamList>
 >;
@@ -127,7 +143,33 @@ export type OrdersScreenProps = {
   route: OrdersScreenRouteProp;
   navigation: OrdersScreenNavigationProp;
 };
-/// Settings props
+/// Orders props
+
+/// Order props
+type OrderScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MenuNavigatorParamList, 'Order'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type OrderScreenRouteProp = RouteProp<MenuNavigatorParamList, 'Order'>;
+
+export type OrderScreenProps = {
+  route: OrderScreenRouteProp;
+  navigation: OrderScreenNavigationProp;
+};
+/// Order props
+
+/// Result props
+type ResultScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MenuNavigatorParamList, 'Result'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type ResultScreenRouteProp = RouteProp<MenuNavigatorParamList, 'Result'>;
+
+export type ResultScreenProps = {
+  route: ResultScreenRouteProp;
+  navigation: ResultScreenNavigationProp;
+};
+/// Result props
 
 const Stack = createStackNavigator<MenuNavigatorParamList>();
 
@@ -173,12 +215,18 @@ const MenuNavigator = ({navigation}: SecondaryNavigatorScreenProps) => {
           title: t('profileMyOrders'),
         }}
       />
-      <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+      <Stack.Screen
+        name="ChangePassword"
+        component={ChangePasswordScreen}
+        options={{
+          title: t('profileChangePassword'),
+        }}
+      />
       <Stack.Screen
         name="Location"
         component={LocationScreen}
         options={{
-          title: t('profileLocations'),
+          title: t('profileLocation'),
         }}
       />
       <Stack.Screen
@@ -200,6 +248,20 @@ const MenuNavigator = ({navigation}: SecondaryNavigatorScreenProps) => {
         component={CertificateScreen}
         options={{
           title: t('profileCertificate'),
+        }}
+      />
+      <Stack.Screen
+        name="Order"
+        component={OrderScreen}
+        options={{
+          title: t('profileMyOrder'),
+        }}
+      />
+      <Stack.Screen
+        name="Result"
+        component={ResultScreen}
+        options={{
+          title: t('profileResult'),
         }}
       />
     </Stack.Navigator>

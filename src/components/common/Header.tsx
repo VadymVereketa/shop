@@ -66,6 +66,9 @@ const Header = ({isShow, setIsShow, onChange, initValue}: IHeaderProps) => {
       ]}>
       <Logo resizeMode={'cover'} width={sizes[38]} height={sizes[12]} />
       <IconButton
+        style={{
+          padding: sizes[5],
+        }}
         onPress={() => setIsShow(true)}
         icon={{
           name: 'search',

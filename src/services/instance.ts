@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '../config';
-import {getLocale, getToken} from '../../index';
+import {getLocale, getToken, logOut} from '../../index';
 
 const instance = axios.create({
   baseURL: config.baseURL,
@@ -15,7 +15,6 @@ instance.interceptors.request.use(
       'Accept-Language': getLocale() || 'uk',
       ...(token ? {Authorization: `Bearer ${token}`} : {}),
     };
-    console.log(value);
     return value;
   },
   (error) => {
@@ -28,7 +27,12 @@ instance.interceptors.response.use(
     return value;
   },
   (error) => {
-    console.log({error});
+    if (error.response.status === 401) {
+      const token = getToken();
+      if (token) {
+        logOut();
+      }
+    }
     if (
       !(error.response && error.response.data && error.response.data.message)
     ) {

@@ -80,7 +80,18 @@ const MenuScreen = ({navigation}: MenuScreenProps) => {
           </View>
           {sellPoints.map((s) => {
             return (
-              <PressTitle key={s.id} style={styles.itemMenu} isBorder>
+              <PressTitle
+                key={s.id}
+                style={styles.itemMenu}
+                isBorder
+                onPress={() => {
+                  navigation.push('MenuNavigator', {
+                    screen: 'Location',
+                    params: {
+                      sellPoint: s,
+                    },
+                  });
+                }}>
                 {s.name}
               </PressTitle>
             );

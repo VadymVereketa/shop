@@ -48,8 +48,12 @@ const StartNavigator = () => {
       {!isAuth && (
         <Stack.Screen name="AuthNavigator" component={AuthNavigator} />
       )}
-      <Stack.Screen name="MenuNavigator" component={MenuNavigator} />
-      <Stack.Screen name="OrderNavigator" component={OrderNavigator} />
+      {isAuth && (
+        <Stack.Screen name="MenuNavigator" component={MenuNavigator} />
+      )}
+      {isAuth && (
+        <Stack.Screen name="OrderNavigator" component={OrderNavigator} />
+      )}
     </Stack.Navigator>
   );
 };

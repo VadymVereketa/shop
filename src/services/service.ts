@@ -102,6 +102,9 @@ const service = {
   getProducts: async (opt: IGetProducts) => {
     return await customFetch(() => instance.get(queries.getProducts(opt).url!));
   },
+  getOrders: async (opt: {top: number; skip: number}) => {
+    return await customFetch(() => instance.get(queries.getOrders(opt).url!));
+  },
   login: async (phone: string, password: string) => {
     return await customFetch(() =>
       instance.post<IUser>('auth/login', {
@@ -119,13 +122,7 @@ const service = {
   },
   logout: async () => {
     try {
-      await instance.post(
-        'auth/logout',
-        {},
-        {
-          withCredentials: true,
-        },
-      );
+      await instance.post('auth/logout');
       return true;
     } catch (e) {
       return false;

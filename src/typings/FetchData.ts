@@ -78,6 +78,7 @@ export interface ISellPoint {
   description: string;
   isActive: boolean;
   img: string | null;
+  sellPointImage: IImgProduct | null;
 }
 
 export interface IUnit {

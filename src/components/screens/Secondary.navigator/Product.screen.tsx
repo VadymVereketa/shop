@@ -92,9 +92,7 @@ const ProductScreen = ({navigation, route}: ProductScreenProps) => {
       setIsShow(true);
       return;
     }
-    navigation.push('OrderNavigator', {
-      screen: 'FirstStep',
-    });
+    navigation.replace('OrderNavigator', {});
   };
 
   useDidUpdateEffect(() => {

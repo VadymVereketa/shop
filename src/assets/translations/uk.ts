@@ -19,12 +19,16 @@ const uk = {
   profileSignUp: 'Реєстрація',
   profileTitle: 'Профіль',
   profileMyOrders: 'Мої замовлення',
+  profileMyOrder: 'Замовлення',
   profileSettings: 'Налаштування',
   profileLocations: 'Локації',
+  profileLocation: 'Ресторан',
   profileCall: 'Дзвони з',
   profileLocaleData: 'Особисті дані',
   profileCertificate: 'Подарунковий сертифікат',
   profileLoyaltyCard: 'Карта лояльності',
+  profileChangePassword: 'Змінити пароль',
+  profileResult: 'Результат',
 
   cartTitle: 'Кошик',
   cartEmptyItems: 'Кошик порожній',
@@ -49,6 +53,15 @@ const uk = {
   tIPasswordLabel: 'Введіть пароль',
   tIPasswordPlaceholder: 'Введіть пароль',
 
+  tIPasswordOldLabel: 'Старий пароль',
+  tIPasswordOldPlaceholder: 'Введіть старий пароль',
+
+  tIPasswordNewLabel: 'Новий пароль',
+  tIPasswordNewPlaceholder: 'Введіть новий пароль',
+
+  tIPasswordRepeatLabel: 'Новий пароль',
+  tIPasswordRepeatPlaceholder: 'Повторіть новий пароль',
+
   tINameLabel: "Ім'я",
   tINamePlaceholder: "Введіть ім'я",
 
@@ -58,6 +71,8 @@ const uk = {
   checkPasswordMinLength: '8-м сімволів',
   checkPasswordLowerCase: 'прописна буква',
   checkPasswordMUpperCase: 'велика буква',
+
+  successPassword: 'Пароль успішно змінений',
 } as const;
 
 export type ITranslate = keyof typeof uk;

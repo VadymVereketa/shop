@@ -15,7 +15,7 @@ import {thunkGetSellPoints} from './src/redux/sellPoints/sellPointsReducer';
 import I18n from 'react-native-i18n';
 import en from './src/assets/translations/en';
 import uk from './src/assets/translations/uk';
-import {refreshUser} from './src/redux/user/userReducer';
+import {actionsUser, refreshUser} from './src/redux/user/userReducer';
 import service from './src/services/service';
 import {actionsCart} from './src/redux/cart/cartReducer';
 import {DEFAULT_NAME_SETTING} from './src/constants/constantsId';
@@ -56,6 +56,10 @@ export const getToken = () => {
 
 export const getLocale = () => {
   return store.store.getState().other.locale;
+};
+
+export const logOut = () => {
+  store.store.dispatch(actionsUser.logout());
 };
 
 const Main = () => {

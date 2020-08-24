@@ -65,6 +65,10 @@ const formatDate = (
   return arr.join(separator);
 };
 
+const formatTime = (d: Date) => {
+  return `${d.getHours()}:${d.getMinutes().toString().padStart(2, '0')}`;
+};
+
 const FormattingContext = React.createContext({} as IFormattingContext);
 
 const useFormattingContext = () => {
@@ -135,5 +139,5 @@ const ProviderFormattingContext: React.FC<IFormattingContextProps> = ({
   );
 };
 
-export {useFormattingContext, CONSTANTS_UNIT};
+export {useFormattingContext, CONSTANTS_UNIT, formatTime};
 export default ProviderFormattingContext;
