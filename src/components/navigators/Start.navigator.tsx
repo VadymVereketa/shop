@@ -8,6 +8,7 @@ import MenuNavigator from './Menu.navigator';
 import {useSelector} from 'react-redux';
 import {selectorsUser} from '../../redux/user/userReducer';
 import OrderNavigator from './Order.navigator';
+import {selectorsCart} from '../../redux/cart/cartReducer';
 
 export type StartNavigatorParamList = {
   MainNavigator: {};
@@ -41,6 +42,8 @@ const Stack = createStackNavigator<StartNavigatorParamList>();
 
 const StartNavigator = () => {
   const isAuth = useSelector(selectorsUser.isAuth);
+  const count = useSelector(selectorsCart.getGeneralCount);
+
   return (
     <Stack.Navigator initialRouteName={'MainNavigator'} headerMode="none">
       <Stack.Screen name="MainNavigator" component={MainNavigator} />
@@ -51,7 +54,7 @@ const StartNavigator = () => {
       {isAuth && (
         <Stack.Screen name="MenuNavigator" component={MenuNavigator} />
       )}
-      {isAuth && (
+      {isAuth && count !== 0 && (
         <Stack.Screen name="OrderNavigator" component={OrderNavigator} />
       )}
     </Stack.Navigator>

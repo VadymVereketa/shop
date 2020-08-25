@@ -21,8 +21,8 @@ const CategoryBar = ({tags, currentId, onPress}: ICategoryBarProps) => {
       style={{
         marginBottom: sizes[8],
         marginTop: sizes[3],
-        paddingRight: insets.right ? insets.right : sizes[5],
-        paddingLeft: insets.left ? insets.left : sizes[5],
+        paddingRight: insets.right ? insets.right : sizes[1],
+        paddingLeft: insets.left ? insets.left : sizes[1],
         backgroundColor: background,
         zIndex: 1,
       }}>

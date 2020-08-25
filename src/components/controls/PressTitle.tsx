@@ -13,6 +13,9 @@ import {getFontFamily} from '../../utils/getFontFamily';
 import IconButton from './IconButton';
 import Animated, {Easing, timing, concat} from 'react-native-reanimated';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
+import withPreventDoubleClick from '../../utils/withPreventDoubleClick';
+
+const TWF = withPreventDoubleClick(TouchableWithoutFeedback);
 
 interface IPressTitleProps extends TouchableWithoutFeedbackProps {
   children?: any;
@@ -52,7 +55,7 @@ const PressTitle = ({
   }, [isRotate]);
 
   return (
-    <TouchableWithoutFeedback
+    <TWF
       style={[
         styles.con,
         {
@@ -86,7 +89,7 @@ const PressTitle = ({
           fill={afterIcon.fill}
         />
       )}
-    </TouchableWithoutFeedback>
+    </TWF>
   );
 };
 

@@ -3,6 +3,7 @@ import {ICartActions, ICartState} from './cartTypes';
 import {RootState} from '../reducer';
 import {ICartItem} from '../../typings/FetchData';
 import service from '../../services/service';
+import {actionsUser} from '../user/userReducer';
 
 const init: ICartState = {
   data: [],
@@ -71,6 +72,8 @@ creator.addAction<number>('updateCart', (state, action) => {
   return {...state, idSellPoint: action.payload};
 });
 creator.addAction('clear', (state) => ({...init, data: []}));
+creator.addAction(actionsUser.logout, (state) => ({...init, data: []}));
+
 const actionsCart = creator.createActions();
 const selectorsCart = {
   getCartProducts: (state: RootState) => state.cart.data,

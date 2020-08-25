@@ -23,16 +23,16 @@ import {IImgProduct, IProduct} from '../../../typings/FetchData';
 import service from '../../../services/service';
 import {useAxios} from '../../../useHooks/useAxios';
 import {getFontFamily} from '../../../utils/getFontFamily';
-import {useResponsiveWidth} from 'react-native-responsive-dimensions';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import ProductItem from '../../product/ProductItem';
-import {FlatList} from 'react-native-gesture-handler';
+
+const window = Dimensions.get('window');
+const width = Math.min(window.width, window.height);
 
 const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
   const perPage = 12;
-  const w = useResponsiveWidth(100);
   const insets = useSafeAreaInsets();
-  const HEADER_HEIGHT = useRef(0);
+  const HEADER_HEIGHT = sizes[55];
   const categories = route.params.categories;
   const [idCategory, setIdCategory] = useState(-1);
   const [isShow, setIsShow] = useState(false);
@@ -107,13 +107,7 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
           marginBottom: -insets.bottom,
         },
       ]}>
-      <View
-        style={styles.header}
-        onLayout={(e) => {
-          if (HEADER_HEIGHT.current === 0) {
-            HEADER_HEIGHT.current = e.nativeEvent.layout.height;
-          }
-        }}>
+      <View style={[styles.header]}>
         <Header
           isShow={isShow}
           setIsShow={setIsShow}
@@ -141,21 +135,20 @@ const RestaurantScreen = ({navigation, route}: RestaurantScreenProps) => {
           )}
         </View>
       ) : (
-        <FlatList
+        <FlatGrid
+          itemDimension={width / Math.max(Math.floor(width / 230), 2)}
+          spacing={-1}
           scrollEnabled={!isShow}
           data={products}
           bounces={false}
           contentContainerStyle={[
             styles.gridView,
             {
-              paddingTop: HEADER_HEIGHT.current,
-              marginTop: -insets.top,
+              paddingTop: HEADER_HEIGHT,
             },
           ]}
           onScroll={handleEventScroll}
           scrollEventThrottle={16}
-          numColumns={Math.max(Math.min(Math.floor(w / 230), 4), 2)}
-          key={Math.max(Math.min(Math.floor(w / 230), 4), 2)}
           renderItem={({item}) => (
             <View key={item.id} style={[styles.itemContainer]}>
               <ProductItem product={item} />
@@ -178,6 +171,8 @@ const styles = StyleSheet.create({
   },
   header: {
     position: 'absolute',
+    left: 0,
+    right: 0,
     zIndex: 100,
     shadowOpacity: 0.1,
     shadowRadius: 4,

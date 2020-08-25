@@ -17,6 +17,7 @@ import Logo from './Logo';
 import t from '../../utils/translate';
 
 const window = Dimensions.get('window');
+const height = Math.max(window.height, window.width);
 
 interface IHeaderProps {
   isShow: boolean;
@@ -50,7 +51,7 @@ const Header = ({isShow, setIsShow, onChange, initValue}: IHeaderProps) => {
 
   const translateY = interpolate(valueY, {
     inputRange: [HEIGHT.current, HEIGHT.current / 4],
-    outputRange: [-window.height, 0],
+    outputRange: [-height, 0],
     extrapolate: Extrapolate.CLAMP,
   });
 
@@ -59,8 +60,7 @@ const Header = ({isShow, setIsShow, onChange, initValue}: IHeaderProps) => {
       style={[
         styles.con,
         {
-          paddingTop: top ? top : sizes[7],
-          paddingRight: insets.right ? insets.right : sizes[5],
+          paddingTop: top ? top : 0,
           paddingLeft: insets.left ? insets.left : sizes[5],
         },
       ]}>
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: window.height,
+    height: height,
     position: 'absolute',
     opacity: 0.8,
     zIndex: 100,

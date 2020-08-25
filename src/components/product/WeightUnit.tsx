@@ -117,7 +117,7 @@ const WeightUnit = ({
     setWeight(n);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (isAlternativeCount) {
       addToCart(weight * +avgWeight!, weight);
     } else {
@@ -125,8 +125,8 @@ const WeightUnit = ({
     }
   };
 
-  const handleOrder = () => {
-    handleSubmit();
+  const handleOrder = async () => {
+    await handleSubmit();
     onOrder();
   };
 

@@ -12,6 +12,9 @@ import {
 } from 'react-native-gesture-handler';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import MyText from './MyText';
+import withPreventDoubleClick from '../../utils/withPreventDoubleClick';
+
+const TO = withPreventDoubleClick(TouchableOpacity);
 
 interface IMyButtonProps
   extends ContainedTouchableProperties,
@@ -60,7 +63,7 @@ const MyButton = ({
   }
 
   return (
-    <TouchableOpacity
+    <TO
       containerStyle={[
         styles.con,
         {
@@ -81,7 +84,7 @@ const MyButton = ({
       <MyText style={[styles.text, {color: color}, styleText]}>
         {children}
       </MyText>
-    </TouchableOpacity>
+    </TO>
   );
 };
 

@@ -66,7 +66,7 @@ const ProductScreen = ({navigation, route}: ProductScreenProps) => {
     (product.productImages && product.productImages[0]) || {};
   const title: ITranslate = isProductInCart ? 'btnHasInCart' : 'btnAddToCart';
 
-  const addProductToCart = (
+  const addProductToCart = async (
     count: number,
     alternativeCount: number | null = null,
   ) => {

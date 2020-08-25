@@ -45,12 +45,12 @@ const PortionUnit = ({
     );
   };
 
-  const handleSubmit = () => {
-    addToCart(count);
+  const handleSubmit = async () => {
+    await addToCart(count);
   };
 
-  const handleOrder = () => {
-    handleSubmit();
+  const handleOrder = async () => {
+    await handleSubmit();
     onOrder();
   };
 
