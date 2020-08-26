@@ -17,7 +17,6 @@ import {useFormattingContext} from '../../../context/FormattingContext';
 import {useSelector} from 'react-redux';
 import {selectorCategory} from '../../../redux/category/categoryReducer';
 import CategoryBar from '../../common/CategoryBar';
-import BoxView from '../../common/BoxView';
 import {selectorsOther} from '../../../redux/other/otherReducer';
 import {IImgProduct, IProduct} from '../../../typings/FetchData';
 import service from '../../../services/service';
@@ -25,6 +24,7 @@ import {useAxios} from '../../../useHooks/useAxios';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import ProductItem from '../../product/ProductItem';
+import SplashScreen from 'react-native-splash-screen';
 
 const window = Dimensions.get('window');
 const width = Math.min(window.width, window.height);
@@ -43,6 +43,10 @@ const RestaurantScreen = React.memo(
     const [search, setSearch] = useState('');
     const [products, setProducts] = useState([] as IProduct[]);
     const {isLoading, request} = useAxios(service.getProducts);
+
+    useEffect(() => {
+      SplashScreen.hide();
+    }, []);
 
     useEffect(() => {
       if (categories.length > 0) {

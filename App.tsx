@@ -5,8 +5,6 @@ import StartNavigator from './src/components/navigators/Start.navigator';
 import {AppState, Platform, StatusBar} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {refreshUser} from './src/redux/user/userReducer';
-import config from './src/config';
-import queries from './src/services/queries';
 import {actionsCart, selectorsCart} from './src/redux/cart/cartReducer';
 import {selectorsOther} from './src/redux/other/otherReducer';
 import service from './src/services/service';
