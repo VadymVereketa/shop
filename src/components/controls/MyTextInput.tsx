@@ -106,7 +106,14 @@ const MyTextInput = React.memo(
         {label && (
           <MyText style={[styles.textLabel, styleLabel]}>{label}</MyText>
         )}
-        <View style={[styles.con, {borderColor: isFocus ? primary : border}]}>
+        <View
+          style={[
+            styles.con,
+            {
+              borderColor: isFocus ? primary : border,
+              backgroundColor: background,
+            },
+          ]}>
           <TextInput
             selectionColor={primary}
             placeholderTextColor={lightText}
@@ -200,7 +207,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: sizes[1],
     flexDirection: 'row',
-    backgroundColor: 'white',
     paddingVertical: sizes[1],
   },
   textInput: {
@@ -219,7 +225,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     paddingHorizontal: paddingAfterIcon,
-    backgroundColor: 'white',
     borderRadius: sizes[1],
   },
   split: {

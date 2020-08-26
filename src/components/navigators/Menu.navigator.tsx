@@ -16,7 +16,7 @@ import CertificateScreen from '../screens/Menu.navigator/Certificate.screen';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/core';
 import OrdersScreen from '../screens/Menu.navigator/Orders.screen';
 import IconButton from '../controls/IconButton';
-import {sizes} from '../../context/ThemeContext';
+import {sizes, useTheme} from '../../context/ThemeContext';
 import t from '../../utils/translate';
 import {useSelector} from 'react-redux';
 import {selectorsUser} from '../../redux/user/userReducer';
@@ -175,6 +175,7 @@ const Stack = createStackNavigator<MenuNavigatorParamList>();
 
 const MenuNavigator = React.memo(
   ({navigation}: SecondaryNavigatorScreenProps) => {
+    const {text} = useTheme();
     return (
       <Stack.Navigator
         initialRouteName={'Profile'}
@@ -195,7 +196,7 @@ const MenuNavigator = React.memo(
                 icon={{
                   name: 'arrow',
                   size: sizes[10],
-                  fill: 'black',
+                  fill: text,
                 }}
               />
             );

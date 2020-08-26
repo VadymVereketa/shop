@@ -23,6 +23,7 @@ export interface IOtherState {
   connectKey: string;
   draftId: number | null;
   isGlobalSearch: string;
+  theme: 'light' | 'dark';
 }
 
 export interface Settings {

@@ -11,6 +11,8 @@ import {
 } from 'react-native-responsive-dimensions';
 import {getFontFamily} from '../utils/getFontFamily';
 import {Dimensions} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {actionsOther, selectorsOther} from '../redux/other/otherReducer';
 const window = Dimensions.get('window');
 
 export type Theme = 'dark' | 'light';
@@ -38,22 +40,27 @@ const useTheme = () => {
 };
 
 const ProviderTheme = ({children}: any) => {
-  const [theme, setTheme] = useState('light' as Theme);
+  const dispatch = useDispatch();
+  const theme = useSelector(selectorsOther.getTheme);
 
   const value: IThemeContext = useMemo(() => {
     const primary = theme === 'light' ? '#01a6e6' : '#01a6e6';
     const accent = theme === 'light' ? '#18aa13' : '#18aa13';
-    const background = theme === 'light' ? '#fff' : '#3c4162';
-    const lightBackground = theme === 'light' ? '#f2f4fa' : '#f2f4fa';
-    const lightText = theme === 'light' ? '#a0a9ba' : '#fff';
-    const darkText = theme === 'light' ? '#121826' : '#fff';
-    const text = theme === 'light' ? '#3c4162' : '#fff';
-    const border = theme === 'light' ? '#dadeea' : '#fff';
+    const background = theme === 'light' ? '#fff' : '#212126';
+    const lightBackground = theme === 'light' ? '#f2f4fa' : '#3c4162';
+    const lightText = theme === 'light' ? '#a0a9ba' : '#a0a9ba';
+    const darkText = theme === 'light' ? '#121826' : '#f3f4f8';
+    const text = theme === 'light' ? '#3c4162' : '#dadeea';
+    const border = theme === 'light' ? '#dadeea' : '#3c4162';
     const errorColor = theme === 'light' ? '#dc3545' : '#dc3545';
 
     return {
       onChangeTheme: (theme: Theme) => {
-        setTheme(theme);
+        dispatch(
+          actionsOther.setData({
+            theme,
+          }),
+        );
       },
       theme,
       primary,

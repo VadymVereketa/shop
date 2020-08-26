@@ -33,6 +33,7 @@ const RestaurantScreen = React.memo(
   ({navigation, route}: RestaurantScreenProps) => {
     const perPage = 12;
     const insets = useSafeAreaInsets();
+    const {background} = useTheme();
     const HEADER_HEIGHT = sizes[55];
     const categories = route.params.categories;
     const [idCategory, setIdCategory] = useState(-1);
@@ -112,7 +113,13 @@ const RestaurantScreen = React.memo(
             marginBottom: -insets.bottom,
           },
         ]}>
-        <View style={[styles.header]}>
+        <View
+          style={[
+            styles.header,
+            {
+              backgroundColor: background,
+            },
+          ]}>
           <Header
             isShow={isShow}
             setIsShow={setIsShow}
@@ -187,7 +194,6 @@ const styles = StyleSheet.create({
       width: 0,
     },
     elevation: 5,
-    backgroundColor: 'white',
   },
 });
 

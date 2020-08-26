@@ -26,7 +26,7 @@ const borderRadius = sizes[1];
 
 const ProductItem = React.memo(({product}: IProductItemProps) => {
   const navigation = useNavigation<ProductScreenNavigationProp>();
-  const {background} = useTheme();
+  const {background, text, lightBackground, theme} = useTheme();
   const {formatPrice} = useFormattingContext();
   const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
   const index = getIndexProductOption(product, ID_SELL_POINT);
@@ -49,13 +49,23 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
   };
 
   return (
-    <View style={styles.con}>
+    <View
+      style={[
+        styles.con,
+        {
+          shadowColor: text,
+        },
+      ]}>
       <Image
         source={getUrlImg(productImage.uuid)}
         resizeMode={'cover'}
         style={styles.image}
       />
-      <View style={[styles.content, {backgroundColor: background}]}>
+      <View
+        style={[
+          styles.content,
+          {backgroundColor: theme === 'dark' ? lightBackground : background},
+        ]}>
         <MyText style={styles.title}>{product.title}</MyText>
         <View>
           <MyText style={styles.price}>{formatPrice(price)}</MyText>
@@ -84,7 +94,6 @@ const styles = StyleSheet.create({
       width: 0,
     },
     elevation: 2,
-    backgroundColor: 'white',
   },
   image: {
     height: (Math.min(window.height, window.width) * 25) / 100,

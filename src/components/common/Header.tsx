@@ -30,7 +30,7 @@ const Header = React.memo(
     const HEIGHT = useRef(-200);
     const [search, setSearch] = useState('');
     const valueY = useRef(new Animated.Value(HEIGHT.current)).current;
-    const {text, background} = useTheme();
+    const {text, background, lightBackground, theme} = useTheme();
     const {top, ...insets} = useSafeAreaInsets();
 
     useDidUpdateEffect(() => {
@@ -63,6 +63,7 @@ const Header = React.memo(
           {
             paddingTop: top ? top : 0,
             paddingLeft: insets.left ? insets.left : sizes[5],
+            backgroundColor: background,
           },
         ]}>
         <Logo resizeMode={'cover'} width={sizes[38]} height={sizes[12]} />
@@ -81,7 +82,8 @@ const Header = React.memo(
           style={[
             styles.back,
             {
-              backgroundColor: text,
+              backgroundColor: theme === 'dark' ? lightBackground : text,
+
               transform: [
                 {
                   translateY,
@@ -153,7 +155,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     zIndex: 100,
-    backgroundColor: 'white',
   },
   back: {
     top: 0,

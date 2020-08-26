@@ -27,7 +27,7 @@ const config = (() => {
         canLink: 'http://huspi.com:3022',
         baseURL: 'http://egersund-uat.mobile-api.huspi.com/api/v1/',
         baseURLV2: 'http://egersund-uat.mobile-api.huspi.com/api/v2/',
-        baseURLCallback: 'http://huspi.com:3024/api/v1/',
+        baseURLCallback: 'https://huspi.com:3024/api/v1/',
         baseUrlImg: 'http://egersund-uat.mobile-api.huspi.com/api/v1/images/',
         payeeId: '25989',
       };

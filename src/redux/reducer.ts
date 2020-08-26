@@ -19,7 +19,7 @@ import {ITypeState} from './types/typeTypes';
 const otherPersistConfig = {
   key: 'other',
   storage: AsyncStorage,
-  whitelist: ['searchQueries', 'draftId', 'locale'],
+  whitelist: ['searchQueries', 'draftId', 'locale', 'theme'],
 };
 
 const userPersistConfig = {

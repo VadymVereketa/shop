@@ -52,7 +52,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
   const isProductInCart = useSelector(
     selectorsCart.checkProductInCart(product.id),
   );
-  const {border, text} = useTheme();
+  const {border, text, background, theme, lightBackground} = useTheme();
   const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
   const index = getIndexProductOption(product, ID_SELL_POINT);
   const price =
@@ -102,23 +102,6 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
       easing: Easing.ease,
     }).start();
   }, [isShow]);
-
-  const shadowOpt = {
-    width: w + (insets.right + insets.left),
-    height: sizes[65] + insets.bottom,
-    color: '#a0a0a0',
-    border: 40,
-    radius: 0,
-    opacity: 0.3,
-    x: 0,
-    y: -1,
-    style: {
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-    },
-  };
 
   const translateY = interpolate(offsetY, {
     inputRange: [0, 200],
@@ -171,7 +154,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
           style={[
             styles.back,
             {
-              backgroundColor: text,
+              backgroundColor: theme === 'dark' ? lightBackground : text,
               height: window.height,
               transform: [
                 {
@@ -189,7 +172,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
       {!isAuth && (
         <Animated.View
           style={{
-            backgroundColor: 'white',
+            backgroundColor: background,
             position: 'absolute',
             left: 0,
             right: 0,
@@ -201,47 +184,45 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
               },
             ],
           }}>
-          <BoxShadow setting={shadowOpt}>
+          <View
+            style={{
+              paddingLeft: insets.left || sizes[5],
+              paddingRight: insets.right || sizes[5],
+              paddingBottom: (insets.bottom + sizes[10]) * 1,
+              backgroundColor: background,
+            }}>
+            <MyText style={styles.text}>Щоб додати до кошика увійдіть</MyText>
             <View
               style={{
-                paddingLeft: insets.left || sizes[5],
-                paddingRight: insets.right || sizes[5],
-                paddingBottom: (insets.bottom + sizes[10]) * 1,
-                backgroundColor: 'white',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                backgroundColor: background,
               }}>
-              <MyText style={styles.text}>Щоб додати до кошика увійдіть</MyText>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  backgroundColor: 'white',
-                }}>
-                <MyButton
-                  containerStyle={{maxWidth: (w - sizes[20]) / 2}}
-                  styleText={styles.btn}
-                  type={'default'}
-                  onPress={() =>
-                    navigation.push('AuthNavigator', {
-                      screen: 'Login',
-                    })
-                  }
-                  isActive>
-                  Увiйдiть
-                </MyButton>
-                <MyButton
-                  containerStyle={{maxWidth: (w - sizes[20]) / 2}}
-                  styleText={styles.btn}
-                  onPress={() =>
-                    navigation.push('AuthNavigator', {
-                      screen: 'SignUp',
-                    })
-                  }
-                  type={'default'}>
-                  Реєстрація
-                </MyButton>
-              </View>
+              <MyButton
+                containerStyle={{maxWidth: (w - sizes[20]) / 2}}
+                styleText={styles.btn}
+                type={'default'}
+                onPress={() =>
+                  navigation.push('AuthNavigator', {
+                    screen: 'Login',
+                  })
+                }
+                isActive>
+                Увiйдiть
+              </MyButton>
+              <MyButton
+                containerStyle={{maxWidth: (w - sizes[20]) / 2}}
+                styleText={styles.btn}
+                onPress={() =>
+                  navigation.push('AuthNavigator', {
+                    screen: 'SignUp',
+                  })
+                }
+                type={'default'}>
+                Реєстрація
+              </MyButton>
             </View>
-          </BoxShadow>
+          </View>
         </Animated.View>
       )}
     </View>
@@ -267,7 +248,6 @@ const styles = StyleSheet.create({
     fontSize: sizes[9],
     fontFamily: getFontFamily('500'),
     paddingVertical: sizes[11],
-    backgroundColor: 'white',
   },
   btn: {
     fontSize: sizes[10],

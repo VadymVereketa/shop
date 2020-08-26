@@ -12,7 +12,7 @@ import {
 import {ICartItem, IProduct} from '../../typings/FetchData';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/core';
 import IconButton from '../controls/IconButton';
-import {sizes} from '../../context/ThemeContext';
+import {sizes, useTheme} from '../../context/ThemeContext';
 import CommentCartScreen from '../screens/Secondary.navigator/CommentCart.screen';
 
 export type SecondaryNavigatorParamList = {
@@ -40,6 +40,7 @@ const Stack = createStackNavigator();
 
 const SecondaryNavigator = React.memo(
   ({navigation}: SecondaryNavigatorScreenProps) => {
+    const {text} = useTheme();
     return (
       <Stack.Navigator
         initialRouteName={'Product'}
@@ -61,7 +62,7 @@ const SecondaryNavigator = React.memo(
                 icon={{
                   name: 'arrow',
                   size: sizes[10],
-                  fill: 'black',
+                  fill: text,
                 }}
               />
             );

@@ -13,7 +13,7 @@ import {
 import {ICartItem, IProduct} from '../../typings/FetchData';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/core';
 import IconButton from '../controls/IconButton';
-import {sizes} from '../../context/ThemeContext';
+import {sizes, useTheme} from '../../context/ThemeContext';
 import CommentCartScreen from '../screens/Secondary.navigator/CommentCart.screen';
 import FirstStepScreen from '../screens/Order.navigator/FirstStep.screen';
 import SecondStepScreen from '../screens/Order.navigator/SecondStep.screen';
@@ -82,6 +82,7 @@ export type FinalStepScreenProps = {
 const Stack = createStackNavigator<OrderNavigatorParamList>();
 
 const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
+  const {text} = useTheme();
   return (
     <Stack.Navigator
       initialRouteName={'FirstStep'}
@@ -99,7 +100,7 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
               icon={{
                 name: 'arrow',
                 size: sizes[10],
-                fill: 'black',
+                fill: text,
               }}
             />
           );

@@ -18,6 +18,7 @@ const init: IOtherState = {
   connectKey: '',
   draftId: null,
   isGlobalSearch: '',
+  theme: 'light',
 };
 const MAX = 5;
 
@@ -125,6 +126,9 @@ const selectorsOther = {
   },
   getIsGlobalSearch: (state: RootState) => {
     return state.other.isGlobalSearch;
+  },
+  getTheme: (state: RootState) => {
+    return state.other.theme;
   },
 };
 

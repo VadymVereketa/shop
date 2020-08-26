@@ -25,7 +25,7 @@ const SecondStepScreen = React.memo((props: any) => {
   const insets = useSafeAreaInsets();
   const sum = useSelector(selectorsCart.getGeneralSum);
   const items = useSelector(selectorsCart.getCartProducts);
-  const {border} = useTheme();
+  const {border, lightBackground, background, text} = useTheme();
   const {formatPrice} = useFormattingContext();
 
   const handleToggle = () => {
@@ -50,7 +50,10 @@ const SecondStepScreen = React.memo((props: any) => {
         style={{marginBottom: isShow ? 0 : -h}}
         bounces={false}
         scrollEnabled={!isShow}>
-        <PressTitle expand style={styles.order} onPress={handleToggle}>
+        <PressTitle
+          expand
+          style={[styles.order, {backgroundColor: lightBackground}]}
+          onPress={handleToggle}>
           Замовлення
         </PressTitle>
         <Animated.ScrollView
@@ -89,12 +92,13 @@ const SecondStepScreen = React.memo((props: any) => {
         style={[
           styles.bottomBlock,
           {
-            backgroundColor: 'white',
+            backgroundColor: background,
             paddingBottom: insets.bottom || sizes[5],
             paddingLeft: insets.left || sizes[5],
             paddingRight: insets.right || sizes[5],
             marginLeft: -insets.left,
             marginRight: -insets.right,
+            shadowColor: text,
           },
         ]}>
         <View style={styles.price}>

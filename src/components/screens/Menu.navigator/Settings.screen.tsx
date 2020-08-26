@@ -5,45 +5,74 @@ import PressTitle from '../../controls/PressTitle';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import MyText from '../../controls/MyText';
 import {useFormattingContext} from '../../../context/FormattingContext';
+import {ScrollView} from 'react-native-gesture-handler';
 
 const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
-  const {border, primary, background} = useTheme();
+  const {border, primary, background, theme, onChangeTheme} = useTheme();
   const {currentLocale, setLocale} = useFormattingContext();
   return (
     <View style={[styles.container]}>
-      <PressTitle
-        style={styles.itemMenu}
-        isBorder
-        onPress={() => navigation.push('ChangePassword', {})}>
-        Змінити пароль
-      </PressTitle>
-      <PressTitle style={styles.itemMenu} isBorder>
-        Залишити відгук про додаток
-      </PressTitle>
-      <View style={[styles.text, {borderBottomColor: border}]}>
-        <MyText style={{paddingLeft: sizes[6]}}>Мова додатка</MyText>
-      </View>
-      <PressTitle
-        style={styles.itemMenu}
-        onPress={() => setLocale('uk')}
-        isBorder
-        afterIcon={{
-          name: 'check-mark',
-          size: sizes[10],
-          fill: currentLocale === 'uk' ? primary : background,
-        }}>
-        Українська
-      </PressTitle>
-      <PressTitle
-        style={styles.itemMenu}
-        isBorder
-        afterIcon={{
-          name: 'check-mark',
-          size: sizes[10],
-          fill: currentLocale === 'en' ? primary : background,
-        }}>
-        Англійська
-      </PressTitle>
+      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+        <PressTitle
+          style={styles.itemMenu}
+          isBorder
+          onPress={() => navigation.push('ChangePassword', {})}>
+          Змінити пароль
+        </PressTitle>
+        <PressTitle style={styles.itemMenu} isBorder>
+          Залишити відгук про додаток
+        </PressTitle>
+        <View style={[styles.text, {borderBottomColor: border}]}>
+          <MyText style={{paddingLeft: sizes[6]}}>Мова додатка</MyText>
+        </View>
+        <PressTitle
+          style={styles.itemMenu}
+          onPress={() => setLocale('uk')}
+          isBorder
+          afterIcon={{
+            name: 'check-mark',
+            size: sizes[10],
+            fill: currentLocale === 'uk' ? primary : background,
+          }}>
+          Українська
+        </PressTitle>
+        <PressTitle
+          style={styles.itemMenu}
+          isBorder
+          afterIcon={{
+            name: 'check-mark',
+            size: sizes[10],
+            fill: currentLocale === 'en' ? primary : background,
+          }}>
+          Англійська
+        </PressTitle>
+
+        <View style={[styles.text, {borderBottomColor: border}]}>
+          <MyText style={{paddingLeft: sizes[6]}}>Тема додатка</MyText>
+        </View>
+        <PressTitle
+          style={styles.itemMenu}
+          onPress={() => onChangeTheme('light')}
+          isBorder
+          afterIcon={{
+            name: 'check-mark',
+            size: sizes[10],
+            fill: theme === 'light' ? primary : background,
+          }}>
+          Свiтла
+        </PressTitle>
+        <PressTitle
+          onPress={() => onChangeTheme('dark')}
+          style={styles.itemMenu}
+          isBorder
+          afterIcon={{
+            name: 'check-mark',
+            size: sizes[10],
+            fill: theme === 'dark' ? primary : background,
+          }}>
+          Темна
+        </PressTitle>
+      </ScrollView>
     </View>
   );
 });
@@ -56,7 +85,7 @@ const styles = StyleSheet.create({
     paddingVertical: sizes[9],
   },
   text: {
-    paddingTop: sizes[60],
+    paddingTop: sizes[30],
     paddingBottom: sizes[4],
     borderBottomWidth: 1,
   },

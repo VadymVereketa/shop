@@ -35,7 +35,7 @@ const CountInput = React.memo(
     value,
     style,
   }: ICountInputProps) => {
-    const {primary} = useTheme();
+    const {primary, lightBackground} = useTheme();
     const {formatUnit} = useFormattingContext();
     const min = isWeightUnit ? 0.01 : 1;
     const step = isWeightUnit ? 0.1 : 1;
@@ -121,7 +121,7 @@ const CountInput = React.memo(
     }, [value]);
 
     return (
-      <View style={[styles.con, style]}>
+      <View style={[styles.con, style, {backgroundColor: lightBackground}]}>
         <IconButton
           onPress={decr}
           icon={{
@@ -173,7 +173,6 @@ const CountInput = React.memo(
 const styles = StyleSheet.create({
   con: {
     flexDirection: 'row',
-    backgroundColor: '#f9f9f9',
     borderRadius: sizes[1],
     alignItems: 'center',
     flex: 1,
