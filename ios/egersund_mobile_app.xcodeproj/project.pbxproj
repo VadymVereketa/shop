@@ -16,8 +16,20 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* egersund_mobile_appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* egersund_mobile_appTests.m */; };
 		5391E7AA5FE94F00C47DDB88 /* libPods-egersund_mobile_app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 45CD7A6688F003D8EEAB5E0F /* libPods-egersund_mobile_app.a */; };
+		5BB4007F08264F69946E3480 /* FuturaPT-BoldObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B4AEE5E54ED47F4BB96083C /* FuturaPT-BoldObl.ttf */; };
+		5C2203C7949849DFAD85974E /* FuturaPT-DemiObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22878D59DD1E47D589CBA47A /* FuturaPT-DemiObl.ttf */; };
 		61032A45CA29F62E210401A8 /* libPods-egersund_mobile_app-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 696753BDE522CF16B67F38CA /* libPods-egersund_mobile_app-tvOS.a */; };
+		64968133987349C8B25C600E /* FuturaPT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89206D5F01DA4812BD9B5D94 /* FuturaPT-Bold.ttf */; };
+		6A1DC818BFF24FE7824B7E44 /* FuturaPT-MediumObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 564DAD8CC9CF4E5C95E0128C /* FuturaPT-MediumObl.ttf */; };
+		7731781BCF114A3A8FEEB4EB /* FuturaPT-LightObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A6CEF389CD134549AA28016C /* FuturaPT-LightObl.ttf */; };
+		7F45503B6B244F2691B9A960 /* FuturaPT-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2181673ACF8447928EA59D63 /* FuturaPT-Medium.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		83ED3383F15844FEA87FDEFA /* FuturaPT-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26D907E10C514D52872AE26F /* FuturaPT-ExtraBold.ttf */; };
+		939E3DBF50894F46AE1CF07D /* FuturaPT-BookObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D767A0C08AE54A44988F8F7A /* FuturaPT-BookObl.ttf */; };
+		9DFF6627984543FBBBB274E2 /* FuturaPT-ExtraBoldObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5343794B7C4C4B05B0E79AFA /* FuturaPT-ExtraBoldObl.ttf */; };
+		AA1E7DFE7AD34177A12EA43E /* FuturaPT-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88CB0477E4674C9EA6F67EEE /* FuturaPT-Light.ttf */; };
+		C565181994BD45BBA22FE813 /* FuturaPT-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F18BD4CEAB64568B2CB9491 /* FuturaPT-Demi.ttf */; };
+		C60B1860491342B19F60F0B2 /* FuturaPT-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 81D905DC6BFC4D4E8F45A253 /* FuturaPT-Book.ttf */; };
 		CD256961DD0B307F962CD38E /* libPods-egersund_mobile_app-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C74B0D99BE4526174C77DE07 /* libPods-egersund_mobile_app-tvOSTests.a */; };
 		F2D620DA5CDE050DA6ACAA56 /* libPods-egersund_mobile_app-egersund_mobile_appTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1399EF9C4815064025D61C56 /* libPods-egersund_mobile_app-egersund_mobile_appTests.a */; };
 /* End PBXBuildFile section */
@@ -51,20 +63,32 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = egersund_mobile_app/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = egersund_mobile_app/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = egersund_mobile_app/main.m; sourceTree = "<group>"; };
+		2181673ACF8447928EA59D63 /* FuturaPT-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Medium.ttf"; path = "../src/assets/fonts/FuturaPT-Medium.ttf"; sourceTree = "<group>"; };
+		22878D59DD1E47D589CBA47A /* FuturaPT-DemiObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-DemiObl.ttf"; path = "../src/assets/fonts/FuturaPT-DemiObl.ttf"; sourceTree = "<group>"; };
+		26D907E10C514D52872AE26F /* FuturaPT-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-ExtraBold.ttf"; path = "../src/assets/fonts/FuturaPT-ExtraBold.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* egersund_mobile_app-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "egersund_mobile_app-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* egersund_mobile_app-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "egersund_mobile_app-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45CD7A6688F003D8EEAB5E0F /* libPods-egersund_mobile_app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-egersund_mobile_app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B4AEE5E54ED47F4BB96083C /* FuturaPT-BoldObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-BoldObl.ttf"; path = "../src/assets/fonts/FuturaPT-BoldObl.ttf"; sourceTree = "<group>"; };
+		5343794B7C4C4B05B0E79AFA /* FuturaPT-ExtraBoldObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-ExtraBoldObl.ttf"; path = "../src/assets/fonts/FuturaPT-ExtraBoldObl.ttf"; sourceTree = "<group>"; };
 		53AF02A0AC1E362A60ED8B10 /* Pods-egersund_mobile_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app/Pods-egersund_mobile_app.debug.xcconfig"; sourceTree = "<group>"; };
+		564DAD8CC9CF4E5C95E0128C /* FuturaPT-MediumObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-MediumObl.ttf"; path = "../src/assets/fonts/FuturaPT-MediumObl.ttf"; sourceTree = "<group>"; };
 		5DF6B3D219612D9D720444F0 /* Pods-egersund_mobile_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app/Pods-egersund_mobile_app.release.xcconfig"; sourceTree = "<group>"; };
 		641B8D9740D3AD0C52156737 /* Pods-egersund_mobile_app-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-tvOSTests/Pods-egersund_mobile_app-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		696753BDE522CF16B67F38CA /* libPods-egersund_mobile_app-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-egersund_mobile_app-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7172D3A3863FB17586926861 /* Pods-egersund_mobile_app-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-tvOSTests/Pods-egersund_mobile_app-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7AC295ABAADBE2C8FD763A25 /* Pods-egersund_mobile_app-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-tvOS.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-tvOS/Pods-egersund_mobile_app-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = egersund_mobile_app/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		81D905DC6BFC4D4E8F45A253 /* FuturaPT-Book.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Book.ttf"; path = "../src/assets/fonts/FuturaPT-Book.ttf"; sourceTree = "<group>"; };
+		88CB0477E4674C9EA6F67EEE /* FuturaPT-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Light.ttf"; path = "../src/assets/fonts/FuturaPT-Light.ttf"; sourceTree = "<group>"; };
+		89206D5F01DA4812BD9B5D94 /* FuturaPT-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Bold.ttf"; path = "../src/assets/fonts/FuturaPT-Bold.ttf"; sourceTree = "<group>"; };
+		8F18BD4CEAB64568B2CB9491 /* FuturaPT-Demi.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Demi.ttf"; path = "../src/assets/fonts/FuturaPT-Demi.ttf"; sourceTree = "<group>"; };
+		A6CEF389CD134549AA28016C /* FuturaPT-LightObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-LightObl.ttf"; path = "../src/assets/fonts/FuturaPT-LightObl.ttf"; sourceTree = "<group>"; };
 		A72458FEA8F806BF7429B86B /* Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B67839BF05B223EF70402A71 /* Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig"; sourceTree = "<group>"; };
 		C3A6F81C2939CAF271B65180 /* Pods-egersund_mobile_app-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-tvOS/Pods-egersund_mobile_app-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		C74B0D99BE4526174C77DE07 /* libPods-egersund_mobile_app-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-egersund_mobile_app-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D767A0C08AE54A44988F8F7A /* FuturaPT-BookObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-BookObl.ttf"; path = "../src/assets/fonts/FuturaPT-BookObl.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -161,7 +185,6 @@
 				7172D3A3863FB17586926861 /* Pods-egersund_mobile_app-tvOSTests.debug.xcconfig */,
 				641B8D9740D3AD0C52156737 /* Pods-egersund_mobile_app-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -181,6 +204,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				74B6939610239B253E395E3D /* Pods */,
+				BA663E5FB56C4F9DAB8FAC20 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -196,6 +220,25 @@
 				2D02E4901E0B4A5D006451C7 /* egersund_mobile_app-tvOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		BA663E5FB56C4F9DAB8FAC20 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				89206D5F01DA4812BD9B5D94 /* FuturaPT-Bold.ttf */,
+				4B4AEE5E54ED47F4BB96083C /* FuturaPT-BoldObl.ttf */,
+				81D905DC6BFC4D4E8F45A253 /* FuturaPT-Book.ttf */,
+				D767A0C08AE54A44988F8F7A /* FuturaPT-BookObl.ttf */,
+				8F18BD4CEAB64568B2CB9491 /* FuturaPT-Demi.ttf */,
+				22878D59DD1E47D589CBA47A /* FuturaPT-DemiObl.ttf */,
+				26D907E10C514D52872AE26F /* FuturaPT-ExtraBold.ttf */,
+				5343794B7C4C4B05B0E79AFA /* FuturaPT-ExtraBoldObl.ttf */,
+				88CB0477E4674C9EA6F67EEE /* FuturaPT-Light.ttf */,
+				A6CEF389CD134549AA28016C /* FuturaPT-LightObl.ttf */,
+				2181673ACF8447928EA59D63 /* FuturaPT-Medium.ttf */,
+				564DAD8CC9CF4E5C95E0128C /* FuturaPT-MediumObl.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,6 +337,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 5N3WF8LBBU;
 						LastSwiftMigration = 1120;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -342,6 +386,18 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				64968133987349C8B25C600E /* FuturaPT-Bold.ttf in Resources */,
+				5BB4007F08264F69946E3480 /* FuturaPT-BoldObl.ttf in Resources */,
+				C60B1860491342B19F60F0B2 /* FuturaPT-Book.ttf in Resources */,
+				939E3DBF50894F46AE1CF07D /* FuturaPT-BookObl.ttf in Resources */,
+				C565181994BD45BBA22FE813 /* FuturaPT-Demi.ttf in Resources */,
+				5C2203C7949849DFAD85974E /* FuturaPT-DemiObl.ttf in Resources */,
+				83ED3383F15844FEA87FDEFA /* FuturaPT-ExtraBold.ttf in Resources */,
+				9DFF6627984543FBBBB274E2 /* FuturaPT-ExtraBoldObl.ttf in Resources */,
+				AA1E7DFE7AD34177A12EA43E /* FuturaPT-Light.ttf in Resources */,
+				7731781BCF114A3A8FEEB4EB /* FuturaPT-LightObl.ttf in Resources */,
+				7F45503B6B244F2691B9A960 /* FuturaPT-Medium.ttf in Resources */,
+				6A1DC818BFF24FE7824B7E44 /* FuturaPT-MediumObl.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -656,7 +712,49 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5N3WF8LBBU;
 				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLibEvent\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
+					"\"${PODS_ROOT}/Headers/Public/FBReactNativeSpec\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Glog\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/OpenSSL-Universal\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCAsyncStorage\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCMaskedView\"",
+					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
+					"\"${PODS_ROOT}/Headers/Public/RNI18n\"",
+					"\"${PODS_ROOT}/Headers/Public/RNReanimated\"",
+					"\"${PODS_ROOT}/Headers/Public/RNSVG\"",
+					"\"${PODS_ROOT}/Headers/Public/RNScreens\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-callinvoker\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
+					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
+					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-sensitive-info\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-splash-screen\"",
+					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+				);
 				INFOPLIST_FILE = egersund_mobile_app/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -679,6 +777,48 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5N3WF8LBBU;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLibEvent\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
+					"\"${PODS_ROOT}/Headers/Public/FBReactNativeSpec\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Glog\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/OpenSSL-Universal\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCAsyncStorage\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCMaskedView\"",
+					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
+					"\"${PODS_ROOT}/Headers/Public/RNI18n\"",
+					"\"${PODS_ROOT}/Headers/Public/RNReanimated\"",
+					"\"${PODS_ROOT}/Headers/Public/RNSVG\"",
+					"\"${PODS_ROOT}/Headers/Public/RNScreens\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-callinvoker\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
+					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
+					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-sensitive-info\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-splash-screen\"",
+					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+				);
 				INFOPLIST_FILE = egersund_mobile_app/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
