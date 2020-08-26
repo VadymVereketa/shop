@@ -6,7 +6,7 @@ import {sizes, useTheme} from '../../context/ThemeContext';
 interface IMyTextProps extends TextProps {
   children?: any;
 }
-const MyText = ({children, style = {}, ...props}: IMyTextProps) => {
+const MyText = React.memo(({children, style = {}, ...props}: IMyTextProps) => {
   const {text} = useTheme();
   return (
     <Text
@@ -17,7 +17,7 @@ const MyText = ({children, style = {}, ...props}: IMyTextProps) => {
       {children}
     </Text>
   );
-};
+});
 
 const styles = StyleSheet.create({
   text: {

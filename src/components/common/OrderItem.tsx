@@ -20,7 +20,7 @@ interface IOrderItemProps {
   order: IOrderItem;
 }
 
-const OrderItem = ({order}: IOrderItemProps) => {
+const OrderItem = React.memo(({order}: IOrderItemProps) => {
   const navigation = useNavigation<OrdersScreenNavigationProp>();
   const {border} = useTheme();
   const {formatPrice} = useFormattingContext();
@@ -97,7 +97,7 @@ const OrderItem = ({order}: IOrderItemProps) => {
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   con: {

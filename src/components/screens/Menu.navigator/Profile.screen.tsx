@@ -12,7 +12,7 @@ import DesignIcon from '../../common/DesignIcon';
 import t from '../../../utils/translate';
 import service from '../../../services/service';
 
-const ProfileScreen = (props: ProfileScreenProps) => {
+const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
   const dispatch = useDispatch();
   const {border, lightBackground, text} = useTheme();
   const user = useSelector(selectorsUser.getUser)! || {};
@@ -36,8 +36,12 @@ const ProfileScreen = (props: ProfileScreenProps) => {
         <MyText style={styles.mainText}>{user.phone}</MyText>
         {user.email && <MyText style={styles.mainText}>{user.email}</MyText>}
       </View>
-      <PressTitle>{t('profileCertificate')}</PressTitle>
-      <PressTitle>{t('profileLoyaltyCard')}</PressTitle>
+      <PressTitle onPress={() => navigation.push('Certificate', {})}>
+        {t('profileCertificate')}
+      </PressTitle>
+      <PressTitle onPress={() => navigation.push('LoyaltyCard', {})}>
+        {t('profileLoyaltyCard')}
+      </PressTitle>
       <TouchableOpacity
         onPress={handleLogout}
         style={[styles.btnExit, {backgroundColor: lightBackground}]}>
@@ -46,7 +50,7 @@ const ProfileScreen = (props: ProfileScreenProps) => {
       </TouchableOpacity>
     </ScrollView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

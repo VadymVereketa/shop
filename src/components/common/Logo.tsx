@@ -7,22 +7,24 @@ interface ILogoProps {
   height: any;
   resizeMode: 'cover' | 'contain' | 'center' | 'stretch';
 }
-const Logo = ({
-  height = sizes[12],
-  resizeMode = 'cover',
-  width = sizes[38],
-}: ILogoProps) => {
-  return (
-    <Image
-      source={require('../../assets/images/logo.png')}
-      resizeMode={resizeMode}
-      style={{
-        height,
-        width,
-        zIndex: 10,
-      }}
-    />
-  );
-};
+const Logo = React.memo(
+  ({
+    height = sizes[12],
+    resizeMode = 'cover',
+    width = sizes[38],
+  }: ILogoProps) => {
+    return (
+      <Image
+        source={require('../../assets/images/logo.png')}
+        resizeMode={resizeMode}
+        style={{
+          height,
+          width,
+          zIndex: 10,
+        }}
+      />
+    );
+  },
+);
 
 export default Logo;

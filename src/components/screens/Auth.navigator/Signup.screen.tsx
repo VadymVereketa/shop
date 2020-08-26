@@ -42,7 +42,7 @@ interface IFormData {
   confirmedPassword: string;
 }
 
-const SignUpScreen = ({navigation}: SignUpScreenProps) => {
+const SignUpScreen = React.memo(({navigation}: SignUpScreenProps) => {
   const error = useSelector(selectorsUser.getError);
   const isLoading = useSelector(selectorsUser.getLoading);
   const dispatch = useDispatch();
@@ -198,7 +198,7 @@ const SignUpScreen = ({navigation}: SignUpScreenProps) => {
       </View>
     </KeyboardAvoidingView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   empty: {

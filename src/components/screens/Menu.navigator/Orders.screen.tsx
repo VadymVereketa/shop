@@ -12,7 +12,7 @@ import OrderItem from '../../common/OrderItem';
 import {sizes} from '../../../context/ThemeContext';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 
-const OrdersScreen = (props: OrdersScreenProps) => {
+const OrdersScreen = React.memo((props: OrdersScreenProps) => {
   const perPage = 6;
   const insets = useSafeAreaInsets();
   const [skip, setSkip] = useState(0);
@@ -67,7 +67,7 @@ const OrdersScreen = (props: OrdersScreenProps) => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

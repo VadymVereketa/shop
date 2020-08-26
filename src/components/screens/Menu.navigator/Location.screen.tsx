@@ -9,7 +9,7 @@ import MyText from '../../controls/MyText';
 import getUrlImg from '../../../utils/getUrlImg';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 
-const LocationScreen = (props: LocationScreenProps) => {
+const LocationScreen = React.memo((props: LocationScreenProps) => {
   const {sellPoint} = props.route.params;
   const {primary, border} = useTheme();
   const insets = useSafeAreaInsets();
@@ -40,7 +40,7 @@ const LocationScreen = (props: LocationScreenProps) => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

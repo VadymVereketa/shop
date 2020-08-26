@@ -39,7 +39,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 
-const ProductScreen = ({navigation, route}: ProductScreenProps) => {
+const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
   const window = Dimensions.get('window');
   const offsetY = useRef(new Animated.Value(200)).current;
 
@@ -246,7 +246,7 @@ const ProductScreen = ({navigation, route}: ProductScreenProps) => {
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {},

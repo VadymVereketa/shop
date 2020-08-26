@@ -12,7 +12,7 @@ import CartItem from '../../common/CartItem';
 import {useFormattingContext} from '../../../context/FormattingContext';
 import MyButton from '../../controls/MyButton';
 
-const CartScreen = ({navigation}: any) => {
+const CartScreen = React.memo(({navigation}: any) => {
   const insets = useSafeAreaInsets();
   const {border} = useTheme();
   const {formatPrice} = useFormattingContext();
@@ -64,7 +64,7 @@ const CartScreen = ({navigation}: any) => {
       )}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

@@ -15,60 +15,64 @@ interface IItemCheckPasswordProps {
   check: (str: string) => boolean;
   text: string;
 }
-const ItemCheckPassword = ({
-  check,
-  password,
-  text,
-}: IItemCheckPasswordProps) => {
-  const {text: color, lightText, primary, background} = useTheme();
-  const isCheck = check(password);
+const ItemCheckPassword = React.memo(
+  ({check, password, text}: IItemCheckPasswordProps) => {
+    const {text: color, lightText, primary, background} = useTheme();
+    const isCheck = check(password);
 
-  return (
-    <View style={styles.con}>
-      <View
-        style={[
-          styles.circle,
-          {
-            borderColor: isCheck ? primary : lightText,
-            backgroundColor: isCheck ? primary : background,
-          },
-        ]}>
-        <DesignIcon name={'check-mark'} size={sizes[5]} fill={background} />
+    return (
+      <View style={styles.con}>
+        <View
+          style={[
+            styles.circle,
+            {
+              borderColor: isCheck ? primary : lightText,
+              backgroundColor: isCheck ? primary : background,
+            },
+          ]}>
+          <DesignIcon name={'check-mark'} size={sizes[5]} fill={background} />
+        </View>
+        <MyText
+          style={{
+            color: isCheck ? color : lightText,
+            fontFamily: getFontFamily(isCheck ? '500' : '300'),
+          }}>
+          {text}
+        </MyText>
       </View>
-      <MyText
-        style={{
-          color: isCheck ? color : lightText,
-          fontFamily: getFontFamily(isCheck ? '500' : '300'),
-        }}>
-        {text}
-      </MyText>
-    </View>
-  );
-};
+    );
+  },
+);
 
-const BlockCheckPassword = ({password}: IBlockCheckPasswordProps) => {
-  const checks = [
-    {
-      check: (str: string = '') => (str || '').length >= 8,
-      text: t('checkPasswordMinLength'),
-    },
-    {
-      check: (str: string = '') => /[a-z]/.test(str),
-      text: t('checkPasswordLowerCase'),
-    },
-    {
-      check: (str: string = '') => /[A-Z]/.test(str),
-      text: t('checkPasswordMUpperCase'),
-    },
-  ];
-  return (
-    <View>
-      {checks.map((c) => (
-        <ItemCheckPassword password={password} check={c.check} text={c.text} />
-      ))}
-    </View>
-  );
-};
+const BlockCheckPassword = React.memo(
+  ({password}: IBlockCheckPasswordProps) => {
+    const checks = [
+      {
+        check: (str: string = '') => (str || '').length >= 8,
+        text: t('checkPasswordMinLength'),
+      },
+      {
+        check: (str: string = '') => /[a-z]/.test(str),
+        text: t('checkPasswordLowerCase'),
+      },
+      {
+        check: (str: string = '') => /[A-Z]/.test(str),
+        text: t('checkPasswordMUpperCase'),
+      },
+    ];
+    return (
+      <View>
+        {checks.map((c) => (
+          <ItemCheckPassword
+            password={password}
+            check={c.check}
+            text={c.text}
+          />
+        ))}
+      </View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   con: {

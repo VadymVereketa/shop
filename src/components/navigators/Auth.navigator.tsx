@@ -43,7 +43,7 @@ export type SignUpScreenProps = {
 
 const Stack = createStackNavigator<AuthNavigatorParamList>();
 
-const AuthNavigator = ({navigation}: AuthNavigatorScreenProps) => {
+const AuthNavigator = React.memo(({navigation}: AuthNavigatorScreenProps) => {
   return (
     <Stack.Navigator
       initialRouteName={'Login'}
@@ -75,6 +75,6 @@ const AuthNavigator = ({navigation}: AuthNavigatorScreenProps) => {
       <Stack.Screen name="SignUp" component={SignUpScreen} />
     </Stack.Navigator>
   );
-};
+});
 
 export default AuthNavigator;

@@ -19,7 +19,7 @@ import CartItem from '../../common/CartItem';
 
 const h = sizes[100] + sizes[50];
 
-const SecondStepScreen = (props: any) => {
+const SecondStepScreen = React.memo((props: any) => {
   const offsetY = useRef(new Animated.Value(-h)).current;
   const [isShow, setIsShow] = useState(false);
   const insets = useSafeAreaInsets();
@@ -105,7 +105,7 @@ const SecondStepScreen = (props: any) => {
       </View>
     </SafeAreaView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

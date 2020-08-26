@@ -40,7 +40,7 @@ export type OrderNavigatorScreenProps = StackScreenProps<
 
 const Stack = createStackNavigator<StartNavigatorParamList>();
 
-const StartNavigator = () => {
+const StartNavigator = React.memo(() => {
   const isAuth = useSelector(selectorsUser.isAuth);
   const count = useSelector(selectorsCart.getGeneralCount);
 
@@ -59,6 +59,6 @@ const StartNavigator = () => {
       )}
     </Stack.Navigator>
   );
-};
+});
 
 export default StartNavigator;

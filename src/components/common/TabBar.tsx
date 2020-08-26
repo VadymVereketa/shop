@@ -15,7 +15,7 @@ import {
 } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 import MyText from '../controls/MyText';
 
-const TabBar = (props: BottomTabBarProps<BottomTabBarOptions>) => {
+const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
   const sum = useSelector(selectorsCart.getGeneralSum);
   const {formatPrice} = useFormattingContext();
   const {lightText, darkText, background} = useTheme();
@@ -79,7 +79,7 @@ const TabBar = (props: BottomTabBarProps<BottomTabBarOptions>) => {
       })}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   con: {

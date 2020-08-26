@@ -122,9 +122,9 @@ export interface IDesignIconProps {
   originY?: number;
 }
 
-const DesignIcon = ({name, size, ...props}: IDesignIconProps) => {
+const DesignIcon = React.memo(({name, size, ...props}: IDesignIconProps) => {
   const Icon = getIcon(name);
   return <Icon width={size} height={size} {...props} />;
-};
+});
 
 export default DesignIcon;

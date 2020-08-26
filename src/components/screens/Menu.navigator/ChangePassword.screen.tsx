@@ -18,7 +18,7 @@ import {useAxios} from '../../../useHooks/useAxios';
 import service from '../../../services/service';
 import MyText from '../../controls/MyText';
 
-const ChangePasswordScreen = (props: ChangePasswordScreenProps) => {
+const ChangePasswordScreen = React.memo((props: ChangePasswordScreenProps) => {
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const {errorColor} = useTheme();
@@ -122,7 +122,7 @@ const ChangePasswordScreen = (props: ChangePasswordScreenProps) => {
       </View>
     </SafeAreaView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

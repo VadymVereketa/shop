@@ -22,12 +22,14 @@ import FinalStepScreen from '../screens/Order.navigator/FinalStep.screen';
 import MyText from '../controls/MyText';
 import {StyleSheet} from 'react-native';
 import {getFontFamily} from '../../utils/getFontFamily';
+import DateScreen from '../screens/Order.navigator/Date.screen';
 
 export type OrderNavigatorParamList = {
   FirstStep: {};
   SecondStep: {};
   ThirdStep: {};
   FinalStep: {};
+  Date: {};
 };
 
 export type FirstStepScreenNavigationProp = CompositeNavigationProp<
@@ -79,7 +81,7 @@ export type FinalStepScreenProps = {
 
 const Stack = createStackNavigator<OrderNavigatorParamList>();
 
-const OrderNavigator = ({navigation}: OrderNavigatorScreenProps) => {
+const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
   return (
     <Stack.Navigator
       initialRouteName={'FirstStep'}
@@ -138,9 +140,16 @@ const OrderNavigator = ({navigation}: OrderNavigatorScreenProps) => {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="Date"
+        component={DateScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
-};
+});
 
 const styles = StyleSheet.create({
   title: {

@@ -33,44 +33,48 @@ const getStyleStatus = (str: string) => {
   else return styles.errorStatus;
 };
 
-const InfoOrder = ({
-  id,
-  maxExecuteDate,
-  minExecuteDate,
-  orderAddress,
-  orderStatus,
-}: IInfoOrderProps) => {
-  const {lightText} = useTheme();
-  const {longFormatDate} = useFormattingContext();
+const InfoOrder = React.memo(
+  ({
+    id,
+    maxExecuteDate,
+    minExecuteDate,
+    orderAddress,
+    orderStatus,
+  }: IInfoOrderProps) => {
+    const {lightText} = useTheme();
+    const {longFormatDate} = useFormattingContext();
 
-  const getDateOrder = () => {
-    let str = longFormatDate(new Date(minExecuteDate));
-    if (orderAddress) {
-      str += ` | ${formatTime(new Date(minExecuteDate))} -  ${formatTime(
-        new Date(maxExecuteDate),
-      )}`;
-    } else {
-      str += ` | ${formatTime(new Date(minExecuteDate))}`;
-    }
-    return str;
-  };
+    const getDateOrder = () => {
+      let str = longFormatDate(new Date(minExecuteDate));
+      if (orderAddress) {
+        str += ` | ${formatTime(new Date(minExecuteDate))} -  ${formatTime(
+          new Date(maxExecuteDate),
+        )}`;
+      } else {
+        str += ` | ${formatTime(new Date(minExecuteDate))}`;
+      }
+      return str;
+    };
 
-  return (
-    <React.Fragment>
-      <View style={styles.infoOrder}>
-        <MyText style={styles.textOrder}>№ {(id + '').padStart(9, '0')}</MyText>
-        <MyText
-          style={[
-            styles.textStatus,
-            getStyleStatus(orderStatus.code.toLowerCase()),
-          ]}>
-          {orderStatus.status}
-        </MyText>
-      </View>
-      <MyText style={{color: lightText}}>{getDateOrder()}</MyText>
-    </React.Fragment>
-  );
-};
+    return (
+      <React.Fragment>
+        <View style={styles.infoOrder}>
+          <MyText style={styles.textOrder}>
+            № {(id + '').padStart(9, '0')}
+          </MyText>
+          <MyText
+            style={[
+              styles.textStatus,
+              getStyleStatus(orderStatus.code.toLowerCase()),
+            ]}>
+            {orderStatus.status}
+          </MyText>
+        </View>
+        <MyText style={{color: lightText}}>{getDateOrder()}</MyText>
+      </React.Fragment>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   infoOrder: {

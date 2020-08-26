@@ -25,7 +25,7 @@ import {useFocusEffect} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {actionsCart} from '../../../redux/cart/cartReducer';
 
-const CommentCartScreen = ({navigation, route}: any) => {
+const CommentCartScreen = React.memo(({navigation, route}: any) => {
   const dispatch = useDispatch();
   const mb = responsiveScreenHeight(40);
   const [hKeyboard, sethKeyboard] = useState(mb);
@@ -110,7 +110,7 @@ const CommentCartScreen = ({navigation, route}: any) => {
       </View>
     </KeyboardAvoidingView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   con: {

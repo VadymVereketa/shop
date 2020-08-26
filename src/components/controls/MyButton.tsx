@@ -25,68 +25,70 @@ interface IMyButtonProps
   type?: 'filled' | 'default';
   styleText?: StyleProp<TextStyle>;
 }
-const MyButton = ({
-  children,
-  isActive = false,
-  ultraWidth = false,
-  disabled = false,
-  type = 'filled',
-  style = {},
-  styleText = {},
-  containerStyle = {},
-  ...props
-}: IMyButtonProps) => {
-  const {primary, border, text, background, lightBackground} = useTheme();
+const MyButton = React.memo(
+  ({
+    children,
+    isActive = false,
+    ultraWidth = false,
+    disabled = false,
+    type = 'filled',
+    style = {},
+    styleText = {},
+    containerStyle = {},
+    ...props
+  }: IMyButtonProps) => {
+    const {primary, border, text, background, lightBackground} = useTheme();
 
-  let bg = '';
-  let color = '';
-  let borderColor = '';
+    let bg = '';
+    let color = '';
+    let borderColor = '';
 
-  if (type === 'filled') {
-    bg = primary;
-    borderColor = primary;
-    color = background;
-  } else {
-    if (isActive) {
+    if (type === 'filled') {
+      bg = primary;
       borderColor = primary;
-      color = primary;
+      color = background;
     } else {
-      borderColor = text;
-      color = text;
+      if (isActive) {
+        borderColor = primary;
+        color = primary;
+      } else {
+        borderColor = text;
+        color = text;
+      }
+      bg = background;
     }
-    bg = background;
-  }
-  if (disabled) {
-    bg = lightBackground;
-    borderColor = lightBackground;
-    color = type === 'filled' ? color : lightBackground;
-  }
+    if (disabled) {
+      bg = lightBackground;
+      borderColor = lightBackground;
+      color = type === 'filled' ? color : lightBackground;
+    }
 
-  return (
-    <TO
-      containerStyle={[
-        styles.con,
-        {
-          flexGrow: !ultraWidth ? 1 : 0,
-        },
-        containerStyle,
-      ]}
-      style={[
-        styles.btn,
-        {
-          backgroundColor: bg,
-          borderColor: borderColor,
-          flexGrow: 1,
-        },
-        style,
-      ]}
-      {...props}>
-      <MyText style={[styles.text, {color: color}, styleText]}>
-        {children}
-      </MyText>
-    </TO>
-  );
-};
+    return (
+      <TO
+        containerStyle={[
+          styles.con,
+          {
+            flexGrow: !ultraWidth ? 1 : 0,
+          },
+          containerStyle,
+        ]}
+        style={[
+          styles.btn,
+          {
+            backgroundColor: bg,
+            borderColor: borderColor,
+            flexGrow: 1,
+          },
+          style,
+        ]}
+        {...props}>
+        <MyText style={[styles.text, {color: color}, styleText]}>
+          {children}
+        </MyText>
+      </TO>
+    );
+  },
+);
 
 interface IGhostProps
   extends ContainedTouchableProperties,

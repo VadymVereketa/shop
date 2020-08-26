@@ -22,82 +22,78 @@ interface IPortionUnitProps {
   onOrder: () => any;
 }
 
-const PortionUnit = ({
-  product,
-  price,
-  addToCart,
-  title,
-  onOrder,
-}: IPortionUnitProps) => {
-  const w = useResponsiveWidth(100);
-  const {formatPrice} = useFormattingContext();
-  const dispatch = useDispatch();
-  const initValue = useSelector(selectorsCart.getCountProduct(product.id));
-  const [count, setCount] = useState(initValue !== null ? +initValue : 1);
-  const {weight, garnish} = product;
-  const onChange = (n) => {
-    setCount(n);
-    dispatch(
-      actionsCart.changeCount({
-        count: n,
-        id: product.id,
-      }),
-    );
-  };
+const PortionUnit = React.memo(
+  ({product, price, addToCart, title, onOrder}: IPortionUnitProps) => {
+    const w = useResponsiveWidth(100);
+    const {formatPrice} = useFormattingContext();
+    const dispatch = useDispatch();
+    const initValue = useSelector(selectorsCart.getCountProduct(product.id));
+    const [count, setCount] = useState(initValue !== null ? +initValue : 1);
+    const {weight, garnish} = product;
+    const onChange = (n) => {
+      setCount(n);
+      dispatch(
+        actionsCart.changeCount({
+          count: n,
+          id: product.id,
+        }),
+      );
+    };
 
-  const handleSubmit = async () => {
-    await addToCart(count);
-  };
+    const handleSubmit = async () => {
+      await addToCart(count);
+    };
 
-  const handleOrder = async () => {
-    await handleSubmit();
-    onOrder();
-  };
+    const handleOrder = async () => {
+      await handleSubmit();
+      onOrder();
+    };
 
-  useDidUpdateEffect(() => {
-    if (initValue !== null) setCount(+initValue);
-  }, [initValue]);
+    useDidUpdateEffect(() => {
+      if (initValue !== null) setCount(+initValue);
+    }, [initValue]);
 
-  return (
-    <View style={styles.con}>
-      {garnish && <MyText style={styles.garnish}>{garnish}</MyText>}
-      <View style={styles.viewCount}>
-        <MyText style={[styles.price]}>{formatPrice(+price * count)}</MyText>
-        <CountInput
-          isWeightUnit={false}
-          onChange={onChange}
-          value={count}
-          style={{
-            maxWidth: w / 2,
-          }}
-        />
+    return (
+      <View style={styles.con}>
+        {garnish && <MyText style={styles.garnish}>{garnish}</MyText>}
+        <View style={styles.viewCount}>
+          <MyText style={[styles.price]}>{formatPrice(+price * count)}</MyText>
+          <CountInput
+            isWeightUnit={false}
+            onChange={onChange}
+            value={count}
+            style={{
+              maxWidth: w / 2,
+            }}
+          />
+        </View>
+        <MyText style={styles.garnish}>Склад:</MyText>
+        <MyText style={styles.ingredients}>{product.ingredients}</MyText>
+
+        <MyButton
+          styleText={styles.btnText}
+          style={styles.btnTop}
+          onPress={handleOrder}>
+          {t('btnOrderLong')}
+        </MyButton>
+        <MyButton
+          onPress={handleSubmit}
+          style={styles.btnBot}
+          styleText={styles.btnText}
+          type={'default'}
+          isActive>
+          {t(title)}
+        </MyButton>
+
+        <MyText style={styles.garnish}>
+          Поживна енергетична цінність на 100 г:
+        </MyText>
+
+        <MyText style={styles.energyValue}>{product.energyValue}</MyText>
       </View>
-      <MyText style={styles.garnish}>Склад:</MyText>
-      <MyText style={styles.ingredients}>{product.ingredients}</MyText>
-
-      <MyButton
-        styleText={styles.btnText}
-        style={styles.btnTop}
-        onPress={handleOrder}>
-        {t('btnOrderLong')}
-      </MyButton>
-      <MyButton
-        onPress={handleSubmit}
-        style={styles.btnBot}
-        styleText={styles.btnText}
-        type={'default'}
-        isActive>
-        {t(title)}
-      </MyButton>
-
-      <MyText style={styles.garnish}>
-        Поживна енергетична цінність на 100 г:
-      </MyText>
-
-      <MyText style={styles.energyValue}>{product.energyValue}</MyText>
-    </View>
-  );
-};
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   con: {

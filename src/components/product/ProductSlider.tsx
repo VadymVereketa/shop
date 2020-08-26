@@ -18,7 +18,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 interface IProductSliderProps {
   idCategory: number;
 }
-const ProductSlider = ({idCategory}: IProductSliderProps) => {
+const ProductSlider = React.memo(({idCategory}: IProductSliderProps) => {
   const insets = useSafeAreaInsets();
   const {width} = Dimensions.get('window');
   const {primary, lightBackground} = useTheme();
@@ -104,7 +104,7 @@ const ProductSlider = ({idCategory}: IProductSliderProps) => {
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   title: {

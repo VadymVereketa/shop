@@ -38,38 +38,40 @@ export type ProductScreenProps = {
 
 const Stack = createStackNavigator();
 
-const SecondaryNavigator = ({navigation}: SecondaryNavigatorScreenProps) => {
-  return (
-    <Stack.Navigator
-      initialRouteName={'Product'}
-      screenOptions={{
-        title: '',
-        headerTruncatedBackTitle: '',
-        headerBackTitle: '',
-        headerLeft: (props) => {
-          return (
-            <IconButton
-              style={{
-                paddingLeft: sizes[5],
-              }}
-              onPress={
-                props.canGoBack
-                  ? props.onPress
-                  : () => navigation.push('MainNavigator', {})
-              }
-              icon={{
-                name: 'arrow',
-                size: sizes[10],
-                fill: 'black',
-              }}
-            />
-          );
-        },
-      }}>
-      <Stack.Screen name="Product" component={ProductScreen} />
-      <Stack.Screen name="CommentCart" component={CommentCartScreen} />
-    </Stack.Navigator>
-  );
-};
+const SecondaryNavigator = React.memo(
+  ({navigation}: SecondaryNavigatorScreenProps) => {
+    return (
+      <Stack.Navigator
+        initialRouteName={'Product'}
+        screenOptions={{
+          title: '',
+          headerTruncatedBackTitle: '',
+          headerBackTitle: '',
+          headerLeft: (props) => {
+            return (
+              <IconButton
+                style={{
+                  paddingLeft: sizes[5],
+                }}
+                onPress={
+                  props.canGoBack
+                    ? props.onPress
+                    : () => navigation.push('MainNavigator', {})
+                }
+                icon={{
+                  name: 'arrow',
+                  size: sizes[10],
+                  fill: 'black',
+                }}
+              />
+            );
+          },
+        }}>
+        <Stack.Screen name="Product" component={ProductScreen} />
+        <Stack.Screen name="CommentCart" component={CommentCartScreen} />
+      </Stack.Navigator>
+    );
+  },
+);
 
 export default SecondaryNavigator;

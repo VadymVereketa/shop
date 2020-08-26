@@ -173,99 +173,101 @@ export type ResultScreenProps = {
 
 const Stack = createStackNavigator<MenuNavigatorParamList>();
 
-const MenuNavigator = ({navigation}: SecondaryNavigatorScreenProps) => {
-  return (
-    <Stack.Navigator
-      initialRouteName={'Profile'}
-      screenOptions={{
-        headerTruncatedBackTitle: '',
-        headerBackTitle: '',
-        headerLeft: (props) => {
-          return (
-            <IconButton
-              style={{
-                paddingLeft: sizes[5],
-              }}
-              onPress={
-                props.canGoBack
-                  ? props.onPress
-                  : () => navigation.push('MenuNavigator', {})
-              }
-              icon={{
-                name: 'arrow',
-                size: sizes[10],
-                fill: 'black',
-              }}
-            />
-          );
-        },
-        headerTitleAlign: 'center',
-      }}>
-      <Stack.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          title: t('profileTitle'),
-        }}
-      />
-      <Stack.Screen
-        name="Orders"
-        component={OrdersScreen}
-        options={{
-          title: t('profileMyOrders'),
-        }}
-      />
-      <Stack.Screen
-        name="ChangePassword"
-        component={ChangePasswordScreen}
-        options={{
-          title: t('profileChangePassword'),
-        }}
-      />
-      <Stack.Screen
-        name="Location"
-        component={LocationScreen}
-        options={{
-          title: t('profileLocation'),
-        }}
-      />
-      <Stack.Screen
-        name="LoyaltyCard"
-        component={LoyaltyCardScreen}
-        options={{
-          title: t('profileLoyaltyCard'),
-        }}
-      />
-      <Stack.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{
-          title: t('profileSettings'),
-        }}
-      />
-      <Stack.Screen
-        name="Certificate"
-        component={CertificateScreen}
-        options={{
-          title: t('profileCertificate'),
-        }}
-      />
-      <Stack.Screen
-        name="Order"
-        component={OrderScreen}
-        options={{
-          title: t('profileMyOrder'),
-        }}
-      />
-      <Stack.Screen
-        name="Result"
-        component={ResultScreen}
-        options={{
-          title: t('profileResult'),
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
+const MenuNavigator = React.memo(
+  ({navigation}: SecondaryNavigatorScreenProps) => {
+    return (
+      <Stack.Navigator
+        initialRouteName={'Profile'}
+        screenOptions={{
+          headerTruncatedBackTitle: '',
+          headerBackTitle: '',
+          headerLeft: (props) => {
+            return (
+              <IconButton
+                style={{
+                  paddingLeft: sizes[5],
+                }}
+                onPress={
+                  props.canGoBack
+                    ? props.onPress
+                    : () => navigation.push('MenuNavigator', {})
+                }
+                icon={{
+                  name: 'arrow',
+                  size: sizes[10],
+                  fill: 'black',
+                }}
+              />
+            );
+          },
+          headerTitleAlign: 'center',
+        }}>
+        <Stack.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            title: t('profileTitle'),
+          }}
+        />
+        <Stack.Screen
+          name="Orders"
+          component={OrdersScreen}
+          options={{
+            title: t('profileMyOrders'),
+          }}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          component={ChangePasswordScreen}
+          options={{
+            title: t('profileChangePassword'),
+          }}
+        />
+        <Stack.Screen
+          name="Location"
+          component={LocationScreen}
+          options={{
+            title: t('profileLocation'),
+          }}
+        />
+        <Stack.Screen
+          name="LoyaltyCard"
+          component={LoyaltyCardScreen}
+          options={{
+            title: t('profileLoyaltyCard'),
+          }}
+        />
+        <Stack.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{
+            title: t('profileSettings'),
+          }}
+        />
+        <Stack.Screen
+          name="Certificate"
+          component={CertificateScreen}
+          options={{
+            title: t('profileCertificate'),
+          }}
+        />
+        <Stack.Screen
+          name="Order"
+          component={OrderScreen}
+          options={{
+            title: t('profileMyOrder'),
+          }}
+        />
+        <Stack.Screen
+          name="Result"
+          component={ResultScreen}
+          options={{
+            title: t('profileResult'),
+          }}
+        />
+      </Stack.Navigator>
+    );
+  },
+);
 
 export default MenuNavigator;

@@ -7,7 +7,7 @@ import {FirstStepScreenProps} from '../../navigators/Order.navigator';
 import MyButton from '../../controls/MyButton';
 import {thunkGetTypes} from '../../../redux/types/typeReducer';
 
-const FirstStepScreen = ({navigation}: FirstStepScreenProps) => {
+const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
   const dispatch = useDispatch();
   const mainClient = useSelector(selectorsUser.getDataUser)!;
 
@@ -27,7 +27,7 @@ const FirstStepScreen = ({navigation}: FirstStepScreenProps) => {
       <MyButton onPress={handleContinue}>продовжити</MyButton>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

@@ -24,7 +24,7 @@ interface IProductItemProps {
 
 const borderRadius = sizes[1];
 
-const ProductItem = ({product}: IProductItemProps) => {
+const ProductItem = React.memo(({product}: IProductItemProps) => {
   const navigation = useNavigation<ProductScreenNavigationProp>();
   const {background} = useTheme();
   const {formatPrice} = useFormattingContext();
@@ -69,7 +69,7 @@ const ProductItem = ({product}: IProductItemProps) => {
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   con: {

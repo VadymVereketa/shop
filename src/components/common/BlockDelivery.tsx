@@ -42,7 +42,7 @@ const getAvailableSellPoints = (
   return res;
 };
 
-const BlockDelivery = () => {
+const BlockDelivery = React.memo(() => {
   const dispatch = useDispatch();
   const sellPoints = useSelector(getSellPoints(false));
   const deliveryTypes = useSelector(selectorsTypes.getDeliveryTypes);
@@ -143,7 +143,7 @@ const BlockDelivery = () => {
         ))}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   typeDelivery: {

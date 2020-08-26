@@ -7,17 +7,13 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import {MenuScreenProps} from '../../navigators/Main.navigator';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  selectorCategory,
-  thunkGetCustomCategories,
-} from '../../../redux/category/categoryReducer';
 import {selectorsUser} from '../../../redux/user/userReducer';
 import DesignIcon from '../../common/DesignIcon';
 import {getSellPoints} from '../../../redux/sellPoints/sellPointsReducer';
 import {selectorsOther} from '../../../redux/other/otherReducer';
 import t from '../../../utils/translate';
 
-const MenuScreen = ({navigation}: MenuScreenProps) => {
+const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
   const phone = useSelector(selectorsOther.getPhone);
   const isAuth = useSelector(selectorsUser.isAuth);
   const {border, lightBackground, primary} = useTheme();
@@ -123,7 +119,7 @@ const MenuScreen = ({navigation}: MenuScreenProps) => {
       )}
     </SafeAreaView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

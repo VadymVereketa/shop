@@ -24,74 +24,76 @@ interface IPressTitleProps extends TouchableWithoutFeedbackProps {
   isBorder?: boolean;
   afterIcon?: IDesignIconProps;
 }
-const PressTitle = ({
-  style = {},
-  styleText = {},
-  expand = false,
-  isBorder = false,
-  onPress,
-  children,
-  afterIcon,
-}: IPressTitleProps) => {
-  const rotate = useRef(new Animated.Value(90)).current;
-  const [isRotate, setIsRotate] = useState(false);
-  const {text, border, background} = useTheme();
+const PressTitle = React.memo(
+  ({
+    style = {},
+    styleText = {},
+    expand = false,
+    isBorder = false,
+    onPress,
+    children,
+    afterIcon,
+  }: IPressTitleProps) => {
+    const rotate = useRef(new Animated.Value(90)).current;
+    const [isRotate, setIsRotate] = useState(false);
+    const {text, border, background} = useTheme();
 
-  const handlePress = (e: any) => {
-    if (onPress) {
-      onPress(e);
-    }
-    if (expand) {
-      setIsRotate((r) => !r);
-    }
-  };
+    const handlePress = (e: any) => {
+      if (onPress) {
+        onPress(e);
+      }
+      if (expand) {
+        setIsRotate((r) => !r);
+      }
+    };
 
-  useDidUpdateEffect(() => {
-    timing(rotate, {
-      toValue: isRotate ? -90 : 90,
-      duration: 100,
-      easing: Easing.linear,
-    }).start();
-  }, [isRotate]);
+    useDidUpdateEffect(() => {
+      timing(rotate, {
+        toValue: isRotate ? -90 : 90,
+        duration: 100,
+        easing: Easing.linear,
+      }).start();
+    }, [isRotate]);
 
-  return (
-    <TWF
-      style={[
-        styles.con,
-        {
-          borderBottomColor: isBorder ? border : background,
-          backgroundColor: background,
-        },
-        style,
-      ]}
-      onPress={handlePress}>
-      <MyText style={[styles.text, styleText]}>{children}</MyText>
-      {!afterIcon ? (
-        expand ? (
-          <Animated.View
-            style={{
-              justifyContent: 'center',
-              transform: [
-                {
-                  rotate: concat(rotate, 'deg'),
-                },
-              ],
-            }}>
+    return (
+      <TWF
+        style={[
+          styles.con,
+          {
+            borderBottomColor: isBorder ? border : background,
+            backgroundColor: background,
+          },
+          style,
+        ]}
+        onPress={handlePress}>
+        <MyText style={[styles.text, styleText]}>{children}</MyText>
+        {!afterIcon ? (
+          expand ? (
+            <Animated.View
+              style={{
+                justifyContent: 'center',
+                transform: [
+                  {
+                    rotate: concat(rotate, 'deg'),
+                  },
+                ],
+              }}>
+              <DesignIcon name={'next'} size={sizes[8]} fill={text} />
+            </Animated.View>
+          ) : (
             <DesignIcon name={'next'} size={sizes[8]} fill={text} />
-          </Animated.View>
+          )
         ) : (
-          <DesignIcon name={'next'} size={sizes[8]} fill={text} />
-        )
-      ) : (
-        <DesignIcon
-          name={afterIcon.name}
-          size={afterIcon.size}
-          fill={afterIcon.fill}
-        />
-      )}
-    </TWF>
-  );
-};
+          <DesignIcon
+            name={afterIcon.name}
+            size={afterIcon.size}
+            fill={afterIcon.fill}
+          />
+        )}
+      </TWF>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   con: {

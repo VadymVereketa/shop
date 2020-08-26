@@ -71,7 +71,7 @@ export type CartNavigatorProps = {
 
 const Tab = createBottomTabNavigator<MainNavigatorParamList>();
 
-const MainNavigator = (props: MainNavigatorScreenProps) => {
+const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
   const categiesRest = useSelector(selectorCategory.getRestaurant);
   const categiesShop = useSelector(selectorCategory.getShop);
   const categiesTags = useSelector(selectorCategory.getTags);
@@ -85,6 +85,9 @@ const MainNavigator = (props: MainNavigatorScreenProps) => {
 
   return (
     <Tab.Navigator
+      screenOptions={{
+        unmountOnBlur: true,
+      }}
       initialRouteName={'Restaurant'}
       tabBar={(props) => <TabBar {...props} />}>
       {categiesRest.length > 0 && (
@@ -173,6 +176,6 @@ const MainNavigator = (props: MainNavigatorScreenProps) => {
       />
     </Tab.Navigator>
   );
-};
+});
 
 export default MainNavigator;

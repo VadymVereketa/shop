@@ -13,41 +13,43 @@ interface ICategoryBarProps {
   onPress: (id: number) => any;
   currentId: number;
 }
-const CategoryBar = ({tags, currentId, onPress}: ICategoryBarProps) => {
-  const insets = useSafeAreaInsets();
-  const {background} = useTheme();
-  return (
-    <View
-      style={{
-        marginBottom: sizes[8],
-        marginTop: sizes[3],
-        paddingRight: insets.right ? insets.right : sizes[1],
-        paddingLeft: insets.left ? insets.left : sizes[1],
-        backgroundColor: background,
-        zIndex: 1,
-      }}>
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-        {tags.map((t) => {
-          return (
-            <MyButton
-              onPress={() => onPress(t.id)}
-              key={t.id}
-              isActive={t.id === currentId}
-              type={'default'}
-              style={{marginHorizontal: sizes[3]}}
-              styleText={{
-                fontSize: sizes[10],
-                fontFamily: getFontFamily('500'),
-                paddingVertical: sizes[4],
-                paddingHorizontal: sizes[7],
-              }}>
-              {t.name}
-            </MyButton>
-          );
-        })}
-      </ScrollView>
-    </View>
-  );
-};
+const CategoryBar = React.memo(
+  ({tags, currentId, onPress}: ICategoryBarProps) => {
+    const insets = useSafeAreaInsets();
+    const {background} = useTheme();
+    return (
+      <View
+        style={{
+          marginBottom: sizes[8],
+          marginTop: sizes[3],
+          paddingRight: insets.right ? insets.right : sizes[1],
+          paddingLeft: insets.left ? insets.left : sizes[1],
+          backgroundColor: background,
+          zIndex: 1,
+        }}>
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {tags.map((t) => {
+            return (
+              <MyButton
+                onPress={() => onPress(t.id)}
+                key={t.id}
+                isActive={t.id === currentId}
+                type={'default'}
+                style={{marginHorizontal: sizes[3]}}
+                styleText={{
+                  fontSize: sizes[10],
+                  fontFamily: getFontFamily('500'),
+                  paddingVertical: sizes[4],
+                  paddingHorizontal: sizes[7],
+                }}>
+                {t.name}
+              </MyButton>
+            );
+          })}
+        </ScrollView>
+      </View>
+    );
+  },
+);
 
 export default CategoryBar;

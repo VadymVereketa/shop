@@ -11,7 +11,7 @@ import MyButton from '../../controls/MyButton';
 import ResultSvg from '../../../assets/svg/pic-result.svg';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-const ResultScreen = ({navigation, route}: ResultScreenProps) => {
+const ResultScreen = React.memo(({navigation, route}: ResultScreenProps) => {
   const {screen, navigator, title} = route.params;
 
   const handleBack = () => {
@@ -33,7 +33,7 @@ const ResultScreen = ({navigation, route}: ResultScreenProps) => {
       </View>
     </SafeAreaView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

@@ -6,7 +6,7 @@ import {sizes, useTheme} from '../../../context/ThemeContext';
 import MyText from '../../controls/MyText';
 import {useFormattingContext} from '../../../context/FormattingContext';
 
-const SettingsScreen = ({navigation}: SettingsScreenProps) => {
+const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
   const {border, primary, background} = useTheme();
   const {currentLocale, setLocale} = useFormattingContext();
   return (
@@ -46,7 +46,7 @@ const SettingsScreen = ({navigation}: SettingsScreenProps) => {
       </PressTitle>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

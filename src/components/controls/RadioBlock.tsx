@@ -17,50 +17,55 @@ interface IRadioBlockProps {
   style?: StyleProp<ViewStyle>;
   disabled?: boolean;
 }
-const RadioBlock = ({
-  isActive = false,
-  disabled = false,
-  onPress,
-  text,
-  title,
-  style,
-  styleCon,
-}: IRadioBlockProps) => {
-  const {primary, border} = useTheme();
+const RadioBlock = React.memo(
+  ({
+    isActive = false,
+    disabled = false,
+    onPress,
+    text,
+    title,
+    style,
+    styleCon,
+  }: IRadioBlockProps) => {
+    const {primary, border} = useTheme();
 
-  const handlePress = () => {
-    if (!disabled) {
-      onPress();
-    }
-  };
+    const handlePress = () => {
+      if (!disabled) {
+        onPress();
+      }
+    };
 
-  return (
-    <TouchableWithoutFeedback
-      onPress={handlePress}
-      containerStyle={styleCon}
-      style={[
-        styles.con,
-        {borderColor: border, opacity: disabled ? 0.2 : 1},
-        style,
-      ]}>
-      <View
-        style={[styles.bigCircle, {borderColor: isActive ? primary : border}]}>
-        {isActive && (
-          <View
-            style={[
-              styles.circle,
-              {borderColor: primary, backgroundColor: primary},
-            ]}
-          />
-        )}
-      </View>
-      <View style={styles.textBlock}>
-        <MyText style={styles.title}>{title}</MyText>
-        {text && <MyText style={styles.text}>{text}</MyText>}
-      </View>
-    </TouchableWithoutFeedback>
-  );
-};
+    return (
+      <TouchableWithoutFeedback
+        onPress={handlePress}
+        containerStyle={styleCon}
+        style={[
+          styles.con,
+          {borderColor: border, opacity: disabled ? 0.2 : 1},
+          style,
+        ]}>
+        <View
+          style={[
+            styles.bigCircle,
+            {borderColor: isActive ? primary : border},
+          ]}>
+          {isActive && (
+            <View
+              style={[
+                styles.circle,
+                {borderColor: primary, backgroundColor: primary},
+              ]}
+            />
+          )}
+        </View>
+        <View style={styles.textBlock}>
+          <MyText style={styles.title}>{title}</MyText>
+          {text && <MyText style={styles.text}>{text}</MyText>}
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   con: {

@@ -23,7 +23,7 @@ import {
 
 const h = sizes[95];
 
-const OrderScreen = ({route}: OrderScreenProps) => {
+const OrderScreen = React.memo(({route}: OrderScreenProps) => {
   const offsetY = useRef(new Animated.Value(-h)).current;
   const [isShow, setIsShow] = useState(false);
   const insets = useSafeAreaInsets();
@@ -190,7 +190,7 @@ const OrderScreen = ({route}: OrderScreenProps) => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

@@ -10,7 +10,6 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import {LoginScreenProps} from '../../navigators/Auth.navigator';
-import {useFocusEffect} from '@react-navigation/native';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import Logo from '../../common/Logo';
 import {sizes, useTheme} from '../../../context/ThemeContext';
@@ -30,9 +29,7 @@ import {
 } from '../../../redux/user/userReducer';
 import t from '../../../utils/translate';
 
-const window = Dimensions.get('window');
-
-const LoginScreen = ({navigation}: LoginScreenProps) => {
+const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
   const insets = useSafeAreaInsets();
   const {errorColor} = useTheme();
   const error = useSelector(selectorsUser.getError);
@@ -157,7 +154,7 @@ const LoginScreen = ({navigation}: LoginScreenProps) => {
       </View>
     </KeyboardAvoidingView>
   );
-};
+});
 
 const styles = StyleSheet.create({
   empty: {
