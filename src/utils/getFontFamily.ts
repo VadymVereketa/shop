@@ -12,7 +12,7 @@ type StyleFont =
   | '700'
   | '700-I'
   | '800'
-  | '800-I'
+  | '800-I';
 
 const getWeight = (str: string) => {
   switch (str) {

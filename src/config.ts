@@ -24,11 +24,11 @@ const config = (() => {
 
     case 'uat':
       return {
-        canLink: 'http://huspi.com:3022',
-        baseURL: 'http://egersund-uat.mobile-api.huspi.com/api/v1/',
-        baseURLV2: 'http://egersund-uat.mobile-api.huspi.com/api/v2/',
+        canLink: 'https://huspi.com:3022',
+        baseURL: 'https://egersund-uat.mobile-api.huspi.com/api/v1/',
+        baseURLV2: 'https://egersund-uat.mobile-api.huspi.com/api/v2/',
         baseURLCallback: 'https://huspi.com:3024/api/v1/',
-        baseUrlImg: 'http://egersund-uat.mobile-api.huspi.com/api/v1/images/',
+        baseUrlImg: 'https://egersund-uat.mobile-api.huspi.com/api/v1/images/',
         payeeId: '25989',
       };
     default:
