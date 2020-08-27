@@ -29,6 +29,8 @@ const uk = {
   profileLoyaltyCard: 'Карта лояльності',
   profileChangePassword: 'Змінити пароль',
   profileResult: 'Результат',
+  profileContact: 'Контакт',
+  profileSaveContacts: 'Збережені контакти',
 
   cartTitle: 'Кошик',
   cartEmptyItems: 'Кошик порожній',
