@@ -25,6 +25,7 @@ import OrderScreen from '../screens/Menu.navigator/Order.screen';
 import MenuScreen from '../screens/Main.navigator/Menu.screen';
 import ResultScreen from '../screens/Menu.navigator/Result.screen';
 import ContactScreen from '../screens/Menu.navigator/Contact.screen';
+import EditProfileScreen from '../screens/Menu.navigator/EditProfile.screen';
 
 export type MenuNavigatorParamList = {
   Certificate: {};
@@ -46,6 +47,9 @@ export type MenuNavigatorParamList = {
   };
   Contact: {
     contact?: IContact;
+  };
+  EditProfile: {
+    field: 'phone' | 'email' | 'name';
   };
 };
 
@@ -176,7 +180,7 @@ export type ResultScreenProps = {
 /// Result props
 
 /// Contact props
-type ContactScreenNavigationProp = CompositeNavigationProp<
+export type ContactScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<MenuNavigatorParamList, 'Contact'>,
   StackNavigationProp<StartNavigatorParamList>
 >;
@@ -187,6 +191,22 @@ export type ContactScreenProps = {
   navigation: ContactScreenNavigationProp;
 };
 /// Contact props
+
+/// EditProfile props
+export type EditProfileScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MenuNavigatorParamList, 'EditProfile'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type EditProfileScreenRouteProp = RouteProp<
+  MenuNavigatorParamList,
+  'EditProfile'
+>;
+
+export type EditProfileScreenProps = {
+  route: EditProfileScreenRouteProp;
+  navigation: EditProfileScreenNavigationProp;
+};
+/// EditProfile props
 
 const Stack = createStackNavigator<MenuNavigatorParamList>();
 
@@ -288,6 +308,13 @@ const MenuNavigator = React.memo(
           component={ContactScreen}
           options={{
             title: t('profileContact'),
+          }}
+        />
+        <Stack.Screen
+          name="EditProfile"
+          component={EditProfileScreen}
+          options={{
+            title: t('profileEditProfile'),
           }}
         />
       </Stack.Navigator>

@@ -31,6 +31,7 @@ const uk = {
   profileResult: 'Результат',
   profileContact: 'Контакт',
   profileSaveContacts: 'Збережені контакти',
+  profileEditProfile: 'Редагування',
 
   cartTitle: 'Кошик',
   cartEmptyItems: 'Кошик порожній',
@@ -51,6 +52,9 @@ const uk = {
   //text input
   tIPhoneLabel: 'Мобільний телефон',
   tIPhonePlaceholder: 'Введіть мобільний телефон',
+
+  tIEmailLabel: 'Email',
+  tIEmailPlaceholder: 'Введіть Ваш email',
 
   tIPasswordLabel: 'Введіть пароль',
   tIPasswordPlaceholder: 'Введіть пароль',

@@ -6,10 +6,21 @@ import MyText from '../../controls/MyText';
 import {FirstStepScreenProps} from '../../navigators/Order.navigator';
 import MyButton from '../../controls/MyButton';
 import {thunkGetTypes} from '../../../redux/types/typeReducer';
+import {ScrollView} from 'react-native-gesture-handler';
+import {getFontFamily} from '../../../utils/getFontFamily';
+import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {sizes, useTheme} from '../../../context/ThemeContext';
+import {actionsOrder, selectorsOrder} from '../../../redux/order/orderReducer';
+import RadioBlock from '../../controls/RadioBlock';
+import {IContact} from '../../../typings/FetchData';
 
 const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
   const dispatch = useDispatch();
+  const insets = useSafeAreaInsets();
+  const {primary} = useTheme();
   const mainClient = useSelector(selectorsUser.getDataUser)!;
+  const contacts = useSelector(selectorsUser.getContacts);
+  const contact = useSelector(selectorsOrder.getContact);
 
   const handleContinue = () => {
     navigation.push('SecondStep', {});
@@ -19,21 +30,82 @@ const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
     dispatch(thunkGetTypes);
   }, []);
 
+  const handlePress = (c: IContact | null) => {
+    dispatch(
+      actionsOrder.setData({
+        contact: c,
+      }),
+    );
+  };
+
   return (
-    <View style={[styles.container]}>
-      <MyText>Одержувач замовлення</MyText>
-      <MyText>{mainClient.name}</MyText>
-      <MyText>{mainClient.phone}</MyText>
-      <MyButton onPress={handleContinue}>продовжити</MyButton>
-    </View>
+    <SafeAreaView
+      style={[
+        styles.container,
+        {
+          marginTop: -insets.top,
+        },
+      ]}>
+      <ScrollView style={styles.scroll}>
+        <MyText style={styles.title}>Одержувач замовлення</MyText>
+        <RadioBlock
+          title={mainClient.name}
+          onPress={() => handlePress(null)}
+          isActive={contact === null}
+          text={mainClient.phone}
+        />
+        <MyText
+          style={[styles.addText, {color: primary}]}
+          onPress={() => navigation.push('OrderContact', {})}>
+          + Додати іншого одержувача замовлення
+        </MyText>
+        <MyText style={styles.title}>Збережені контакти</MyText>
+        {contacts.map((c) => {
+          return (
+            <RadioBlock
+              styleCon={styles.contact}
+              title={`${c.firstName} ${c.lastName}`}
+              text={c.phone}
+              onPress={() => handlePress(c)}
+              isActive={contact ? contact.id === c.id : false}
+            />
+          );
+        })}
+      </ScrollView>
+      <View style={styles.bottom}>
+        <MyButton styleText={styles.btnText} onPress={handleContinue}>
+          продовжити
+        </MyButton>
+      </View>
+    </SafeAreaView>
   );
 });
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginHorizontal: sizes[5],
+  },
+  scroll: {
+    paddingTop: sizes[12],
+  },
+  title: {
+    fontFamily: getFontFamily('500'),
+    marginBottom: sizes[8],
+  },
+  btnText: {
+    fontSize: sizes[9],
+  },
+  addText: {
+    marginTop: sizes[8],
+    marginBottom: sizes[15],
+  },
+  contact: {
+    marginBottom: sizes[5],
+  },
+  bottom: {
+    marginBottom: sizes[5],
   },
 });
 

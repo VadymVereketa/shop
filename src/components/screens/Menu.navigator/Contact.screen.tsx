@@ -8,6 +8,7 @@ import FormContact from '../../forms/FormContact';
 
 const ContactScreen = React.memo(({navigation, route}: ContactScreenProps) => {
   const insets = useSafeAreaInsets();
+
   const handleOk = () => {
     navigation.goBack();
   };

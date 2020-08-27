@@ -1,5 +1,6 @@
 import {
   IAddressRedux,
+  IContact,
   IDeliveryType,
   IPaymentType,
 } from '../../typings/FetchData';
@@ -8,7 +9,7 @@ export interface IOrderState {
   deliveryType: IDeliveryType | null;
   paymentType: IPaymentType | null;
   step: number;
-  contact: IReceiver | null;
+  contact: IContact | null;
   sellPoint: number | null;
   isCallBack: boolean;
   date: string;

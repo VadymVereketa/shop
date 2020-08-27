@@ -273,64 +273,36 @@ const service = {
     }
   },
   changePassword: async (data: IChangePassword) => {
-    return await customFetch(() =>
-      instance.put('auth/change_password', data, {
-        withCredentials: true,
-      }),
-    );
+    return await customFetch(() => instance.put('auth/change_password', data));
   },
   updateProfile: async (data: any) => {
-    return await customFetch(() =>
-      instance.put('clients/profile', data, {
-        withCredentials: true,
-      }),
-    );
+    return await customFetch(() => instance.put('clients/profile', data));
   },
   addAddress: async (data: Omit<IAddress, 'id'>) => {
-    return await customFetch(() =>
-      instance.post('clients/addresses', data, {
-        withCredentials: true,
-      }),
-    );
+    return await customFetch(() => instance.post('clients/addresses', data));
   },
   updateAddress: async (data: IAddress) => {
     const id = data.id;
     delete data.id;
     return await customFetch(() =>
-      instance.put(`clients/addresses/${id}`, data, {
-        withCredentials: true,
-      }),
+      instance.put(`clients/addresses/${id}`, data),
     );
   },
   deleteAddress: async (id: number) => {
-    return await customFetch(() =>
-      instance.delete(`clients/addresses/${id}`, {
-        withCredentials: true,
-      }),
-    );
+    return await customFetch(() => instance.delete(`clients/addresses/${id}`));
   },
   addContact: async (data: Omit<IContact, 'id'>) => {
-    return await customFetch(() =>
-      instance.post('clients/contacts', data, {
-        withCredentials: true,
-      }),
-    );
+    return await customFetch(() => instance.post('clients/contacts', data));
   },
   updateContact: async (data: IContact) => {
     const id = data.id;
     delete data.id;
     return await customFetch(() =>
-      instance.put(`clients/contacts/${id}`, data, {
-        withCredentials: true,
-      }),
+      instance.put(`clients/contacts/${id}`, data),
     );
   },
   deleteContact: async (id: number) => {
-    return await customFetch(() =>
-      instance.delete(`clients/contacts/${id}`, {
-        withCredentials: true,
-      }),
-    );
+    return await customFetch(() => instance.delete(`clients/contacts/${id}`));
   },
   getAllSetups: async () => {
     try {

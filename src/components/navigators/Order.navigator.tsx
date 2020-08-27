@@ -23,6 +23,7 @@ import MyText from '../controls/MyText';
 import {StyleSheet} from 'react-native';
 import {getFontFamily} from '../../utils/getFontFamily';
 import DateScreen from '../screens/Order.navigator/Date.screen';
+import OrderContactScreen from '../screens/Order.navigator/OrderContact.screen';
 
 export type OrderNavigatorParamList = {
   FirstStep: {};
@@ -30,6 +31,7 @@ export type OrderNavigatorParamList = {
   ThirdStep: {};
   FinalStep: {};
   Date: {};
+  OrderContact: {};
 };
 
 export type FirstStepScreenNavigationProp = CompositeNavigationProp<
@@ -77,6 +79,20 @@ type FinalStepScreenRouteProp = RouteProp<OrderNavigatorParamList, 'FinalStep'>;
 export type FinalStepScreenProps = {
   route: FinalStepScreenRouteProp;
   navigation: FinalStepScreenNavigationProp;
+};
+
+export type OrderContactScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<OrderNavigatorParamList, 'OrderContact'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type OrderContactScreenRouteProp = RouteProp<
+  OrderNavigatorParamList,
+  'OrderContact'
+>;
+
+export type OrderContactScreenProps = {
+  route: OrderContactScreenRouteProp;
+  navigation: OrderContactScreenNavigationProp;
 };
 
 const Stack = createStackNavigator<OrderNavigatorParamList>();
@@ -146,6 +162,13 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
         component={DateScreen}
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="OrderContact"
+        component={OrderContactScreen}
+        options={{
+          title: 'Одержувач замовлення',
         }}
       />
     </Stack.Navigator>

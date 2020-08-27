@@ -25,23 +25,35 @@ interface IData {
   phone: string;
 }
 
+const getDefault = (data?: IContact) => {
+  if (data) {
+    return {
+      name: `${data.firstName} ${data.lastName}`,
+      phone: data.phone,
+    };
+  }
+  return undefined;
+};
+
 const FormContact = ({defaultValues, onCancel, onOk}: IFormContactProps) => {
   const dispatch = useDispatch();
   const {errorColor} = useTheme();
   const {request, isLoading} = useAxios(
     defaultValues ? service.updateContact : service.addContact,
   );
+
   const {control, handleSubmit, errors} = useForm({
     reValidateMode: 'onChange',
     mode: 'onChange',
+    defaultValues: getDefault(defaultValues),
   });
 
   const handleOk = async (data: IData) => {
-    const [firstName, lastName] = data.name;
+    const [firstName, ...lastName] = data.name.split(' ');
     const fetchData: IContact = {
       id: defaultValues ? defaultValues.id : (undefined as any),
       firstName,
-      lastName,
+      lastName: lastName ? lastName.join(' ') : '',
       isPhoneCustom: false,
       phone: data.phone,
     };
@@ -50,7 +62,7 @@ const FormContact = ({defaultValues, onCancel, onOk}: IFormContactProps) => {
       defaultValues
         ? dispatch(actionsUser.updateContact(res.data))
         : dispatch(actionsUser.addContact(res.data));
-      onOk();
+      onOk(res.data);
     }
   };
 
@@ -64,6 +76,7 @@ const FormContact = ({defaultValues, onCancel, onOk}: IFormContactProps) => {
         control={control}
         render={({onChange, onBlur, value}) => (
           <MyTextInput
+            autoFocus
             label={t('tINameLabel')}
             placeholder={t('tINamePlaceholder')}
             keyboardType={'default'}

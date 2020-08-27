@@ -44,16 +44,50 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
       {toggle ? (
         <React.Fragment>
           <View style={[styles.box, {borderColor: border}]}>
-            <MyText style={styles.mainText}>{`${user!.firstName} ${
+            <MyText
+              onPress={() =>
+                navigation.push('EditProfile', {
+                  field: 'name',
+                })
+              }
+              style={styles.mainText}>{`${user!.firstName} ${
               user!.lastName
             }`}</MyText>
           </View>
           <View style={[styles.box, {borderColor: border}]}>
-            <MyText style={styles.mainText}>{user.phone}</MyText>
-            {user.email && (
-              <MyText style={styles.mainText}>{user.email}</MyText>
-            )}
+            <MyText
+              onPress={() =>
+                navigation.push('EditProfile', {
+                  field: 'phone',
+                })
+              }
+              style={styles.mainText}>
+              {user.phone}
+            </MyText>
           </View>
+          {user.email ? (
+            <View style={[styles.box, {borderColor: border}]}>
+              <MyText
+                onPress={() =>
+                  navigation.push('EditProfile', {
+                    field: 'email',
+                  })
+                }
+                style={styles.mainText}>
+                {user.email}
+              </MyText>
+            </View>
+          ) : (
+            <MyText
+              style={{color: primary}}
+              onPress={() =>
+                navigation.push('EditProfile', {
+                  field: 'email',
+                })
+              }>
+              + Додати email
+            </MyText>
+          )}
         </React.Fragment>
       ) : (
         <View>
@@ -67,10 +101,14 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
           </MyText>
         </View>
       )}
-      <PressTitle onPress={() => navigation.push('Certificate', {})}>
+      <PressTitle
+        style={styles.press}
+        onPress={() => navigation.push('Certificate', {})}>
         {t('profileCertificate')}
       </PressTitle>
-      <PressTitle onPress={() => navigation.push('LoyaltyCard', {})}>
+      <PressTitle
+        style={styles.press}
+        onPress={() => navigation.push('LoyaltyCard', {})}>
         {t('profileLoyaltyCard')}
       </PressTitle>
       <TouchableOpacity
@@ -108,6 +146,9 @@ const styles = StyleSheet.create({
     paddingVertical: sizes[7],
     paddingHorizontal: sizes[10],
     flexDirection: 'row',
+  },
+  press: {
+    paddingLeft: 0,
   },
 });
 
