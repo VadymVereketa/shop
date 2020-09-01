@@ -63,7 +63,7 @@ const validation = {
     },
   },
   onlyNumber: {
-    validate: (value) => {
+    validate: (value = '') => {
       return isNaN(Number(value)) ? 'Повино бути число' : undefined;
     },
   },

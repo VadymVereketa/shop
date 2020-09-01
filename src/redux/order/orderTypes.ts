@@ -12,7 +12,7 @@ export interface IOrderState {
   contact: IContact | null;
   sellPoint: number | null;
   isCallBack: boolean;
-  date: string;
+  date: Date | null;
   time: string;
   anonymousMessage: string | null;
   addressId: number | null;

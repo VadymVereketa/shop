@@ -193,7 +193,7 @@ const service = {
     let contact: any = {};
     const addressData: any = {};
     if (isAnon && receiver) {
-      const [firstName, lastName] = receiver.name.split(' ');
+      const {firstName, lastName} = receiver;
       contact = {
         firstName,
         lastName,

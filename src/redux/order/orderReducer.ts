@@ -11,7 +11,7 @@ const init: IOrderState = {
   contact: null,
   sellPoint: null,
   isCallBack: false,
-  date: '',
+  date: null,
   time: '',
   anonymousMessage: null,
   addressId: -1,

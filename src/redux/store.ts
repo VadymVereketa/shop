@@ -10,7 +10,7 @@ export default function configureStore() {
 
   const store = createStore(
     reducers,
-    MODE === 'uat'
+    true
       ? composeWithDevTools(applyMiddleware(...middlewares))
       : applyMiddleware(...middlewares),
   );

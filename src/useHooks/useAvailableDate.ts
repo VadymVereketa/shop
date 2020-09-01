@@ -4,10 +4,10 @@ import {useCallback, useMemo} from 'react';
 import {useFormattingContext} from '../context/FormattingContext';
 import {DEFAULT_NAME_SETTING} from '../constants/constantsId';
 
-export interface IOption<T> {
+export interface IOption<T, R = any> {
   label: string;
   value: T;
-  extra?: any;
+  extra?: R;
 }
 
 const formatter = new Intl.DateTimeFormat('uk', {

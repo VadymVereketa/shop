@@ -12,7 +12,7 @@ import {
 } from './Start.navigator';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/core';
 import IconButton from '../controls/IconButton';
-import {sizes} from '../../context/ThemeContext';
+import {sizes, useTheme} from '../../context/ThemeContext';
 
 export type AuthNavigatorParamList = {
   Login: {};
@@ -44,6 +44,8 @@ export type SignUpScreenProps = {
 const Stack = createStackNavigator<AuthNavigatorParamList>();
 
 const AuthNavigator = React.memo(({navigation}: AuthNavigatorScreenProps) => {
+  const {text} = useTheme();
+
   return (
     <Stack.Navigator
       initialRouteName={'Login'}
@@ -65,7 +67,7 @@ const AuthNavigator = React.memo(({navigation}: AuthNavigatorScreenProps) => {
               icon={{
                 name: 'close',
                 size: sizes[10],
-                fill: 'black',
+                fill: text,
               }}
             />
           );

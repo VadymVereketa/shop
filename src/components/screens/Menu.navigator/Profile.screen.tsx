@@ -12,12 +12,14 @@ import DesignIcon from '../../common/DesignIcon';
 import t from '../../../utils/translate';
 import service from '../../../services/service';
 import ContactBlock from '../../common/ContactBlock';
+import {formatAddress} from '../../../utils/formatAddress';
 
 const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
   const dispatch = useDispatch();
   const [toggle, setToggle] = useState(true);
   const {border, lightBackground, text, lightText, primary} = useTheme();
   const contacts = useSelector(selectorsUser.getContacts);
+  const addresses = useSelector(selectorsUser.getAddresses);
   const user = useSelector(selectorsUser.getUser)! || {};
 
   const handleLogout = async () => {
@@ -101,6 +103,29 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
           </MyText>
         </View>
       )}
+      {addresses.length > 0 && (
+        <React.Fragment>
+          <MyText style={[styles.text]}>Адреси</MyText>
+          <View style={[styles.box, {borderColor: border}]}>
+            {addresses.map((a) => {
+              return (
+                <MyText style={styles.address} numberOfLines={1}>
+                  {formatAddress(a)}
+                </MyText>
+              );
+            })}
+          </View>
+        </React.Fragment>
+      )}
+      <MyText
+        style={{color: primary}}
+        onPress={() =>
+          navigation.push('AddressNavigator', {
+            screen: 'Address',
+          })
+        }>
+        + Додати адрес
+      </MyText>
       <PressTitle
         style={styles.press}
         onPress={() => navigation.push('Certificate', {})}>
@@ -149,6 +174,10 @@ const styles = StyleSheet.create({
   },
   press: {
     paddingLeft: 0,
+  },
+  address: {
+    paddingVertical: sizes[4],
+    fontSize: sizes[9],
   },
 });
 

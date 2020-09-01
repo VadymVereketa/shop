@@ -22,20 +22,6 @@ const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
   const {bottom} = useSafeAreaInsets();
   const w = useResponsiveWidth(100);
 
-  const shadowOpt = {
-    width: w,
-    height: 100,
-    color: '#5c5c5c',
-    border: 4,
-    radius: 0,
-    opacity: 0.2,
-    x: 0,
-    y: 0,
-    style: {
-      height: 0,
-    },
-  };
-
   const current = props.state.index;
 
   return (

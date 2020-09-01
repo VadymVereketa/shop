@@ -22,16 +22,25 @@ import FinalStepScreen from '../screens/Order.navigator/FinalStep.screen';
 import MyText from '../controls/MyText';
 import {StyleSheet} from 'react-native';
 import {getFontFamily} from '../../utils/getFontFamily';
-import DateScreen from '../screens/Order.navigator/Date.screen';
+import DateScreen, {IOptionDate} from '../screens/Order.navigator/Date.screen';
 import OrderContactScreen from '../screens/Order.navigator/OrderContact.screen';
+import OrderAddressScreen from '../screens/Order.navigator/OrderAddress.screen';
 
 export type OrderNavigatorParamList = {
   FirstStep: {};
-  SecondStep: {};
+  SecondStep: {
+    idAddress?: number;
+    option?: IOptionDate;
+  };
   ThirdStep: {};
   FinalStep: {};
-  Date: {};
+  Date: {
+    options: IOptionDate[];
+  };
   OrderContact: {};
+  OrderAddress: {
+    id: number;
+  };
 };
 
 export type FirstStepScreenNavigationProp = CompositeNavigationProp<
@@ -93,6 +102,31 @@ type OrderContactScreenRouteProp = RouteProp<
 export type OrderContactScreenProps = {
   route: OrderContactScreenRouteProp;
   navigation: OrderContactScreenNavigationProp;
+};
+
+export type DateScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<OrderNavigatorParamList, 'Date'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type DateScreenRouteProp = RouteProp<OrderNavigatorParamList, 'Date'>;
+
+export type DateScreenProps = {
+  route: DateScreenRouteProp;
+  navigation: DateScreenNavigationProp;
+};
+
+export type OrderAddressScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<OrderNavigatorParamList, 'OrderAddress'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type OrderAddressScreenRouteProp = RouteProp<
+  OrderNavigatorParamList,
+  'OrderAddress'
+>;
+
+export type OrderAddressScreenProps = {
+  route: OrderAddressScreenRouteProp;
+  navigation: OrderAddressScreenNavigationProp;
 };
 
 const Stack = createStackNavigator<OrderNavigatorParamList>();
@@ -161,7 +195,7 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
         name="Date"
         component={DateScreen}
         options={{
-          headerShown: false,
+          title: 'Дата та час доставки',
         }}
       />
       <Stack.Screen
@@ -169,6 +203,13 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
         component={OrderContactScreen}
         options={{
           title: 'Одержувач замовлення',
+        }}
+      />
+      <Stack.Screen
+        name="OrderAddress"
+        component={OrderAddressScreen}
+        options={{
+          title: 'Обрати адресу',
         }}
       />
     </Stack.Navigator>
