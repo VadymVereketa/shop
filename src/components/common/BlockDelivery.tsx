@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getSellPoints} from '../../redux/sellPoints/sellPointsReducer';
@@ -63,6 +63,7 @@ const BlockDelivery = React.memo(() => {
   const count = useSelector(selectorsCart.getCountProduct);
   const addresses = useSelector(selectorsUser.getAddresses);
   const addressId = useSelector(selectorsOrder.getAddressId);
+  const [pressId, setPressId] = useState(0);
 
   const availableSellPoints = useMemo(() => {
     return getAvailableSellPoints(
@@ -88,6 +89,7 @@ const BlockDelivery = React.memo(() => {
   };
 
   const handlePressSellPoint = async (id: number) => {
+    setPressId(id);
     const res: any = await dispatch(fetchUpdateCart(products, id));
     if (res) {
       dispatch(
@@ -154,9 +156,8 @@ const BlockDelivery = React.memo(() => {
                 text={s.address!}
                 styleCon={styles.block}
                 isActive={idSellPoint === s.id}
-                disabled={
-                  isLoading || !availableSellPoints.some((a) => a === s.id)
-                }
+                isLoading={isLoading && pressId === s.id}
+                disabled={!availableSellPoints.some((a) => a === s.id)}
               />
             );
           })

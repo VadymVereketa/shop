@@ -41,8 +41,8 @@ const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
     reValidateMode: 'onChange',
     mode: 'onChange',
   });
-  const onSubmit = (data) => {
-    dispatch(fetchLogin(data.phone, data.password));
+  const onSubmit = async (data) => {
+    await dispatch(fetchLogin(data.phone, data.password));
 
     service.getCart().then((res) => {
       if (res.length > 0) {

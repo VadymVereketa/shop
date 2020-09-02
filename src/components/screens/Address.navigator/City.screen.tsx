@@ -6,7 +6,11 @@ import MyButton from '../../controls/MyButton';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import MyText from '../../controls/MyText';
 import DesignIcon from '../../common/DesignIcon';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import {
+  ScrollView,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
+import BlockButtons from '../../common/BlockButtons';
 
 const CityScreen = React.memo(({navigation, route}: CityScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -55,22 +59,13 @@ const CityScreen = React.memo(({navigation, route}: CityScreenProps) => {
           );
         })}
       </View>
-      <View style={styles.btns}>
-        <MyButton
-          onPress={handleCancel}
-          type={'default'}
-          containerStyle={styles.btn}
-          isActive
-          styleText={styles.btnText}>
-          скасувати
-        </MyButton>
-        <MyButton
-          onPress={handleOk}
-          containerStyle={styles.btn}
-          styleText={styles.btnText}>
-          Обрати
-        </MyButton>
-      </View>
+      <BlockButtons
+        isLoading={false}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        textCancel="скасувати"
+        textOk="Обрати"
+      />
     </SafeAreaView>
   );
 });
@@ -81,17 +76,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     marginHorizontal: sizes[5],
   },
-  btns: {
-    flexDirection: 'row',
-    marginHorizontal: -(sizes[5] / 2),
-    marginBottom: sizes[5],
-  },
   btnText: {
     fontSize: sizes[9],
-  },
-  btn: {
-    marginHorizontal: sizes[5],
-    flex: 1,
   },
   item: {
     borderBottomWidth: 1,

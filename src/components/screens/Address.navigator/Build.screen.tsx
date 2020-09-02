@@ -14,6 +14,7 @@ import {useSelector} from 'react-redux';
 import {selectorsOther} from '../../../redux/other/otherReducer';
 import MyText from '../../controls/MyText';
 import DesignIcon from '../../common/DesignIcon';
+import BlockButtons from '../../common/BlockButtons';
 
 export interface IExtra {
   build: string;
@@ -159,23 +160,14 @@ const BuildScreen = React.memo(({navigation, route}: BuildScreenProps) => {
           );
         }}
       />
-      <View style={styles.btns}>
-        <MyButton
-          onPress={handleCancel}
-          type={'default'}
-          containerStyle={styles.btn}
-          isActive
-          styleText={styles.btnText}>
-          скасувати
-        </MyButton>
-        <MyButton
-          disabled={selected === -1}
-          onPress={handleOk}
-          containerStyle={styles.btn}
-          styleText={styles.btnText}>
-          Обрати
-        </MyButton>
-      </View>
+      <BlockButtons
+        isLoading={false}
+        disabled={selected === -1}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        textCancel="скасувати"
+        textOk="Обрати"
+      />
     </SafeAreaView>
   );
 });
@@ -210,19 +202,6 @@ const styles = StyleSheet.create({
     paddingVertical: sizes[8],
     paddingLeft: sizes[10],
     flexGrow: 1,
-  },
-  btns: {
-    flexDirection: 'row',
-    marginHorizontal: -(sizes[5] / 2),
-    marginBottom: sizes[5],
-    paddingTop: sizes[5],
-  },
-  btnText: {
-    fontSize: sizes[9],
-  },
-  btn: {
-    marginHorizontal: sizes[5],
-    flex: 1,
   },
 });
 

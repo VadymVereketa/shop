@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {
   TouchableOpacity,
@@ -7,6 +7,9 @@ import {
 import MyText from './MyText';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {getFontFamily} from '../../utils/getFontFamily';
+import Animated, {Easing, timing} from 'react-native-reanimated';
+import {useLoadingAnim} from '../../useHooks/useLoadingAnim';
+import DesignIcon from '../common/DesignIcon';
 
 interface IRadioBlockProps {
   isActive?: boolean;
@@ -16,11 +19,13 @@ interface IRadioBlockProps {
   styleCon?: StyleProp<ViewStyle>;
   style?: StyleProp<ViewStyle>;
   disabled?: boolean;
+  isLoading?: boolean;
 }
 const RadioBlock = React.memo(
   ({
     isActive = false,
     disabled = false,
+    isLoading = false,
     onPress,
     text,
     title,
@@ -28,11 +33,12 @@ const RadioBlock = React.memo(
     styleCon,
   }: IRadioBlockProps) => {
     const {primary, border} = useTheme();
+    const rotateAnim = useLoadingAnim(isLoading);
 
     const handlePress = () => {
-      if (!disabled) {
-        onPress();
-      }
+      if (disabled || isLoading) return;
+
+      onPress();
     };
 
     return (
@@ -62,6 +68,24 @@ const RadioBlock = React.memo(
           <MyText style={styles.title}>{title}</MyText>
           {text && <MyText style={styles.text}>{text}</MyText>}
         </View>
+        {isLoading && (
+          <Animated.View
+            style={{
+              flexGrow: 1,
+              alignItems: 'flex-end',
+            }}>
+            <Animated.View
+              style={{
+                transform: [
+                  {
+                    rotate: rotateAnim,
+                  },
+                ],
+              }}>
+              <DesignIcon name={'reload'} size={sizes[10]} fill={primary} />
+            </Animated.View>
+          </Animated.View>
+        )}
       </TouchableWithoutFeedback>
     );
   },

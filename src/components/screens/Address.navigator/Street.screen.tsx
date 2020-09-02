@@ -11,18 +11,22 @@ import service from '../../../services/service';
 import {IOption} from '../../../useHooks/useAvailableDate';
 import DesignIcon from '../../common/DesignIcon';
 import MyButton from '../../controls/MyButton';
+import BlockButtons from '../../common/BlockButtons';
+import Loader from '../../common/Loader';
 
 const StreetScreen = React.memo(({navigation, route}: StreetScreenProps) => {
   const insets = useSafeAreaInsets();
   const {border, primary, text, background} = useTheme();
-  const {request: getStreets} = useAxios(service.getStreets);
+  const {request: getStreets, isLoading} = useAxios(service.getStreets);
   const [value, setValue] = useState('');
   const [selected, setSelected] = useState(-1);
   const [streets, setStreets] = useState([] as IOption<number>[]);
 
   const handleSearch = async () => {
+    if (value.trim() === '') return;
+
     Keyboard.dismiss();
-    const res = await getStreets<{id: number; name: string}[]>(value);
+    const res = await getStreets<{id: number; name: string}[]>(value.trim());
     if (res.success) {
       setStreets(res.data.map((d) => ({label: d.name, value: d.id})));
     }
@@ -68,6 +72,7 @@ const StreetScreen = React.memo(({navigation, route}: StreetScreenProps) => {
           }}
         />
       </View>
+      <Loader isLoading={isLoading} top={sizes[20] + insets.top} />
       <ScrollView showsVerticalScrollIndicator={false}>
         {streets.map((s) => {
           return (
@@ -93,23 +98,14 @@ const StreetScreen = React.memo(({navigation, route}: StreetScreenProps) => {
           );
         })}
       </ScrollView>
-      <View style={styles.btns}>
-        <MyButton
-          onPress={handleCancel}
-          type={'default'}
-          containerStyle={styles.btn}
-          isActive
-          styleText={styles.btnText}>
-          скасувати
-        </MyButton>
-        <MyButton
-          disabled={selected === -1}
-          onPress={handleOk}
-          containerStyle={styles.btn}
-          styleText={styles.btnText}>
-          Обрати
-        </MyButton>
-      </View>
+      <BlockButtons
+        isLoading={false}
+        disabled={selected === -1}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        textCancel="скасувати"
+        textOk="Обрати"
+      />
     </SafeAreaView>
   );
 });
@@ -123,7 +119,7 @@ const styles = StyleSheet.create({
     paddingVertical: sizes[8],
     paddingHorizontal: sizes[5],
     marginHorizontal: -sizes[5],
-
+    zIndex: 100,
     shadowOpacity: 0.3,
     shadowRadius: 4,
     shadowOffset: {
@@ -144,18 +140,6 @@ const styles = StyleSheet.create({
     paddingVertical: sizes[8],
     paddingLeft: sizes[10],
     flexGrow: 1,
-  },
-  btns: {
-    flexDirection: 'row',
-    marginHorizontal: -(sizes[5] / 2),
-    marginBottom: sizes[5],
-  },
-  btnText: {
-    fontSize: sizes[9],
-  },
-  btn: {
-    marginHorizontal: sizes[5],
-    flex: 1,
   },
 });
 

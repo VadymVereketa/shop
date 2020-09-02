@@ -20,6 +20,7 @@ import {IAddressRedux} from '../../../typings/FetchData';
 import {getConvertDataToFetch} from '../../../utils/formatAddress';
 import {useDispatch} from 'react-redux';
 import {actionsUser} from '../../../redux/user/userReducer';
+import BlockButtons from '../../common/BlockButtons';
 
 const cities = [
   {
@@ -275,24 +276,13 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
         </View>
         {isShow && <MyText>Введiть спочатку {t('tiStreetPlaceholder')}</MyText>}
       </ScrollView>
-      <View style={styles.btns}>
-        <MyButton
-          onPress={handleCancel}
-          disabled={isLoading}
-          type={'default'}
-          containerStyle={styles.btn}
-          isActive
-          styleText={styles.btnText}>
-          скасувати
-        </MyButton>
-        <MyButton
-          onPress={handleSubmit(handleOk)}
-          disabled={isLoading}
-          containerStyle={styles.btn}
-          styleText={styles.btnText}>
-          зберегти
-        </MyButton>
-      </View>
+      <BlockButtons
+        isLoading={isLoading}
+        onOk={handleSubmit(handleOk)}
+        onCancel={handleCancel}
+        textCancel="скасувати"
+        textOk="зберегти"
+      />
     </SafeAreaView>
   );
 });
@@ -307,13 +297,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginHorizontal: -(sizes[5] / 2),
     marginBottom: sizes[5],
-  },
-  btnText: {
-    fontSize: sizes[9],
-  },
-  btn: {
-    marginHorizontal: sizes[5],
-    flex: 1,
   },
   inputText: {
     marginBottom: sizes[5],

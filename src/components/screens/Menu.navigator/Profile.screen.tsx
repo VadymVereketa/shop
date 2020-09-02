@@ -30,7 +30,10 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
   };
 
   return (
-    <ScrollView style={[styles.container]} bounces={false}>
+    <ScrollView
+      style={[styles.container]}
+      bounces={false}
+      showsVerticalScrollIndicator={false}>
       <View style={{flexDirection: 'row'}}>
         <MyText
           onPress={() => setToggle(true)}
@@ -150,6 +153,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: sizes[5],
+    marginBottom: sizes[5],
   },
   text: {
     fontFamily: getFontFamily('500'),

@@ -13,6 +13,8 @@ import {useAxios} from '../../useHooks/useAxios';
 import service from '../../services/service';
 import {useDispatch} from 'react-redux';
 import {actionsUser} from '../../redux/user/userReducer';
+import BlockButtons from '../common/BlockButtons';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 interface IFormContactProps {
   onCancel: any;
@@ -107,24 +109,13 @@ const FormContact = ({defaultValues, onCancel, onOk}: IFormContactProps) => {
         name="phone"
         rules={validation.required}
       />
-      <View style={styles.btns}>
-        <MyButton
-          onPress={handleCancel}
-          disabled={isLoading}
-          type={'default'}
-          containerStyle={styles.btn}
-          isActive
-          styleText={styles.btnText}>
-          скасувати
-        </MyButton>
-        <MyButton
-          onPress={handleSubmit(handleOk)}
-          disabled={isLoading}
-          containerStyle={styles.btn}
-          styleText={styles.btnText}>
-          зберегти
-        </MyButton>
-      </View>
+      <BlockButtons
+        isLoading={isLoading}
+        onOk={handleSubmit(handleOk)}
+        onCancel={handleCancel}
+        textCancel="скасувати"
+        textOk="зберегти"
+      />
     </ScrollView>
   );
 };
@@ -132,19 +123,6 @@ const FormContact = ({defaultValues, onCancel, onOk}: IFormContactProps) => {
 const styles = StyleSheet.create({
   inputText: {
     paddingBottom: sizes[8],
-  },
-  btns: {
-    flexDirection: 'row',
-    marginTop: sizes[5],
-    flexGrow: 1,
-    marginHorizontal: -sizes[5],
-  },
-  btnText: {
-    fontSize: sizes[9],
-  },
-  btn: {
-    marginHorizontal: sizes[5],
-    flex: 1,
   },
 });
 

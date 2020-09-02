@@ -14,6 +14,8 @@ import validation from '../../../utils/validation';
 import {IUser} from '../../../typings/FetchData';
 import {useDispatch, useSelector} from 'react-redux';
 import {refreshUser, selectorsUser} from '../../../redux/user/userReducer';
+import {ScrollView} from 'react-native-gesture-handler';
+import BlockButtons from '../../common/BlockButtons';
 
 const getSettingForInput = (name: 'phone' | 'email' | 'name') => {
   switch (name) {
@@ -72,11 +74,13 @@ const EditProfileScreen = React.memo(
 
     const handleOk = async (data: any) => {
       if (field === 'name') {
-        const [firstName, ...lastName] = data.name.split(' ');
+        const [firstName, ...lastName] = data.name.trim().split(' ');
         data = {
           firstName,
           lastName: lastName ? lastName.join(' ') : '',
         };
+      } else {
+        data[field] = data[field].trim();
       }
       const res = await request(data);
       if (res.success) {
@@ -119,24 +123,14 @@ const EditProfileScreen = React.memo(
           name={setting.name}
           rules={setting.rules}
         />
-        <View style={styles.btns}>
-          <MyButton
-            onPress={handleCancel}
-            disabled={isLoading}
-            type={'default'}
-            containerStyle={styles.btn}
-            isActive
-            styleText={styles.btnText}>
-            скасувати
-          </MyButton>
-          <MyButton
-            onPress={handleSubmit(handleOk)}
-            disabled={isLoading}
-            containerStyle={styles.btn}
-            styleText={styles.btnText}>
-            зберегти
-          </MyButton>
-        </View>
+
+        <BlockButtons
+          isLoading={isLoading}
+          onOk={handleSubmit(handleOk)}
+          onCancel={handleCancel}
+          textCancel="скасувати"
+          textOk="зберегти"
+        />
       </SafeAreaView>
     );
   },

@@ -60,7 +60,10 @@ const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
           marginTop: -insets.top,
         },
       ]}>
-      <ScrollView style={styles.scroll}>
+      <ScrollView
+        bounces={false}
+        contentContainerStyle={styles.scroll}
+        showsVerticalScrollIndicator={false}>
         <MyText style={styles.title}>Одержувач замовлення</MyText>
         <RadioBlock
           title={mainClient.name}
@@ -102,7 +105,7 @@ const styles = StyleSheet.create({
     marginHorizontal: sizes[5],
   },
   scroll: {
-    paddingTop: sizes[12],
+    paddingTop: sizes[10],
   },
   title: {
     fontFamily: getFontFamily('500'),
@@ -120,6 +123,7 @@ const styles = StyleSheet.create({
   },
   bottom: {
     marginBottom: sizes[5],
+    marginTop: sizes[5],
   },
 });
 
