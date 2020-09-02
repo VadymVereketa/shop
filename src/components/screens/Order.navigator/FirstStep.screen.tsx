@@ -13,11 +13,14 @@ import {sizes, useTheme} from '../../../context/ThemeContext';
 import {actionsOrder, selectorsOrder} from '../../../redux/order/orderReducer';
 import RadioBlock from '../../controls/RadioBlock';
 import {IContact} from '../../../typings/FetchData';
+import {actionsOther, selectorsOther} from '../../../redux/other/otherReducer';
+import service from '../../../services/service';
 
 const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const {primary} = useTheme();
+  const draftId = useSelector(selectorsOther.getDraftId);
   const mainClient = useSelector(selectorsUser.getDataUser)!;
   const contacts = useSelector(selectorsUser.getContacts);
   const contact = useSelector(selectorsOrder.getContact);
@@ -28,6 +31,17 @@ const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
 
   useEffect(() => {
     dispatch(thunkGetTypes);
+    if (draftId === null) {
+      service.createDraft().then((res) => {
+        if (res.success) {
+          dispatch(
+            actionsOther.setData({
+              draftId: res.data.id,
+            }),
+          );
+        }
+      });
+    }
   }, []);
 
   const handlePress = (c: IContact | null) => {

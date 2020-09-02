@@ -28,6 +28,8 @@ import {
   selectorsUser,
 } from '../../../redux/user/userReducer';
 import t from '../../../utils/translate';
+import service from '../../../services/service';
+import {actionsCart} from '../../../redux/cart/cartReducer';
 
 const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -41,6 +43,12 @@ const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
   });
   const onSubmit = (data) => {
     dispatch(fetchLogin(data.phone, data.password));
+
+    service.getCart().then((res) => {
+      if (res.length > 0) {
+        dispatch(actionsCart.setData(res));
+      }
+    });
   };
 
   useEffect(() => {

@@ -184,48 +184,35 @@ const service = {
       return [];
     }
   },
-  createOrder: async (
-    draftId: number,
-    data: IOrderState,
-    isAnon: boolean = false,
-  ) => {
-    const receiver = data.contact;
+  createOrder: async (draftId: number, data: IOrderState) => {
     let contact: any = {};
     const addressData: any = {};
-    if (isAnon && receiver) {
-      const {firstName, lastName} = receiver;
-      contact = {
-        firstName,
-        lastName,
-        phone: receiver.isPhoneCustom
-          ? receiver.phone
-          : getWithoutCodePhone(receiver.phone),
-      };
-    } else if (receiver) {
+    if (data.contact) {
       contact = {
         contact: {
-          id: receiver.id!,
+          id: data.contact.id!,
         },
       };
     }
+
+    let time = data.time;
+
     if (data.deliveryType!.code === TypeDelivery.courier) {
-      if (isAnon) {
-        addressData.orderAddress = formatAddress(data.address);
-      } else {
-        addressData.address = {
-          id: data.addressId !== -1 ? data.addressId : data.address!.id,
-        };
-      }
+      addressData.address = {
+        id: data.addressId,
+      };
+    } else {
+      time = `${time}-${time}`;
     }
 
-    const [minTime, maxTime] = data.time.split('-');
+    const [minTime, maxTime] = time.split('-');
     const [maxH, maxM] = maxTime.split(':').map(parseFloat);
     const [minH, minM] = minTime.split(':').map(parseFloat);
 
-    const maxExecuteDate = new Date(data.date);
+    const maxExecuteDate = new Date(data.date!);
     maxExecuteDate.setHours(maxH, maxM);
 
-    const minExecuteDate = new Date(data.date);
+    const minExecuteDate = new Date(data.date!);
     minExecuteDate.setHours(minH, minM);
 
     const fetchData: IOrderPost = {
@@ -257,9 +244,7 @@ const service = {
     };
 
     try {
-      const res = await instance.post('clients/order', fetchData, {
-        withCredentials: true,
-      });
+      const res = await instance.post('clients/order', fetchData);
 
       return {
         success: true,
@@ -322,15 +307,12 @@ const service = {
       'platformType/code': 'website',
     };
     try {
-      const res = await instance.get<IDefaultSetting[]>(
-        'setups/settings' + buildQuery({filter, expand: 'platformType'}),
-        {
-          params: {
-            skip: 0,
-            top: 50,
-          },
+      const res = await instance.get<IDefaultSetting[]>('setups/settings', {
+        params: {
+          skip: 0,
+          top: 50,
         },
-      );
+      });
       return res.data;
     } catch (e) {
       return [];

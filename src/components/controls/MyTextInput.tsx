@@ -110,7 +110,7 @@ const MyTextInput = React.memo(
           trailing: false,
         },
       ),
-      [],
+      [viewOnTouch],
     );
 
     useDidUpdateEffect(() => {

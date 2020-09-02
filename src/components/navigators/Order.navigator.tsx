@@ -10,7 +10,7 @@ import {
   SecondaryNavigatorScreenProps,
   StartNavigatorParamList,
 } from './Start.navigator';
-import {ICartItem, IProduct} from '../../typings/FetchData';
+import {ICartItem, IProduct, IPurchase} from '../../typings/FetchData';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/core';
 import IconButton from '../controls/IconButton';
 import {sizes, useTheme} from '../../context/ThemeContext';

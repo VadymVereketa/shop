@@ -73,6 +73,7 @@ const RestaurantScreen = React.memo(
         idCategory: !route.params.isTag ? idCategory : null,
       }).then((res) => {
         if (res.success) {
+          console.log(res);
           setProducts((p) => {
             return [...p, ...res.data.items];
           });

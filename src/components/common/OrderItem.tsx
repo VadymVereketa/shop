@@ -22,7 +22,7 @@ interface IOrderItemProps {
 
 const OrderItem = React.memo(({order}: IOrderItemProps) => {
   const navigation = useNavigation<OrdersScreenNavigationProp>();
-  const {border} = useTheme();
+  const {border, text} = useTheme();
   const {formatPrice} = useFormattingContext();
 
   const images = order.purchases.map((purchase) => {
@@ -75,7 +75,7 @@ const OrderItem = React.memo(({order}: IOrderItemProps) => {
           icon={{
             name: 'next',
             size: sizes[10],
-            fill: 'black',
+            fill: text,
           }}
         />
       </View>

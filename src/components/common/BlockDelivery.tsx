@@ -56,7 +56,7 @@ const BlockDelivery = React.memo(() => {
   const sellPoints = useSelector(getSellPoints(false));
   const deliveryTypes = useSelector(selectorsTypes.getDeliveryTypes);
   const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
-  const idSellPoint = useSelector(selectorsOrder.getSellPoint);
+  const idSellPoint = useSelector(selectorsOrder.getSellPointId);
   const deliveryType = useSelector(selectorsOrder.getDeliveryType);
   const products = useSelector(selectorsCart.getCartProducts);
   const isLoading = useSelector(selectorsCart.getIsLoading);
@@ -182,6 +182,7 @@ const BlockDelivery = React.memo(() => {
             ) : (
               <MyTextInput
                 editable={false}
+                multiline={true}
                 viewOnTouch={() => {
                   navigation.push('OrderAddress', {
                     id: addressId!,

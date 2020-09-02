@@ -35,6 +35,7 @@ const MyButton = React.memo(
     style = {},
     styleText = {},
     containerStyle = {},
+    onPress,
     ...props
   }: IMyButtonProps) => {
     const {primary, border, text, background, lightBackground} = useTheme();
@@ -63,6 +64,11 @@ const MyButton = React.memo(
       color = type === 'filled' ? color : lightBackground;
     }
 
+    const handlePress = (e) => {
+      if (disabled) return;
+      onPress && onPress(e);
+    };
+
     return (
       <TO
         containerStyle={[
@@ -72,6 +78,7 @@ const MyButton = React.memo(
           },
           containerStyle,
         ]}
+        onPress={handlePress}
         style={[
           styles.btn,
           {

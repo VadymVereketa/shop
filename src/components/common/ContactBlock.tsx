@@ -16,6 +16,7 @@ import {useAxios} from '../../useHooks/useAxios';
 import service from '../../services/service';
 import {useDispatch} from 'react-redux';
 import {actionsUser} from '../../redux/user/userReducer';
+import IconButton from '../controls/IconButton';
 
 interface IContactBlockProps {
   contact: IContact;
@@ -87,22 +88,19 @@ const ContactBlock = ({contact}: IContactBlockProps) => {
           style={
             styles.text
           }>{`${contact.firstName} ${contact.lastName}`}</MyText>
-        <TouchableWithoutFeedback
-          hitSlop={{
-            top: sizes[10],
-            bottom: sizes[10],
-            left: sizes[10],
-            right: sizes[10],
+        <IconButton
+          icon={{
+            name: 'menu-keb',
+            size: sizes[10],
+            fill: lightText,
           }}
-          style={styles.points}
-          onPress={() => setIsShow(true)}>
-          {[1, 1, 1].map((_, i) => (
-            <View
-              key={i}
-              style={[styles.point, {backgroundColor: lightText}]}
-            />
-          ))}
-        </TouchableWithoutFeedback>
+          style={{
+            padding: sizes[4],
+            marginRight: -sizes[8],
+            marginTop: -sizes[4],
+          }}
+          onPress={() => setIsShow(true)}
+        />
       </View>
       <MyText style={styles.text}>{contact.phone}</MyText>
     </View>

@@ -22,7 +22,7 @@ export interface IOptionDate {
 const DateScreen = ({navigation, route}: DateScreenProps) => {
   const insets = useSafeAreaInsets();
   const {formatDate} = useFormattingContext();
-  const {border, primary} = useTheme();
+  const {border, primary, text} = useTheme();
   const [value, setValue] = useState(-1);
   const date = useSelector(selectorsOrder.getDate);
   const time = useSelector(selectorsOrder.getTime);
@@ -61,6 +61,12 @@ const DateScreen = ({navigation, route}: DateScreenProps) => {
       ]}>
       <FlatList
         data={options}
+        getItemLayout={(data, index) => ({
+          length: sizes[28],
+          offset: sizes[28] * index,
+          index,
+        })}
+        initialNumToRender={20}
         keyExtractor={(item) => item.value.toString()}
         renderItem={(info) => {
           const {item} = info;
@@ -74,10 +80,15 @@ const DateScreen = ({navigation, route}: DateScreenProps) => {
                 justifyContent: 'space-between',
                 flexDirection: 'row',
               }}>
-              <MyText style={{fontSize: sizes[9]}}>
+              <MyText
+                style={{
+                  fontSize: sizes[9],
+                  color: value === item.value ? primary : text,
+                }}>
                 <MyText
                   style={{
                     fontFamily: getFontFamily('500'),
+                    color: value === item.value ? primary : text,
                   }}>
                   {formatDate(item.date) + ' '}
                 </MyText>

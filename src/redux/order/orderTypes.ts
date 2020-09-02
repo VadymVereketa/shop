@@ -17,7 +17,7 @@ export interface IOrderState {
   anonymousMessage: string | null;
   addressId: number | null;
   commentAddress: string;
-  address: IAddressRedux | null;
+  address: string;
   numberOrder: number | null;
   idDeliveryPrice: number;
   statusPayment: StatusPayment;
