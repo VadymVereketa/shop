@@ -15,6 +15,7 @@ import {selectorsOther} from '../../../redux/other/otherReducer';
 import MyText from '../../controls/MyText';
 import DesignIcon from '../../common/DesignIcon';
 import BlockButtons from '../../common/BlockButtons';
+import OptionItem from '../../common/OptionItem';
 
 export interface IExtra {
   build: string;
@@ -135,30 +136,13 @@ const BuildScreen = React.memo(({navigation, route}: BuildScreenProps) => {
         data={filterBuilds}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.value.toString()}
-        renderItem={(info) => {
-          const item = info.item;
-          return (
-            <View
-              key={item.value}
-              style={[styles.item, {borderBottomColor: border}]}>
-              <MyText
-                style={[
-                  styles.text,
-                  {color: selected === item.value ? primary : text},
-                ]}
-                onPress={() => setSelected(item.value)}>
-                {item.label}
-              </MyText>
-              {selected === item.value && (
-                <DesignIcon
-                  name={'check-mark'}
-                  size={sizes[10]}
-                  fill={primary}
-                />
-              )}
-            </View>
-          );
-        }}
+        renderItem={(info) => (
+          <OptionItem
+            info={info}
+            selected={selected}
+            setSelected={setSelected}
+          />
+        )}
       />
       <BlockButtons
         isLoading={false}

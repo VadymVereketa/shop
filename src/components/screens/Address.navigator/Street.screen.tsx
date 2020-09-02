@@ -4,7 +4,7 @@ import {StreetScreenProps} from '../../navigators/Address.navigator';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import MyTextInput from '../../controls/MyTextInput';
-import {ScrollView} from 'react-native-gesture-handler';
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import MyText from '../../controls/MyText';
 import {useAxios} from '../../../useHooks/useAxios';
 import service from '../../../services/service';
@@ -13,6 +13,7 @@ import DesignIcon from '../../common/DesignIcon';
 import MyButton from '../../controls/MyButton';
 import BlockButtons from '../../common/BlockButtons';
 import Loader from '../../common/Loader';
+import OptionItem from '../../common/OptionItem';
 
 const StreetScreen = React.memo(({navigation, route}: StreetScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -73,31 +74,22 @@ const StreetScreen = React.memo(({navigation, route}: StreetScreenProps) => {
         />
       </View>
       <Loader isLoading={isLoading} top={sizes[20] + insets.top} />
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {streets.map((s) => {
-          return (
-            <View
-              key={s.value}
-              style={[styles.item, {borderBottomColor: border}]}>
-              <MyText
-                style={[
-                  styles.text,
-                  {color: selected === s.value ? primary : text},
-                ]}
-                onPress={() => setSelected(s.value)}>
-                {s.label}
-              </MyText>
-              {selected === s.value && (
-                <DesignIcon
-                  name={'check-mark'}
-                  size={sizes[10]}
-                  fill={primary}
-                />
-              )}
-            </View>
-          );
+      <FlatList
+        getItemLayout={(data, index) => ({
+          length: sizes[28],
+          offset: sizes[28] * index,
+          index,
         })}
-      </ScrollView>
+        keyExtractor={(item) => item.value.toString()}
+        data={streets}
+        renderItem={(info) => (
+          <OptionItem
+            info={info}
+            selected={selected}
+            setSelected={setSelected}
+          />
+        )}
+      />
       <BlockButtons
         isLoading={false}
         disabled={selected === -1}
@@ -127,19 +119,6 @@ const styles = StyleSheet.create({
       width: 0,
     },
     elevation: 4,
-  },
-  item: {
-    borderBottomWidth: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingRight: sizes[10],
-  },
-  text: {
-    fontSize: sizes[9],
-    paddingVertical: sizes[8],
-    paddingLeft: sizes[10],
-    flexGrow: 1,
   },
 });
 
