@@ -49,7 +49,10 @@ const getAvailableSellPoints = (
   return res;
 };
 
-const BlockDelivery = React.memo(() => {
+interface IBlockDeliveryProps {
+  navigate: any;
+}
+const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
   const dispatch = useDispatch();
   const navigation = useNavigation<SecondStepScreenNavigationProp>();
   const {border, primary} = useTheme();
@@ -101,7 +104,9 @@ const BlockDelivery = React.memo(() => {
   };
 
   useEffect(() => {
-    handleSetDeliveryType(TypeDelivery.self);
+    if (!deliveryType) {
+      handleSetDeliveryType(TypeDelivery.self);
+    }
     return () => {
       dispatch(actionsCart.updateCart(-1));
     };
@@ -187,6 +192,7 @@ const BlockDelivery = React.memo(() => {
                 viewOnTouch={() => {
                   navigation.push('OrderAddress', {
                     id: addressId!,
+                    navigate,
                   });
                 }}
                 afterIcon={{

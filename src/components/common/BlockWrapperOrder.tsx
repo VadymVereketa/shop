@@ -16,8 +16,6 @@ import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import {selectorsOrder} from '../../redux/order/orderReducer';
 import {TypeDelivery} from '../../constants/constantsId';
 
-const h = sizes[100] + sizes[50];
-
 interface IBlockOrderProps {
   disabled: boolean;
   handleContinue: any;
@@ -25,13 +23,14 @@ interface IBlockOrderProps {
 }
 const BlockWrapperOrder = React.memo(
   ({disabled, handleContinue, children}: IBlockOrderProps) => {
+    const items = useSelector(selectorsCart.getCartProducts);
+    const h = items.length > 1 ? sizes[100] + sizes[50] : sizes[90];
     const offsetY = useRef(new Animated.Value(-h)).current;
     const [isShow, setIsShow] = useState(false);
     const insets = useSafeAreaInsets();
     let sum = useSelector(selectorsCart.getGeneralSum);
     const isCourier = useSelector(selectorsOrder.isDeliveryCourier);
     const deliveryPrice = useSelector(selectorsOrder.getDeliveryPrice);
-    const items = useSelector(selectorsCart.getCartProducts);
     const {lightBackground, background, text} = useTheme();
     const {formatPrice} = useFormattingContext();
 

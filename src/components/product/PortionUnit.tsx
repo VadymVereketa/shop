@@ -13,6 +13,7 @@ import {useResponsiveWidth} from 'react-native-responsive-dimensions';
 import MyButton from '../controls/MyButton';
 import t from '../../utils/translate';
 import {ITranslate} from '../../assets/translations/uk';
+import {selectorsOrder} from '../../redux/order/orderReducer';
 
 interface IPortionUnitProps {
   product: IProduct;
@@ -25,11 +26,12 @@ interface IPortionUnitProps {
 const PortionUnit = React.memo(
   ({product, price, addToCart, title, onOrder}: IPortionUnitProps) => {
     const w = useResponsiveWidth(100);
+    const isRepeatOrder = useSelector(selectorsOrder.isRepeatOrder);
     const {formatPrice} = useFormattingContext();
     const dispatch = useDispatch();
     const initValue = useSelector(selectorsCart.getCountProduct(product.id));
     const [count, setCount] = useState(initValue !== null ? +initValue : 1);
-    const {weight, garnish} = product;
+    const {garnish} = product;
     const onChange = (n) => {
       setCount(n);
       dispatch(
@@ -69,13 +71,14 @@ const PortionUnit = React.memo(
         </View>
         <MyText style={styles.garnish}>Склад:</MyText>
         <MyText style={styles.ingredients}>{product.ingredients}</MyText>
-
-        <MyButton
-          styleText={styles.btnText}
-          style={styles.btnTop}
-          onPress={handleOrder}>
-          {t('btnOrderLong')}
-        </MyButton>
+        {!isRepeatOrder && (
+          <MyButton
+            styleText={styles.btnText}
+            style={styles.btnTop}
+            onPress={handleOrder}>
+            {t('btnOrderLong')}
+          </MyButton>
+        )}
         <MyButton
           onPress={handleSubmit}
           style={styles.btnBot}

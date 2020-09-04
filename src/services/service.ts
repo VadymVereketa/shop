@@ -102,6 +102,15 @@ const service = {
   getProducts: async (opt: IGetProducts) => {
     return await customFetch(() => instance.get(queries.getProducts(opt).url!));
   },
+
+  getProductsByIds: async (ids: number[]) => {
+    const filter = {
+      or: ids.map((id) => ({id: id})),
+    };
+    return await customFetch(() =>
+      instance.get('/products' + buildQuery({filter})),
+    );
+  },
   getOrders: async (opt: {top: number; skip: number}) => {
     return await customFetch(() => instance.get(queries.getOrders(opt).url!));
   },

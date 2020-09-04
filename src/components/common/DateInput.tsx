@@ -15,7 +15,10 @@ import getOptions from '../../utils/getOptionsDate';
 import {IOptionDate} from '../screens/Order.navigator/Date.screen';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 
-const DateInput = () => {
+interface IDateInputProps {
+  navigate: string;
+}
+const DateInput = ({navigate}: IDateInputProps) => {
   const dispatch = useDispatch();
   const navigation = useNavigation<SecondStepScreenNavigationProp>();
   const {formatDate} = useFormattingContext();
@@ -53,6 +56,7 @@ const DateInput = () => {
   const handlePressDate = () => {
     navigation.navigate('Date', {
       options: options,
+      navigate,
     });
   };
 

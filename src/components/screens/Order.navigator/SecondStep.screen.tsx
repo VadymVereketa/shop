@@ -45,8 +45,8 @@ const SecondStepScreen = React.memo(
     return (
       <BlockWrapperOrder disabled={disabled} handleContinue={handleContinue}>
         <MyText style={styles.text}>Оберіть спосіб отримання</MyText>
-        <BlockDelivery />
-        <DateInput />
+        <BlockDelivery navigate={'SecondStep'} />
+        <DateInput navigate={'SecondStep'} />
       </BlockWrapperOrder>
     );
   },

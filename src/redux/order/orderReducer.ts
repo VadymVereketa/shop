@@ -22,6 +22,7 @@ const init: IOrderState = {
   numberOrder: null,
   idDeliveryPrice: 1,
   statusPayment: StatusPayment.defult,
+  isRepeatOrder: false,
 };
 
 const creator = new CreatorReducer<IOrderActions, IOrderState>('order');
@@ -91,6 +92,16 @@ const selectorsOrder = {
     } else {
       return false;
     }
+  },
+  isCreateOrder: (state: RootState) => {
+    if (selectorsOrder.isAllowThirdStep(state)) {
+      return !!state.order.paymentType;
+    } else {
+      return false;
+    }
+  },
+  isRepeatOrder: (state: RootState) => {
+    return state.order.isRepeatOrder;
   },
 };
 

@@ -25,7 +25,7 @@ const OrderAddressScreen = ({navigation, route}: OrderAddressScreenProps) => {
   };
 
   const handleSubmit = () => {
-    navigation.navigate('SecondStep', {
+    navigation.navigate(route.params.navigate, {
       idAddress: address,
     });
   };

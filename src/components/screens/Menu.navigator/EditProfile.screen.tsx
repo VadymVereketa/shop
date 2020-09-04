@@ -123,7 +123,6 @@ const EditProfileScreen = React.memo(
           name={setting.name}
           rules={setting.rules}
         />
-
         <BlockButtons
           isLoading={isLoading}
           onOk={handleSubmit(handleOk)}

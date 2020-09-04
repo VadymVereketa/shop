@@ -12,36 +12,38 @@ interface IBlockButtonsProps {
   textOk: string;
 }
 
-const BlockButtons = ({
-  isLoading,
-  onCancel,
-  onOk,
-  textCancel,
-  textOk,
-  disabled = false,
-}: IBlockButtonsProps) => {
-  return (
-    <View style={styles.btns}>
-      <MyButton
-        onPress={onCancel}
-        disabled={isLoading}
-        type={'default'}
-        containerStyle={styles.btn}
-        isActive
-        styleText={styles.btnText}>
-        {textCancel}
-      </MyButton>
-      <MyButton
-        onPress={onOk}
-        isLoading={isLoading}
-        disabled={disabled}
-        containerStyle={styles.btn}
-        styleText={styles.btnText}>
-        {textOk}
-      </MyButton>
-    </View>
-  );
-};
+const BlockButtons = React.memo(
+  ({
+    isLoading,
+    onCancel,
+    onOk,
+    textCancel,
+    textOk,
+    disabled = false,
+  }: IBlockButtonsProps) => {
+    return (
+      <View style={styles.btns}>
+        <MyButton
+          onPress={onCancel}
+          disabled={isLoading}
+          type={'default'}
+          containerStyle={styles.btn}
+          isActive
+          styleText={styles.btnText}>
+          {textCancel}
+        </MyButton>
+        <MyButton
+          onPress={onOk}
+          isLoading={isLoading}
+          disabled={disabled}
+          containerStyle={styles.btn}
+          styleText={styles.btnText}>
+          {textOk}
+        </MyButton>
+      </View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   btns: {

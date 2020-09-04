@@ -17,7 +17,7 @@ const init: IOtherState = {
   content: [],
   connectKey: '',
   draftId: null,
-  isGlobalSearch: '',
+  isGlobalSearch: false,
   theme: 'light',
 };
 const MAX = 5;

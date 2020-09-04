@@ -8,7 +8,15 @@ import {useFormattingContext} from '../../../context/FormattingContext';
 import {ScrollView} from 'react-native-gesture-handler';
 
 const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
-  const {border, primary, background, theme, onChangeTheme} = useTheme();
+  const {
+    border,
+    primary,
+    background,
+    theme,
+    onChangeTheme,
+    lightBackground,
+    lightText,
+  } = useTheme();
   const {currentLocale, setLocale} = useFormattingContext();
   return (
     <View style={[styles.container]}>
@@ -19,7 +27,10 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           onPress={() => navigation.push('ChangePassword', {})}>
           Змінити пароль
         </PressTitle>
-        <PressTitle style={styles.itemMenu} isBorder>
+        <PressTitle
+          style={[styles.itemMenu, {backgroundColor: lightBackground}]}
+          styleText={{color: lightText}}
+          isBorder>
           Залишити відгук про додаток
         </PressTitle>
         <View style={[styles.text, {borderBottomColor: border}]}>
@@ -37,7 +48,8 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           Українська
         </PressTitle>
         <PressTitle
-          style={styles.itemMenu}
+          style={[styles.itemMenu, {backgroundColor: lightBackground}]}
+          styleText={{color: lightText}}
           isBorder
           afterIcon={{
             name: 'check-mark',

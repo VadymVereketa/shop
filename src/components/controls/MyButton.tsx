@@ -104,7 +104,7 @@ const MyButton = React.memo(
                 },
               ],
             }}>
-            <DesignIcon name={'reload'} size={sizes[13]} fill={color} />
+            <DesignIcon name={'reload'} size={sizes[11]} fill={color} />
           </Animated.View>
         ) : (
           <MyText style={[styles.text, {color: color}, styleText]}>
@@ -153,12 +153,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: sizes[6],
   },
   text: {
     textTransform: 'uppercase',
     fontSize: sizes[8],
     textAlign: 'center',
-    paddingVertical: sizes[6],
   },
   con: {
     flexDirection: 'row',

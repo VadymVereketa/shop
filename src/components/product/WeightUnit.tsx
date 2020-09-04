@@ -17,6 +17,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import MyButton from '../controls/MyButton';
 import t from '../../utils/translate';
 import {ITranslate} from '../../assets/translations/uk';
+import {Switch} from 'react-native-gesture-handler';
+import {selectorsOrder} from '../../redux/order/orderReducer';
 
 interface IWeightUnitProps {
   id: number;
@@ -60,16 +62,18 @@ const WeightUnit = React.memo(
   ({id, price, addToCart, title, avgWeight, onOrder}: IWeightUnitProps) => {
     const w = useResponsiveWidth(100);
     const insets = useSafeAreaInsets();
-    const {primary, lightBackground, background, lightText, text} = useTheme();
-    const [value, setValue] = useState(0);
+    const {
+      primary,
+      lightBackground,
+      background,
+      lightText,
+      border,
+      text,
+    } = useTheme();
     const dispatch = useDispatch();
     const isAvgWeight = !!avgWeight;
-    const {
-      formatPrice,
-      formatUnit,
-      currentLocale,
-      format1000Unit,
-    } = useFormattingContext();
+    const isRepeatOrder = useSelector(selectorsOrder.isRepeatOrder);
+    const {formatPrice, currentLocale, format1000Unit} = useFormattingContext();
     const alternativeCount = useSelector(
       selectorsCart.getAlternativeCountProduct(id),
     );
@@ -153,8 +157,8 @@ const WeightUnit = React.memo(
       }
     }, [initValue, firstLoad, alternativeCount]);
 
-    const handleChangeCount = (e) => {
-      if (e.target.checked) {
+    const handleChangeCount = () => {
+      if (!isAlternativeCount) {
         const altCount = Math.round(weight / +avgWeight!);
         onChangeAlternativeCount(altCount === 0 ? 1 : altCount);
       } else {
@@ -166,89 +170,124 @@ const WeightUnit = React.memo(
           }),
         );
       }
-      setIsAlternativeCount(e.target.checked);
+      setIsAlternativeCount((a) => !a);
     };
 
     return (
       <View style={styles.con}>
+        {isAvgWeight && (
+          <View style={[styles.viewSwitch, {borderColor: border}]}>
+            <MyText style={styles.titleSwitch}>Параметри:</MyText>
+            <MyText
+              style={[
+                styles.textSwitch,
+                {color: isAlternativeCount ? text : primary},
+              ]}>
+              Грам
+            </MyText>
+            <Switch
+              trackColor={{false: primary, true: primary}}
+              thumbColor={'white'}
+              ios_backgroundColor={primary}
+              onValueChange={handleChangeCount}
+              value={isAlternativeCount}
+              style={{marginHorizontal: sizes[10]}}
+            />
+            <MyText
+              style={[
+                styles.textSwitch,
+                {color: isAlternativeCount ? primary : text},
+              ]}>
+              Штук
+            </MyText>
+          </View>
+        )}
         <View style={styles.viewCount}>
           <MyText style={[styles.price]}>{formatPrice(+price * weight)}</MyText>
           <CountInput
             isEditable={true}
-            isWeightUnit={true}
-            onChange={onChangeCount}
+            isWeightUnit={!isAlternativeCount}
+            onChange={
+              isAlternativeCount ? onChangeAlternativeCount : onChangeCount
+            }
             value={weight}
             style={{
               maxWidth: w / 2,
             }}
           />
         </View>
-        <Slider
-          animationType={'spring'}
-          animateTransitions={true}
-          step={0.1}
-          trackClickable={false}
-          minimumValue={config.min}
-          maximumValue={config.max}
-          value={weight}
-          renderThumbComponent={() => {
-            return (
-              <View
-                style={[
-                  styles.circleBorder,
-                  {
-                    borderColor: background,
-                  },
-                ]}>
+        {!isAlternativeCount && (
+          <Slider
+            animationType={'spring'}
+            animateTransitions={true}
+            step={0.1}
+            trackClickable={false}
+            minimumValue={config.min}
+            maximumValue={config.max}
+            value={weight}
+            renderThumbComponent={() => {
+              return (
                 <View
                   style={[
-                    styles.circle,
+                    styles.circleBorder,
                     {
-                      backgroundColor: primary,
+                      borderColor: background,
                     },
-                  ]}
-                />
-              </View>
-            );
-          }}
-          containerStyle={styles.conSlider}
-          minimumTrackTintColor={primary}
-          trackStyle={{
-            backgroundColor: lightBackground,
-          }}
-          onSlidingComplete={(value1) => {
-            handleAfterChange(value1[0]);
-          }}
-          onValueChange={(value) => {
-            onChangeSlider(value[0]);
-          }}
-        />
-        <View style={styles.viewMarks}>
-          {marks.map((m, i) => {
-            const width = w - sizes[28] - insets.left - insets.right;
-            const y = ((m - config.min) * 100) / (config.max - config.min);
-            const left = (y * width) / 100;
-            return (
-              <MyText
-                key={i}
-                style={[
-                  styles.mark,
-                  {
-                    color: lightText,
-                    left,
-                  },
-                ]}>
-                {format1000Unit(m)}
-              </MyText>
-            );
-          })}
-        </View>
-        <MyButton
-          styleText={styles.btnText}
-          style={styles.btnTop}
-          onPress={handleOrder}>
-          {t('btnOrderLong')}
-        </MyButton>
+                  ]}>
+                  <View
+                    style={[
+                      styles.circle,
+                      {
+                        backgroundColor: primary,
+                      },
+                    ]}
+                  />
+                </View>
+              );
+            }}
+            containerStyle={styles.conSlider}
+            minimumTrackTintColor={primary}
+            trackStyle={{
+              backgroundColor: lightBackground,
+            }}
+            onSlidingComplete={(value1) => {
+              handleAfterChange(value1[0]);
+            }}
+            onValueChange={(value) => {
+              onChangeSlider(value[0]);
+            }}
+          />
+        )}
+        {!isAlternativeCount && (
+          <View style={styles.viewMarks}>
+            {marks.map((m, i) => {
+              const width = w - sizes[28] - insets.left - insets.right;
+              const y = ((m - config.min) * 100) / (config.max - config.min);
+              const left = (y * width) / 100;
+              return (
+                <MyText
+                  key={i}
+                  style={[
+                    styles.mark,
+                    {
+                      color: lightText,
+                      left,
+                    },
+                  ]}>
+                  {format1000Unit(m)}
+                </MyText>
+              );
+            })}
+          </View>
+        )}
+        {!isRepeatOrder && (
+          <MyButton
+            styleText={styles.btnText}
+            style={styles.btnTop}
+            onPress={handleOrder}>
+            {t('btnOrderLong')}
+          </MyButton>
+        )}
         <MyButton
           styleText={styles.btnText}
           type={'default'}
@@ -267,7 +306,7 @@ const WeightUnit = React.memo(
 
 const styles = StyleSheet.create({
   con: {
-    paddingTop: sizes[16],
+    paddingTop: sizes[8],
     flex: 1,
     alignItems: 'stretch',
     justifyContent: 'center',
@@ -302,9 +341,9 @@ const styles = StyleSheet.create({
   },
   viewMarks: {
     flexDirection: 'row',
-    marginBottom: sizes[30],
+    marginBottom: sizes[15],
   },
-  btnTop: {marginBottom: sizes[5]},
+  btnTop: {marginBottom: sizes[5], marginTop: sizes[15]},
   btnText: {fontSize: sizes[9]},
   textInfo: {
     fontSize: sizes[9],
@@ -312,5 +351,22 @@ const styles = StyleSheet.create({
     marginTop: sizes[15],
   },
   textDesc: {fontSize: sizes[9], marginTop: sizes[5]},
+  textSwitch: {
+    fontSize: sizes[10],
+  },
+  titleSwitch: {
+    fontSize: sizes[10],
+    fontFamily: getFontFamily('500'),
+    flexGrow: 1,
+  },
+  viewSwitch: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    paddingVertical: sizes[12],
+    marginBottom: sizes[15],
+  },
 });
 export default WeightUnit;

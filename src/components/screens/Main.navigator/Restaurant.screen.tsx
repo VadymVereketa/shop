@@ -14,14 +14,6 @@ import {useAxios} from '../../../useHooks/useAxios';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import ProductItem from '../../product/ProductItem';
 import SplashScreen from 'react-native-splash-screen';
-import DesignIcon from '../../common/DesignIcon';
-import Animated, {
-  concat,
-  Easing,
-  Extrapolate,
-  interpolate,
-  timing,
-} from 'react-native-reanimated';
 import Loader from '../../common/Loader';
 
 const window = Dimensions.get('window');
@@ -30,10 +22,8 @@ const width = Math.min(window.width, window.height);
 const RestaurantScreen = React.memo(
   ({navigation, route}: RestaurantScreenProps) => {
     const perPage = 12;
-    const rotateAnim = useRef(new Animated.Value(0)).current;
-    const loadTop = useRef(new Animated.Value(0)).current;
     const insets = useSafeAreaInsets();
-    const {background, lightBackground, primary} = useTheme();
+    const {background} = useTheme();
     const HEADER_HEIGHT = sizes[55];
     const categories = route.params.categories;
     const [idCategory, setIdCategory] = useState(-1);
@@ -58,19 +48,21 @@ const RestaurantScreen = React.memo(
     useDidUpdateEffect(() => {
       setSkip(0);
       setProducts([]);
-    }, [idCategory, search]);
+    }, [idCategory, search, isGlobalSearch]);
 
     useDidUpdateEffect(() => {
       handleRequest();
-    }, [skip, idCategory, search]);
+    }, [skip, idCategory, search, isGlobalSearch]);
 
     const handleRequest = () => {
+      const id = isGlobalSearch ? null : idCategory;
+
       request<any>({
-        idTag: route.params.isTag ? idCategory : null,
+        idTag: route.params.isTag ? id : null,
         top: perPage,
         skip: skip * perPage,
         title: search,
-        idCategory: !route.params.isTag ? idCategory : null,
+        idCategory: !route.params.isTag ? id : null,
       }).then((res) => {
         if (res.success) {
           setProducts((p) => {
@@ -142,7 +134,7 @@ const RestaurantScreen = React.memo(
           contentContainerStyle={[
             styles.gridView,
             {
-              paddingTop: HEADER_HEIGHT,
+              paddingTop: HEADER_HEIGHT + sizes[5],
             },
           ]}
           onScroll={handleEventScroll}

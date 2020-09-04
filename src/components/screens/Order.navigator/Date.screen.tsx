@@ -33,7 +33,7 @@ const DateScreen = ({navigation, route}: DateScreenProps) => {
   };
 
   const handleOk = () => {
-    navigation.navigate('SecondStep', {
+    navigation.navigate(route.params.navigate, {
       option: options.find((o) => o.value === value)!,
     });
   };
