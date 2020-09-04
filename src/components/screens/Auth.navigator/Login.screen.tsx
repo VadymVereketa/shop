@@ -51,6 +51,10 @@ const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
     });
   };
 
+  const handlePassword = () => {
+    navigation.push('ForgetPassword', {});
+  };
+
   useEffect(() => {
     return () => {
       dispatch(actionsUser.setError(null));
@@ -123,6 +127,7 @@ const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
               containerStyle={{
                 flexGrow: 0,
               }}
+              onPress={handlePassword}
               isActive>
               {t('loginForgetPassword')}
             </GhostButton>
@@ -150,7 +155,7 @@ const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
             {t('loginSubmit')}
           </MyButton>
           <GhostButton
-            onPress={() => navigation.replace('SignUp', {})}
+            onPress={() => navigation.navigate('SignUp', {})}
             ultraWidth={false}
             styleText={{fontFamily: getFontFamily('500')}}
             containerStyle={{

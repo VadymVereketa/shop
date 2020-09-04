@@ -186,7 +186,7 @@ const SignUpScreen = React.memo(({navigation}: SignUpScreenProps) => {
             {t('signUpSubmit')}
           </MyButton>
           <GhostButton
-            onPress={() => navigation.replace('Login', {})}
+            onPress={() => navigation.navigate('Login', {})}
             ultraWidth={false}
             styleText={{fontFamily: getFontFamily('500')}}
             containerStyle={{
