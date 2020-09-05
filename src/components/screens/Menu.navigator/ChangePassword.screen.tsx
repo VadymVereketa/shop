@@ -37,10 +37,13 @@ const ChangePasswordScreen = React.memo((props: ChangePasswordScreenProps) => {
   const onSubmit = async (data) => {
     const res = await request(data);
     if (res.success) {
-      props.navigation.replace('Result', {
-        title: t('successPassword'),
-        navigator: 'MenuNavigator',
-        screen: 'Settings',
+      props.navigation.replace('SecondaryNavigator', {
+        screen: 'Result',
+        params: {
+          title: t('successPassword'),
+          navigator: 'MenuNavigator',
+          screen: 'Settings',
+        },
       });
     }
   };

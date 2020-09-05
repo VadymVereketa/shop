@@ -23,7 +23,7 @@ import {selectorsUser} from '../../redux/user/userReducer';
 import {IContact, IOrderItem, ISellPoint} from '../../typings/FetchData';
 import OrderScreen from '../screens/Menu.navigator/Order.screen';
 import MenuScreen from '../screens/Main.navigator/Menu.screen';
-import ResultScreen from '../screens/Menu.navigator/Result.screen';
+import ResultScreen from '../screens/Secondary.navigator/Result.screen';
 import ContactScreen from '../screens/Menu.navigator/Contact.screen';
 import EditProfileScreen from '../screens/Menu.navigator/EditProfile.screen';
 
@@ -39,11 +39,6 @@ export type MenuNavigatorParamList = {
   Orders: {};
   Order: {
     item: IOrderItem;
-  };
-  Result: {
-    title: string;
-    navigator: string;
-    screen: string;
   };
   Contact: {
     contact?: IContact;
@@ -166,19 +161,6 @@ export type OrderScreenProps = {
 };
 /// Order props
 
-/// Result props
-type ResultScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<MenuNavigatorParamList, 'Result'>,
-  StackNavigationProp<StartNavigatorParamList>
->;
-type ResultScreenRouteProp = RouteProp<MenuNavigatorParamList, 'Result'>;
-
-export type ResultScreenProps = {
-  route: ResultScreenRouteProp;
-  navigation: ResultScreenNavigationProp;
-};
-/// Result props
-
 /// Contact props
 export type ContactScreenNavigationProp = CompositeNavigationProp<
   StackNavigationProp<MenuNavigatorParamList, 'Contact'>,
@@ -294,13 +276,6 @@ const MenuNavigator = React.memo(
           component={OrderScreen}
           options={{
             title: t('profileMyOrder'),
-          }}
-        />
-        <Stack.Screen
-          name="Result"
-          component={ResultScreen}
-          options={{
-            title: t('profileResult'),
           }}
         />
         <Stack.Screen

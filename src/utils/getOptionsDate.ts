@@ -37,7 +37,7 @@ const getOptions = ({from, offset, step, to}: ISetting, isRange = false) => {
   return res;
 };
 
-const strTime = (n: number) => {
+export const strTime = (n: number) => {
   const h = Math.floor(n / 60)
     .toString()
     .padStart(2, '0');

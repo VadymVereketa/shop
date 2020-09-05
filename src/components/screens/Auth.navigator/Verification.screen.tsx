@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {VerificationScreenProps} from '../../navigators/Auth.navigator';
 import {
   Keyboard,
@@ -11,30 +11,75 @@ import {sizes, useTheme} from '../../../context/ThemeContext';
 import {ScrollView} from 'react-native-gesture-handler';
 import Logo from '../../common/Logo';
 import MyText from '../../controls/MyText';
-import {Controller, useForm} from 'react-hook-form';
-import MyTextInput from '../../controls/MyTextInput';
-import t from '../../../utils/translate';
-import getErrorByObj from '../../../utils/getErrorByObj';
-import validation from '../../../utils/validation';
 import MyButton, {GhostButton} from '../../controls/MyButton';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useAxios} from '../../../useHooks/useAxios';
 import service from '../../../services/service';
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+} from 'react-native-confirmation-code-field';
+import {strTime} from '../../../utils/getOptionsDate';
+
+const CELL_COUNT = 5;
 
 const VerificationScreen = ({navigation, route}: VerificationScreenProps) => {
   const {phone} = route.params;
   const insets = useSafeAreaInsets();
-  const {control, handleSubmit, errors} = useForm({
-    reValidateMode: 'onChange',
-    mode: 'onChange',
-  });
-  const [index, setIndex] = useState(0);
-  const {errorColor, background} = useTheme();
+  const {errorColor, background, primary, border} = useTheme();
+  const [time, setTime] = useState(90);
   const {isLoading, request, error} = useAxios(service.restorePassword);
+  const [value, setValue] = useState('');
+  const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value,
+    setValue,
+  });
 
-  const onSubmit = async (data) => {
-    console.log(data);
+  useEffect(() => {
+    runTime();
+  }, []);
+
+  const runTime = () => {
+    if (time < 1) {
+      setTime(90);
+      return;
+    }
+
+    setTimeout(() => {
+      setTime((t) => {
+        return t - 1;
+      });
+      runTime();
+    }, 1000);
+  };
+
+  const handleAgainSendCode = async () => {
+    const res = await service.resetPassword(phone);
+    if (res.success) {
+      runTime();
+    }
+  };
+  const onSubmit = async () => {
+    const res = await request({
+      phone,
+      code: value,
+    });
+    if (res.success) {
+      navigation.replace('SecondaryNavigator', {
+        screen: 'Result',
+        params: {
+          title: 'Новый пароль на дiслано на телефон',
+          navigator: 'AuthNavigator',
+          screen: 'Login',
+        },
+      });
+    } else if (res.code === 423) {
+      setTime(0);
+    }
   };
 
   return (
@@ -62,43 +107,37 @@ const VerificationScreen = ({navigation, route}: VerificationScreenProps) => {
               {phone}
             </MyText>
           </View>
-          <View style={styles.viewCode}>
-            {[0, 1, 2, 3, 4].map((i) => {
-              return (
-                <Controller
-                  key={i}
-                  control={control}
-                  render={({onChange, onBlur, value}) => (
-                    <MyTextInput
-                      onChange={(e) => {
-                        console.log(e.target);
-                        if (e.nativeEvent.text.length > 0) {
-                          Keyboard.dismiss();
-                        }
-                      }}
-                      onBlur={() => {
-                        setIndex((i) => {
-                          return i < 4 ? i + 1 : i;
-                        });
-                      }}
-                      autoFocus={index === i}
-                      focusable={index === i}
-                      maxLength={1}
-                      keyboardType={'numeric'}
-                      textContentType={'none'}
-                      styleCon={styles.inputCon}
-                      style={styles.input}
-                      value={value}
-                      onChangeText={onChange}
-                      error={getErrorByObj(errors, `code[${i}]`)}
-                    />
-                  )}
-                  name={`code[${i}]`}
-                  rules={validation.required}
-                />
-              );
-            })}
-          </View>
+          <CodeField
+            ref={ref}
+            {...props}
+            value={value}
+            onChangeText={setValue}
+            cellCount={CELL_COUNT}
+            rootStyle={styles.codeFieldRoot}
+            keyboardType="number-pad"
+            textContentType="oneTimeCode"
+            selectionColor={primary}
+            renderCell={({index, symbol, isFocused}) => (
+              <MyText
+                key={index}
+                style={[
+                  styles.cell,
+                  {borderColor: isFocused ? primary : border},
+                ]}
+                onLayout={getCellOnLayoutHandler(index)}>
+                {symbol || (isFocused ? <Cursor /> : null)}
+              </MyText>
+            )}
+          />
+          {time <= 0 ? (
+            <MyText style={{color: primary}} onPress={handleAgainSendCode}>
+              Відправити повторно
+            </MyText>
+          ) : (
+            <MyText style={{color: primary}}>
+              Код можливо повторно відправити через {strTime(time)}
+            </MyText>
+          )}
         </ScrollView>
         <View
           style={{
@@ -116,9 +155,10 @@ const VerificationScreen = ({navigation, route}: VerificationScreenProps) => {
             </MyText>
           )}
           <MyButton
+            disabled={value.length !== 5}
             isLoading={isLoading}
             styleText={{fontSize: sizes[9]}}
-            onPress={handleSubmit(onSubmit)}>
+            onPress={onSubmit}>
             Продовжити
           </MyButton>
           <GhostButton
@@ -162,6 +202,18 @@ const styles = StyleSheet.create({
   input: {
     textAlign: 'center',
     height: sizes[30],
+  },
+  codeFieldRoot: {
+    marginBottom: sizes[10],
+  },
+  cell: {
+    width: sizes[30],
+    paddingVertical: sizes[8],
+    height: sizes[30],
+    borderRadius: StyleSheet.hairlineWidth,
+    fontSize: sizes[10],
+    borderWidth: 1,
+    textAlign: 'center',
   },
 });
 
