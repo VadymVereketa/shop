@@ -14,6 +14,9 @@ import {CompositeNavigationProp, RouteProp} from '@react-navigation/core';
 import IconButton from '../controls/IconButton';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import CommentCartScreen from '../screens/Secondary.navigator/CommentCart.screen';
+import {MenuNavigatorParamList} from './Menu.navigator';
+import ResultScreen from '../screens/Secondary.navigator/Result.screen';
+import t from '../../utils/translate';
 
 export type SecondaryNavigatorParamList = {
   Product: {
@@ -22,6 +25,11 @@ export type SecondaryNavigatorParamList = {
   };
   CommentCart: {
     item: ICartItem;
+  };
+  Result: {
+    title: string;
+    navigator: string;
+    screen: string;
   };
 };
 
@@ -35,6 +43,19 @@ export type ProductScreenProps = {
   route: ProductScreenRouteProp;
   navigation: ProductScreenNavigationProp;
 };
+
+/// Result props
+type ResultScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<SecondaryNavigatorParamList, 'Result'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type ResultScreenRouteProp = RouteProp<SecondaryNavigatorParamList, 'Result'>;
+
+export type ResultScreenProps = {
+  route: ResultScreenRouteProp;
+  navigation: ResultScreenNavigationProp;
+};
+/// Result props
 
 const Stack = createStackNavigator();
 
@@ -67,9 +88,18 @@ const SecondaryNavigator = React.memo(
               />
             );
           },
+          headerTitleAlign: 'center',
         }}>
         <Stack.Screen name="Product" component={ProductScreen} />
         <Stack.Screen name="CommentCart" component={CommentCartScreen} />
+        <Stack.Screen
+          name="Result"
+          component={ResultScreen}
+          options={{
+            title: t('profileResult'),
+            headerLeft: () => null,
+          }}
+        />
       </Stack.Navigator>
     );
   },

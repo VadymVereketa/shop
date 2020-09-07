@@ -102,6 +102,15 @@ const service = {
   getProducts: async (opt: IGetProducts) => {
     return await customFetch(() => instance.get(queries.getProducts(opt).url!));
   },
+
+  getProductsByIds: async (ids: number[]) => {
+    const filter = {
+      or: ids.map((id) => ({id: id})),
+    };
+    return await customFetch(() =>
+      instance.get('/products' + buildQuery({filter})),
+    );
+  },
   getOrders: async (opt: {top: number; skip: number}) => {
     return await customFetch(() => instance.get(queries.getOrders(opt).url!));
   },
@@ -184,48 +193,35 @@ const service = {
       return [];
     }
   },
-  createOrder: async (
-    draftId: number,
-    data: IOrderState,
-    isAnon: boolean = false,
-  ) => {
-    const receiver = data.contact;
+  createOrder: async (draftId: number, data: IOrderState) => {
     let contact: any = {};
     const addressData: any = {};
-    if (isAnon && receiver) {
-      const [firstName, lastName] = receiver.name.split(' ');
-      contact = {
-        firstName,
-        lastName,
-        phone: receiver.isPhoneCustom
-          ? receiver.phone
-          : getWithoutCodePhone(receiver.phone),
-      };
-    } else if (receiver) {
+    if (data.contact) {
       contact = {
         contact: {
-          id: receiver.id!,
+          id: data.contact.id!,
         },
       };
     }
+
+    let time = data.time;
+
     if (data.deliveryType!.code === TypeDelivery.courier) {
-      if (isAnon) {
-        addressData.orderAddress = formatAddress(data.address);
-      } else {
-        addressData.address = {
-          id: data.addressId !== -1 ? data.addressId : data.address!.id,
-        };
-      }
+      addressData.address = {
+        id: data.addressId,
+      };
+    } else {
+      time = `${time}-${time}`;
     }
 
-    const [minTime, maxTime] = data.time.split('-');
+    const [minTime, maxTime] = time.split('-');
     const [maxH, maxM] = maxTime.split(':').map(parseFloat);
     const [minH, minM] = minTime.split(':').map(parseFloat);
 
-    const maxExecuteDate = new Date(data.date);
+    const maxExecuteDate = new Date(data.date!);
     maxExecuteDate.setHours(maxH, maxM);
 
-    const minExecuteDate = new Date(data.date);
+    const minExecuteDate = new Date(data.date!);
     minExecuteDate.setHours(minH, minM);
 
     const fetchData: IOrderPost = {
@@ -257,9 +253,7 @@ const service = {
     };
 
     try {
-      const res = await instance.post('clients/order', fetchData, {
-        withCredentials: true,
-      });
+      const res = await instance.post('clients/order', fetchData);
 
       return {
         success: true,
@@ -273,64 +267,36 @@ const service = {
     }
   },
   changePassword: async (data: IChangePassword) => {
-    return await customFetch(() =>
-      instance.put('auth/change_password', data, {
-        withCredentials: true,
-      }),
-    );
+    return await customFetch(() => instance.put('auth/change_password', data));
   },
   updateProfile: async (data: any) => {
-    return await customFetch(() =>
-      instance.put('clients/profile', data, {
-        withCredentials: true,
-      }),
-    );
+    return await customFetch(() => instance.put('clients/profile', data));
   },
   addAddress: async (data: Omit<IAddress, 'id'>) => {
-    return await customFetch(() =>
-      instance.post('clients/addresses', data, {
-        withCredentials: true,
-      }),
-    );
+    return await customFetch(() => instance.post('clients/addresses', data));
   },
   updateAddress: async (data: IAddress) => {
     const id = data.id;
     delete data.id;
     return await customFetch(() =>
-      instance.put(`clients/addresses/${id}`, data, {
-        withCredentials: true,
-      }),
+      instance.put(`clients/addresses/${id}`, data),
     );
   },
   deleteAddress: async (id: number) => {
-    return await customFetch(() =>
-      instance.delete(`clients/addresses/${id}`, {
-        withCredentials: true,
-      }),
-    );
+    return await customFetch(() => instance.delete(`clients/addresses/${id}`));
   },
   addContact: async (data: Omit<IContact, 'id'>) => {
-    return await customFetch(() =>
-      instance.post('clients/contacts', data, {
-        withCredentials: true,
-      }),
-    );
+    return await customFetch(() => instance.post('clients/contacts', data));
   },
   updateContact: async (data: IContact) => {
     const id = data.id;
     delete data.id;
     return await customFetch(() =>
-      instance.put(`clients/contacts/${id}`, data, {
-        withCredentials: true,
-      }),
+      instance.put(`clients/contacts/${id}`, data),
     );
   },
   deleteContact: async (id: number) => {
-    return await customFetch(() =>
-      instance.delete(`clients/contacts/${id}`, {
-        withCredentials: true,
-      }),
-    );
+    return await customFetch(() => instance.delete(`clients/contacts/${id}`));
   },
   getAllSetups: async () => {
     try {
@@ -350,15 +316,12 @@ const service = {
       'platformType/code': 'website',
     };
     try {
-      const res = await instance.get<IDefaultSetting[]>(
-        'setups/settings' + buildQuery({filter, expand: 'platformType'}),
-        {
-          params: {
-            skip: 0,
-            top: 50,
-          },
+      const res = await instance.get<IDefaultSetting[]>('setups/settings', {
+        params: {
+          skip: 0,
+          top: 50,
         },
-      );
+      });
       return res.data;
     } catch (e) {
       return [];

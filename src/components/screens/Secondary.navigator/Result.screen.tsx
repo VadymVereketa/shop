@@ -23,7 +23,10 @@ const ResultScreen = React.memo(({navigation, route}: ResultScreenProps) => {
   return (
     <SafeAreaView style={[styles.container]}>
       <View style={styles.top}>
-        <ResultSvg width={'100%'} height={sizes[70]} />
+        {
+          //@ts-ignore
+          <ResultSvg width={'100%'} height={sizes[70]} />
+        }
         <MyText style={styles.text}>{title}</MyText>
       </View>
       <View>

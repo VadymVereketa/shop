@@ -1,30 +1,20 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  PixelRatio,
-  PointPropType,
-  Image,
-} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Dimensions, StyleSheet, View} from 'react-native';
 import {RestaurantScreenProps} from '../../navigators/Main.navigator';
-import {sizes, useTheme, widths} from '../../../context/ThemeContext';
-import {Dimensions} from 'react-native';
+import {sizes, useTheme} from '../../../context/ThemeContext';
 import {FlatGrid} from 'react-native-super-grid';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import Header from '../../common/Header';
-import {useFormattingContext} from '../../../context/FormattingContext';
-import {useSelector} from 'react-redux';
-import {selectorCategory} from '../../../redux/category/categoryReducer';
+import {useDispatch, useSelector} from 'react-redux';
 import CategoryBar from '../../common/CategoryBar';
-import {selectorsOther} from '../../../redux/other/otherReducer';
-import {IImgProduct, IProduct} from '../../../typings/FetchData';
+import {actionsOther, selectorsOther} from '../../../redux/other/otherReducer';
+import {IProduct} from '../../../typings/FetchData';
 import service from '../../../services/service';
 import {useAxios} from '../../../useHooks/useAxios';
-import {getFontFamily} from '../../../utils/getFontFamily';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import ProductItem from '../../product/ProductItem';
 import SplashScreen from 'react-native-splash-screen';
+import Loader from '../../common/Loader';
 
 const window = Dimensions.get('window');
 const width = Math.min(window.width, window.height);
@@ -32,6 +22,7 @@ const width = Math.min(window.width, window.height);
 const RestaurantScreen = React.memo(
   ({navigation, route}: RestaurantScreenProps) => {
     const perPage = 12;
+    const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
     const {background} = useTheme();
     const HEADER_HEIGHT = sizes[55];
@@ -46,6 +37,13 @@ const RestaurantScreen = React.memo(
     const {isLoading, request} = useAxios(service.getProducts);
 
     useEffect(() => {
+      setProducts([]);
+      setSearch('');
+      dispatch(
+        actionsOther.setData({
+          isGlobalSearch: false,
+        }),
+      );
       SplashScreen.hide();
     }, []);
 
@@ -58,19 +56,21 @@ const RestaurantScreen = React.memo(
     useDidUpdateEffect(() => {
       setSkip(0);
       setProducts([]);
-    }, [idCategory, search]);
+    }, [idCategory, search, isGlobalSearch]);
 
     useDidUpdateEffect(() => {
       handleRequest();
-    }, [skip, idCategory, search]);
+    }, [skip, idCategory, search, isGlobalSearch]);
 
     const handleRequest = () => {
+      const id = isGlobalSearch ? null : idCategory;
+
       request<any>({
-        idTag: route.params.isTag ? idCategory : null,
+        idTag: route.params.isTag ? id : null,
         top: perPage,
         skip: skip * perPage,
         title: search,
-        idCategory: !route.params.isTag ? idCategory : null,
+        idCategory: !route.params.isTag ? id : null,
       }).then((res) => {
         if (res.success) {
           setProducts((p) => {
@@ -84,6 +84,11 @@ const RestaurantScreen = React.memo(
     const handlePress = (id: number) => {
       setIdCategory(id);
       setSearch('');
+      dispatch(
+        actionsOther.setData({
+          isGlobalSearch: false,
+        }),
+      );
     };
 
     const handleLoad = ({height, y}) => {
@@ -132,42 +137,27 @@ const RestaurantScreen = React.memo(
             onPress={handlePress}
           />
         </View>
-        {!isLoading && countItems === 0 ? (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            {countItems === 0 && (
-              <Text
-                style={{fontFamily: getFontFamily('500'), fontSize: sizes[10]}}>
-                На жаль в цій категорії продуктів немає
-              </Text>
-            )}
-          </View>
-        ) : (
-          <FlatGrid
-            itemDimension={width / Math.max(Math.floor(width / 230), 2)}
-            spacing={-1}
-            scrollEnabled={!isShow}
-            data={products}
-            bounces={false}
-            contentContainerStyle={[
-              styles.gridView,
-              {
-                paddingTop: HEADER_HEIGHT,
-              },
-            ]}
-            onScroll={handleEventScroll}
-            scrollEventThrottle={16}
-            renderItem={({item}) => (
-              <View key={item.id} style={[styles.itemContainer]}>
-                <ProductItem product={item} />
-              </View>
-            )}
-          />
-        )}
+        <Loader isLoading={isLoading} top={sizes[30] + insets.top} />
+        <FlatGrid
+          itemDimension={width / Math.max(Math.floor(width / 230), 2)}
+          spacing={-1}
+          scrollEnabled={!isShow}
+          data={products}
+          bounces={false}
+          contentContainerStyle={[
+            styles.gridView,
+            {
+              paddingTop: HEADER_HEIGHT + sizes[5],
+            },
+          ]}
+          onScroll={handleEventScroll}
+          scrollEventThrottle={16}
+          renderItem={({item}) => (
+            <View key={item.id} style={[styles.itemContainer]}>
+              <ProductItem product={item} />
+            </View>
+          )}
+        />
       </SafeAreaView>
     );
   },
@@ -194,6 +184,18 @@ const styles = StyleSheet.create({
       width: 0,
     },
     elevation: 5,
+  },
+  conLoading: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    zIndex: 90,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  loading: {
+    borderRadius: sizes[30],
+    padding: sizes[4],
   },
 });
 

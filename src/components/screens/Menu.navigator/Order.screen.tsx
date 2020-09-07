@@ -20,11 +20,14 @@ import {
   formatTime,
   useFormattingContext,
 } from '../../../context/FormattingContext';
+import {useRepeatOrder} from '../../../useHooks/useRepeatOrder';
 
 const h = sizes[95];
 
 const OrderScreen = React.memo(({route}: OrderScreenProps) => {
   const offsetY = useRef(new Animated.Value(-h)).current;
+  const repeatOrder = useRepeatOrder();
+  const [isLoading, setIsLoading] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const insets = useSafeAreaInsets();
   const {longFormatDate, formatPrice} = useFormattingContext();
@@ -43,6 +46,21 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
     if (isReady) {
       setIsShow((s) => !s);
     }
+  };
+
+  const handleOrder = async () => {
+    if (!isReady) return;
+
+    setIsLoading(true);
+    try {
+      const data = await service.getProductsByIds(
+        item!.purchases.map((p) => p.product.id),
+      );
+      if (data.success) {
+        repeatOrder(item, data.data);
+      }
+    } catch (e) {}
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -182,6 +200,8 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
             </View>
           )}
           <MyButton
+            onPress={handleOrder}
+            isLoading={isLoading}
             styleText={styles.historyItem}
             containerStyle={{paddingTop: sizes[10]}}>
             Повторити замовлення
@@ -209,6 +229,7 @@ const styles = StyleSheet.create({
   },
   press: {
     paddingLeft: 0,
+    marginBottom: sizes[10],
   },
   infoUser: {
     padding: sizes[10],

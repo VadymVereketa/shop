@@ -10,6 +10,7 @@ import {
 import {ITypeState} from './typeTypes';
 import {RootState} from '../reducer';
 import service from '../../services/service';
+import {TypePayment} from '../../constants/constantsId';
 
 interface ICategoryActions extends IBaseActions {
   setDelivery: (tags: IDeliveryType[]) => any;
@@ -46,7 +47,11 @@ const thunkGetTypes = async (dispatch: any) => {
     }
     res = await service.getPaymentsTypes();
     if (res.success) {
-      dispatch(actionsTypes.setPayment(res.data));
+      const item = {
+        id: res.data.find((d) => d.code === TypePayment.credit).id,
+        code: TypePayment.online,
+      };
+      dispatch(actionsTypes.setPayment([...res.data, item]));
     }
     res = await service.getDeliveryPrices();
     if (res.success) {
@@ -68,6 +73,10 @@ const selectorsTypes = {
   },
   getPricesTypes: (state: RootState) => {
     return state.types.pricesTypes;
+  },
+  getDeliveryPrice: (id: number) => (state: RootState) => {
+    const findItem = state.types.pricesTypes.find((d) => d.id === id);
+    return findItem ? +findItem.price : 0;
   },
 };
 

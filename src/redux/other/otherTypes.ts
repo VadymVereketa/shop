@@ -22,7 +22,7 @@ export interface IOtherState {
   content: string[];
   connectKey: string;
   draftId: number | null;
-  isGlobalSearch: string;
+  isGlobalSearch: boolean;
   theme: 'light' | 'dark';
 }
 

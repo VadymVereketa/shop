@@ -1,6 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, StyleSheet, View} from 'react-native';
-import {IOrderItem} from '../../typings/FetchData';
+import {
+  ICartItem,
+  IContact,
+  IOrderFull,
+  IOrderItem,
+} from '../../typings/FetchData';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {getFontFamily} from '../../utils/getFontFamily';
 import MyText from '../controls/MyText';
@@ -15,14 +20,23 @@ import getUrlImg from '../../utils/getUrlImg';
 import IconButton from '../controls/IconButton';
 import InfoOrder from './InfoOrder';
 import {OrdersScreenNavigationProp} from '../navigators/Menu.navigator';
+import service from '../../services/service';
+import {actionsCart} from '../../redux/cart/cartReducer';
+import {IReceiver} from '../../redux/order/orderTypes';
+import {useDispatch} from 'react-redux';
+import {actionsOrder} from '../../redux/order/orderReducer';
+import {TypeDelivery} from '../../constants/constantsId';
+import {useRepeatOrder} from '../../useHooks/useRepeatOrder';
 
 interface IOrderItemProps {
   order: IOrderItem;
 }
 
 const OrderItem = React.memo(({order}: IOrderItemProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation<OrdersScreenNavigationProp>();
-  const {border} = useTheme();
+  const repeatOrder = useRepeatOrder();
+  const {border, text} = useTheme();
   const {formatPrice} = useFormattingContext();
 
   const images = order.purchases.map((purchase) => {
@@ -37,6 +51,20 @@ const OrderItem = React.memo(({order}: IOrderItemProps) => {
     navigation.push('Order', {
       item: order,
     });
+  };
+
+  const handleOrder = async () => {
+    setIsLoading(true);
+    try {
+      const datas = await Promise.all([
+        service.getOrder(order.id),
+        service.getProductsByIds(order!.purchases.map((p) => p.product.id)),
+      ]);
+      if (datas[0].success && datas[1].success) {
+        repeatOrder(datas[0].data, datas[1].data);
+      }
+    } catch (e) {}
+    setIsLoading(false);
   };
 
   return (
@@ -75,7 +103,7 @@ const OrderItem = React.memo(({order}: IOrderItemProps) => {
           icon={{
             name: 'next',
             size: sizes[10],
-            fill: 'black',
+            fill: text,
           }}
         />
       </View>
@@ -90,7 +118,11 @@ const OrderItem = React.memo(({order}: IOrderItemProps) => {
           style={{
             flexGrow: 1,
           }}>
-          <MyButton styleText={styles.btnText} ultraWidth={true}>
+          <MyButton
+            styleText={styles.btnText}
+            ultraWidth={true}
+            onPress={handleOrder}
+            isLoading={isLoading}>
             замовити
           </MyButton>
         </View>

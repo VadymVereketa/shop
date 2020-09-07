@@ -13,6 +13,8 @@ import {useAxios} from '../../useHooks/useAxios';
 import service from '../../services/service';
 import {useDispatch} from 'react-redux';
 import {actionsUser} from '../../redux/user/userReducer';
+import BlockButtons from '../common/BlockButtons';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 interface IFormContactProps {
   onCancel: any;
@@ -25,23 +27,35 @@ interface IData {
   phone: string;
 }
 
+const getDefault = (data?: IContact) => {
+  if (data) {
+    return {
+      name: `${data.firstName} ${data.lastName}`,
+      phone: data.phone,
+    };
+  }
+  return undefined;
+};
+
 const FormContact = ({defaultValues, onCancel, onOk}: IFormContactProps) => {
   const dispatch = useDispatch();
   const {errorColor} = useTheme();
   const {request, isLoading} = useAxios(
     defaultValues ? service.updateContact : service.addContact,
   );
+
   const {control, handleSubmit, errors} = useForm({
     reValidateMode: 'onChange',
     mode: 'onChange',
+    defaultValues: getDefault(defaultValues),
   });
 
   const handleOk = async (data: IData) => {
-    const [firstName, lastName] = data.name;
+    const [firstName, ...lastName] = data.name.split(' ');
     const fetchData: IContact = {
       id: defaultValues ? defaultValues.id : (undefined as any),
       firstName,
-      lastName,
+      lastName: lastName ? lastName.join(' ') : '',
       isPhoneCustom: false,
       phone: data.phone,
     };
@@ -50,7 +64,7 @@ const FormContact = ({defaultValues, onCancel, onOk}: IFormContactProps) => {
       defaultValues
         ? dispatch(actionsUser.updateContact(res.data))
         : dispatch(actionsUser.addContact(res.data));
-      onOk();
+      onOk(res.data);
     }
   };
 
@@ -64,6 +78,7 @@ const FormContact = ({defaultValues, onCancel, onOk}: IFormContactProps) => {
         control={control}
         render={({onChange, onBlur, value}) => (
           <MyTextInput
+            autoFocus
             label={t('tINameLabel')}
             placeholder={t('tINamePlaceholder')}
             keyboardType={'default'}
@@ -94,24 +109,13 @@ const FormContact = ({defaultValues, onCancel, onOk}: IFormContactProps) => {
         name="phone"
         rules={validation.required}
       />
-      <View style={styles.btns}>
-        <MyButton
-          onPress={handleCancel}
-          disabled={isLoading}
-          type={'default'}
-          containerStyle={styles.btn}
-          isActive
-          styleText={styles.btnText}>
-          скасувати
-        </MyButton>
-        <MyButton
-          onPress={handleSubmit(handleOk)}
-          disabled={isLoading}
-          containerStyle={styles.btn}
-          styleText={styles.btnText}>
-          зберегти
-        </MyButton>
-      </View>
+      <BlockButtons
+        isLoading={isLoading}
+        onOk={handleSubmit(handleOk)}
+        onCancel={handleCancel}
+        textCancel="скасувати"
+        textOk="зберегти"
+      />
     </ScrollView>
   );
 };
@@ -119,19 +123,6 @@ const FormContact = ({defaultValues, onCancel, onOk}: IFormContactProps) => {
 const styles = StyleSheet.create({
   inputText: {
     paddingBottom: sizes[8],
-  },
-  btns: {
-    flexDirection: 'row',
-    marginTop: sizes[5],
-    flexGrow: 1,
-    marginHorizontal: -sizes[5],
-  },
-  btnText: {
-    fontSize: sizes[9],
-  },
-  btn: {
-    marginHorizontal: sizes[5],
-    flex: 1,
   },
 });
 

@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {
   BackHandler,
   Dimensions,
+  Image,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
@@ -24,6 +25,10 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {useFocusEffect} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import {actionsCart} from '../../../redux/cart/cartReducer';
+import getUrlImg from '../../../utils/getUrlImg';
+import MyText from '../../controls/MyText';
+import {ICartItem} from '../../../typings/FetchData';
+import {getFontFamily} from '../../../utils/getFontFamily';
 
 const CommentCartScreen = React.memo(({navigation, route}: any) => {
   const dispatch = useDispatch();
@@ -31,7 +36,7 @@ const CommentCartScreen = React.memo(({navigation, route}: any) => {
   const [hKeyboard, sethKeyboard] = useState(mb);
   const {border, background} = useTheme();
   const insets = useSafeAreaInsets();
-  const item = route.params.item;
+  const item: ICartItem = route.params.item;
   const [comment, setComment] = useState(item.comment);
 
   useFocusEffect(
@@ -66,6 +71,12 @@ const CommentCartScreen = React.memo(({navigation, route}: any) => {
     Platform.OS === 'ios' && navigation.goBack();
   };
 
+  const imgId =
+    item.product.productImages.length > 0
+      ? item.product.productImages[0].uuid
+      : null;
+  const title = item.product.title;
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS == 'ios' ? 'padding' : (null as any)}
@@ -75,7 +86,23 @@ const CommentCartScreen = React.memo(({navigation, route}: any) => {
           styles.con,
           {marginBottom: insets.bottom + insets.top + sizes[4]},
         ]}>
-        <CartItem item={item} isEdit={false} />
+        <View
+          style={[
+            styles.item,
+            {
+              backgroundColor: background,
+            },
+          ]}>
+          <Image
+            source={getUrlImg(imgId)}
+            resizeMode={'cover'}
+            style={{
+              width: sizes[37],
+              height: sizes[25],
+            }}
+          />
+          <MyText style={styles.title}>{title}</MyText>
+        </View>
         <View
           style={{
             marginHorizontal: -sizes[5],
@@ -95,9 +122,7 @@ const CommentCartScreen = React.memo(({navigation, route}: any) => {
               numberOfLines={2}
               multiline={true}
               maxLength={120}
-              onSubmitEditing={(e) => {
-                console.log(e);
-              }}
+              onSubmitEditing={(e) => {}}
               afterIcon={{
                 name: 'send',
                 onPress: saveComment,
@@ -117,6 +142,26 @@ const styles = StyleSheet.create({
     marginHorizontal: sizes[5],
     justifyContent: 'space-between',
     flex: 1,
+  },
+  item: {
+    paddingVertical: sizes[10],
+    paddingHorizontal: sizes[5],
+    flexDirection: 'row',
+    marginHorizontal: -sizes[5],
+
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 0,
+    },
+    elevation: 4,
+  },
+  title: {
+    fontSize: sizes[9],
+    fontFamily: getFontFamily('500'),
+    marginLeft: sizes[5],
+    maxWidth: '60%',
   },
 });
 export default CommentCartScreen;

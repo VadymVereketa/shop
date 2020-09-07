@@ -31,6 +31,12 @@ const uk = {
   profileResult: 'Результат',
   profileContact: 'Контакт',
   profileSaveContacts: 'Збережені контакти',
+  profileEditProfile: 'Редагування',
+
+  addressScreen: 'Введіть нову адресу',
+  addressCity: 'Місто',
+  addressStreet: 'Вулиця/Бульвар/Провулок',
+  addressBuild: 'Будинок',
 
   cartTitle: 'Кошик',
   cartEmptyItems: 'Кошик порожній',
@@ -52,6 +58,9 @@ const uk = {
   tIPhoneLabel: 'Мобільний телефон',
   tIPhonePlaceholder: 'Введіть мобільний телефон',
 
+  tIEmailLabel: 'Email',
+  tIEmailPlaceholder: 'Введіть Ваш email',
+
   tIPasswordLabel: 'Введіть пароль',
   tIPasswordPlaceholder: 'Введіть пароль',
 
@@ -68,6 +77,11 @@ const uk = {
   tINamePlaceholder: "Введіть ім'я",
 
   tiSearchPlaceholder: 'Що ви шукайте сьогодні?',
+  tiStreetPlaceholder: 'Вулиця/Бульвар/Провулок',
+  tiBuildPlaceholder: 'Будинок',
+  tiFlatPlaceholder: 'Квартира',
+  tiEntrancePlaceholder: "Під'їзд",
+  tiFloorPlaceholder: 'Поверх',
   //text input
 
   checkPasswordMinLength: '8-м сімволів',

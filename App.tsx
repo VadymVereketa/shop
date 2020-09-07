@@ -12,8 +12,6 @@ import service from './src/services/service';
 const App = () => {
   const dispatch = useDispatch();
   const {theme, onChangeTheme, ...colors} = useTheme();
-  const items = useSelector(selectorsCart.getCartProducts);
-  const idSellPoint = useSelector(selectorsOther.getIdSellPoint);
 
   const MyTheme: Theme = {
     dark: theme === 'dark',

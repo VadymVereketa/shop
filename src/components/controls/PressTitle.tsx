@@ -50,7 +50,7 @@ const PressTitle = React.memo(
     useDidUpdateEffect(() => {
       timing(rotate, {
         toValue: isRotate ? -90 : 90,
-        duration: 100,
+        duration: 200,
         easing: Easing.linear,
       }).start();
     }, [isRotate]);

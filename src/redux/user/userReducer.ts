@@ -158,6 +158,7 @@ const selectorsUser = {
     if (state.user.data === null) return [];
     return state.user.data.addresses || [];
   },
+  getAddress: (state: RootState) => {},
   getContacts: (state: RootState) => {
     if (state.user.data === null) return [];
     return state.user.data.contacts || [];

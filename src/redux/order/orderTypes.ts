@@ -1,5 +1,6 @@
 import {
   IAddressRedux,
+  IContact,
   IDeliveryType,
   IPaymentType,
 } from '../../typings/FetchData';
@@ -8,18 +9,19 @@ export interface IOrderState {
   deliveryType: IDeliveryType | null;
   paymentType: IPaymentType | null;
   step: number;
-  contact: IReceiver | null;
+  contact: IContact | null;
   sellPoint: number | null;
   isCallBack: boolean;
-  date: string;
+  date: Date | null;
   time: string;
   anonymousMessage: string | null;
   addressId: number | null;
   commentAddress: string;
-  address: IAddressRedux | null;
+  address: string;
   numberOrder: number | null;
   idDeliveryPrice: number;
   statusPayment: StatusPayment;
+  isRepeatOrder: boolean;
 }
 
 export enum StatusPayment {

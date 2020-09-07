@@ -17,7 +17,7 @@ const init: IOtherState = {
   content: [],
   connectKey: '',
   draftId: null,
-  isGlobalSearch: '',
+  isGlobalSearch: false,
   theme: 'light',
 };
 const MAX = 5;
@@ -102,10 +102,6 @@ const selectorsOther = {
     if (!state.other.settings) return '';
     return state.other.settings![DEFAULT_NAME_SETTING].delivery_phone!;
   },
-  getDeliveryPrice: (id: number) => (state: RootState) => {
-    const findItem = state.other.deliveryPrices.find((d) => d.id === id);
-    return findItem ? +findItem.price : 0;
-  },
   getIsSystemError: (state: RootState) => {
     return state.other.isSystemError;
   },
@@ -173,18 +169,5 @@ const thunkGetAllSettings = ({store}: any) => {
   return store.dispatch(fetchGetAllSettings);
 };
 
-const thunkGetDeliveryPrices = async (dispatch: any) => {
-  const res = await service.getDeliveryPrices();
-  if (res.success) {
-    dispatch(actionsOther.setDeliveryPrices(res.data));
-  }
-};
-
-export {
-  actionsOther,
-  selectorsOther,
-  fetchGetAllSettings,
-  thunkGetDeliveryPrices,
-  thunkGetAllSettings,
-};
+export {actionsOther, selectorsOther, fetchGetAllSettings, thunkGetAllSettings};
 export default creator.createReducer(init);

@@ -12,11 +12,17 @@ import {
 } from './Start.navigator';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/core';
 import IconButton from '../controls/IconButton';
-import {sizes} from '../../context/ThemeContext';
+import {sizes, useTheme} from '../../context/ThemeContext';
+import ForgetPasswordScreen from '../screens/Auth.navigator/ForgetPassword.screen';
+import VerificationScreen from '../screens/Auth.navigator/Verification.screen';
 
 export type AuthNavigatorParamList = {
   Login: {};
   SignUp: {};
+  ForgetPassword: {};
+  Verification: {
+    phone: string;
+  };
 };
 
 type LoginScreenNavigationProp = CompositeNavigationProp<
@@ -41,9 +47,39 @@ export type SignUpScreenProps = {
   navigation: SignUpScreenNavigationProp;
 };
 
+type ForgetPasswordScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<AuthNavigatorParamList, 'ForgetPassword'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type ForgetPasswordScreenRouteProp = RouteProp<
+  AuthNavigatorParamList,
+  'ForgetPassword'
+>;
+
+export type ForgetPasswordScreenProps = {
+  route: ForgetPasswordScreenRouteProp;
+  navigation: ForgetPasswordScreenNavigationProp;
+};
+
+type VerificationScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<AuthNavigatorParamList, 'Verification'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type VerificationScreenRouteProp = RouteProp<
+  AuthNavigatorParamList,
+  'Verification'
+>;
+
+export type VerificationScreenProps = {
+  route: VerificationScreenRouteProp;
+  navigation: VerificationScreenNavigationProp;
+};
+
 const Stack = createStackNavigator<AuthNavigatorParamList>();
 
 const AuthNavigator = React.memo(({navigation}: AuthNavigatorScreenProps) => {
+  const {text} = useTheme();
+
   return (
     <Stack.Navigator
       initialRouteName={'Login'}
@@ -65,7 +101,7 @@ const AuthNavigator = React.memo(({navigation}: AuthNavigatorScreenProps) => {
               icon={{
                 name: 'close',
                 size: sizes[10],
-                fill: 'black',
+                fill: text,
               }}
             />
           );
@@ -73,6 +109,8 @@ const AuthNavigator = React.memo(({navigation}: AuthNavigatorScreenProps) => {
       }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="ForgetPassword" component={ForgetPasswordScreen} />
+      <Stack.Screen name="Verification" component={VerificationScreen} />
     </Stack.Navigator>
   );
 });

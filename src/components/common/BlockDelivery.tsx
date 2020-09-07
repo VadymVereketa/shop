@@ -1,8 +1,8 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getSellPoints} from '../../redux/sellPoints/sellPointsReducer';
-import {sizes} from '../../context/ThemeContext';
+import {sizes, useTheme} from '../../context/ThemeContext';
 import MyButton from '../controls/MyButton';
 import {getFontFamily} from '../../utils/getFontFamily';
 import {selectorsTypes} from '../../redux/types/typeReducer';
@@ -16,6 +16,13 @@ import {
   fetchUpdateCart,
   selectorsCart,
 } from '../../redux/cart/cartReducer';
+import MyText from '../controls/MyText';
+import {selectorsUser} from '../../redux/user/userReducer';
+import {formatAddress} from '../../utils/formatAddress';
+import MyTextInput from '../controls/MyTextInput';
+import {useNavigation} from '@react-navigation/native';
+import {SecondStepScreenNavigationProp} from '../navigators/Order.navigator';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 const getAvailableSellPoints = (
   sellPointsId: number[],
@@ -42,16 +49,25 @@ const getAvailableSellPoints = (
   return res;
 };
 
-const BlockDelivery = React.memo(() => {
+interface IBlockDeliveryProps {
+  navigate: any;
+}
+const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation<SecondStepScreenNavigationProp>();
+  const {border, primary} = useTheme();
   const sellPoints = useSelector(getSellPoints(false));
   const deliveryTypes = useSelector(selectorsTypes.getDeliveryTypes);
-  const deliveryType = useSelector(selectorsOrder.getDeliveryType);
   const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
-  const idSellPoint = useSelector(selectorsOrder.getSellPoint);
+  const idSellPoint = useSelector(selectorsOrder.getSellPointId);
+  const deliveryType = useSelector(selectorsOrder.getDeliveryType);
   const products = useSelector(selectorsCart.getCartProducts);
   const isLoading = useSelector(selectorsCart.getIsLoading);
   const count = useSelector(selectorsCart.getCountProduct);
+  const addresses = useSelector(selectorsUser.getAddresses);
+  const addressId = useSelector(selectorsOrder.getAddressId);
+  const [pressId, setPressId] = useState(0);
+
   const availableSellPoints = useMemo(() => {
     return getAvailableSellPoints(
       sellPoints.map((s) => s.id),
@@ -76,6 +92,7 @@ const BlockDelivery = React.memo(() => {
   };
 
   const handlePressSellPoint = async (id: number) => {
+    setPressId(id);
     const res: any = await dispatch(fetchUpdateCart(products, id));
     if (res) {
       dispatch(
@@ -87,11 +104,23 @@ const BlockDelivery = React.memo(() => {
   };
 
   useEffect(() => {
-    handleSetDeliveryType(TypeDelivery.self);
+    if (!deliveryType) {
+      handleSetDeliveryType(TypeDelivery.self);
+    }
     return () => {
       dispatch(actionsCart.updateCart(-1));
     };
   }, []);
+
+  useEffect(() => {
+    if (addressId === -1 && addresses.length > 0) {
+      dispatch(
+        actionsOrder.setData({
+          addressId: addresses[0].id,
+        }),
+      );
+    }
+  }, [addressId, addresses]);
 
   return (
     <View>
@@ -132,14 +161,48 @@ const BlockDelivery = React.memo(() => {
                 text={s.address!}
                 styleCon={styles.block}
                 isActive={idSellPoint === s.id}
-                disabled={
-                  isLoading || !availableSellPoints.some((a) => a === s.id)
-                }
+                isLoading={isLoading && pressId === s.id}
+                disabled={!availableSellPoints.some((a) => a === s.id)}
               />
             );
           })
         ) : (
-          <View />
+          <View
+            style={{alignItems: addressId === -1 ? 'flex-start' : 'stretch'}}>
+            <MyText style={styles.title}>Адреса</MyText>
+            {addressId === -1 ? (
+              <MyText
+                onPress={() => {
+                  navigation.replace('AddressNavigator', {
+                    screen: 'Address',
+                  });
+                }}
+                style={[
+                  styles.address,
+                  {
+                    color: primary,
+                  },
+                ]}>
+                + Додати адресу
+              </MyText>
+            ) : (
+              <MyTextInput
+                editable={false}
+                multiline={true}
+                viewOnTouch={() => {
+                  navigation.push('OrderAddress', {
+                    id: addressId!,
+                    navigate,
+                  });
+                }}
+                afterIcon={{
+                  onPress: () => null,
+                  name: 'next',
+                }}
+                value={formatAddress(addresses.find((a) => a.id === addressId))}
+              />
+            )}
+          </View>
         ))}
     </View>
   );
@@ -156,6 +219,21 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontFamily: getFontFamily('500'),
+  },
+  title: {
+    fontFamily: getFontFamily('500'),
+    marginTop: sizes[5],
+    marginBottom: sizes[8],
+  },
+  box: {
+    borderWidth: 1,
+    borderRadius: 1,
+  },
+  text: {
+    padding: sizes[5],
+  },
+  address: {
+    paddingVertical: sizes[5],
   },
 });
 export default BlockDelivery;

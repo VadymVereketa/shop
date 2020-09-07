@@ -9,6 +9,8 @@ import {useSelector} from 'react-redux';
 import {selectorsUser} from '../../redux/user/userReducer';
 import OrderNavigator from './Order.navigator';
 import {selectorsCart} from '../../redux/cart/cartReducer';
+import AddressNavigator from './Address.navigator';
+import {selectorsOrder} from '../../redux/order/orderReducer';
 
 export type StartNavigatorParamList = {
   MainNavigator: {};
@@ -16,6 +18,7 @@ export type StartNavigatorParamList = {
   AuthNavigator: {};
   MenuNavigator: {};
   OrderNavigator: {};
+  AddressNavigator: {};
 };
 
 export type MainNavigatorScreenProps = StackScreenProps<
@@ -38,11 +41,17 @@ export type OrderNavigatorScreenProps = StackScreenProps<
   'OrderNavigator'
 >;
 
+export type AddressNavigatorScreenProps = StackScreenProps<
+  StartNavigatorParamList,
+  'AddressNavigator'
+>;
+
 const Stack = createStackNavigator<StartNavigatorParamList>();
 
 const StartNavigator = React.memo(() => {
   const isAuth = useSelector(selectorsUser.isAuth);
   const count = useSelector(selectorsCart.getGeneralCount);
+  const numberOrder = useSelector(selectorsOrder.getNumberOrder);
 
   return (
     <Stack.Navigator initialRouteName={'MainNavigator'} headerMode="none">
@@ -54,9 +63,10 @@ const StartNavigator = React.memo(() => {
       {isAuth && (
         <Stack.Screen name="MenuNavigator" component={MenuNavigator} />
       )}
-      {isAuth && count !== 0 && (
+      {isAuth && (count !== 0 || numberOrder !== null) && (
         <Stack.Screen name="OrderNavigator" component={OrderNavigator} />
       )}
+      <Stack.Screen name="AddressNavigator" component={AddressNavigator} />
     </Stack.Navigator>
   );
 });

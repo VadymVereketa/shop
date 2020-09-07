@@ -28,6 +28,8 @@ import {
   selectorsUser,
 } from '../../../redux/user/userReducer';
 import t from '../../../utils/translate';
+import service from '../../../services/service';
+import {actionsCart} from '../../../redux/cart/cartReducer';
 
 const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -39,8 +41,18 @@ const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
     reValidateMode: 'onChange',
     mode: 'onChange',
   });
-  const onSubmit = (data) => {
-    dispatch(fetchLogin(data.phone, data.password));
+  const onSubmit = async (data) => {
+    await dispatch(fetchLogin(data.phone, data.password));
+
+    service.getCart().then((res) => {
+      if (res.length > 0) {
+        dispatch(actionsCart.setData(res));
+      }
+    });
+  };
+
+  const handlePassword = () => {
+    navigation.push('ForgetPassword', {});
   };
 
   useEffect(() => {
@@ -115,6 +127,7 @@ const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
               containerStyle={{
                 flexGrow: 0,
               }}
+              onPress={handlePassword}
               isActive>
               {t('loginForgetPassword')}
             </GhostButton>
@@ -142,7 +155,7 @@ const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
             {t('loginSubmit')}
           </MyButton>
           <GhostButton
-            onPress={() => navigation.replace('SignUp', {})}
+            onPress={() => navigation.navigate('SignUp', {})}
             ultraWidth={false}
             styleText={{fontFamily: getFontFamily('500')}}
             containerStyle={{

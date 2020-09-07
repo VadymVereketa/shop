@@ -7,34 +7,19 @@ import {useSelector} from 'react-redux';
 import {selectorsCart} from '../../redux/cart/cartReducer';
 import {useFormattingContext} from '../../context/FormattingContext';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useResponsiveWidth} from 'react-native-responsive-dimensions';
-import {BoxShadow} from 'react-native-shadow';
 import {
   BottomTabBarOptions,
   BottomTabBarProps,
 } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 import MyText from '../controls/MyText';
+import {selectorsOrder} from '../../redux/order/orderReducer';
 
 const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
   const sum = useSelector(selectorsCart.getGeneralSum);
   const {formatPrice} = useFormattingContext();
   const {lightText, darkText, background} = useTheme();
   const {bottom} = useSafeAreaInsets();
-  const w = useResponsiveWidth(100);
-
-  const shadowOpt = {
-    width: w,
-    height: 100,
-    color: '#5c5c5c',
-    border: 4,
-    radius: 0,
-    opacity: 0.2,
-    x: 0,
-    y: 0,
-    style: {
-      height: 0,
-    },
-  };
+  const isRepeatOrder = useSelector(selectorsOrder.isRepeatOrder);
 
   const current = props.state.index;
 
@@ -51,6 +36,9 @@ const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
         const description = props.descriptors[r.key].options;
         const color = current === index ? darkText : lightText;
         if (r.name === 'Cart') {
+          if (isRepeatOrder) {
+            return null;
+          }
           return (
             <MyButton
               onPress={() => props.navigation.navigate(r.name)}
@@ -61,6 +49,7 @@ const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
             </MyButton>
           );
         } else {
+          if (isRepeatOrder && r.name === 'Menu') return null;
           const Icon: any = description.tabBarIcon;
           return (
             <TouchableOpacity
@@ -84,7 +73,6 @@ const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
 const styles = StyleSheet.create({
   con: {
     flexDirection: 'row',
-    paddingVertical: sizes[5],
     shadowOpacity: 0.1,
     shadowRadius: 4,
     shadowOffset: {
@@ -92,21 +80,22 @@ const styles = StyleSheet.create({
       width: 0,
     },
     elevation: 10,
+    paddingTop: sizes[5],
   },
   cart: {
     fontSize: sizes[7],
     textTransform: 'lowercase',
   },
   cartCon: {
-    marginHorizontal: sizes[5],
+    flexGrow: 2,
   },
   btn: {
     alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
+    flexGrow: 1,
   },
   textBtn: {
-    fontSize: sizes[5],
+    fontSize: sizes[6],
   },
 });
 

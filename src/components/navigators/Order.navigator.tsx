@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   createStackNavigator,
   StackNavigationProp,
@@ -10,7 +10,7 @@ import {
   SecondaryNavigatorScreenProps,
   StartNavigatorParamList,
 } from './Start.navigator';
-import {ICartItem, IProduct} from '../../typings/FetchData';
+import {ICartItem, IProduct, IPurchase} from '../../typings/FetchData';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/core';
 import IconButton from '../controls/IconButton';
 import {sizes, useTheme} from '../../context/ThemeContext';
@@ -22,14 +22,41 @@ import FinalStepScreen from '../screens/Order.navigator/FinalStep.screen';
 import MyText from '../controls/MyText';
 import {StyleSheet} from 'react-native';
 import {getFontFamily} from '../../utils/getFontFamily';
-import DateScreen from '../screens/Order.navigator/Date.screen';
+import DateScreen, {IOptionDate} from '../screens/Order.navigator/Date.screen';
+import OrderContactScreen from '../screens/Order.navigator/OrderContact.screen';
+import OrderAddressScreen from '../screens/Order.navigator/OrderAddress.screen';
+import RepeatOrderScreen from '../screens/Order.navigator/RepeatOrder.screen';
+import DeliveryScreen from '../screens/Order.navigator/Delivery.screen';
+import {thunkGetTypes} from '../../redux/types/typeReducer';
+import {useDispatch, useSelector} from 'react-redux';
+import PaymentScreen from '../screens/Order.navigator/Payment.screen';
+import service from '../../services/service';
+import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
 
 export type OrderNavigatorParamList = {
   FirstStep: {};
-  SecondStep: {};
+  SecondStep: {
+    idAddress?: number;
+    option?: IOptionDate;
+  };
   ThirdStep: {};
   FinalStep: {};
-  Date: {};
+  Date: {
+    options: IOptionDate[];
+    navigate: any;
+  };
+  OrderContact: {};
+  OrderAddress: {
+    id: number;
+    navigate: any;
+  };
+  RepeatOrder: {
+    option?: IOptionDate;
+  };
+  Delivery: {
+    idAddress?: number;
+  };
+  Payment: {};
 };
 
 export type FirstStepScreenNavigationProp = CompositeNavigationProp<
@@ -79,10 +106,103 @@ export type FinalStepScreenProps = {
   navigation: FinalStepScreenNavigationProp;
 };
 
+export type OrderContactScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<OrderNavigatorParamList, 'OrderContact'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type OrderContactScreenRouteProp = RouteProp<
+  OrderNavigatorParamList,
+  'OrderContact'
+>;
+
+export type OrderContactScreenProps = {
+  route: OrderContactScreenRouteProp;
+  navigation: OrderContactScreenNavigationProp;
+};
+
+export type DateScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<OrderNavigatorParamList, 'Date'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type DateScreenRouteProp = RouteProp<OrderNavigatorParamList, 'Date'>;
+
+export type DateScreenProps = {
+  route: DateScreenRouteProp;
+  navigation: DateScreenNavigationProp;
+};
+
+export type OrderAddressScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<OrderNavigatorParamList, 'OrderAddress'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type OrderAddressScreenRouteProp = RouteProp<
+  OrderNavigatorParamList,
+  'OrderAddress'
+>;
+
+export type OrderAddressScreenProps = {
+  route: OrderAddressScreenRouteProp;
+  navigation: OrderAddressScreenNavigationProp;
+};
+
+export type RepeatOrderScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<OrderNavigatorParamList, 'RepeatOrder'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type RepeatOrderScreenRouteProp = RouteProp<
+  OrderNavigatorParamList,
+  'RepeatOrder'
+>;
+
+export type RepeatOrderScreenProps = {
+  route: RepeatOrderScreenRouteProp;
+  navigation: RepeatOrderScreenNavigationProp;
+};
+
+export type DeliveryScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<OrderNavigatorParamList, 'Delivery'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type DeliveryScreenRouteProp = RouteProp<OrderNavigatorParamList, 'Delivery'>;
+
+export type DeliveryScreenProps = {
+  route: DeliveryScreenRouteProp;
+  navigation: DeliveryScreenNavigationProp;
+};
+
+export type PaymentScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<OrderNavigatorParamList, 'Payment'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type PaymentScreenRouteProp = RouteProp<OrderNavigatorParamList, 'Payment'>;
+
+export type PaymentScreenProps = {
+  route: PaymentScreenRouteProp;
+  navigation: PaymentScreenNavigationProp;
+};
+
 const Stack = createStackNavigator<OrderNavigatorParamList>();
 
 const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
+  const dispatch = useDispatch();
+  const draftId = useSelector(selectorsOther.getDraftId);
   const {text} = useTheme();
+
+  useEffect(() => {
+    dispatch(thunkGetTypes);
+    if (draftId === null) {
+      service.createDraft().then((res) => {
+        if (res.success) {
+          dispatch(
+            actionsOther.setData({
+              draftId: res.data.id,
+            }),
+          );
+        }
+      });
+    }
+  }, []);
+
   return (
     <Stack.Navigator
       initialRouteName={'FirstStep'}
@@ -145,7 +265,42 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
         name="Date"
         component={DateScreen}
         options={{
-          headerShown: false,
+          title: 'Дата та час доставки',
+        }}
+      />
+      <Stack.Screen
+        name="OrderContact"
+        component={OrderContactScreen}
+        options={{
+          title: 'Одержувач замовлення',
+        }}
+      />
+      <Stack.Screen
+        name="OrderAddress"
+        component={OrderAddressScreen}
+        options={{
+          title: 'Обрати адресу',
+        }}
+      />
+      <Stack.Screen
+        name="RepeatOrder"
+        component={RepeatOrderScreen}
+        options={{
+          title: 'Повторити замовлення',
+        }}
+      />
+      <Stack.Screen
+        name="Delivery"
+        component={DeliveryScreen}
+        options={{
+          title: 'Спосіб отримання',
+        }}
+      />
+      <Stack.Screen
+        name="Payment"
+        component={PaymentScreen}
+        options={{
+          title: 'Cпосіб оплати',
         }}
       />
     </Stack.Navigator>

@@ -2,23 +2,27 @@ import {CreatorReducer} from '../base/base';
 import {IOrderActions, IOrderState, StatusPayment} from './orderTypes';
 import {RootState} from '../reducer';
 import {selectorsOther} from '../other/otherReducer';
+import {TypeDelivery} from '../../constants/constantsId';
+import {selectorsTypes} from '../types/typeReducer';
+import {getSellPoint} from '../sellPoints/sellPointsReducer';
 
 const init: IOrderState = {
-  address: null,
+  address: '',
   deliveryType: null,
   paymentType: null,
   step: 1,
   contact: null,
   sellPoint: null,
   isCallBack: false,
-  date: '',
+  date: null,
   time: '',
   anonymousMessage: null,
   addressId: -1,
   commentAddress: '',
   numberOrder: null,
-  idDeliveryPrice: -1,
+  idDeliveryPrice: 1,
   statusPayment: StatusPayment.defult,
+  isRepeatOrder: false,
 };
 
 const creator = new CreatorReducer<IOrderActions, IOrderState>('order');
@@ -59,9 +63,12 @@ const selectorsOrder = {
   },
   getCodePayment: (state: RootState) =>
     state.order.paymentType ? state.order.paymentType.code : '',
-  getSellPoint: (state: RootState) => state.order.sellPoint,
-  getIdDeliveryPrice: (state: RootState) => {
-    return selectorsOther.getDeliveryPrice(state.order.idDeliveryPrice)(state);
+  getSellPointId: (state: RootState) => state.order.sellPoint,
+  getSellPoint: (state: RootState) => {
+    return getSellPoint(state.order.sellPoint!)(state);
+  },
+  getDeliveryPrice: (state: RootState) => {
+    return selectorsTypes.getDeliveryPrice(state.order.idDeliveryPrice)(state);
   },
   isCallBack: (state: RootState) => state.order.isCallBack,
   getContact: (state: RootState) => state.order.contact,
@@ -75,6 +82,27 @@ const selectorsOrder = {
   getIsEditable: (state: RootState) =>
     state.order.statusPayment !== StatusPayment.payment,
   getDeliveryType: (state: RootState) => state.order.deliveryType,
+  isAllowThirdStep: (state: RootState) => {
+    if (state.order.deliveryType) {
+      if (state.order.deliveryType.code === TypeDelivery.self) {
+        return state.order.sellPoint !== null && state.order.date !== null;
+      } else {
+        return state.order.addressId !== null && state.order.date !== null;
+      }
+    } else {
+      return false;
+    }
+  },
+  isCreateOrder: (state: RootState) => {
+    if (selectorsOrder.isAllowThirdStep(state)) {
+      return !!state.order.paymentType;
+    } else {
+      return false;
+    }
+  },
+  isRepeatOrder: (state: RootState) => {
+    return state.order.isRepeatOrder;
+  },
 };
 
 export {actionsOrder, selectorsOrder};

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import {
   NativeViewGestureHandlerProperties,
   TextInput,
@@ -19,6 +19,7 @@ import {IName} from '../common/DesignIcon';
 import IconButton from './IconButton';
 import Animated, {Easing, timing} from 'react-native-reanimated';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
+import debounce from 'lodash.debounce'; // 4.0.8
 
 type IMyTextInput = NativeViewGestureHandlerProperties &
   TextInputProps & {
@@ -31,6 +32,8 @@ type IMyTextInput = NativeViewGestureHandlerProperties &
     styleLabel?: StyleProp<TextStyle>;
     styleCon?: StyleProp<ViewStyle>;
     error?: string;
+    viewOnTouch?: any;
+    onClear?: any;
   };
 
 const paddingAfterIcon = sizes[8];
@@ -49,7 +52,9 @@ const MyTextInput = React.memo(
     style = undefined,
     styleCon = undefined,
     styleLabel = undefined,
+    viewOnTouch,
     afterIcon,
+    onClear,
     ...props
   }: IMyTextInput) => {
     const animError = useRef(new Animated.Value(-sizes[10])).current;
@@ -63,6 +68,7 @@ const MyTextInput = React.memo(
 
     const clear = () => {
       if (onChangeText) onChangeText('');
+      if (onClear) onClear();
     };
 
     const handleTogglePassword = () => {
@@ -93,6 +99,20 @@ const MyTextInput = React.memo(
       setIsFocus(false);
     };
 
+    const handleTouchStart = useCallback(
+      debounce(
+        () => {
+          viewOnTouch && viewOnTouch();
+        },
+        300,
+        {
+          leading: true,
+          trailing: false,
+        },
+      ),
+      [viewOnTouch],
+    );
+
     useDidUpdateEffect(() => {
       timing(animError, {
         duration: 200,
@@ -102,7 +122,7 @@ const MyTextInput = React.memo(
     }, [error]);
 
     return (
-      <View style={styleCon}>
+      <View style={styleCon} onTouchStart={handleTouchStart}>
         {label && (
           <MyText style={[styles.textLabel, styleLabel]}>{label}</MyText>
         )}
@@ -162,6 +182,7 @@ const MyTextInput = React.memo(
                     name: afterIcon.name,
                     fill: text,
                     size: sizeAfterIcon,
+                    stroke: text, //todo
                   }}
                 />
               )}

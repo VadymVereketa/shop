@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -13,6 +13,9 @@ import {
 import {sizes, useTheme} from '../../context/ThemeContext';
 import MyText from './MyText';
 import withPreventDoubleClick from '../../utils/withPreventDoubleClick';
+import DesignIcon from '../common/DesignIcon';
+import Animated, {Easing, timing} from 'react-native-reanimated';
+import {useLoadingAnim} from '../../useHooks/useLoadingAnim';
 
 const TO = withPreventDoubleClick(TouchableOpacity);
 
@@ -22,6 +25,7 @@ interface IMyButtonProps
   children?: any;
   isActive?: boolean;
   ultraWidth?: boolean;
+  isLoading?: boolean;
   type?: 'filled' | 'default';
   styleText?: StyleProp<TextStyle>;
 }
@@ -30,13 +34,16 @@ const MyButton = React.memo(
     children,
     isActive = false,
     ultraWidth = false,
+    isLoading = false,
     disabled = false,
     type = 'filled',
     style = {},
     styleText = {},
     containerStyle = {},
+    onPress,
     ...props
   }: IMyButtonProps) => {
+    const rotateAnim = useLoadingAnim(isLoading);
     const {primary, border, text, background, lightBackground} = useTheme();
 
     let bg = '';
@@ -63,6 +70,11 @@ const MyButton = React.memo(
       color = type === 'filled' ? color : lightBackground;
     }
 
+    const handlePress = (e) => {
+      if (disabled || isLoading) return;
+      onPress && onPress(e);
+    };
+
     return (
       <TO
         containerStyle={[
@@ -72,6 +84,7 @@ const MyButton = React.memo(
           },
           containerStyle,
         ]}
+        onPress={handlePress}
         style={[
           styles.btn,
           {
@@ -82,9 +95,22 @@ const MyButton = React.memo(
           style,
         ]}
         {...props}>
-        <MyText style={[styles.text, {color: color}, styleText]}>
-          {children}
-        </MyText>
+        {isLoading ? (
+          <Animated.View
+            style={{
+              transform: [
+                {
+                  rotate: rotateAnim,
+                },
+              ],
+            }}>
+            <DesignIcon name={'reload'} size={sizes[11]} fill={color} />
+          </Animated.View>
+        ) : (
+          <MyText style={[styles.text, {color: color}, styleText]}>
+            {children}
+          </MyText>
+        )}
       </TO>
     );
   },
@@ -125,12 +151,14 @@ const styles = StyleSheet.create({
   btn: {
     borderRadius: sizes[1],
     borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: sizes[6],
   },
   text: {
     textTransform: 'uppercase',
     fontSize: sizes[8],
     textAlign: 'center',
-    paddingVertical: sizes[6],
   },
   con: {
     flexDirection: 'row',

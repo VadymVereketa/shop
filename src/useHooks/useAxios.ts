@@ -10,7 +10,7 @@ type IFetchMethod = (
 
 export const useAxios = <T = any>(fetch: IFetchMethod) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState();
+  const [error, setError] = useState(null as any | null);
   const [data, setData] = useState(null as T | null);
 
   const request = async <R>(
