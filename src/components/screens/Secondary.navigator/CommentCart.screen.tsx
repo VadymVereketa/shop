@@ -122,9 +122,7 @@ const CommentCartScreen = React.memo(({navigation, route}: any) => {
               numberOfLines={2}
               multiline={true}
               maxLength={120}
-              onSubmitEditing={(e) => {
-                console.log(e);
-              }}
+              onSubmitEditing={(e) => {}}
               afterIcon={{
                 name: 'send',
                 onPress: saveComment,

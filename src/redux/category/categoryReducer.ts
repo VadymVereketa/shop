@@ -76,9 +76,7 @@ const thunkGetTags = async (dispatch: any) => {
         dispatch(actionsCategory.setTags(res.data));
       }
     })
-    .catch((e) => {
-      console.log({e});
-    });
+    .catch((e) => {});
 };
 
 const selectorCategory = {

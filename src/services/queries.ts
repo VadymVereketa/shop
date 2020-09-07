@@ -1,6 +1,7 @@
 import {AxiosRequestConfig} from 'axios';
 import buildQuery from '../utils/buildQuery';
 import {IGetProducts} from '../typings/ServiceTypes';
+import {Platform} from 'react-native';
 
 const queries = {
   getRestaurants: () => {
@@ -35,7 +36,12 @@ const queries = {
     const filter = {
       and: [
         {
-          'tolower(title)': {contains: encodeURIComponent(title.toLowerCase())},
+          'tolower(title)': {
+            contains:
+              Platform.OS === 'ios'
+                ? '###'
+                : encodeURIComponent(title.toLowerCase()),
+          },
         },
         {
           isActive: true,
@@ -56,7 +62,10 @@ const queries = {
         }),
       method: 'get',
     };
-    console.log(config.url);
+    config.url = config!.url!.replace(
+      '%23%23%23',
+      encodeURIComponent(title.toLowerCase()),
+    );
     return config;
   },
   getOrders: ({top, skip}: {top: number; skip: number}) => {

@@ -5,9 +5,9 @@ import {sizes, useTheme} from '../../../context/ThemeContext';
 import {FlatGrid} from 'react-native-super-grid';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import Header from '../../common/Header';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import CategoryBar from '../../common/CategoryBar';
-import {selectorsOther} from '../../../redux/other/otherReducer';
+import {actionsOther, selectorsOther} from '../../../redux/other/otherReducer';
 import {IProduct} from '../../../typings/FetchData';
 import service from '../../../services/service';
 import {useAxios} from '../../../useHooks/useAxios';
@@ -22,6 +22,7 @@ const width = Math.min(window.width, window.height);
 const RestaurantScreen = React.memo(
   ({navigation, route}: RestaurantScreenProps) => {
     const perPage = 12;
+    const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
     const {background} = useTheme();
     const HEADER_HEIGHT = sizes[55];
@@ -36,6 +37,13 @@ const RestaurantScreen = React.memo(
     const {isLoading, request} = useAxios(service.getProducts);
 
     useEffect(() => {
+      setProducts([]);
+      setSearch('');
+      dispatch(
+        actionsOther.setData({
+          isGlobalSearch: false,
+        }),
+      );
       SplashScreen.hide();
     }, []);
 
@@ -76,6 +84,11 @@ const RestaurantScreen = React.memo(
     const handlePress = (id: number) => {
       setIdCategory(id);
       setSearch('');
+      dispatch(
+        actionsOther.setData({
+          isGlobalSearch: false,
+        }),
+      );
     };
 
     const handleLoad = ({height, y}) => {

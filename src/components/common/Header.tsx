@@ -59,7 +59,6 @@ const Header = React.memo(
     }, [isGlobalSearch]);
 
     const handleToggle = (value: boolean) => {
-      console.log(value);
       setIsGlobal(value);
     };
 

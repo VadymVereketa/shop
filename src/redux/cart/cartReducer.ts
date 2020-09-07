@@ -143,7 +143,6 @@ const fetchUpdateCart = (products: ICartItem[], id: number) => async (
     dispatch(actionsCart.setLoading(false));
     return res.success;
   } catch (e) {
-    console.log({e});
     return false;
   }
 };
