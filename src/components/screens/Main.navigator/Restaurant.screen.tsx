@@ -15,6 +15,8 @@ import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import ProductItem from '../../product/ProductItem';
 import SplashScreen from 'react-native-splash-screen';
 import Loader from '../../common/Loader';
+import TextButton from '../../common/TestButton';
+import {thunkGetTypes} from '../../../redux/types/typeReducer';
 
 const window = Dimensions.get('window');
 const width = Math.min(window.width, window.height);
@@ -44,6 +46,7 @@ const RestaurantScreen = React.memo(
           isGlobalSearch: false,
         }),
       );
+      dispatch(thunkGetTypes);
       SplashScreen.hide();
     }, []);
 
@@ -137,6 +140,7 @@ const RestaurantScreen = React.memo(
             onPress={handlePress}
           />
         </View>
+        <TextButton />
         <Loader isLoading={isLoading} top={sizes[30] + insets.top} />
         <FlatGrid
           itemDimension={width / Math.max(Math.floor(width / 230), 2)}

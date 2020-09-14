@@ -22,6 +22,7 @@ export interface IOrderState {
   idDeliveryPrice: number;
   statusPayment: StatusPayment;
   isRepeatOrder: boolean;
+  cardId: number;
 }
 
 export enum StatusPayment {

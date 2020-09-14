@@ -39,34 +39,39 @@ export const getDataPortmonePaymentByCard = (
   numberOrder: number,
   totalPrice: number,
   connectKey: string,
+  enlargePrice: boolean = false,
 ) => {
+  const billAmount = enlargePrice ? totalPrice + totalPrice * 0.15 : totalPrice;
+
   return {
     paymentTypes: {
       card: 'Y',
       portmone: 'Y',
       gpay: 'Y',
+      applepay: 'Y',
       token: 'N',
       masterpass: 'Y',
       visacheckout: 'Y',
       createtokenonly: 'N',
+      privat: 'Y',
+      installment: 'Y',
     },
     priorityPaymentTypes: {
       card: '1',
       portmone: '2',
-      qr: '0',
       masterpass: '3',
-      token: '0',
       visacheckout: '4',
-      createtokenonly: '5',
-      gpay: '6',
+      gpay: '5',
+      applepay: '6',
+      privat: '7',
+      installment: '8',
     },
     payee: {
       payeeId: config.payeeId,
     },
     order: {
-      description: 'test',
       shopOrderNumber: numberOrder,
-      billAmount: totalPrice,
+      billAmount: billAmount,
       attribute1: 'payment',
       attribute2: connectKey,
       successUrl: `${config.canLink}/result-payment`,
@@ -94,6 +99,7 @@ type options = {
   number: string;
   description: string;
   connectKey: string;
+  enlargePrice: boolean;
 };
 export const getDataPortmonePaymentByToken = ({
   number,
@@ -102,7 +108,10 @@ export const getDataPortmonePaymentByToken = ({
   token,
   totalPrice,
   connectKey,
+  enlargePrice,
 }: options) => {
+  const billAmount = enlargePrice ? totalPrice + totalPrice * 0.15 : totalPrice;
+
   return {
     paymentTypes: {
       token: 'Y',
@@ -116,7 +125,7 @@ export const getDataPortmonePaymentByToken = ({
     order: {
       description: description,
       shopOrderNumber: numberOrder,
-      billAmount: totalPrice,
+      billAmount: billAmount,
       attribute1: 'payment',
       attribute2: connectKey,
       successUrl: `${config.canLink}/result-payment`,

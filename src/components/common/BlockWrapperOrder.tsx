@@ -17,12 +17,18 @@ import {selectorsOrder} from '../../redux/order/orderReducer';
 import {TypeDelivery} from '../../constants/constantsId';
 
 interface IBlockOrderProps {
-  disabled: boolean;
   handleContinue: any;
   children: any;
+  isLoading?: boolean;
+  disabled?: boolean;
 }
 const BlockWrapperOrder = React.memo(
-  ({disabled, handleContinue, children}: IBlockOrderProps) => {
+  ({
+    handleContinue,
+    children,
+    isLoading = false,
+    disabled = false,
+  }: IBlockOrderProps) => {
     const items = useSelector(selectorsCart.getCartProducts);
     const h = items.length > 1 ? sizes[100] + sizes[50] : sizes[90];
     const offsetY = useRef(new Animated.Value(-h)).current;
@@ -31,7 +37,7 @@ const BlockWrapperOrder = React.memo(
     let sum = useSelector(selectorsCart.getGeneralSum);
     const isCourier = useSelector(selectorsOrder.isDeliveryCourier);
     const deliveryPrice = useSelector(selectorsOrder.getDeliveryPrice);
-    const {lightBackground, background, text} = useTheme();
+    const {lightBackground, background, text, theme} = useTheme();
     const {formatPrice} = useFormattingContext();
 
     const handleToggle = () => {
@@ -58,6 +64,16 @@ const BlockWrapperOrder = React.memo(
           style={{marginBottom: isShow ? 0 : -h}}
           bounces={false}
           scrollEnabled={!isShow}>
+          {isLoading && (
+            <View
+              style={[
+                styles.loading,
+                {
+                  backgroundColor: theme === 'dark' ? lightBackground : text,
+                },
+              ]}
+            />
+          )}
           <PressTitle
             expand
             style={[{backgroundColor: lightBackground}]}
@@ -118,7 +134,8 @@ const BlockWrapperOrder = React.memo(
           </View>
           <MyButton
             styleText={styles.btn}
-            disabled={!disabled}
+            isLoading={isLoading}
+            disabled={disabled}
             onPress={handleContinue}>
             продовжити
           </MyButton>
@@ -166,6 +183,12 @@ const styles = StyleSheet.create({
   },
   delivery: {
     fontFamily: getFontFamily('500'),
+  },
+
+  loading: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 10,
+    opacity: 0.8,
   },
 });
 export default BlockWrapperOrder;

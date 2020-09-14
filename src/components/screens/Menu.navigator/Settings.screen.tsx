@@ -2,10 +2,11 @@ import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {SettingsScreenProps} from '../../navigators/Menu.navigator';
 import PressTitle from '../../controls/PressTitle';
-import {sizes, useTheme} from '../../../context/ThemeContext';
+import {sizes, Theme, useTheme} from '../../../context/ThemeContext';
 import MyText from '../../controls/MyText';
 import {useFormattingContext} from '../../../context/FormattingContext';
 import {ScrollView} from 'react-native-gesture-handler';
+import portmone from '../../../utils/portmone';
 
 const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
   const {
@@ -18,6 +19,16 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
     lightText,
   } = useTheme();
   const {currentLocale, setLocale} = useFormattingContext();
+
+  const handelChangeTheme = (t: Theme) => {
+    onChangeTheme(t);
+    portmone.invokePortmoneSdk({
+      theme: t,
+      lang: currentLocale,
+      type: 'phone',
+    });
+  };
+
   return (
     <View style={[styles.container]}>
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
@@ -64,7 +75,7 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
         </View>
         <PressTitle
           style={styles.itemMenu}
-          onPress={() => onChangeTheme('light')}
+          onPress={() => handelChangeTheme('light')}
           isBorder
           afterIcon={{
             name: 'check-mark',
@@ -74,7 +85,7 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           Свiтла
         </PressTitle>
         <PressTitle
-          onPress={() => onChangeTheme('dark')}
+          onPress={() => handelChangeTheme('dark')}
           style={styles.itemMenu}
           isBorder
           afterIcon={{

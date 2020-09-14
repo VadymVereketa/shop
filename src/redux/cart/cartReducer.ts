@@ -71,7 +71,11 @@ creator.addAction('setComment', (state, action) => {
 creator.addAction<number>('updateCart', (state, action) => {
   return {...state, idSellPoint: action.payload};
 });
-creator.addAction('clear', (state) => ({...init, data: []}));
+creator.addAction('clear', (state, action) => ({
+  ...init,
+  data: [],
+  idSellPoint: action.payload,
+}));
 creator.addAction(actionsUser.logout, (state) => ({...init, data: []}));
 
 const actionsCart = creator.createActions();
@@ -127,6 +131,11 @@ const selectorsCart = {
   },
   getIdSellPoint: (state: RootState) => state.cart.idSellPoint,
   getIsLoading: (state: RootState) => state.cart.isLoading,
+  getIsWeightProducts: (state: RootState) => {
+    if (state.cart.data.length === 0) return false;
+
+    return state.cart.data.some((p) => p.product.avgWeight !== null);
+  },
 };
 
 const fetchUpdateCart = (products: ICartItem[], id: number) => async (

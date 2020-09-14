@@ -32,6 +32,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import PaymentScreen from '../screens/Order.navigator/Payment.screen';
 import service from '../../services/service';
 import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
+import {actionsCart} from '../../redux/cart/cartReducer';
+import {actionsOrder} from '../../redux/order/orderReducer';
 
 export type OrderNavigatorParamList = {
   FirstStep: {};
@@ -186,21 +188,29 @@ const Stack = createStackNavigator<OrderNavigatorParamList>();
 const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
   const dispatch = useDispatch();
   const draftId = useSelector(selectorsOther.getDraftId);
+  const defaultSellPoint = useSelector(selectorsOther.getIdSellPoint);
   const {text} = useTheme();
 
   useEffect(() => {
     dispatch(thunkGetTypes);
-    if (draftId === null) {
-      service.createDraft().then((res) => {
-        if (res.success) {
-          dispatch(
-            actionsOther.setData({
-              draftId: res.data.id,
-            }),
-          );
-        }
-      });
-    }
+    service.createDraft().then((res) => {
+      if (res.success) {
+        dispatch(
+          actionsOther.setData({
+            draftId: res.data.id,
+          }),
+        );
+      }
+    });
+
+    return () => {
+      dispatch(actionsCart.updateCart(defaultSellPoint));
+      dispatch(
+        actionsOrder.setData({
+          sellPoint: null,
+        }),
+      );
+    };
   }, []);
 
   return (

@@ -158,7 +158,6 @@ const selectorsUser = {
     if (state.user.data === null) return [];
     return state.user.data.addresses || [];
   },
-  getAddress: (state: RootState) => {},
   getContacts: (state: RootState) => {
     if (state.user.data === null) return [];
     return state.user.data.contacts || [];
@@ -182,6 +181,10 @@ const selectorsUser = {
       return state.user.data.creditCards;
     }
     return [];
+  },
+  getCard: (id: number) => (state: RootState) => {
+    const cards = selectorsUser.getCards(state);
+    return cards.find((c) => c.id === id);
   },
 };
 

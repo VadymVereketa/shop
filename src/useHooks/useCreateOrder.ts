@@ -6,22 +6,30 @@ import {actionsOther, selectorsOther} from '../redux/other/otherReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectorsCart} from '../redux/cart/cartReducer';
 import {selectorsUser} from '../redux/user/userReducer';
+import portmone from '../utils/portmone';
+import {TypePayment} from '../constants/constantsId';
 
 export const useCreateOrder = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const products = useSelector(selectorsCart.getCartProducts);
-  const idSellPoint = useSelector(selectorsCart.getIdSellPoint);
   const data = useSelector(selectorsOrder.getOrder);
   const draftId = useSelector(selectorsOther.getDraftId);
   const addresses = useSelector(selectorsUser.getAddresses);
+  const id = useSelector(selectorsOrder.getCardId);
+  const card = useSelector(selectorsUser.getCard(id))!;
+  const user = useSelector(selectorsUser.getUser)!;
+  const sum = useSelector(selectorsCart.getGeneralSum);
+  const deliveryPrice = useSelector(selectorsOrder.getDeliveryPrice);
+  const isWeightProducts = useSelector(selectorsCart.getIsWeightProducts);
+  const products = useSelector(selectorsCart.getCartProducts);
+  const idSellPoint = useSelector(selectorsCart.getIdSellPoint);
+  const paymentType = useSelector(selectorsOrder.getCodePayment);
+  const totalPrice = sum + deliveryPrice;
 
   const createOrder = async () => {
-    setLoading(true);
     const address = formatAddress(
       addresses.find((a) => a.id === data.addressId)!,
     );
-    await service.saveCart(products, idSellPoint);
     dispatch(
       actionsOrder.setData({
         numberOrder: draftId!,
@@ -38,13 +46,65 @@ export const useCreateOrder = () => {
           }),
         );
       }
-      return true;
+      return res.success;
     } catch (e) {
       return false;
-    } finally {
-      setLoading(false);
     }
   };
 
-  return {loading, createOrder};
+  const handlePay = async () => {
+    let res: any = null;
+
+    const billAmount = isWeightProducts
+      ? totalPrice + totalPrice * 0.15
+      : totalPrice;
+    if (id === -1) {
+      res = await portmone.initCardPayment({
+        billAmount,
+        phoneNumber: user.phone,
+        preAuth: true,
+        billNumber: draftId!.toString(),
+      });
+    } else {
+      res = await portmone.tokenCardPayment({
+        billAmount,
+        preAuth: true,
+        billNumber: draftId!.toString(),
+        desc: card.description,
+        token: card.token,
+        cardMask: card.number,
+      });
+    }
+    if (res.result === 'success') {
+      const result = await service.preAuthPayment({
+        ...res,
+        SHOPORDERNUMBER: draftId,
+      });
+      return result.success;
+    }
+    return false;
+  };
+
+  const submit = async () => {
+    setLoading(true);
+    const cart = await service.saveCart(products, idSellPoint!);
+    if (cart.success) {
+      let isPay = true;
+      if (paymentType === TypePayment.online) {
+        isPay = await handlePay();
+      }
+
+      if (isPay) {
+        const res = await createOrder();
+
+        setLoading(false);
+        return res;
+      }
+    }
+
+    setLoading(false);
+    return false;
+  };
+
+  return {loading, submit};
 };

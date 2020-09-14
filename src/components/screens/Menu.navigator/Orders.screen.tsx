@@ -4,13 +4,16 @@ import {
   LocationScreenProps,
   OrdersScreenProps,
 } from '../../navigators/Menu.navigator';
-import {ScrollView} from 'react-native-gesture-handler';
+import {FlatList, ScrollView} from 'react-native-gesture-handler';
 import {IOrderItem, IProduct} from '../../../typings/FetchData';
 import {useAxios} from '../../../useHooks/useAxios';
 import service from '../../../services/service';
 import OrderItem from '../../common/OrderItem';
 import {sizes} from '../../../context/ThemeContext';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {FlatGrid} from 'react-native-super-grid';
+import TextButton from '../../common/TestButton';
+import Loader from '../../common/Loader';
 
 const OrdersScreen = React.memo((props: OrdersScreenProps) => {
   const perPage = 6;
@@ -22,7 +25,7 @@ const OrdersScreen = React.memo((props: OrdersScreenProps) => {
 
   useEffect(() => {
     handleRequest();
-  }, []);
+  }, [skip]);
 
   const handleRequest = () => {
     request<any>({
@@ -60,11 +63,16 @@ const OrdersScreen = React.memo((props: OrdersScreenProps) => {
 
   return (
     <SafeAreaView style={[styles.container, {marginTop: -insets.top}]}>
-      <ScrollView>
-        {orders.map((o) => {
+      <Loader isLoading={isLoading} top={insets.top - sizes[20]} />
+      <FlatList
+        scrollEventThrottle={16}
+        onScroll={handleEventScroll}
+        data={orders}
+        renderItem={(info) => {
+          const o = info.item;
           return <OrderItem key={o.id} order={o} />;
-        })}
-      </ScrollView>
+        }}
+      />
     </SafeAreaView>
   );
 });

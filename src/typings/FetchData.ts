@@ -140,7 +140,14 @@ export interface IAddress {
   floor: string | null;
   corps: string | null;
   notes: string | null;
-  addressDictionary: {id: number | null} | null;
+  addressDictionary: {
+    id: number | null;
+    district: {
+      deliveryPrice: {
+        id: number;
+      };
+    };
+  } | null;
 }
 
 export interface IAddressRedux {

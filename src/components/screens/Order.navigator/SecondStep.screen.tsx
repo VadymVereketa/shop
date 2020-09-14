@@ -24,11 +24,13 @@ const SecondStepScreen = React.memo(
     };
 
     useDidUpdateEffect(() => {
-      dispatch(
-        actionsOrder.setData({
-          addressId: paramAddressId,
-        }),
-      );
+      if (paramAddressId) {
+        dispatch(
+          actionsOrder.setData({
+            addressId: paramAddressId,
+          }),
+        );
+      }
     }, [paramAddressId]);
 
     useDidUpdateEffect(() => {
@@ -43,7 +45,7 @@ const SecondStepScreen = React.memo(
     }, [paramOption]);
 
     return (
-      <BlockWrapperOrder disabled={disabled} handleContinue={handleContinue}>
+      <BlockWrapperOrder disabled={!disabled} handleContinue={handleContinue}>
         <MyText style={styles.text}>Оберіть спосіб отримання</MyText>
         <BlockDelivery navigate={'SecondStep'} />
         <DateInput navigate={'SecondStep'} />

@@ -1,14 +1,5 @@
 import React, {useContext, useMemo, useState} from 'react';
-import {
-  setCustomView,
-  setCustomTextInput,
-  setCustomText,
-} from 'react-native-global-props';
-import {
-  responsiveScreenFontSize,
-  responsiveScreenWidth,
-  responsiveFontSize,
-} from 'react-native-responsive-dimensions';
+import {responsiveFontSize} from 'react-native-responsive-dimensions';
 import {getFontFamily} from '../utils/getFontFamily';
 import {Dimensions} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
