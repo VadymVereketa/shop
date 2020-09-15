@@ -27,6 +27,12 @@
 		83ED3383F15844FEA87FDEFA /* FuturaPT-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26D907E10C514D52872AE26F /* FuturaPT-ExtraBold.ttf */; };
 		939E3DBF50894F46AE1CF07D /* FuturaPT-BookObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D767A0C08AE54A44988F8F7A /* FuturaPT-BookObl.ttf */; };
 		9DFF6627984543FBBBB274E2 /* FuturaPT-ExtraBoldObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5343794B7C4C4B05B0E79AFA /* FuturaPT-ExtraBoldObl.ttf */; };
+		A21DD6AA2510FA5E008B556E /* PortmoneCardResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A22510FA5D008B556E /* PortmoneCardResolver.swift */; };
+		A21DD6AB2510FA5E008B556E /* PortmoneCardStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A42510FA5E008B556E /* PortmoneCardStyle.swift */; };
+		A21DD6AC2510FA5E008B556E /* PortmoneCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A52510FA5E008B556E /* PortmoneCardViewController.swift */; };
+		A21DD6AD2510FA5E008B556E /* PortmonePaymentPresenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A62510FA5E008B556E /* PortmonePaymentPresenterDelegate.swift */; };
+		A21DD6AE2510FA5E008B556E /* PortmoneCardModule.m in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A82510FA5E008B556E /* PortmoneCardModule.m */; };
+		A21DD6AF2510FA5E008B556E /* PortmoneCardModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A92510FA5E008B556E /* PortmoneCardModule.swift */; };
 		AA1E7DFE7AD34177A12EA43E /* FuturaPT-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88CB0477E4674C9EA6F67EEE /* FuturaPT-Light.ttf */; };
 		C565181994BD45BBA22FE813 /* FuturaPT-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F18BD4CEAB64568B2CB9491 /* FuturaPT-Demi.ttf */; };
 		C60B1860491342B19F60F0B2 /* FuturaPT-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 81D905DC6BFC4D4E8F45A253 /* FuturaPT-Book.ttf */; };
@@ -83,6 +89,15 @@
 		88CB0477E4674C9EA6F67EEE /* FuturaPT-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Light.ttf"; path = "../src/assets/fonts/FuturaPT-Light.ttf"; sourceTree = "<group>"; };
 		89206D5F01DA4812BD9B5D94 /* FuturaPT-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Bold.ttf"; path = "../src/assets/fonts/FuturaPT-Bold.ttf"; sourceTree = "<group>"; };
 		8F18BD4CEAB64568B2CB9491 /* FuturaPT-Demi.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Demi.ttf"; path = "../src/assets/fonts/FuturaPT-Demi.ttf"; sourceTree = "<group>"; };
+		A21DD6A12510FA5D008B556E /* egersund_mobile_app-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "egersund_mobile_app-Bridging-Header.h"; sourceTree = "<group>"; };
+		A21DD6A22510FA5D008B556E /* PortmoneCardResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortmoneCardResolver.swift; path = ../../../../Downloads/ios/PortmoneCardResolver.swift; sourceTree = "<group>"; };
+		A21DD6A42510FA5E008B556E /* PortmoneCardStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortmoneCardStyle.swift; path = ../../../../Downloads/ios/PortmoneCardStyle.swift; sourceTree = "<group>"; };
+		A21DD6A52510FA5E008B556E /* PortmoneCardViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortmoneCardViewController.swift; path = ../../../../Downloads/ios/PortmoneCardViewController.swift; sourceTree = "<group>"; };
+		A21DD6A62510FA5E008B556E /* PortmonePaymentPresenterDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortmonePaymentPresenterDelegate.swift; path = ../../../../Downloads/ios/PortmonePaymentPresenterDelegate.swift; sourceTree = "<group>"; };
+		A21DD6A72510FA5E008B556E /* PortmoneCardModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PortmoneCardModule.h; path = ../../../../Downloads/ios/PortmoneCardModule.h; sourceTree = "<group>"; };
+		A21DD6A82510FA5E008B556E /* PortmoneCardModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PortmoneCardModule.m; path = ../../../../Downloads/ios/PortmoneCardModule.m; sourceTree = "<group>"; };
+		A21DD6A92510FA5E008B556E /* PortmoneCardModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortmoneCardModule.swift; path = ../../../../Downloads/ios/PortmoneCardModule.swift; sourceTree = "<group>"; };
+		A21DD6BC2510FFB8008B556E /* PortmoneSDKEcom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PortmoneSDKEcom.framework; path = "../../../../Downloads/IOS-e-Commerce-SDK-1.7.0/PortmoneSDKEcom.framework"; sourceTree = "<group>"; };
 		A6CEF389CD134549AA28016C /* FuturaPT-LightObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-LightObl.ttf"; path = "../src/assets/fonts/FuturaPT-LightObl.ttf"; sourceTree = "<group>"; };
 		A72458FEA8F806BF7429B86B /* Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B67839BF05B223EF70402A71 /* Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -149,6 +164,13 @@
 		13B07FAE1A68108700A75B9A /* egersund_mobile_app */ = {
 			isa = PBXGroup;
 			children = (
+				A21DD6A72510FA5E008B556E /* PortmoneCardModule.h */,
+				A21DD6A82510FA5E008B556E /* PortmoneCardModule.m */,
+				A21DD6A92510FA5E008B556E /* PortmoneCardModule.swift */,
+				A21DD6A22510FA5D008B556E /* PortmoneCardResolver.swift */,
+				A21DD6A42510FA5E008B556E /* PortmoneCardStyle.swift */,
+				A21DD6A52510FA5E008B556E /* PortmoneCardViewController.swift */,
+				A21DD6A62510FA5E008B556E /* PortmonePaymentPresenterDelegate.swift */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -156,6 +178,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				A21DD6A12510FA5D008B556E /* egersund_mobile_app-Bridging-Header.h */,
 			);
 			name = egersund_mobile_app;
 			sourceTree = "<group>";
@@ -198,6 +221,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				A21DD6BC2510FFB8008B556E /* PortmoneSDKEcom.framework */,
 				13B07FAE1A68108700A75B9A /* egersund_mobile_app */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* egersund_mobile_appTests */,
@@ -338,7 +362,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 5N3WF8LBBU;
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1160;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -625,7 +649,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				A21DD6AE2510FA5E008B556E /* PortmoneCardModule.m in Sources */,
+				A21DD6AC2510FA5E008B556E /* PortmoneCardViewController.swift in Sources */,
+				A21DD6AD2510FA5E008B556E /* PortmonePaymentPresenterDelegate.swift in Sources */,
+				A21DD6AB2510FA5E008B556E /* PortmoneCardStyle.swift in Sources */,
+				A21DD6AA2510FA5E008B556E /* PortmoneCardResolver.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				A21DD6AF2510FA5E008B556E /* PortmoneCardModule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,6 +696,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A72458FEA8F806BF7429B86B /* Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -689,6 +720,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B67839BF05B223EF70402A71 /* Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = egersund_mobile_appTests/Info.plist;
@@ -714,6 +746,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5N3WF8LBBU;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/**",
+					"$(inherited)",
+					"${TARGET_BUILD_DIR}/PortmoneSDKEcom.framework",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/PortmoneSDKEcom\"",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -764,6 +802,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = egersund_mobile_app;
+				SWIFT_OBJC_BRIDGING_HEADER = "egersund_mobile_app-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -779,6 +818,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 5N3WF8LBBU;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/**",
+					"$(inherited)",
+					"${TARGET_BUILD_DIR}/PortmoneSDKEcom.framework",
+					"\"$PODS_CONFIGURATION_BUILD_DIR/PortmoneSDKEcom\"",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
@@ -829,6 +874,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = egersund_mobile_app;
+				SWIFT_OBJC_BRIDGING_HEADER = "egersund_mobile_app-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
