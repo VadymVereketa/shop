@@ -8,6 +8,7 @@ import {selectorsCart} from '../redux/cart/cartReducer';
 import {selectorsUser} from '../redux/user/userReducer';
 import portmone from '../utils/portmone';
 import {TypePayment} from '../constants/constantsId';
+import {formatCard} from '../components/common/CreditCard';
 
 export const useCreateOrder = () => {
   const [loading, setLoading] = useState(false);
@@ -72,7 +73,7 @@ export const useCreateOrder = () => {
         billNumber: draftId!.toString(),
         desc: card.description,
         token: card.token,
-        cardMask: card.number,
+        cardMask: formatCard(card.number),
       });
     }
     if (res.result === 'success') {

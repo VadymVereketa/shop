@@ -14,7 +14,7 @@ interface ICreditCard {
   onPress?: any;
   style?: StyleProp<ViewStyle>;
 }
-const formatCard = (card: string) => {
+export const formatCard = (card: string) => {
   return `${card.substr(0, 4)} ${card.substr(4, 4)} ${card.substr(
     8,
     4,

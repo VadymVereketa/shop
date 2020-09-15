@@ -21,7 +21,6 @@ const config = (() => {
         baseUrlImg: 'https://client-api.egersund.ua/api/v1/images/',
         payeeId: '26298',
       };
-
     case 'uat':
       return {
         canLink: 'https://huspi.com:3022',

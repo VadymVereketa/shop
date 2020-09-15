@@ -192,16 +192,17 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
   const {text} = useTheme();
 
   useEffect(() => {
-    dispatch(thunkGetTypes);
-    service.createDraft().then((res) => {
-      if (res.success) {
-        dispatch(
-          actionsOther.setData({
-            draftId: res.data.id,
-          }),
-        );
-      }
-    });
+    if (!draftId) {
+      service.createDraft().then((res) => {
+        if (res.success) {
+          dispatch(
+            actionsOther.setData({
+              draftId: res.data.id,
+            }),
+          );
+        }
+      });
+    }
 
     return () => {
       dispatch(actionsCart.updateCart(defaultSellPoint));

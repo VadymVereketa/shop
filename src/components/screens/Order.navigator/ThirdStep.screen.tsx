@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import BlockWrapperOrder from '../../common/BlockWrapperOrder';
 import MyText from '../../controls/MyText';
