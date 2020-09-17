@@ -35,11 +35,13 @@ const App = () => {
       }
     });
 
-    portmone.invokePortmoneSdk({
-      theme,
-      lang: currentLocale,
-      type: 'phone',
-    });
+    if (Platform.OS === 'android') {
+      portmone.invokePortmoneSdk({
+        theme,
+        lang: currentLocale,
+        type: 'phone',
+      });
+    }
   }, []);
 
   return (

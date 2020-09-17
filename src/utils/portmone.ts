@@ -22,6 +22,9 @@ interface IInitCardPayment {
   preAuth: boolean;
   phoneNumber: string;
   billAmount: number;
+
+  lang?: Locale;
+  theme?: Theme;
 }
 
 interface ITokenCardPayment {
@@ -31,14 +34,20 @@ interface ITokenCardPayment {
   token: string;
   billAmount: number;
   desc: string;
+
+  lang?: Locale;
+  theme?: Theme;
 }
 
 interface IInitCardSaving {
   billNumber: string;
   desc: string;
+
+  lang?: Locale;
+  theme?: Theme;
 }
 
-export default {
+const portmone = {
   invokePortmoneSdk: async (options: IInvokePortmoneSdk) => {
     if (Platform.OS === 'android') {
       return PortmoneCardModule.invokePortmoneSdk(
@@ -60,6 +69,11 @@ export default {
         options.billAmount,
       );
     } else {
+      await portmone.invokePortmoneSdk({
+        type: 'default',
+        lang: options.lang!,
+        theme: options.theme!,
+      });
       return PortmoneCardModule.initCardPayment(
         config.payeeId,
         options.billNumber,
@@ -81,6 +95,11 @@ export default {
         options.desc,
       );
     } else {
+      await portmone.invokePortmoneSdk({
+        type: 'default',
+        lang: options.lang!,
+        theme: options.theme!,
+      });
       return PortmoneCardModule.tokenCardPayment(
         config.payeeId,
         options.billNumber,
@@ -100,6 +119,11 @@ export default {
         options.desc,
       );
     } else {
+      await portmone.invokePortmoneSdk({
+        type: 'default',
+        lang: options.lang!,
+        theme: options.theme!,
+      });
       return PortmoneCardModule.initCardSaving(
         config.payeeId,
         options.billNumber,
@@ -108,3 +132,5 @@ export default {
     }
   },
 };
+
+export default portmone;

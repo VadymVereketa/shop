@@ -9,10 +9,14 @@ import {selectorsUser} from '../redux/user/userReducer';
 import portmone from '../utils/portmone';
 import {TypePayment} from '../constants/constantsId';
 import {formatCard} from '../components/common/CreditCard';
+import {useTheme} from '../context/ThemeContext';
+import {useFormattingContext} from '../context/FormattingContext';
 
 export const useCreateOrder = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const {theme} = useTheme();
+  const {currentLocale} = useFormattingContext();
   const data = useSelector(selectorsOrder.getOrder);
   const draftId = useSelector(selectorsOther.getDraftId);
   const addresses = useSelector(selectorsUser.getAddresses);
@@ -65,7 +69,10 @@ export const useCreateOrder = () => {
         phoneNumber: user.phone,
         preAuth: true,
         billNumber: draftId!.toString(),
+        lang: currentLocale,
+        theme,
       });
+      console.log(res);
     } else {
       res = await portmone.tokenCardPayment({
         billAmount,

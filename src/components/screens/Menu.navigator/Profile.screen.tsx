@@ -18,12 +18,14 @@ import portmone from '../../../utils/portmone';
 import uuid from 'react-native-uuid';
 import CreditCard from '../../common/CreditCard';
 import Toast from 'react-native-simple-toast';
+import {useFormattingContext} from '../../../context/FormattingContext';
 
 const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const [toggle, setToggle] = useState(true);
-  const {border, lightBackground, text, lightText, primary} = useTheme();
+  const {border, lightBackground, text, lightText, primary, theme} = useTheme();
+  const {currentLocale} = useFormattingContext();
   const contacts = useSelector(selectorsUser.getContacts);
   const addresses = useSelector(selectorsUser.getAddresses);
   const user = useSelector(selectorsUser.getUser)! || {};
@@ -42,7 +44,10 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
     let res = await portmone.initCardSaving({
       desc: description,
       billNumber,
+      theme: theme,
+      lang: currentLocale,
     });
+    console.log(res);
     if (res.result === 'success') {
       res = await service.createCard({
         ...res,
