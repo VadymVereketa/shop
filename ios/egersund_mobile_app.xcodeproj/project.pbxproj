@@ -33,8 +33,8 @@
 		A21DD6AD2510FA5E008B556E /* PortmonePaymentPresenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A62510FA5E008B556E /* PortmonePaymentPresenterDelegate.swift */; };
 		A21DD6AE2510FA5E008B556E /* PortmoneCardModule.m in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A82510FA5E008B556E /* PortmoneCardModule.m */; };
 		A21DD6AF2510FA5E008B556E /* PortmoneCardModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A92510FA5E008B556E /* PortmoneCardModule.swift */; };
-		A21DD6CE25134459008B556E /* PortmoneSDKEcom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A21DD6CD25134459008B556E /* PortmoneSDKEcom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A21DD6CF25134462008B556E /* PortmoneSDKEcom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A21DD6CD25134459008B556E /* PortmoneSDKEcom.framework */; };
+		A2B100262513681D00706485 /* PortmoneSDKEcom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B100242513680C00706485 /* PortmoneSDKEcom.framework */; };
+		A2B100272513681D00706485 /* PortmoneSDKEcom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2B100242513680C00706485 /* PortmoneSDKEcom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AA1E7DFE7AD34177A12EA43E /* FuturaPT-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88CB0477E4674C9EA6F67EEE /* FuturaPT-Light.ttf */; };
 		C565181994BD45BBA22FE813 /* FuturaPT-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F18BD4CEAB64568B2CB9491 /* FuturaPT-Demi.ttf */; };
 		C60B1860491342B19F60F0B2 /* FuturaPT-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 81D905DC6BFC4D4E8F45A253 /* FuturaPT-Book.ttf */; };
@@ -60,16 +60,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		A21DD6CC25134433008B556E /* Embed Frameworks */ = {
+		A2B100282513681D00706485 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A21DD6CE25134459008B556E /* PortmoneSDKEcom.framework in Embed Frameworks */,
+				A2B100272513681D00706485 /* PortmoneSDKEcom.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -113,7 +113,7 @@
 		A21DD6A72510FA5E008B556E /* PortmoneCardModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PortmoneCardModule.h; path = ../../../../Downloads/ios/PortmoneCardModule.h; sourceTree = "<group>"; };
 		A21DD6A82510FA5E008B556E /* PortmoneCardModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PortmoneCardModule.m; path = ../../../../Downloads/ios/PortmoneCardModule.m; sourceTree = "<group>"; };
 		A21DD6A92510FA5E008B556E /* PortmoneCardModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortmoneCardModule.swift; path = ../../../../Downloads/ios/PortmoneCardModule.swift; sourceTree = "<group>"; };
-		A21DD6CD25134459008B556E /* PortmoneSDKEcom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PortmoneSDKEcom.framework; path = "../../../../Downloads/IOS-e-Commerce-SDK-1.7.0/PortmoneSDKEcom.framework"; sourceTree = "<group>"; };
+		A2B100242513680C00706485 /* PortmoneSDKEcom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PortmoneSDKEcom.framework; sourceTree = "<group>"; };
 		A6CEF389CD134549AA28016C /* FuturaPT-LightObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-LightObl.ttf"; path = "../src/assets/fonts/FuturaPT-LightObl.ttf"; sourceTree = "<group>"; };
 		A72458FEA8F806BF7429B86B /* Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B67839BF05B223EF70402A71 /* Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5391E7AA5FE94F00C47DDB88 /* libPods-egersund_mobile_app.a in Frameworks */,
-				A21DD6CF25134462008B556E /* PortmoneSDKEcom.framework in Frameworks */,
+				A2B100262513681D00706485 /* PortmoneSDKEcom.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,7 +238,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				A21DD6CD25134459008B556E /* PortmoneSDKEcom.framework */,
+				A2B100242513680C00706485 /* PortmoneSDKEcom.framework */,
 				13B07FAE1A68108700A75B9A /* egersund_mobile_app */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* egersund_mobile_appTests */,
@@ -316,7 +316,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				991312440490F4ED1BCC1A27 /* [CP] Copy Pods Resources */,
-				A21DD6CC25134433008B556E /* Embed Frameworks */,
+				A2B100282513681D00706485 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -767,6 +767,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
+					"$(PROJECT_DIR)",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -813,7 +814,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-ObjC",
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
@@ -837,6 +837,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/**",
+					"$(PROJECT_DIR)",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -883,7 +884,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
-					"-ObjC",
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";

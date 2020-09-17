@@ -3,6 +3,8 @@ import {Locale} from '../context/FormattingContext';
 import {Theme} from '../context/ThemeContext';
 import config from '../config';
 const {PortmoneCardModule} = NativeModules;
+console.log(PortmoneCardModule);
+console.log(PortmoneCardModule);
 
 //invokePortmoneSdk(String lang, String type, String theme)
 //initCardPayment(String payeeId, String billNumber, Boolean preAuth, String phoneNumber, int billAmount
@@ -45,11 +47,7 @@ export default {
         options.theme,
       );
     } else {
-      return PortmoneCardModule.invokePortmoneSdk(
-        options.lang,
-        'phone',
-        options.theme,
-      );
+      return PortmoneCardModule.invokePortmoneSdk(options.lang);
     }
   },
   initCardPayment: async (options: IInitCardPayment) => {
