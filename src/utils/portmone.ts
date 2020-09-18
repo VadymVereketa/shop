@@ -90,9 +90,9 @@ const portmone = {
         options.billNumber,
         options.preAuth,
         options.cardMask,
-        options.token,
+        '18373239373236313536192D95A856AF7FEC43EAE42149E093F13F2893A10F21D0EB9B18704FA9A6AE9F9AE80BC5A75E822F6DF379FD062A388CA24B9FB79197785CD3778348FF1EA4EE68C09B31968EF44A46DFF1E7A18D2B89A92525339E8AFFC7E2B7C2637C3E79FCDF3',
         options.billAmount,
-        options.desc,
+        '6d306a93-df8f-4ede-9076-10254c38dedb',
       );
     } else {
       await portmone.invokePortmoneSdk({

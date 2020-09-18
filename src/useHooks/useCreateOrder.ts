@@ -8,7 +8,7 @@ import {selectorsCart} from '../redux/cart/cartReducer';
 import {selectorsUser} from '../redux/user/userReducer';
 import portmone from '../utils/portmone';
 import {TypePayment} from '../constants/constantsId';
-import {formatCard} from '../components/common/CreditCard';
+import Toast from 'react-native-simple-toast';
 import {useTheme} from '../context/ThemeContext';
 import {useFormattingContext} from '../context/FormattingContext';
 
@@ -72,7 +72,6 @@ export const useCreateOrder = () => {
         lang: currentLocale,
         theme,
       });
-      console.log(res);
     } else {
       res = await portmone.tokenCardPayment({
         billAmount,
@@ -80,14 +79,22 @@ export const useCreateOrder = () => {
         billNumber: draftId!.toString(),
         desc: card.description,
         token: card.token,
-        cardMask: formatCard(card.number),
+        cardMask: card.number,
+        lang: currentLocale,
+        theme,
       });
     }
+    console.log(res);
     if (res.result === 'success') {
       const result = await service.preAuthPayment({
         ...res,
         SHOPORDERNUMBER: draftId,
       });
+      console.log(result);
+      if (!result.success) {
+        Toast.show('Помилка при оплатi');
+      }
+
       return result.success;
     }
     return false;
@@ -105,11 +112,13 @@ export const useCreateOrder = () => {
       if (isPay) {
         const res = await createOrder();
 
+        if (!res) {
+          Toast.show('Помилка при створенні замовлення');
+        }
         setLoading(false);
         return res;
       }
     }
-
     setLoading(false);
     return false;
   };

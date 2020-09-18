@@ -47,7 +47,6 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
       theme: theme,
       lang: currentLocale,
     });
-    console.log(res);
     if (res.result === 'success') {
       res = await service.createCard({
         ...res,
@@ -66,6 +65,7 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
             ...cards,
           ]),
         );
+        Toast.show('Карта збережена');
       } else {
         Toast.show(res.data);
       }
@@ -190,7 +190,11 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
           <View>
             <MyText style={styles.text}>Картки</MyText>
             {cards.map((c) => (
-              <CreditCard card={c} isActive={false} />
+              <CreditCard
+                card={c}
+                isActive={false}
+                style={{marginBottom: sizes[5]}}
+              />
             ))}
           </View>
         )}

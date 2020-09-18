@@ -163,9 +163,10 @@ const service = {
         id: +idSellPoint,
       },
     };
-    return await customFetch(() =>
+    const res = await customFetch(() =>
       instance.put<IUpdateCart>('clients/cart', data),
     );
+    return res;
   },
   deleteCart: async () => {
     return await customFetch(() => instance.delete('clients/cart'));

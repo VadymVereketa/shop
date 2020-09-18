@@ -17,16 +17,16 @@ const config = (() => {
         canLink: 'http://huspi.com:3022',
         baseURL: 'https://client-api.egersund.ua/api/v1/',
         baseURLV2: 'https://client-api.egersund.ua/api/v2/',
-        baseURLCallback: 'http://huspi.com:3024/api/v1/',
+        baseURLCallback: 'https://integration-api.egersund.ua/api/v1/',
         baseUrlImg: 'https://client-api.egersund.ua/api/v1/images/',
-        payeeId: '26298',
+        payeeId: '25989',
       };
     case 'uat':
       return {
         canLink: 'https://huspi.com:3022',
         baseURL: 'https://egersund-uat.mobile-api.huspi.com/api/v1/',
         baseURLV2: 'https://egersund-uat.mobile-api.huspi.com/api/v2/',
-        baseURLCallback: 'https://huspi.com:3048/api/v2/',
+        baseURLCallback: 'http://huspi.com:3044/api/v1/',
         baseUrlImg: 'https://egersund-uat.mobile-api.huspi.com/api/v1/images/',
         payeeId: '26298',
       };
