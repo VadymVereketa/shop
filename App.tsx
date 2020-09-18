@@ -6,12 +6,14 @@ import {AppState, Platform, StatusBar} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {refreshUser} from './src/redux/user/userReducer';
 import {actionsCart, selectorsCart} from './src/redux/cart/cartReducer';
-import {selectorsOther} from './src/redux/other/otherReducer';
 import service from './src/services/service';
+import {useFormattingContext} from './src/context/FormattingContext';
+import portmone from './src/utils/portmone';
 
 const App = () => {
   const dispatch = useDispatch();
   const {theme, onChangeTheme, ...colors} = useTheme();
+  const {currentLocale} = useFormattingContext();
 
   const MyTheme: Theme = {
     dark: theme === 'dark',
@@ -32,6 +34,14 @@ const App = () => {
         dispatch(actionsCart.setData(res));
       }
     });
+
+    if (Platform.OS === 'android') {
+      portmone.invokePortmoneSdk({
+        theme,
+        lang: currentLocale,
+        type: 'phone',
+      });
+    }
   }, []);
 
   return (

@@ -3,7 +3,6 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import reducers from './reducer';
 import thunkMiddleware from 'redux-thunk';
 import {persistStore} from 'redux-persist';
-import {MODE} from '../config';
 
 export default function configureStore() {
   const middlewares = [thunkMiddleware];

@@ -26,5 +26,5 @@ export interface ICartActions extends IBaseActions {
   setComment: (obj: IComment) => any;
   toggleCart: (obj: boolean) => any;
   updateCart: (obj: number) => any;
-  clear: () => any;
+  clear: (id: number) => any;
 }

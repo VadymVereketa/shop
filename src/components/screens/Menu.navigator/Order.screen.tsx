@@ -22,7 +22,7 @@ import {
 } from '../../../context/FormattingContext';
 import {useRepeatOrder} from '../../../useHooks/useRepeatOrder';
 
-const h = sizes[95];
+const h = sizes[100] + sizes[10];
 
 const OrderScreen = React.memo(({route}: OrderScreenProps) => {
   const offsetY = useRef(new Animated.Value(-h)).current;
@@ -85,7 +85,12 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
         styles.container,
         {marginTop: -insets.top, marginBottom: isShow ? 0 : -h},
       ]}>
-      <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: sizes[10],
+        }}
+        bounces={false}
+        showsVerticalScrollIndicator={false}>
         <View style={{backgroundColor: background}}>
           <InfoOrder
             id={item.id}
@@ -104,7 +109,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
               styles.infoUser,
               {
                 borderColor: border,
-                zIndex: -10,
+                zIndex: -100,
                 transform: [
                   {
                     translateY: isReady ? offsetY : 0,

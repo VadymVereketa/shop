@@ -98,8 +98,20 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
     data.floor = data.floor === '' ? null : data.floor;
     const fetchData = getConvertDataToFetch(data);
     const res = await request(fetchData);
+    console.log(data.buildObj);
     if (res.success) {
-      dispatch(actionsUser.addAddress(fetchData));
+      let address: any = res.data;
+      address.addressDictionary = data.buildObj
+        ? {
+            district: {
+              deliveryPrice: {
+                id: data.buildObj.extra.idDeliveryPrice,
+              },
+            },
+          }
+        : null;
+
+      dispatch(actionsUser.addAddress(address));
       navigation.goBack();
     }
   };

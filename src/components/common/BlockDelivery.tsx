@@ -107,9 +107,6 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
     if (!deliveryType) {
       handleSetDeliveryType(TypeDelivery.self);
     }
-    return () => {
-      dispatch(actionsCart.updateCart(-1));
-    };
   }, []);
 
   useEffect(() => {
@@ -173,7 +170,7 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
             {addressId === -1 ? (
               <MyText
                 onPress={() => {
-                  navigation.replace('AddressNavigator', {
+                  navigation.navigate('AddressNavigator', {
                     screen: 'Address',
                   });
                 }}

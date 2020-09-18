@@ -15,6 +15,7 @@ import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import ProductItem from '../../product/ProductItem';
 import SplashScreen from 'react-native-splash-screen';
 import Loader from '../../common/Loader';
+import {thunkGetTypes} from '../../../redux/types/typeReducer';
 
 const window = Dimensions.get('window');
 const width = Math.min(window.width, window.height);
@@ -44,6 +45,7 @@ const RestaurantScreen = React.memo(
           isGlobalSearch: false,
         }),
       );
+      dispatch(thunkGetTypes);
       SplashScreen.hide();
     }, []);
 

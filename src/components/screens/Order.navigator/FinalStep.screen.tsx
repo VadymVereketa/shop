@@ -14,12 +14,15 @@ import {useFormattingContext} from '../../../context/FormattingContext';
 import {ICartItem} from '../../../typings/FetchData';
 import {selectorsUser} from '../../../redux/user/userReducer';
 import MyButton from '../../controls/MyButton';
+import {formatAddress} from '../../../utils/formatAddress';
+import {selectorsOther} from '../../../redux/other/otherReducer';
 
 const FinalStepScreen = React.memo(
   ({navigation, route}: FinalStepScreenProps) => {
     const dispatch = useDispatch();
     const {border, lightBackground} = useTheme();
     const {formatPrice} = useFormattingContext();
+    const defaultSellPoint = useSelector(selectorsOther.getIdSellPoint);
     const client = useSelector(selectorsUser.getUser);
     const contact = useSelector(selectorsOrder.getContact);
     const deliveryPrice = useSelector(selectorsOrder.getDeliveryPrice);
@@ -42,7 +45,7 @@ const FinalStepScreen = React.memo(
         items,
         idSellPoint,
       });
-      dispatch(actionsCart.clear());
+      dispatch(actionsCart.clear(defaultSellPoint));
       return () => {
         dispatch(actionsOrder.clear());
       };
@@ -69,10 +72,7 @@ const FinalStepScreen = React.memo(
 
     return (
       <SafeAreaView style={[styles.container]}>
-        <ScrollView
-          style={styles.scroll}
-          bounces={false}
-          showsVerticalScrollIndicator={false}>
+        <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
           <MyText style={styles.welcome}>
             Дякуємо, ваше замовлення прийняте!
           </MyText>
@@ -111,7 +111,7 @@ const FinalStepScreen = React.memo(
             {isDelivery ? (
               <View>
                 <MyText style={styles.title}>Адреса</MyText>
-                <MyText style={styles.text}>{address}</MyText>
+                <MyText style={styles.text}>{formatAddress(address)}</MyText>
               </View>
             ) : (
               <View>
@@ -129,7 +129,10 @@ const FinalStepScreen = React.memo(
             isActive>
             Мои замовлення
           </MyButton>
-          <MyButton onPress={handleContinue} styleText={styles.text}>
+          <MyButton
+            style={styles.btn}
+            onPress={handleContinue}
+            styleText={styles.text}>
             Продовжити покупки
           </MyButton>
         </ScrollView>
@@ -150,6 +153,7 @@ const styles = StyleSheet.create({
     fontFamily: getFontFamily('500'),
     textAlign: 'center',
     marginBottom: sizes[20],
+    paddingTop: sizes[10],
   },
   order: {
     fontSize: sizes[9],

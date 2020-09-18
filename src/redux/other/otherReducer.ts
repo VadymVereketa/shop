@@ -59,6 +59,7 @@ const selectorsOther = {
   getLocale: (state: RootState) => state.other.locale,
   isSettings: (state: RootState) => state.other.settings === null,
   getSetting: (id: string | number) => (state: RootState) => {
+    console.log(id);
     if (!state.other.settings) {
       return {
         step: 30,
@@ -94,10 +95,21 @@ const selectorsOther = {
     return +state.other.settings![DEFAULT_NAME_SETTING]
       .default_price_sell_point!;
   },
+  getDeliveryPrice: (id: number) => (state: RootState) => {
+    const findItem = state.types.pricesTypes.find((d) => d.id === id);
+    if (findItem) {
+      return +findItem.price;
+    } else {
+      return +state.types.pricesTypes.find(
+        (d) => d.id === selectorsOther.getIdDeliveryPrice(state),
+      )!.price;
+    }
+  },
   getIdDeliveryPrice: (state: RootState) => {
     if (!state.other.settings) return -1;
-    return +state.other.settings![DEFAULT_NAME_SETTING].default_delivery_price!;
+    return +state.other.settings![DEFAULT_NAME_SETTING].default_delivery_price!; // get id
   },
+
   getPhone: (state: RootState) => {
     if (!state.other.settings) return '';
     return state.other.settings![DEFAULT_NAME_SETTING].delivery_phone!;

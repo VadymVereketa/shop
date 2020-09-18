@@ -5,6 +5,7 @@ import {selectorsOther} from '../other/otherReducer';
 import {TypeDelivery} from '../../constants/constantsId';
 import {selectorsTypes} from '../types/typeReducer';
 import {getSellPoint} from '../sellPoints/sellPointsReducer';
+import {selectorsUser} from '../user/userReducer';
 
 const init: IOrderState = {
   address: '',
@@ -23,6 +24,7 @@ const init: IOrderState = {
   idDeliveryPrice: 1,
   statusPayment: StatusPayment.defult,
   isRepeatOrder: false,
+  cardId: -1,
 };
 
 const creator = new CreatorReducer<IOrderActions, IOrderState>('order');
@@ -52,7 +54,11 @@ const actionsOrder = creator.createActions();
 const selectorsOrder = {
   getOrder: (state: RootState) => state.order,
   getStep: (state: RootState) => state.order.step,
-  getAddress: (state: RootState) => state.order.address,
+  getAddress: (state: RootState) => {
+    return selectorsUser
+      .getAddresses(state)
+      .find((a) => a.id === state.order.addressId);
+  },
   isDeliveryCourier: (state: RootState) => {
     if (state.order.deliveryType === null) return false;
     return state.order.deliveryType!.code === 'courier';
@@ -68,8 +74,23 @@ const selectorsOrder = {
     return getSellPoint(state.order.sellPoint!)(state);
   },
   getDeliveryPrice: (state: RootState) => {
-    return selectorsTypes.getDeliveryPrice(state.order.idDeliveryPrice)(state);
+    if (
+      state.order.deliveryType &&
+      state.order.deliveryType.code === TypeDelivery.self
+    ) {
+      return 0;
+    }
+    if (state.order.addressId === -1) {
+      return 0;
+    }
+    const address = selectorsUser.getAddressById(state.order.addressId)(state)!;
+    return selectorsOther.getDeliveryPrice(
+      address.addressDictionary
+        ? address.addressDictionary.district.deliveryPrice.id
+        : -1,
+    )(state);
   },
+
   isCallBack: (state: RootState) => state.order.isCallBack,
   getContact: (state: RootState) => state.order.contact,
   getDate: (state: RootState) => state.order.date,
@@ -102,6 +123,9 @@ const selectorsOrder = {
   },
   isRepeatOrder: (state: RootState) => {
     return state.order.isRepeatOrder;
+  },
+  getCardId: (state: RootState) => {
+    return state.order.cardId;
   },
 };
 

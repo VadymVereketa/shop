@@ -14,20 +14,61 @@ import service from '../../../services/service';
 import ContactBlock from '../../common/ContactBlock';
 import {formatAddress} from '../../../utils/formatAddress';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import portmone from '../../../utils/portmone';
+import uuid from 'react-native-uuid';
+import CreditCard from '../../common/CreditCard';
+import Toast from 'react-native-simple-toast';
+import {useFormattingContext} from '../../../context/FormattingContext';
 
 const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const [toggle, setToggle] = useState(true);
-  const {border, lightBackground, text, lightText, primary} = useTheme();
+  const {border, lightBackground, text, lightText, primary, theme} = useTheme();
+  const {currentLocale} = useFormattingContext();
   const contacts = useSelector(selectorsUser.getContacts);
   const addresses = useSelector(selectorsUser.getAddresses);
   const user = useSelector(selectorsUser.getUser)! || {};
+  const cards = useSelector(selectorsUser.getCards);
 
   const handleLogout = async () => {
     const res = await service.logout();
     if (res) {
       dispatch(actionsUser.logout());
+    }
+  };
+
+  const handleAddCard = async () => {
+    const description = uuid.v4();
+    const billNumber = uuid.v4();
+    let res = await portmone.initCardSaving({
+      desc: description,
+      billNumber,
+      theme: theme,
+      lang: currentLocale,
+    });
+    if (res.result === 'success') {
+      res = await service.createCard({
+        ...res,
+        DESCRIPTION: description,
+        ERRORIPSCODE: 'null',
+      });
+      if (res.success) {
+        dispatch(
+          actionsUser.setCards([
+            {
+              description: res.data.description,
+              id: res.data.id,
+              number: res.data.number,
+              token: res.data.token,
+            },
+            ...cards,
+          ]),
+        );
+        Toast.show('Карта збережена');
+      } else {
+        Toast.show(res.data);
+      }
     }
   };
 
@@ -90,7 +131,7 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
               </View>
             ) : (
               <MyText
-                style={{color: primary}}
+                style={[styles.textCard, {color: primary}]}
                 onPress={() =>
                   navigation.push('EditProfile', {
                     field: 'email',
@@ -145,6 +186,23 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
           onPress={() => navigation.push('LoyaltyCard', {})}>
           {t('profileLoyaltyCard')}
         </PressTitle>*/}
+        {cards.length > 0 && (
+          <View>
+            <MyText style={styles.text}>Картки</MyText>
+            {cards.map((c) => (
+              <CreditCard
+                card={c}
+                isActive={false}
+                style={{marginBottom: sizes[5]}}
+              />
+            ))}
+          </View>
+        )}
+        <MyText
+          style={[styles.textCard, {color: primary}]}
+          onPress={handleAddCard}>
+          + Додати карту
+        </MyText>
         <TouchableOpacity
           onPress={handleLogout}
           style={[styles.btnExit, {backgroundColor: lightBackground}]}>
@@ -189,6 +247,10 @@ const styles = StyleSheet.create({
   address: {
     paddingVertical: sizes[4],
     fontSize: sizes[9],
+  },
+  textCard: {
+    marginBottom: sizes[16],
+    marginTop: sizes[8],
   },
 });
 

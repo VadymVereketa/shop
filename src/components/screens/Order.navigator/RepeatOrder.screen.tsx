@@ -17,6 +17,8 @@ import {usePaymentOptions} from '../../../useHooks/usePaymentOptions';
 import MyButton from '../../controls/MyButton';
 import {useFormattingContext} from '../../../context/FormattingContext';
 import {useCreateOrder} from '../../../useHooks/useCreateOrder';
+import {formatAddress} from '../../../utils/formatAddress';
+import {selectorsOther} from '../../../redux/other/otherReducer';
 
 const RepeatOrderScreen = ({navigation, route}: RepeatOrderScreenProps) => {
   const params = route.params || {};
@@ -27,6 +29,7 @@ const RepeatOrderScreen = ({navigation, route}: RepeatOrderScreenProps) => {
   const {primary, background, text} = useTheme();
   const {formatPrice} = useFormattingContext();
   let sum = useSelector(selectorsCart.getGeneralSum);
+  const defaultSellPoint = useSelector(selectorsOther.getIdSellPoint);
   const deliveryPrice = useSelector(selectorsOrder.getDeliveryPrice);
   const products = useSelector(selectorsCart.getCartProducts);
   const isCourier = useSelector(selectorsOrder.isDeliveryCourier);
@@ -35,7 +38,7 @@ const RepeatOrderScreen = ({navigation, route}: RepeatOrderScreenProps) => {
   const sellPoint = useSelector(selectorsOrder.getSellPoint);
   const isCreateOrder = useSelector(selectorsOrder.isCreateOrder);
   const options = usePaymentOptions();
-  const {loading, createOrder} = useCreateOrder();
+  const {loading, submit} = useCreateOrder();
 
   useEffect(() => {
     dispatch(
@@ -46,7 +49,7 @@ const RepeatOrderScreen = ({navigation, route}: RepeatOrderScreenProps) => {
 
     return () => {
       dispatch(actionsOrder.clear());
-      dispatch(actionsCart.clear());
+      dispatch(actionsCart.clear(defaultSellPoint));
     };
   }, []);
 
@@ -76,7 +79,7 @@ const RepeatOrderScreen = ({navigation, route}: RepeatOrderScreenProps) => {
   };
 
   const handleContinue = async () => {
-    const res = await createOrder();
+    const res = await submit();
     if (res) {
       navigation.navigate('FinalStep', {});
     }
@@ -115,7 +118,7 @@ const RepeatOrderScreen = ({navigation, route}: RepeatOrderScreenProps) => {
               Доставка кур'єром
             </MyText>
             <MyText style={styles.title}>Адреса:</MyText>
-            <MyText style={styles.text}>{address}</MyText>
+            <MyText style={styles.text}>{formatAddress(address)}</MyText>
           </View>
         ) : (
           <View style={styles.viewDelivery}>

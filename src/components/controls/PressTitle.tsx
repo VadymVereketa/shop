@@ -4,7 +4,10 @@ import {
   TextStyle,
   TouchableWithoutFeedbackProps,
 } from 'react-native';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import {
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 import MyText from './MyText';
 import React, {useRef, useState} from 'react';
 import DesignIcon, {IDesignIconProps, IName} from '../common/DesignIcon';
