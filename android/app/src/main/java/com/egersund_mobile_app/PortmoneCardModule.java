@@ -114,7 +114,6 @@ public class PortmoneCardModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void tokenCardPayment(String payeeId, String billNumber, Boolean preAuth, String cardMask, String token, int billAmount, String desc, final Promise promise) {
         try {
-            Log.i("VADIM", "VADIM1");
             final TokenPaymentParams params = new TokenPaymentParams(
                     payeeId,
                     billNumber,
@@ -125,18 +124,14 @@ public class PortmoneCardModule extends ReactContextBaseJavaModule {
                     billAmount,
                     desc
             );
-            Log.i("VADIM", "VADIM2");
             TokenPaymentActivity.performTransaction(
                     getCurrentActivity(),
                     Constants.REQUEST_CODE,
                     params,
                     false
             );
-            Log.i("VADIM", "VADIM3");
             this.promise = promise;
-            Log.i("VADIM", "VADIM4");
         } catch (IllegalViewOperationException e) {
-            Log.i("VADIM", "VADIM5");
         }
     }
 

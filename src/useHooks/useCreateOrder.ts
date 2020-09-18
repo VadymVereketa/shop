@@ -84,7 +84,6 @@ export const useCreateOrder = () => {
         theme,
       });
     }
-    console.log(res);
     if (res.result === 'success') {
       const result = await service.preAuthPayment({
         ...res,

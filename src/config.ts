@@ -1,5 +1,5 @@
 type M = 'dev' | 'test' | 'prod' | 'uat';
-const MODE: string = 'dev';
+const MODE: string = 'uat';
 
 const config = (() => {
   switch (MODE) {
@@ -26,7 +26,8 @@ const config = (() => {
         canLink: 'https://huspi.com:3022',
         baseURL: 'https://egersund-uat.mobile-api.huspi.com/api/v1/',
         baseURLV2: 'https://egersund-uat.mobile-api.huspi.com/api/v2/',
-        baseURLCallback: 'http://huspi.com:3044/api/v1/',
+        baseURLCallback:
+          'https://egersund-uat.integration-api.huspi.com/api/v1/',
         baseUrlImg: 'https://egersund-uat.mobile-api.huspi.com/api/v1/images/',
         payeeId: '26298',
       };

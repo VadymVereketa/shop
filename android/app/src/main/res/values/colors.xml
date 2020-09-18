@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="textLightColor">#3c4162</color>
+    <color name="textLightColor">#dadeea</color>
     <color name="textDarkColor">#dadeea</color>
     <color name="colorYellowButton">#01a6e6</color>
     <color name="colorWhite">#FFFFFF</color>
