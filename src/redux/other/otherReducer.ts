@@ -138,6 +138,18 @@ const selectorsOther = {
   getTheme: (state: RootState) => {
     return state.other.theme;
   },
+  getIncreasePercentage: (state: RootState) => {
+    if (!state.other.settings) return 15;
+    return (
+      +state.other.settings![DEFAULT_NAME_SETTING].increase_percentage! || 15
+    );
+  },
+  getPreauthPayment: (state: RootState) => {
+    if (!state.other.settings) return true;
+    return (
+      state.other.settings![DEFAULT_NAME_SETTING].preauth_payment! === 'true'
+    );
+  },
 };
 
 const fetchGetAllSettings = async (dispatch: any) => {

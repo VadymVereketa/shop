@@ -11,6 +11,7 @@ const config = (() => {
         baseURLCallback: 'http://192.168.31.66:3004/api/v1/',
         baseUrlImg: 'http://huspi.com:3026/api/v1/images/',
         payeeId: '26298',
+        domen: 'http://huspi.com:3022/',
       };
     case 'prod':
       return {
@@ -20,6 +21,7 @@ const config = (() => {
         baseURLCallback: 'https://integration-api.egersund.ua/api/v1/',
         baseUrlImg: 'https://client-api.egersund.ua/api/v1/images/',
         payeeId: '25989',
+        domen: 'https://shop.egersund.ua',
       };
     case 'uat':
       return {
@@ -30,6 +32,7 @@ const config = (() => {
           'https://egersund-uat.integration-api.huspi.com/api/v1/',
         baseUrlImg: 'https://egersund-uat.mobile-api.huspi.com/api/v1/images/',
         payeeId: '26298',
+        domen: 'https://egersund-uat-web.huspi.com',
       };
     default:
       //todo test
@@ -40,6 +43,7 @@ const config = (() => {
         baseURLCallback: 'http://huspi.com:3024/api/v1/',
         baseUrlImg: 'http://huspi.com:3026/api/v1/images/',
         payeeId: '26298',
+        domen: 'http://huspi.com:3022/',
       };
   }
 })();

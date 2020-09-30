@@ -9,6 +9,7 @@ import {actionsCart, selectorsCart} from './src/redux/cart/cartReducer';
 import service from './src/services/service';
 import {useFormattingContext} from './src/context/FormattingContext';
 import portmone from './src/utils/portmone';
+import config from './src/config';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -45,7 +46,11 @@ const App = () => {
   }, []);
 
   return (
-    <NavigationContainer theme={MyTheme}>
+    <NavigationContainer
+      theme={MyTheme}
+      linking={{
+        prefixes: [config.domen],
+      }}>
       <StatusBar
         hidden={Platform.OS === 'android'}
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}

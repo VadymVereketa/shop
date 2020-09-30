@@ -58,7 +58,9 @@ const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
           onPress={() => navigation.push('OrderContact', {})}>
           + Додати іншого одержувача замовлення
         </MyText>
-        <MyText style={styles.title}>Збережені контакти</MyText>
+        {contacts.length > 0 && (
+          <MyText style={styles.title}>Збережені контакти</MyText>
+        )}
         {contacts.map((c) => {
           return (
             <RadioBlock

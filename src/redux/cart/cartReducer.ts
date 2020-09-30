@@ -4,6 +4,7 @@ import {RootState} from '../reducer';
 import {ICartItem} from '../../typings/FetchData';
 import service from '../../services/service';
 import {actionsUser} from '../user/userReducer';
+import {ID_UNIT_WEIGHT} from '../../constants/constantsId';
 
 const init: ICartState = {
   data: [],
@@ -134,7 +135,7 @@ const selectorsCart = {
   getIsWeightProducts: (state: RootState) => {
     if (state.cart.data.length === 0) return false;
 
-    return state.cart.data.some((p) => p.product.avgWeight !== null);
+    return state.cart.data.some((p) => p.product.units === ID_UNIT_WEIGHT);
   },
 };
 

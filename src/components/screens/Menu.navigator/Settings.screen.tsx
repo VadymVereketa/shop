@@ -1,12 +1,11 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {SettingsScreenProps} from '../../navigators/Menu.navigator';
 import PressTitle from '../../controls/PressTitle';
 import {sizes, Theme, useTheme} from '../../../context/ThemeContext';
 import MyText from '../../controls/MyText';
 import {useFormattingContext} from '../../../context/FormattingContext';
 import {ScrollView} from 'react-native-gesture-handler';
-import portmone from '../../../utils/portmone';
 
 const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
   const {
@@ -22,11 +21,6 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
 
   const handelChangeTheme = (t: Theme) => {
     onChangeTheme(t);
-    portmone.invokePortmoneSdk({
-      theme: t,
-      lang: currentLocale,
-      type: 'phone',
-    });
   };
 
   return (
