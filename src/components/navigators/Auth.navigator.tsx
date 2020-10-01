@@ -106,6 +106,10 @@ const AuthNavigator = React.memo(({navigation}: AuthNavigatorScreenProps) => {
             />
           );
         },
+        headerStyle: {
+          shadowOpacity: 0,
+          elevation: 0,
+        },
       }}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />

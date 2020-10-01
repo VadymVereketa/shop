@@ -19,6 +19,7 @@ import t from '../../utils/translate';
 import {ITranslate} from '../../assets/translations/uk';
 import {Switch} from 'react-native-gesture-handler';
 import {selectorsOrder} from '../../redux/order/orderReducer';
+import {selectorsUser} from '../../redux/user/userReducer';
 
 interface IWeightUnitProps {
   id: number;
@@ -71,6 +72,7 @@ const WeightUnit = React.memo(
       text,
     } = useTheme();
     const dispatch = useDispatch();
+    const isAuth = useSelector(selectorsUser.isAuth);
     const isAvgWeight = !!avgWeight;
     const isRepeatOrder = useSelector(selectorsOrder.isRepeatOrder);
     const {formatPrice, currentLocale, format1000Unit} = useFormattingContext();
@@ -116,10 +118,19 @@ const WeightUnit = React.memo(
     };
 
     const handleSubmit = async () => {
+      if (!isAuth) {
+        return;
+      }
       if (isAlternativeCount) {
         addToCart(weight * +avgWeight!, weight);
       } else {
-        addToCart(weight, null);
+        addToCart(
+          weight,
+          avgWeight !== null ? Math.round(weight / +avgWeight!) : null,
+        );
+        if (avgWeight !== null) {
+          setIsAlternativeCount(true);
+        }
       }
     };
 
@@ -177,13 +188,13 @@ const WeightUnit = React.memo(
       <View style={styles.con}>
         {isAvgWeight && (
           <View style={[styles.viewSwitch, {borderColor: border}]}>
-            <MyText style={styles.titleSwitch}>Параметри:</MyText>
+            <MyText style={styles.titleSwitch}>{t('commonSettings')}</MyText>
             <MyText
               style={[
                 styles.textSwitch,
                 {color: isAlternativeCount ? text : primary},
               ]}>
-              Грам
+              {t('commonWeight')}
             </MyText>
             <Switch
               trackColor={{false: primary, true: primary}}
@@ -198,7 +209,7 @@ const WeightUnit = React.memo(
                 styles.textSwitch,
                 {color: isAlternativeCount ? primary : text},
               ]}>
-              Штук
+              {t('commonUnit')}
             </MyText>
           </View>
         )}

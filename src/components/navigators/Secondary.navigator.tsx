@@ -89,6 +89,10 @@ const SecondaryNavigator = React.memo(
             );
           },
           headerTitleAlign: 'center',
+          headerStyle: {
+            shadowOpacity: 0,
+            elevation: 0,
+          },
         }}>
         <Stack.Screen name="Product" component={ProductScreen} />
         <Stack.Screen name="CommentCart" component={CommentCartScreen} />

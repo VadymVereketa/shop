@@ -7,6 +7,7 @@ import {sizes, useTheme} from '../../../context/ThemeContext';
 import {ThirdStepScreenProps} from '../../navigators/Order.navigator';
 import BlockPayment from '../../common/BlockPayment';
 import {useCreateOrder} from '../../../useHooks/useCreateOrder';
+import t from '../../../utils/translate';
 const ThirdStepScreen = React.memo(
   ({navigation, route}: ThirdStepScreenProps) => {
     const {loading, submit} = useCreateOrder();
@@ -20,7 +21,7 @@ const ThirdStepScreen = React.memo(
 
     return (
       <BlockWrapperOrder isLoading={loading} handleContinue={handleContinue}>
-        <MyText style={styles.text}>Оберіть спосіб оплати</MyText>
+        <MyText style={styles.text}>{t('commonSelectWayPayment')}</MyText>
         <BlockPayment />
       </BlockWrapperOrder>
     );

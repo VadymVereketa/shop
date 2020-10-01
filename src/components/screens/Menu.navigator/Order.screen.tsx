@@ -21,6 +21,7 @@ import {
   useFormattingContext,
 } from '../../../context/FormattingContext';
 import {useRepeatOrder} from '../../../useHooks/useRepeatOrder';
+import t from '../../../utils/translate';
 
 const h = sizes[100] + sizes[10];
 
@@ -101,7 +102,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
           />
         </View>
         <PressTitle style={styles.press} expand onPress={handleToggle}>
-          Повна інформація
+          {t('commonFullInformation')}
         </PressTitle>
         {isReady && (
           <Animated.View
@@ -133,7 +134,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
               </View>
             )}
             <View style={{flexDirection: 'row'}}>
-              <MyText style={styles.title}>Оплата</MyText>
+              <MyText style={styles.title}>{t('commonPayment')}</MyText>
               <MyText style={styles.text}>
                 {item.payments.paymentType.type}
               </MyText>
@@ -156,7 +157,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
               isActive={!isHistory}
               onPress={() => setIsHistory(false)}
               styleText={styles.btnText}>
-              Замовлення
+              {t('profileMyOrder')}
             </MyButton>
             <MyButton
               containerStyle={{width: '47%', marginLeft: sizes[5]}}
@@ -165,7 +166,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
               isActive={isHistory}
               onPress={() => setIsHistory(true)}
               styleText={styles.btnText}>
-              Історія
+              {t('btnHistory')}
             </MyButton>
           </View>
           {isHistory ? (
@@ -197,7 +198,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
                   return <PurchaseItem key={p.product.id} item={p} />;
                 })}
               <View style={styles.sumBlock}>
-                <MyText style={styles.sumText}>Загальна сума</MyText>
+                <MyText style={styles.sumText}>{t('commonSum')}</MyText>
                 <MyText style={styles.priceText}>
                   {formatPrice(+item.productsPrice + deliveryPrice)}
                 </MyText>
@@ -209,7 +210,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
             isLoading={isLoading}
             styleText={styles.historyItem}
             containerStyle={{paddingTop: sizes[10]}}>
-            Повторити замовлення
+            {t('orderTitleRepeatOrder')}
           </MyButton>
         </Animated.View>
       </ScrollView>

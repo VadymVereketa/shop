@@ -108,7 +108,7 @@ const selectorsOrder = {
       if (state.order.deliveryType.code === TypeDelivery.self) {
         return state.order.sellPoint !== null && state.order.date !== null;
       } else {
-        return state.order.addressId !== null && state.order.date !== null;
+        return state.order.addressId !== -1 && state.order.date !== null;
       }
     } else {
       return false;

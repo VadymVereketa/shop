@@ -69,7 +69,7 @@ const PortionUnit = React.memo(
             }}
           />
         </View>
-        <MyText style={styles.garnish}>Склад:</MyText>
+        <MyText style={styles.garnish}>{t('commonStorage')}</MyText>
         <MyText style={styles.ingredients}>{product.ingredients}</MyText>
         {!isRepeatOrder && (
           <MyButton
@@ -88,9 +88,7 @@ const PortionUnit = React.memo(
           {t(title)}
         </MyButton>
 
-        <MyText style={styles.garnish}>
-          Поживна енергетична цінність на 100 г:
-        </MyText>
+        <MyText style={styles.garnish}>{t('commonEnergyValue')}</MyText>
 
         <MyText style={styles.energyValue}>{product.energyValue}</MyText>
       </View>

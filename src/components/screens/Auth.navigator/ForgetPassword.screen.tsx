@@ -56,13 +56,13 @@ const ForgetPasswordScreen = ({
           <View style={styles.empty} />
           <Logo height={sizes[16]} width={sizes[50]} resizeMode={'contain'} />
           <View style={styles.viewText}>
-            <MyText style={styles.text}>Забув пароль</MyText>
+            <MyText style={styles.text}>{t('authForgetPassword')}</MyText>
           </View>
           <Controller
             control={control}
             render={({onChange, onBlur, value}) => (
               <MyTextInput
-                label={'Введіть номер мобільного телефону'}
+                label={t('tIPhonePlaceholder')}
                 placeholder={t('tIPhonePlaceholder')}
                 keyboardType={'phone-pad'}
                 textContentType={'telephoneNumber'}
@@ -95,7 +95,7 @@ const ForgetPasswordScreen = ({
             isLoading={isLoading}
             styleText={{fontSize: sizes[9]}}
             onPress={handleSubmit(onSubmit)}>
-            отримати код
+            {t('authGetCode')}
           </MyButton>
           <GhostButton
             onPress={() => navigation.navigate('Login', {})}
@@ -104,7 +104,7 @@ const ForgetPasswordScreen = ({
             containerStyle={{
               flexGrow: 0,
             }}>
-            Я пам'ятаю, пароль!
+            {t('authRememberPassword')}
           </GhostButton>
         </View>
       </View>

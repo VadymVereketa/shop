@@ -15,6 +15,7 @@ import {useFormattingContext} from '../../context/FormattingContext';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import {selectorsOrder} from '../../redux/order/orderReducer';
 import {TypeDelivery} from '../../constants/constantsId';
+import t from '../../utils/translate';
 
 interface IBlockOrderProps {
   handleContinue: any;
@@ -78,7 +79,7 @@ const BlockWrapperOrder = React.memo(
             expand
             style={[{backgroundColor: lightBackground}]}
             onPress={handleToggle}>
-            Замовлення
+            {t('profileMyOrder')}
           </PressTitle>
           <Animated.ScrollView
             scrollEnabled={true}
@@ -122,14 +123,14 @@ const BlockWrapperOrder = React.memo(
           ]}>
           {isCourier && (
             <View style={[styles.price, {marginBottom: 0}]}>
-              <MyText style={styles.delivery}>Доставка</MyText>
+              <MyText style={styles.delivery}>{t('btnDelivery')}</MyText>
               <MyText style={styles.bottomBlockText}>
                 {formatPrice(deliveryPrice)}
               </MyText>
             </View>
           )}
           <View style={styles.price}>
-            <MyText style={styles.bottomBlockText}>Сума за замовлення</MyText>
+            <MyText style={styles.bottomBlockText}>{t('orderSumOrder')}</MyText>
             <MyText style={styles.priceText}>{formatPrice(sum)}</MyText>
           </View>
           <MyButton
@@ -137,7 +138,7 @@ const BlockWrapperOrder = React.memo(
             isLoading={isLoading}
             disabled={disabled}
             onPress={handleContinue}>
-            продовжити
+            {t('btnContinue')}
           </MyButton>
         </View>
       </SafeAreaView>

@@ -26,6 +26,10 @@ import MenuScreen from '../screens/Main.navigator/Menu.screen';
 import ResultScreen from '../screens/Secondary.navigator/Result.screen';
 import ContactScreen from '../screens/Menu.navigator/Contact.screen';
 import EditProfileScreen from '../screens/Menu.navigator/EditProfile.screen';
+import {View} from 'react-native';
+import MyText from '../controls/MyText';
+import {getFontFamily} from '../../utils/getFontFamily';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export type MenuNavigatorParamList = {
   Certificate: {};
@@ -194,7 +198,8 @@ const Stack = createStackNavigator<MenuNavigatorParamList>();
 
 const MenuNavigator = React.memo(
   ({navigation}: SecondaryNavigatorScreenProps) => {
-    const {text} = useTheme();
+    const {text, background, border} = useTheme();
+    const insets = useSafeAreaInsets();
     return (
       <Stack.Navigator
         initialRouteName={'Profile'}
@@ -221,6 +226,64 @@ const MenuNavigator = React.memo(
             );
           },
           headerTitleAlign: 'center',
+          headerStyle: {
+            shadowOpacity: 0,
+            elevation: 0,
+          },
+          header: (props) => {
+            return (
+              <View
+                style={{
+                  flexGrow: 1,
+                  paddingHorizontal: sizes[6],
+                  marginTop: insets.top,
+                  backgroundColor: background,
+                }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    paddingVertical: sizes[6],
+                    alignItems: 'center',
+                  }}>
+                  <IconButton
+                    onPress={() => {
+                      props.scene.descriptor.navigation.goBack();
+                    }}
+                    icon={{
+                      size: sizes[12],
+                      name: 'arrow',
+                      fill: text,
+                    }}
+                  />
+                  <MyText
+                    style={{
+                      flexGrow: 1,
+                      textAlign: 'center',
+                      fontSize: sizes[10],
+                      fontFamily: getFontFamily('500'),
+                    }}>
+                    {props.scene.descriptor.options.title}
+                  </MyText>
+                  <IconButton
+                    style={{opacity: 0}}
+                    icon={{
+                      size: sizes[10],
+                      name: 'arrow',
+                      fill: background,
+                      stroke: background,
+                    }}
+                  />
+                </View>
+                <View
+                  style={{
+                    height: 1,
+                    backgroundColor: border,
+                    flexGrow: 1,
+                  }}
+                />
+              </View>
+            );
+          },
         }}>
         <Stack.Screen
           name="Profile"

@@ -38,6 +38,7 @@ import Animated, {
   timing,
 } from 'react-native-reanimated';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
+import t from '../../../utils/translate';
 
 const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
   const window = Dimensions.get('window');
@@ -191,7 +192,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
               paddingBottom: (insets.bottom + sizes[10]) * 1,
               backgroundColor: background,
             }}>
-            <MyText style={styles.text}>Щоб додати до кошика увійдіть</MyText>
+            <MyText style={styles.text}>{t('commonNeedAuth')}</MyText>
             <View
               style={{
                 flexDirection: 'row',
@@ -208,18 +209,23 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
                   })
                 }
                 isActive>
-                Увiйдiть
+                {t('profileLogin')}
               </MyButton>
               <MyButton
-                containerStyle={{maxWidth: (w - sizes[20]) / 2}}
+                containerStyle={{
+                  maxWidth: (w - sizes[20]) / 2,
+                }}
                 styleText={styles.btn}
+                style={{
+                  borderColor: border,
+                }}
                 onPress={() =>
                   navigation.push('AuthNavigator', {
                     screen: 'SignUp',
                   })
                 }
                 type={'default'}>
-                Реєстрація
+                {t('profileSignUp')}
               </MyButton>
             </View>
           </View>

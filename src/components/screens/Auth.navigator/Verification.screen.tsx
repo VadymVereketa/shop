@@ -23,6 +23,7 @@ import {
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import {strTime} from '../../../utils/getOptionsDate';
+import t from '../../../utils/translate';
 
 const CELL_COUNT = 5;
 
@@ -72,7 +73,7 @@ const VerificationScreen = ({navigation, route}: VerificationScreenProps) => {
       navigation.replace('SecondaryNavigator', {
         screen: 'Result',
         params: {
-          title: 'Новый пароль на дiслано на телефон',
+          title: t('authCodeSend'),
           navigator: 'AuthNavigator',
           screen: 'Login',
         },
@@ -101,9 +102,9 @@ const VerificationScreen = ({navigation, route}: VerificationScreenProps) => {
           <View style={styles.empty} />
           <Logo height={sizes[16]} width={sizes[50]} resizeMode={'contain'} />
           <View style={styles.viewText}>
-            <MyText style={styles.text}>Верификация</MyText>
+            <MyText style={styles.text}>{t('authVerification')}</MyText>
             <MyText>
-              Введіть 5 цифры которые пришли на номер
+              {t('authConfirmCode')}
               {phone}
             </MyText>
           </View>
@@ -131,11 +132,11 @@ const VerificationScreen = ({navigation, route}: VerificationScreenProps) => {
           />
           {time <= 0 ? (
             <MyText style={{color: primary}} onPress={handleAgainSendCode}>
-              Відправити повторно
+              {t('authSendAgain')}
             </MyText>
           ) : (
             <MyText style={{color: primary}}>
-              Код можливо повторно відправити через {strTime(time)}
+              {t('authRepeatSend')} {strTime(time)}
             </MyText>
           )}
         </ScrollView>
@@ -159,7 +160,7 @@ const VerificationScreen = ({navigation, route}: VerificationScreenProps) => {
             isLoading={isLoading}
             styleText={{fontSize: sizes[9]}}
             onPress={onSubmit}>
-            Продовжити
+            {t('btnContinue')}
           </MyButton>
           <GhostButton
             ultraWidth={false}

@@ -9,7 +9,7 @@ const window = Dimensions.get('window');
 export type Theme = 'dark' | 'light';
 
 interface IThemeContext {
-  onChangeTheme: (theme: Theme) => any;
+  onChangeTheme: (theme: Theme) => Theme;
   theme: Theme;
 
   primary: string;

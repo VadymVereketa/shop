@@ -11,6 +11,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
 import BlockButtons from '../../common/BlockButtons';
+import t from '../../../utils/translate';
 
 const CityScreen = React.memo(({navigation, route}: CityScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -63,8 +64,8 @@ const CityScreen = React.memo(({navigation, route}: CityScreenProps) => {
         isLoading={false}
         onOk={handleOk}
         onCancel={handleCancel}
-        textCancel="скасувати"
-        textOk="Обрати"
+        textCancel={t('btnCancel')}
+        textOk={t('btnSelect')}
       />
     </SafeAreaView>
   );

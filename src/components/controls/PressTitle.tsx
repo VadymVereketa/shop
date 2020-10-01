@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: sizes[9],
-    fontFamily: getFontFamily('500'),
+    fontFamily: getFontFamily('400'),
   },
 });
 

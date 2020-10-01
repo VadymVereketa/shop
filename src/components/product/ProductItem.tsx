@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1,
     borderRadius: 3,
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
     shadowOffset: {
       height: 0,
       width: 0,

@@ -14,6 +14,7 @@ import service from '../../services/service';
 import {ScrollView} from 'react-native-gesture-handler';
 import ProductItem from './ProductItem';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import t from '../../utils/translate';
 
 interface IProductSliderProps {
   idCategory: number;
@@ -61,7 +62,7 @@ const ProductSlider = React.memo(({idCategory}: IProductSliderProps) => {
 
   return (
     <View>
-      <MyText style={styles.title}>Інші продукти з цого розділу</MyText>
+      <MyText style={styles.title}>{t('commonOtherProducts')}</MyText>
       <ScrollView
         horizontal={true}
         bounces={false}
@@ -74,6 +75,7 @@ const ProductSlider = React.memo(({idCategory}: IProductSliderProps) => {
         }}>
         {products.map((p, i) => (
           <View
+            key={p.id}
             style={{
               width: config.widthItem,
               paddingHorizontal: sizes[3],
@@ -94,6 +96,7 @@ const ProductSlider = React.memo(({idCategory}: IProductSliderProps) => {
           .map((_, i) => {
             return (
               <View
+                key={i}
                 style={[
                   styles.circle,
                   {backgroundColor: i === current ? primary : lightBackground},

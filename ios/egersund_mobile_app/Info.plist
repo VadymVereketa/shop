@@ -26,10 +26,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.huspi.egersund</string>
+			<string>egersund</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>https://egersund-uat-web.huspi.com/</string>
+				<string>egersund</string>
 			</array>
 		</dict>
 	</array>

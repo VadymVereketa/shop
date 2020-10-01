@@ -164,6 +164,7 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
             afterIcon={{
               name: 'map',
               onPress: () => null,
+              isStroke: true,
             }}
             value={cities.find((c) => c.value === city)!.label}
             editable={false}
@@ -174,7 +175,7 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
               render={({onChange, onBlur, value}) => (
                 <MyTextInput
                   styleCon={[styles.input, {flexGrow: 2}]}
-                  placeholder={'Місто'}
+                  placeholder={t('tiCityPlaceholder')}
                   keyboardType={'default'}
                   textContentType={'addressCity'}
                   value={value}
@@ -286,14 +287,18 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
             defaultValue={''}
           />
         </View>
-        {isShow && <MyText>Введiть спочатку {t('tiStreetPlaceholder')}</MyText>}
+        {isShow && (
+          <MyText>
+            {t('textErrorStreet')} {t('tiStreetPlaceholder')}
+          </MyText>
+        )}
       </ScrollView>
       <BlockButtons
         isLoading={isLoading}
         onOk={handleSubmit(handleOk)}
         onCancel={handleCancel}
-        textCancel="скасувати"
-        textOk="зберегти"
+        textCancel={t('btnCancel')}
+        textOk={t('btnSave')}
       />
     </SafeAreaView>
   );

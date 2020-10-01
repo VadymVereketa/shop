@@ -127,8 +127,8 @@ const EditProfileScreen = React.memo(
           isLoading={isLoading}
           onOk={handleSubmit(handleOk)}
           onCancel={handleCancel}
-          textCancel="скасувати"
-          textOk="зберегти"
+          textCancel={t('btnCancel')}
+          textOk={t('btnSave')}
         />
       </SafeAreaView>
     );

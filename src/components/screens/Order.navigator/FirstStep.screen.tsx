@@ -5,7 +5,6 @@ import {selectorsUser} from '../../../redux/user/userReducer';
 import MyText from '../../controls/MyText';
 import {FirstStepScreenProps} from '../../navigators/Order.navigator';
 import MyButton from '../../controls/MyButton';
-import {thunkGetTypes} from '../../../redux/types/typeReducer';
 import {ScrollView} from 'react-native-gesture-handler';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -13,6 +12,7 @@ import {sizes, useTheme} from '../../../context/ThemeContext';
 import {actionsOrder, selectorsOrder} from '../../../redux/order/orderReducer';
 import RadioBlock from '../../controls/RadioBlock';
 import {IContact} from '../../../typings/FetchData';
+import t from '../../../utils/translate';
 
 const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
   const dispatch = useDispatch();
@@ -46,7 +46,7 @@ const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
         bounces={false}
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}>
-        <MyText style={styles.title}>Одержувач замовлення</MyText>
+        <MyText style={styles.title}>{t('orderTitleReceiver')}</MyText>
         <RadioBlock
           title={mainClient.name}
           onPress={() => handlePress(null)}
@@ -56,10 +56,10 @@ const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
         <MyText
           style={[styles.addText, {color: primary}]}
           onPress={() => navigation.push('OrderContact', {})}>
-          + Додати іншого одержувача замовлення
+          {t('btnTextAddReceiver')}
         </MyText>
         {contacts.length > 0 && (
-          <MyText style={styles.title}>Збережені контакти</MyText>
+          <MyText style={styles.title}>{t('profileSaveContacts')}</MyText>
         )}
         {contacts.map((c) => {
           return (
@@ -75,7 +75,7 @@ const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
       </ScrollView>
       <View style={styles.bottom}>
         <MyButton styleText={styles.btnText} onPress={handleContinue}>
-          продовжити
+          {t('btnContinue')}
         </MyButton>
       </View>
     </SafeAreaView>

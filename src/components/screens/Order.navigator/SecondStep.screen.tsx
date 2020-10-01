@@ -10,6 +10,7 @@ import {SecondStepScreenProps} from '../../navigators/Order.navigator';
 import {actionsOrder, selectorsOrder} from '../../../redux/order/orderReducer';
 import DateInput from '../../common/DateInput';
 import BlockWrapperOrder from '../../common/BlockWrapperOrder';
+import t from '../../../utils/translate';
 
 const SecondStepScreen = React.memo(
   ({navigation, route}: SecondStepScreenProps) => {
@@ -46,7 +47,7 @@ const SecondStepScreen = React.memo(
 
     return (
       <BlockWrapperOrder disabled={!disabled} handleContinue={handleContinue}>
-        <MyText style={styles.text}>Оберіть спосіб отримання</MyText>
+        <MyText style={styles.text}>{t('commonSelectWayGet')}</MyText>
         <BlockDelivery navigate={'SecondStep'} />
         <DateInput navigate={'SecondStep'} />
       </BlockWrapperOrder>

@@ -34,6 +34,7 @@ import service from '../../services/service';
 import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
 import {actionsCart} from '../../redux/cart/cartReducer';
 import {actionsOrder} from '../../redux/order/orderReducer';
+import t from '../../utils/translate';
 
 export type OrderNavigatorParamList = {
   FirstStep: {};
@@ -276,42 +277,42 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
         name="Date"
         component={DateScreen}
         options={{
-          title: 'Дата та час доставки',
+          title: t('orderTitleDate'),
         }}
       />
       <Stack.Screen
         name="OrderContact"
         component={OrderContactScreen}
         options={{
-          title: 'Одержувач замовлення',
+          title: t('orderTitleReceiver'),
         }}
       />
       <Stack.Screen
         name="OrderAddress"
         component={OrderAddressScreen}
         options={{
-          title: 'Обрати адресу',
+          title: t('orderTitleAddress'),
         }}
       />
       <Stack.Screen
         name="RepeatOrder"
         component={RepeatOrderScreen}
         options={{
-          title: 'Повторити замовлення',
+          title: t('orderTitleRepeatOrder'),
         }}
       />
       <Stack.Screen
         name="Delivery"
         component={DeliveryScreen}
         options={{
-          title: 'Спосіб отримання',
+          title: t('orderTitleWayGet'),
         }}
       />
       <Stack.Screen
         name="Payment"
         component={PaymentScreen}
         options={{
-          title: 'Cпосіб оплати',
+          title: t('orderTitleWayPayment'),
         }}
       />
     </Stack.Navigator>

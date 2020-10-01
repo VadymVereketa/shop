@@ -7,6 +7,7 @@ const MapIcon = require('../../assets/svg/ic-map.svg').default;
 const MenuMoreIcon = require('../../assets/svg/ic-menu-more.svg').default;
 const ArrowIcon = require('../../assets/svg/ic-arrow.svg').default;
 const ArrowRightIcon = require('../../assets/svg/ic-arrow-right.svg').default;
+const ArrowDownIcon = require('../../assets/svg/ic-arrow-drop.svg').default;
 const CheckIcon = require('../../assets/svg/ic-check-mark.svg').default;
 const CloseIcon = require('../../assets/svg/ic-close.svg').default;
 const CopyIcon = require('../../assets/svg/ic-copy.svg').default;
@@ -35,6 +36,7 @@ export type IName =
   | 'menu-more'
   | 'arrow'
   | 'arrow-right'
+  | 'arrow-down'
   | 'check-mark'
   | 'close'
   | 'copy'
@@ -59,6 +61,8 @@ const getIcon = (name: IName) => {
   switch (name) {
     case 'arrow':
       return ArrowIcon;
+    case 'arrow-down':
+      return ArrowDownIcon;
     case 'send':
       return SendIcon;
     case 'menu-keb':
