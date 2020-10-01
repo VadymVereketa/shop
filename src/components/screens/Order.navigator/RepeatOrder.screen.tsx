@@ -19,6 +19,7 @@ import {useFormattingContext} from '../../../context/FormattingContext';
 import {useCreateOrder} from '../../../useHooks/useCreateOrder';
 import {formatAddress} from '../../../utils/formatAddress';
 import {selectorsOther} from '../../../redux/other/otherReducer';
+import t from '../../../utils/translate';
 
 const RepeatOrderScreen = ({navigation, route}: RepeatOrderScreenProps) => {
   const params = route.params || {};
@@ -106,24 +107,24 @@ const RepeatOrderScreen = ({navigation, route}: RepeatOrderScreenProps) => {
 
         <View style={styles.viewAddProduct}>
           <MyText style={{color: primary}} onPress={handleMoreProducts}>
-            + додати більше продуктів
+            {t('btnTextAddMoreProducts')}
           </MyText>
         </View>
         <PressTitle style={styles.press} onPress={handleDeliveryPress}>
-          Спосіб отримання
+          {t('orderTitleWayGet')}
         </PressTitle>
         {isCourier ? (
           <View style={styles.viewDelivery}>
             <MyText style={[styles.textDelivery, {color: primary}]}>
-              Доставка кур'єром
+              {t('commonDeliveryCourier')}
             </MyText>
-            <MyText style={styles.title}>Адреса:</MyText>
+            <MyText style={styles.title}>{t('commonAddress')}:</MyText>
             <MyText style={styles.text}>{formatAddress(address)}</MyText>
           </View>
         ) : (
           <View style={styles.viewDelivery}>
             <MyText style={[styles.textDelivery, {color: primary}]}>
-              Забрати особисто
+              {t('btnSelf')}
             </MyText>
             {sellPoint ? (
               <MyText style={styles.text}>
@@ -131,15 +132,13 @@ const RepeatOrderScreen = ({navigation, route}: RepeatOrderScreenProps) => {
                 <MyText>{sellPoint.address}</MyText>
               </MyText>
             ) : (
-              <MyText style={styles.text}>
-                Оберіть магазин для отримання замовлення
-              </MyText>
+              <MyText style={styles.text}>{t('commonSelectShop')}</MyText>
             )}
           </View>
         )}
         <DateInput navigate="RepeatOrder" />
         <PressTitle style={styles.press} onPress={handlePaymentPress}>
-          Cпосіб оплати
+          {t('orderTitleWayPayment')}
         </PressTitle>
         {option && <MyText>{option.title}</MyText>}
       </ScrollView>
@@ -154,14 +153,14 @@ const RepeatOrderScreen = ({navigation, route}: RepeatOrderScreenProps) => {
         ]}>
         {isCourier && (
           <View style={[styles.price, {marginBottom: 0}]}>
-            <MyText style={styles.delivery}>Доставка</MyText>
+            <MyText style={styles.delivery}>{t('btnDelivery')}</MyText>
             <MyText style={styles.bottomBlockText}>
               {formatPrice(deliveryPrice)}
             </MyText>
           </View>
         )}
         <View style={styles.price}>
-          <MyText style={styles.bottomBlockText}>Сума за замовлення</MyText>
+          <MyText style={styles.bottomBlockText}>{t('cartSumOrder')}</MyText>
           <MyText style={styles.priceText}>{formatPrice(sum)}</MyText>
         </View>
         <MyButton
@@ -169,7 +168,7 @@ const RepeatOrderScreen = ({navigation, route}: RepeatOrderScreenProps) => {
           isLoading={loading}
           disabled={!isCreateOrder}
           onPress={handleContinue}>
-          продовжити
+          {t('btnContinue')}
         </MyButton>
       </View>
     </SafeAreaView>

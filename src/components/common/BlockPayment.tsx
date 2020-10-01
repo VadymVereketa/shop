@@ -12,6 +12,7 @@ import {getFontFamily} from '../../utils/getFontFamily';
 import {selectorsUser} from '../../redux/user/userReducer';
 import CreditCard from './CreditCard';
 import {ICard} from '../../typings/FetchData';
+import t from '../../utils/translate';
 
 const BlockPayment = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const BlockPayment = () => {
   const otherCard: ICard = useMemo(() => {
     return {
       token: '',
-      number: 'Оплата іншою картою',
+      number: t('orderPayCard'),
       id: -1,
       description: '',
     };

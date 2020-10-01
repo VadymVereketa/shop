@@ -14,6 +14,7 @@ import MyButton from '../../controls/MyButton';
 import BlockButtons from '../../common/BlockButtons';
 import Loader from '../../common/Loader';
 import OptionItem from '../../common/OptionItem';
+import t from '../../../utils/translate';
 
 const StreetScreen = React.memo(({navigation, route}: StreetScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -95,8 +96,8 @@ const StreetScreen = React.memo(({navigation, route}: StreetScreenProps) => {
         disabled={selected === -1}
         onOk={handleOk}
         onCancel={handleCancel}
-        textCancel="скасувати"
-        textOk="Обрати"
+        textCancel={t('btnCancel')}
+        textOk={t('btnSelect')}
       />
     </SafeAreaView>
   );

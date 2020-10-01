@@ -17,6 +17,7 @@ import service from '../../services/service';
 import {useDispatch} from 'react-redux';
 import {actionsUser} from '../../redux/user/userReducer';
 import IconButton from '../controls/IconButton';
+import t from '../../utils/translate';
 
 interface IContactBlockProps {
   contact: IContact;
@@ -47,7 +48,6 @@ const ContactBlock = ({contact}: IContactBlockProps) => {
   }, [focus]);
 
   const handleEdit = () => {
-    console.log('edt');
     navigation.push('Contact', {
       contact,
     });
@@ -76,10 +76,10 @@ const ContactBlock = ({contact}: IContactBlockProps) => {
           <MyText
             style={[styles.textMenu, {marginBottom: sizes[5]}]}
             onPress={handleEdit}>
-            Змінити
+            {t('btnTextChange')}
           </MyText>
           <MyText style={styles.textMenu} onPress={handleRemove}>
-            Видалити
+            {t('btnTextRemove')}
           </MyText>
         </View>
       )}

@@ -1,15 +1,13 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-import {
-  LocationScreenProps,
-  ResultScreenProps,
-} from '../../navigators/Menu.navigator';
 import {sizes} from '../../../context/ThemeContext';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import MyText from '../../controls/MyText';
 import MyButton from '../../controls/MyButton';
 import ResultSvg from '../../../assets/svg/pic-result.svg';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {ResultScreenProps} from '../../navigators/Secondary.navigator';
+import t from '../../../utils/translate';
 
 const ResultScreen = React.memo(({navigation, route}: ResultScreenProps) => {
   const {screen, navigator, title} = route.params;
@@ -31,7 +29,7 @@ const ResultScreen = React.memo(({navigation, route}: ResultScreenProps) => {
       </View>
       <View>
         <MyButton styleText={styles.btnText} onPress={handleBack}>
-          Повернутися
+          {t('btnReturn')}
         </MyButton>
       </View>
     </SafeAreaView>

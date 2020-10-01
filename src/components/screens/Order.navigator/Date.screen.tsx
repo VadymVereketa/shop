@@ -12,6 +12,7 @@ import {DateScreenProps} from '../../navigators/Order.navigator';
 import DesignIcon from '../../common/DesignIcon';
 import {useSelector} from 'react-redux';
 import {selectorsOrder} from '../../../redux/order/orderReducer';
+import t from '../../../utils/translate';
 
 export interface IOptionDate {
   value: number;
@@ -112,14 +113,14 @@ const DateScreen = ({navigation, route}: DateScreenProps) => {
           containerStyle={styles.btn}
           isActive
           styleText={styles.btnText}>
-          скасувати
+          {t('btnCancel')}
         </MyButton>
         <MyButton
           disabled={value === -1}
           onPress={handleOk}
           containerStyle={styles.btn}
           styleText={styles.btnText}>
-          Обрати
+          {t('btnSelect')}
         </MyButton>
       </View>
     </SafeAreaView>

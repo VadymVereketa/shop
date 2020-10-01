@@ -28,6 +28,7 @@ type IMyTextInput = NativeViewGestureHandlerProperties &
     afterIcon?: {
       name: IName;
       onPress: any;
+      isStroke?: boolean;
     };
     styleLabel?: StyleProp<TextStyle>;
     styleCon?: StyleProp<ViewStyle>;
@@ -182,7 +183,7 @@ const MyTextInput = React.memo(
                     name: afterIcon.name,
                     fill: text,
                     size: sizeAfterIcon,
-                    stroke: text, //todo
+                    stroke: afterIcon.isStroke ? text : undefined, //todo
                   }}
                 />
               )}

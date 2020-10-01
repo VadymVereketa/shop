@@ -120,7 +120,7 @@ const ChangePasswordScreen = React.memo((props: ChangePasswordScreenProps) => {
           styleText={styles.btnText}
           disabled={isLoading}
           onPress={handleSubmit(onSubmit)}>
-          змінити пароль
+          {t('btnChangePassword')}
         </MyButton>
       </View>
     </SafeAreaView>

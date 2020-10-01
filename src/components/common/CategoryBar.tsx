@@ -38,7 +38,7 @@ const CategoryBar = React.memo(
                 style={{marginHorizontal: sizes[3]}}
                 styleText={{
                   fontSize: sizes[10],
-                  fontFamily: getFontFamily('500'),
+                  fontFamily: getFontFamily('400'),
                   paddingHorizontal: sizes[7],
                 }}>
                 {t.name}

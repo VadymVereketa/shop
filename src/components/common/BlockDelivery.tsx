@@ -23,6 +23,7 @@ import MyTextInput from '../controls/MyTextInput';
 import {useNavigation} from '@react-navigation/native';
 import {SecondStepScreenNavigationProp} from '../navigators/Order.navigator';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import t from '../../utils/translate';
 
 const getAvailableSellPoints = (
   sellPointsId: number[],
@@ -131,7 +132,7 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
             styleText={styles.btnText}
             style={{width: '47%', marginRight: sizes[5]}}
             type={'default'}>
-            Забрати особисто
+            {t('btnSelf')}
           </MyButton>
         )}
         {deliveryTypes.some((d) => d.code === TypeDelivery.courier) && (
@@ -143,7 +144,7 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
             style={{width: '47%', marginLeft: sizes[5]}}
             styleText={styles.btnText}
             type={'default'}>
-            Доставка
+            {t('btnDelivery')}
           </MyButton>
         )}
       </View>
@@ -180,7 +181,7 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
                     color: primary,
                   },
                 ]}>
-                + Додати адресу
+                {t('btnTextAddAddress')}
               </MyText>
             ) : (
               <MyTextInput

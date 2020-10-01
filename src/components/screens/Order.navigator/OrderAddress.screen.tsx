@@ -13,6 +13,7 @@ import {selectorsUser} from '../../../redux/user/userReducer';
 import MyText from '../../controls/MyText';
 import {formatAddress} from '../../../utils/formatAddress';
 import DesignIcon from '../../common/DesignIcon';
+import t from '../../../utils/translate';
 
 const OrderAddressScreen = ({navigation, route}: OrderAddressScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -77,7 +78,7 @@ const OrderAddressScreen = ({navigation, route}: OrderAddressScreenProps) => {
               color: primary,
             },
           ]}>
-          + Додати адресу
+          {t('btnTextAddAddress')}
         </MyText>
       </ScrollView>
       <View style={styles.btns}>
@@ -87,13 +88,13 @@ const OrderAddressScreen = ({navigation, route}: OrderAddressScreenProps) => {
           containerStyle={styles.btn}
           isActive
           styleText={styles.btnText}>
-          скасувати
+          {t('btnCancel')}
         </MyButton>
         <MyButton
           onPress={handleSubmit}
           containerStyle={styles.btn}
           styleText={styles.btnText}>
-          зберегти
+          {t('btnSave')}
         </MyButton>
       </View>
     </SafeAreaView>

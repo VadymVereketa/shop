@@ -1,12 +1,13 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {SettingsScreenProps} from '../../navigators/Menu.navigator';
 import PressTitle from '../../controls/PressTitle';
 import {sizes, Theme, useTheme} from '../../../context/ThemeContext';
 import MyText from '../../controls/MyText';
 import {useFormattingContext} from '../../../context/FormattingContext';
-import {ScrollView} from 'react-native-gesture-handler';
-import portmone from '../../../utils/portmone';
+import {ScrollView, Switch} from 'react-native-gesture-handler';
+import {getFontFamily} from '../../../utils/getFontFamily';
+import t from '../../../utils/translate';
 
 const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
   const {
@@ -20,13 +21,8 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
   } = useTheme();
   const {currentLocale, setLocale} = useFormattingContext();
 
-  const handelChangeTheme = (t: Theme) => {
-    onChangeTheme(t);
-    portmone.invokePortmoneSdk({
-      theme: t,
-      lang: currentLocale,
-      type: 'phone',
-    });
+  const handelChangeTheme = () => {
+    onChangeTheme(theme === 'light' ? 'dark' : 'light');
   };
 
   return (
@@ -36,16 +32,16 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           style={styles.itemMenu}
           isBorder
           onPress={() => navigation.push('ChangePassword', {})}>
-          Змінити пароль
+          {t('btnChangePassword')}
         </PressTitle>
         <PressTitle
           style={[styles.itemMenu, {backgroundColor: lightBackground}]}
           styleText={{color: lightText}}
           isBorder>
-          Залишити відгук про додаток
+          {t('btnTextComment')}
         </PressTitle>
         <View style={[styles.text, {borderBottomColor: border}]}>
-          <MyText style={{paddingLeft: sizes[6]}}>Мова додатка</MyText>
+          <MyText style={{paddingLeft: sizes[6]}}>{t('commonLanguage')}</MyText>
         </View>
         <PressTitle
           style={styles.itemMenu}
@@ -56,10 +52,11 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
             size: sizes[10],
             fill: currentLocale === 'uk' ? primary : background,
           }}>
-          Українська
+          {t('commonUA')}
         </PressTitle>
         <PressTitle
           style={[styles.itemMenu, {backgroundColor: lightBackground}]}
+          onPress={() => setLocale('en')}
           styleText={{color: lightText}}
           isBorder
           afterIcon={{
@@ -67,34 +64,31 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
             size: sizes[10],
             fill: currentLocale === 'en' ? primary : background,
           }}>
-          Англійська
+          {t('commonEN')}
         </PressTitle>
 
         <View style={[styles.text, {borderBottomColor: border}]}>
-          <MyText style={{paddingLeft: sizes[6]}}>Тема додатка</MyText>
+          <MyText style={{paddingLeft: sizes[6]}}>{t('commonTheme')}</MyText>
         </View>
-        <PressTitle
-          style={styles.itemMenu}
-          onPress={() => handelChangeTheme('light')}
-          isBorder
-          afterIcon={{
-            name: 'check-mark',
-            size: sizes[10],
-            fill: theme === 'light' ? primary : background,
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            padding: sizes[6],
+            paddingRight: 0,
           }}>
-          Свiтла
-        </PressTitle>
-        <PressTitle
-          onPress={() => handelChangeTheme('dark')}
-          style={styles.itemMenu}
-          isBorder
-          afterIcon={{
-            name: 'check-mark',
-            size: sizes[10],
-            fill: theme === 'dark' ? primary : background,
-          }}>
-          Темна
-        </PressTitle>
+          <MyText
+            style={{fontFamily: getFontFamily('400'), fontSize: sizes[9]}}>
+            {t('commonLight')}
+          </MyText>
+          <Switch
+            trackColor={{false: primary, true: primary}}
+            thumbColor={'white'}
+            ios_backgroundColor={primary}
+            onValueChange={handelChangeTheme}
+            value={theme === 'light'}
+          />
+        </View>
       </ScrollView>
     </View>
   );

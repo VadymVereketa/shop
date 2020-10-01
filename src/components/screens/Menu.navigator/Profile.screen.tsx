@@ -19,6 +19,7 @@ import uuid from 'react-native-uuid';
 import CreditCard from '../../common/CreditCard';
 import Toast from 'react-native-simple-toast';
 import {useFormattingContext} from '../../../context/FormattingContext';
+import {actionsOrder} from '../../../redux/order/orderReducer';
 
 const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
     const res = await service.logout();
     if (res) {
       dispatch(actionsUser.logout());
+      dispatch(actionsOrder.clear());
     }
   };
 
@@ -65,7 +67,7 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
             ...cards,
           ]),
         );
-        Toast.show('Карта збережена');
+        Toast.show(t('successCardSave'));
       } else {
         Toast.show(res.data);
       }
@@ -137,7 +139,7 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
                     field: 'email',
                   })
                 }>
-                + Додати email
+                {t('btnTextAddEmail')}
               </MyText>
             )}
           </React.Fragment>
@@ -147,15 +149,15 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
               <ContactBlock key={c.id} contact={c} />
             ))}
             <MyText
-              style={{color: primary}}
+              style={{color: primary, marginBottom: sizes[10]}}
               onPress={() => navigation.push('Contact', {})}>
-              + Додати контакт
+              {t('btnTextAddContact')}
             </MyText>
           </View>
         )}
         {addresses.length > 0 && (
           <React.Fragment>
-            <MyText style={[styles.text]}>Адреси</MyText>
+            <MyText style={[styles.text]}>{t('commonAddresses')}</MyText>
             <View style={[styles.box, {borderColor: border}]}>
               {addresses.map((a) => {
                 return (
@@ -174,7 +176,7 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
               screen: 'Address',
             })
           }>
-          + Додати адрес
+          {t('btnTextAddAddress')}
         </MyText>
         <PressTitle
           style={styles.press}
@@ -188,7 +190,7 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
         </PressTitle>*/}
         {cards.length > 0 && (
           <View>
-            <MyText style={styles.text}>Картки</MyText>
+            <MyText style={styles.text}>{t('commonCards')}</MyText>
             {cards.map((c) => (
               <CreditCard
                 card={c}
@@ -201,7 +203,7 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
         <MyText
           style={[styles.textCard, {color: primary}]}
           onPress={handleAddCard}>
-          + Додати карту
+          {t('btnTextAddCard')}
         </MyText>
         <TouchableOpacity
           onPress={handleLogout}

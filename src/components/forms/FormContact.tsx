@@ -113,8 +113,8 @@ const FormContact = ({defaultValues, onCancel, onOk}: IFormContactProps) => {
         isLoading={isLoading}
         onOk={handleSubmit(handleOk)}
         onCancel={handleCancel}
-        textCancel="скасувати"
-        textOk="зберегти"
+        textCancel={t('btnSave')}
+        textOk={t('btnCancel')}
       />
     </ScrollView>
   );

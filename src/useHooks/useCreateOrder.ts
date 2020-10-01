@@ -17,6 +17,7 @@ export const useCreateOrder = () => {
   const dispatch = useDispatch();
   const {theme} = useTheme();
   const {currentLocale} = useFormattingContext();
+  const increasePercentage = useSelector(selectorsOther.getIncreasePercentage);
   const data = useSelector(selectorsOrder.getOrder);
   const draftId = useSelector(selectorsOther.getDraftId);
   const addresses = useSelector(selectorsUser.getAddresses);
@@ -61,7 +62,7 @@ export const useCreateOrder = () => {
     let res: any = null;
 
     const billAmount = isWeightProducts
-      ? totalPrice + totalPrice * 0.15
+      ? totalPrice + totalPrice * (increasePercentage / 100)
       : totalPrice;
     if (id === -1) {
       res = await portmone.initCardPayment({

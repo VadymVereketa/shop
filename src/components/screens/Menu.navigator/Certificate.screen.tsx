@@ -6,6 +6,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import {sizes} from '../../../context/ThemeContext';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import MyText from '../../controls/MyText';
+import t from '../../../utils/translate';
 
 const CertificateScreen = React.memo((props: CertificateScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -18,24 +19,14 @@ const CertificateScreen = React.memo((props: CertificateScreenProps) => {
         },
       ]}>
       <ScrollView>
-        <MyText style={styles.title}>Правила користування сертифікатом</MyText>
+        <MyText style={styles.title}>{t('certificateRules')}</MyText>
         <MyText style={styles.p}>
-          1. Сертифікат номіналом 1000 грн діє на пред'явника сертифікату (не є
-          іменним) і може бути використаний в мережі{' '}
+          {t('certificateRulesOne')}
           <MyText style={styles.bold}>Egersund Seafood.</MyText>
         </MyText>
-        <MyText style={styles.p}>
-          2. Сертифікат дійсний на весь асортимент продукції без обмежень.
-        </MyText>
-        <MyText style={styles.p}>
-          3. При здійсненні покупки номінал сертифіката списується повністю. У
-          випадку, якщо вартість покупки перевищує номінал сертифікату, різниця
-          між вартістю товару і номіналом сертифікату оплачується банківською
-          карткою або готівкою.
-        </MyText>
-        <MyText style={styles.p}>
-          4. Сертифікат не може бути використаний для отримання готівки.
-        </MyText>
+        <MyText style={styles.p}>{t('certificateRulesTwo')}</MyText>
+        <MyText style={styles.p}>{t('certificateRulesThree')}</MyText>
+        <MyText style={styles.p}>{t('certificateRulesFour')}</MyText>
       </ScrollView>
     </SafeAreaView>
   );

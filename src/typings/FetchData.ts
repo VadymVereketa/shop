@@ -279,7 +279,9 @@ export type ISettingCode =
   | 'public_message'
   | 'min_different'
   | 'max_different'
-  | 'default_delivery_price';
+  | 'default_delivery_price'
+  | 'increase_percentage'
+  | 'preauth_payment';
 
 export interface IPurchase {
   count: string;

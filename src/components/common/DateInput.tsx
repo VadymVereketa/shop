@@ -14,6 +14,7 @@ import {selectorsOther} from '../../redux/other/otherReducer';
 import getOptions from '../../utils/getOptionsDate';
 import {IOptionDate} from '../screens/Order.navigator/Date.screen';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
+import t from '../../utils/translate';
 
 interface IDateInputProps {
   navigate: string;
@@ -70,10 +71,10 @@ const DateInput = ({navigate}: IDateInputProps) => {
       <MyTextInput
         editable={false}
         viewOnTouch={handlePressDate}
-        placeholder={'Виберiть дату та час доставки'}
+        placeholder={t('orderSelectDate')}
         afterIcon={{
           onPress: () => null,
-          name: 'next',
+          name: 'arrow-down',
         }}
         value={`${date ? formatDate(date) : ''} ${time}`.trim()}
       />

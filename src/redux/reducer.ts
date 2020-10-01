@@ -19,13 +19,31 @@ import {ITypeState} from './types/typeTypes';
 const otherPersistConfig = {
   key: 'other',
   storage: AsyncStorage,
-  whitelist: ['searchQueries', 'draftId', 'locale', 'theme'],
+  whitelist: ['searchQueries', 'draftId', 'locale', 'theme', 'settings'],
 };
 
 const userPersistConfig = {
   key: 'user',
   storage: AsyncStorage,
   whitelist: ['token'],
+};
+
+const categoryPersistConfig = {
+  key: 'category',
+  storage: AsyncStorage,
+  whitelist: ['data', 'tags'],
+};
+
+const sellPointsPersistConfig = {
+  key: 'sellPoints',
+  storage: AsyncStorage,
+  whitelist: ['data'],
+};
+
+const typesPersistConfig = {
+  key: 'types',
+  storage: AsyncStorage,
+  whitelist: ['deliveryTypes', 'paymentTypes', 'pricesTypes'],
 };
 
 export interface RootState {
@@ -39,11 +57,11 @@ export interface RootState {
 }
 
 export default combineReducers({
-  category: categoryReducer,
+  category: persistReducer(categoryPersistConfig, categoryReducer),
   cart: cartReducer,
   other: persistReducer(otherPersistConfig, otherReducer),
   user: persistReducer(userPersistConfig, userReducer),
   order: orderReducer,
-  sellPoints: sellPointsReducer,
-  types: typesReducer,
+  sellPoints: persistReducer(sellPointsPersistConfig, sellPointsReducer),
+  types: persistReducer(typesPersistConfig, typesReducer),
 });

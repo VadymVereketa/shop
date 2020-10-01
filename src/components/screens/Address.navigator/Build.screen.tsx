@@ -16,6 +16,7 @@ import MyText from '../../controls/MyText';
 import DesignIcon from '../../common/DesignIcon';
 import BlockButtons from '../../common/BlockButtons';
 import OptionItem from '../../common/OptionItem';
+import t from '../../../utils/translate';
 
 export interface IExtra {
   build: string;
@@ -149,8 +150,8 @@ const BuildScreen = React.memo(({navigation, route}: BuildScreenProps) => {
         disabled={selected === -1}
         onOk={handleOk}
         onCancel={handleCancel}
-        textCancel="скасувати"
-        textOk="Обрати"
+        textCancel={t('btnCancel')}
+        textOk={t('btnSelect')}
       />
     </SafeAreaView>
   );

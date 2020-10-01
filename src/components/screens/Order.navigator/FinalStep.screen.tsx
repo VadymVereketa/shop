@@ -16,6 +16,7 @@ import {selectorsUser} from '../../../redux/user/userReducer';
 import MyButton from '../../controls/MyButton';
 import {formatAddress} from '../../../utils/formatAddress';
 import {selectorsOther} from '../../../redux/other/otherReducer';
+import t from '../../../utils/translate';
 
 const FinalStepScreen = React.memo(
   ({navigation, route}: FinalStepScreenProps) => {
@@ -73,12 +74,10 @@ const FinalStepScreen = React.memo(
     return (
       <SafeAreaView style={[styles.container]}>
         <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
-          <MyText style={styles.welcome}>
-            Дякуємо, ваше замовлення прийняте!
-          </MyText>
+          <MyText style={styles.welcome}>{t('successOrder')}</MyText>
           <View style={[styles.view, {borderBottomColor: border}]}>
             <MyText style={styles.order}>
-              Замовлення № {numberOrder.toString().padStart(9, '0')}
+              {t('profileMyOrder')} № {numberOrder.toString().padStart(9, '0')}
             </MyText>
           </View>
           {cartItems.map((p) => {
@@ -92,7 +91,7 @@ const FinalStepScreen = React.memo(
             );
           })}
           <View style={styles.totalPrice}>
-            <MyText style={styles.title}>Загальна сума</MyText>
+            <MyText style={styles.title}>{t('commonSum')}</MyText>
             <MyText style={styles.price}>{formatPrice(cartSum)}</MyText>
           </View>
 
@@ -103,19 +102,19 @@ const FinalStepScreen = React.memo(
               paddingHorizontal: sizes[5],
               paddingVertical: sizes[10],
             }}>
-            <MyText style={styles.title}>Одержувач замовлення</MyText>
+            <MyText style={styles.title}>{t('orderTitleReceiver')}</MyText>
             <MyText style={styles.title}>{`${user!.firstName} ${
               user!.lastName
             }`}</MyText>
             <MyText style={styles.text}>{user.phone}</MyText>
             {isDelivery ? (
               <View>
-                <MyText style={styles.title}>Адреса</MyText>
+                <MyText style={styles.title}>{t('commonAddress')}</MyText>
                 <MyText style={styles.text}>{formatAddress(address)}</MyText>
               </View>
             ) : (
               <View>
-                <MyText style={styles.title}>Забрати особисто: </MyText>
+                <MyText style={styles.title}>{t('btnSelf')}: </MyText>
                 <MyText style={styles.title}>{sellPoint.name}</MyText>
                 <MyText style={styles.text}>{sellPoint.address}</MyText>
               </View>
@@ -127,13 +126,13 @@ const FinalStepScreen = React.memo(
             styleText={styles.text}
             type={'default'}
             isActive>
-            Мои замовлення
+            {t('profileMyOrders')}
           </MyButton>
           <MyButton
             style={styles.btn}
             onPress={handleContinue}
             styleText={styles.text}>
-            Продовжити покупки
+            {t('btnContinueOrder')}
           </MyButton>
         </ScrollView>
       </SafeAreaView>

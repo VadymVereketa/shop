@@ -197,7 +197,7 @@ const Header = React.memo(
                 justifyContent: 'space-between',
                 paddingTop: sizes[7],
               }}>
-              <MyText>Пошук по всім категоріям</MyText>
+              <MyText>{t('commonSearchAll')}</MyText>
               <Switch
                 trackColor={{false: lightBackground, true: primary}}
                 thumbColor={'white'}

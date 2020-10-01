@@ -8,6 +8,7 @@ import {getFontFamily} from '../../../utils/getFontFamily';
 import MyText from '../../controls/MyText';
 import getUrlImg from '../../../utils/getUrlImg';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
+import t from '../../../utils/translate';
 
 const LocationScreen = React.memo((props: LocationScreenProps) => {
   const {sellPoint} = props.route.params;
@@ -27,12 +28,12 @@ const LocationScreen = React.memo((props: LocationScreenProps) => {
         />
         <View style={[styles.box, {borderColor: border}]}>
           <View style={styles.viewText}>
-            <MyText style={styles.subTitle}>Розклад роботи: </MyText>
-            <MyText style={styles.text}>Пн - Нд {sellPoint.workTime}</MyText>
+            <MyText style={styles.subTitle}>{t('commonSchedule')}</MyText>
+            <MyText style={styles.text}>
+              {t('commonDays')} {sellPoint.workTime}
+            </MyText>
           </View>
-          <MyText style={styles.subTitle}>
-            Замовлення стравити для самовивозу:
-          </MyText>
+          <MyText style={styles.subTitle}>{t('commonOrderSelf')}</MyText>
           <MyText style={[styles.text, {color: primary}]}>
             {sellPoint.phone}
           </MyText>

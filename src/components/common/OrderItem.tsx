@@ -27,6 +27,7 @@ import {useDispatch} from 'react-redux';
 import {actionsOrder} from '../../redux/order/orderReducer';
 import {TypeDelivery} from '../../constants/constantsId';
 import {useRepeatOrder} from '../../useHooks/useRepeatOrder';
+import t from '../../utils/translate';
 
 interface IOrderItemProps {
   order: IOrderItem;
@@ -109,7 +110,7 @@ const OrderItem = React.memo(({order}: IOrderItemProps) => {
       </View>
       <View style={styles.bottomBlock}>
         <View style={styles.priceBlock}>
-          <MyText style={styles.textOrder}>Cума:</MyText>
+          <MyText style={styles.textOrder}>{t('cartSum')}</MyText>
           <MyText style={styles.priceText}>
             {formatPrice(+order.productsPrice)}
           </MyText>
@@ -123,7 +124,7 @@ const OrderItem = React.memo(({order}: IOrderItemProps) => {
             ultraWidth={true}
             onPress={handleOrder}
             isLoading={isLoading}>
-            замовити
+            {t('btnOrder')}
           </MyButton>
         </View>
       </View>
