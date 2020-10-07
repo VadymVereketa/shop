@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, Linking} from 'react-native';
 import MyText from '../../controls/MyText';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import PressTitle from '../../controls/PressTitle';
@@ -19,6 +19,10 @@ const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
   const {border, lightBackground, primary} = useTheme();
   const sellPoints = useSelector(getSellPoints(false));
 
+  const handlePhone = () => {
+    Linking.openURL(`tel:${phone}`);
+  };
+
   return (
     <SafeAreaView style={[styles.container]}>
       {isAuth ? (
@@ -33,7 +37,9 @@ const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
             </View>
             <View style={styles.phoneBlock}>
               <DesignIcon name={'phone'} size={sizes[8]} fill={primary} />
-              <MyText style={styles.phone}>{phone}</MyText>
+              <MyText style={styles.phone} onPress={handlePhone}>
+                {phone}
+              </MyText>
             </View>
           </View>
           <PressTitle

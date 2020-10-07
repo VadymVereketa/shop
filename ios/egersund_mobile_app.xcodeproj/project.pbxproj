@@ -33,6 +33,7 @@
 		A21DD6AD2510FA5E008B556E /* PortmonePaymentPresenterDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A62510FA5E008B556E /* PortmonePaymentPresenterDelegate.swift */; };
 		A21DD6AE2510FA5E008B556E /* PortmoneCardModule.m in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A82510FA5E008B556E /* PortmoneCardModule.m */; };
 		A21DD6AF2510FA5E008B556E /* PortmoneCardModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A92510FA5E008B556E /* PortmoneCardModule.swift */; };
+		A228C0A4252755A100717B34 /* libReact-RCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A228C0A3252755A100717B34 /* libReact-RCTLinking.a */; };
 		A2A1AFE025236C2B00BAF97A /* egersund_mobile_app.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = A2A1AFDF25235ABF00BAF97A /* egersund_mobile_app.entitlements */; };
 		A2CA2D9C2524AB7200DB9D36 /* PortmoneSDKEcom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B100242513680C00706485 /* PortmoneSDKEcom.framework */; };
 		A2CA2D9D2524AB7200DB9D36 /* PortmoneSDKEcom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2B100242513680C00706485 /* PortmoneSDKEcom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -114,6 +115,7 @@
 		A21DD6A72510FA5E008B556E /* PortmoneCardModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PortmoneCardModule.h; path = ../../../../Downloads/ios/PortmoneCardModule.h; sourceTree = "<group>"; };
 		A21DD6A82510FA5E008B556E /* PortmoneCardModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PortmoneCardModule.m; path = ../../../../Downloads/ios/PortmoneCardModule.m; sourceTree = "<group>"; };
 		A21DD6A92510FA5E008B556E /* PortmoneCardModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortmoneCardModule.swift; path = ../../../../Downloads/ios/PortmoneCardModule.swift; sourceTree = "<group>"; };
+		A228C0A3252755A100717B34 /* libReact-RCTLinking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-RCTLinking.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2A1AFDF25235ABF00BAF97A /* egersund_mobile_app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = egersund_mobile_app.entitlements; path = egersund_mobile_app/egersund_mobile_app.entitlements; sourceTree = "<group>"; };
 		A2B100242513680C00706485 /* PortmoneSDKEcom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PortmoneSDKEcom.framework; sourceTree = "<group>"; };
 		A6CEF389CD134549AA28016C /* FuturaPT-LightObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-LightObl.ttf"; path = "../src/assets/fonts/FuturaPT-LightObl.ttf"; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A228C0A4252755A100717B34 /* libReact-RCTLinking.a in Frameworks */,
 				5391E7AA5FE94F00C47DDB88 /* libPods-egersund_mobile_app.a in Frameworks */,
 				A2CA2D9C2524AB7200DB9D36 /* PortmoneSDKEcom.framework in Frameworks */,
 			);
@@ -206,6 +209,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A228C0A3252755A100717B34 /* libReact-RCTLinking.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				45CD7A6688F003D8EEAB5E0F /* libPods-egersund_mobile_app.a */,
@@ -835,7 +839,7 @@
 				INFOPLIST_FILE = egersund_mobile_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.0.9;
+				MARKETING_VERSION = 0.0.11;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
@@ -907,7 +911,7 @@
 				INFOPLIST_FILE = egersund_mobile_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.0.9;
+				MARKETING_VERSION = 0.0.11;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",

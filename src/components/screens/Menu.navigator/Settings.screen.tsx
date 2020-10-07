@@ -55,9 +55,8 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           {t('commonUA')}
         </PressTitle>
         <PressTitle
-          style={[styles.itemMenu, {backgroundColor: lightBackground}]}
+          style={[styles.itemMenu]}
           onPress={() => setLocale('en')}
-          styleText={{color: lightText}}
           isBorder
           afterIcon={{
             name: 'check-mark',
@@ -83,7 +82,7 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           </MyText>
           <Switch
             trackColor={{false: primary, true: primary}}
-            thumbColor={'white'}
+            thumbColor={background}
             ios_backgroundColor={primary}
             onValueChange={handelChangeTheme}
             value={theme === 'light'}

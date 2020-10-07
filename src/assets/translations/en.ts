@@ -1,17 +1,17 @@
 export default {
   tabBarRestaurant: 'Restaurant',
   tabBarShop: 'Shop',
-  tabBarTagProducts: 'Пропозиції',
+  tabBarTagProducts: 'Specials',
   tabBarMenu: 'Menu',
 
-  btnOrder: 'order',
-  btnOrderLong: 'order',
+  btnOrder: 'Оrder',
+  btnOrderLong: 'Оrder',
   btnAddToCart: 'Add to cart',
   btnHasInCart: 'In the cart',
   btnExit: 'Exit',
   btnDelivery: 'Delivery',
   btnSelf: 'Pick up in person',
-  btnContinue: 'continue',
+  btnContinue: 'Continue',
   btnContinueOrder: 'Continue shopping',
   btnSave: 'Save',
   btnCancel: 'Cancel',
@@ -26,9 +26,9 @@ export default {
   btnTextAddEmail: '+ Add email',
   btnTextAddContact: '+ Add contact',
   btnTextAddCard: '+ Add card',
-  btnTextComment: 'Leave feedback about the application',
+  btnTextComment: 'Leave feedback about the app',
   btnTextAddReceiver: '+ Add another order recipient',
-  btnTextAddMoreProducts: '+ add more products',
+  btnTextAddMoreProducts: '+ Add more products',
 
   commonSearchAll: 'Search by all categories',
   commonStorage: 'Ingredients:',
@@ -39,20 +39,20 @@ export default {
   commonUnit: 'Pieces',
   commonSchedule: 'Work schedule:',
   commonDays: 'Mon - Sun',
-  commonOrderSelf: 'Ordering food for self-pickup:',
+  commonOrderSelf: 'Order food for self-pickup:',
   commonFullInformation: 'Complete information',
   commonPayment: 'Payment',
   commonSum: 'Total amount',
   commonAddresses: 'Addresses',
   commonAddress: 'Address',
   commonCards: 'Cards',
-  commonLanguage: 'Application language',
+  commonLanguage: 'App language',
   commonUA: 'Ukrainian',
   commonEN: 'English',
-  commonTheme: 'Application theme',
+  commonTheme: 'App theme',
   commonLight: 'Light',
   commonDeliveryCourier: 'Delivery by courier',
-  commonSelectShop: 'Select a store to receive an order',
+  commonSelectShop: 'Select a store to receive the order',
   commonSelectWayGet: 'Choose the method of receipt',
   commonSelectWayPayment: 'Choose a payment method',
   commonNeedAuth: 'To add to cart, log in',
@@ -60,10 +60,10 @@ export default {
   productInfo:
     'The final weight of the product and its amount will be known after weighing and cutting.',
   productDesc:
-    'При оформленні замовлення і безготівкового розрахунку кошти попередньо будуть списання депозитом за %{weight}. У разі меншої ваги товару, гроші будуть повернуті протягом доби на Вашу карту.',
+    'When ordering and non-cash payment, the funds will be pre-written off with a deposit for %{weight}. In case the order will weight less, the money will be returned to your card within 24 hours.',
 
   profileLogin: 'Log in',
-  profileSignUp: 'Registration',
+  profileSignUp: 'Sign up',
   profileTitle: 'Profile',
   profileMyOrders: 'My orders',
   profileMyOrder: 'Order',
@@ -93,10 +93,10 @@ export default {
   cartSum: 'Amount',
 
   loginWelcome1: 'Welcome to Egersund,',
-  loginWelcome2: 'з поверненням!',
+  loginWelcome2: 'Welcome back!',
   loginForgetPassword: 'Forgot your password?',
   loginSubmit: 'Log in',
-  loginNoAccount: 'No account? Registration',
+  loginNoAccount: 'No account? Sign up',
 
   signUpWelcome: 'Welcome to Egersund!',
   signUpSubmit: 'Register',
@@ -104,10 +104,10 @@ export default {
 
   authForgetPassword: 'Forgot password',
   authRememberPassword: 'I remember the password!',
-  authGetCode: 'get the code',
+  authGetCode: 'Get the code',
   authCodeSend: 'A new password has been sent to your phone',
   authVerification: 'Verification',
-  authConfirmCode: 'Enter the 5 digits that came to the phone',
+  authConfirmCode: 'Enter the 5 digits that came to your phone',
   authSendAgain: 'Send Again',
   authRepeatSend: 'The code can be resubmitted in',
 
@@ -118,8 +118,9 @@ export default {
   orderTitleReceiver: 'Recipient of the order',
   orderTitleAddress: 'Choose an address',
   orderTitleRepeatOrder: 'Repeat the order',
-  orderTitleWayGet: 'Спосіб отримання',
+  orderTitleWayGet: 'Delivery or pickup?',
   orderTitleWayPayment: 'Payment method',
+  orderTitleOrder: 'Making an order',
 
   //text input
   tIPhoneLabel: 'Phone',
@@ -145,14 +146,14 @@ export default {
 
   tiSearchPlaceholder: 'What are you looking for today?',
   tiStreetPlaceholder: 'Street / Boulevard / Lane',
-  tiBuildPlaceholder: 'Build',
-  tiFlatPlaceholder: 'Flat',
+  tiBuildPlaceholder: 'Building',
+  tiFlatPlaceholder: 'Apartment',
   tiEntrancePlaceholder: 'Entrance',
   tiFloorPlaceholder: 'Floor',
   tiCityPlaceholder: 'City',
   //text input
 
-  checkPasswordMinLength: '8th characters',
+  checkPasswordMinLength: '8 characters',
   checkPasswordLowerCase: 'lowercase letter',
   checkPasswordMUpperCase: 'uppercase letter',
 
@@ -162,17 +163,12 @@ export default {
 
   textErrorStreet: 'Enter first',
 
-  certificateRules: 'Правила користування сертифікатом',
+  certificateRules: 'Certificate usage rules',
   certificateRulesOne:
-    "1. Сертифікат номіналом 1000 грн діє на пред'явника сертифікату (не є\n" +
-    '          іменним) і може бути використаний в мережі',
+    '1. A certificate with a face value of UAH 1,000 is valid for the bearer of the certificate (and is not personalized) and can be used in the stores network.',
   certificateRulesTwo:
-    '2. Сертифікат дійсний на весь асортимент продукції без обмежень.',
+    '2. The certificate is valid for the entire range of products without restrictions.',
   certificateRulesThree:
-    '3. При здійсненні покупки номінал сертифіката списується повністю. У\n' +
-    '          випадку, якщо вартість покупки перевищує номінал сертифікату, різниця\n' +
-    '          між вартістю товару і номіналом сертифікату оплачується банківською\n' +
-    '          карткою або готівкою.',
-  certificateRulesFour:
-    '4. Сертифікат не може бути використаний для отримання готівки.',
+    '3. During the purchase, the face value of the certificate is written off in full. If the purchase price exceeds the face value of the certificate, the difference between the value of the goods and the face value of the certificate shall be paid by bank card or cash.',
+  certificateRulesFour: '4. The certificate cannot be used to receive cash.',
 };

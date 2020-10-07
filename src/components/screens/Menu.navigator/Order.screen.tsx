@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Linking} from 'react-native';
 import {OrderScreenProps} from '../../navigators/Menu.navigator';
 import {IOrderFull} from '../../../typings/FetchData';
 import service from '../../../services/service';
@@ -23,16 +23,15 @@ import {
 import {useRepeatOrder} from '../../../useHooks/useRepeatOrder';
 import t from '../../../utils/translate';
 
-const h = sizes[100] + sizes[10];
-
 const OrderScreen = React.memo(({route}: OrderScreenProps) => {
-  const offsetY = useRef(new Animated.Value(-h)).current;
+  const [height, setHeight] = useState(sizes[85]);
+  const offsetY = useRef(new Animated.Value(-height)).current;
   const repeatOrder = useRepeatOrder();
   const [isLoading, setIsLoading] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const insets = useSafeAreaInsets();
   const {longFormatDate, formatPrice} = useFormattingContext();
-  const {border, background, lightText} = useTheme();
+  const {border, background, lightText, primary} = useTheme();
   const [item, setItem] = useState(route.params.item as IOrderFull);
   const [isHistory, setIsHistory] = useState(false);
   const isReady = !!item.deliveryType;
@@ -47,6 +46,10 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
     if (isReady) {
       setIsShow((s) => !s);
     }
+  };
+
+  const handlePressPhone = () => {
+    Linking.openURL(`tel:${courier!.phone}`);
   };
 
   const handleOrder = async () => {
@@ -74,17 +77,23 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
 
   useDidUpdateEffect(() => {
     timing(offsetY, {
-      toValue: isShow ? 0 : -h,
+      toValue: isShow ? 0 : -height,
       duration: 300,
       easing: Easing.ease,
     }).start();
   }, [isShow]);
 
+  useEffect(() => {
+    if (isReady) {
+      setIsShow(true);
+    }
+  }, [isReady]);
+
   return (
     <SafeAreaView
       style={[
         styles.container,
-        {marginTop: -insets.top, marginBottom: isShow ? 0 : -h},
+        {marginTop: -insets.top, marginBottom: isShow ? 0 : -height},
       ]}>
       <ScrollView
         contentContainerStyle={{
@@ -106,6 +115,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
         </PressTitle>
         {isReady && (
           <Animated.View
+            onLayout={(e) => setHeight(e.nativeEvent.layout.height)}
             style={[
               styles.infoUser,
               {
@@ -149,6 +159,24 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
               },
             ],
           }}>
+          {courier && (
+            <View>
+              <MyText style={[styles.sumText, {marginTop: sizes[5]}]}>
+                Курьер
+              </MyText>
+              <MyText style={styles.textC}>
+                {courier.firstName} {courier.lastName}
+              </MyText>
+              <MyText
+                style={[
+                  styles.textC,
+                  {color: primary, fontFamily: getFontFamily('500')},
+                ]}
+                onPress={handlePressPhone}>
+                {courier.phone}
+              </MyText>
+            </View>
+          )}
           <View style={[styles.btns, {borderBottomColor: border}]}>
             <MyButton
               containerStyle={{width: '47%', marginRight: sizes[5]}}
@@ -235,7 +263,7 @@ const styles = StyleSheet.create({
   },
   press: {
     paddingLeft: 0,
-    marginBottom: sizes[10],
+    paddingVertical: sizes[10],
   },
   infoUser: {
     padding: sizes[10],
@@ -254,7 +282,10 @@ const styles = StyleSheet.create({
   historyItem: {
     fontSize: sizes[9],
   },
-  history: {},
+  textC: {
+    fontSize: sizes[10],
+    paddingTop: sizes[4],
+  },
   purchases: {
     borderTopWidth: 1,
   },

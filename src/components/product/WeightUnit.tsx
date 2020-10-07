@@ -198,7 +198,7 @@ const WeightUnit = React.memo(
             </MyText>
             <Switch
               trackColor={{false: primary, true: primary}}
-              thumbColor={'white'}
+              thumbColor={background}
               ios_backgroundColor={primary}
               onValueChange={handleChangeCount}
               value={isAlternativeCount}

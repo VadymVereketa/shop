@@ -5,7 +5,6 @@
 	<key>com.apple.developer.associated-domains</key>
 	<array>
 		<string>applinks:egersund-uat-web.huspi.com</string>
-		<string>applinks:com.huspi.egersund</string>
 	</array>
 </dict>
 </plist>
