@@ -27,9 +27,11 @@ const CommentIcon = require('../../assets/svg/ic-comment.svg').default;
 const SendIcon = require('../../assets/svg/ic-send.svg').default;
 const MenuKebIcon = require('../../assets/svg/ic-menu-keb.svg').default;
 const ReloadIcon = require('../../assets/svg/ic-reload.svg').default;
+const BarCodeIcon = require('../../assets/svg/ic-barcode.svg').default;
 
 export type IName =
   | 'restaurant'
+  | 'barcode'
   | 'store'
   | 'eye'
   | 'map'
@@ -61,6 +63,8 @@ const getIcon = (name: IName) => {
   switch (name) {
     case 'arrow':
       return ArrowIcon;
+    case 'barcode':
+      return BarCodeIcon;
     case 'arrow-down':
       return ArrowDownIcon;
     case 'send':
