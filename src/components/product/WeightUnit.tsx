@@ -20,6 +20,7 @@ import {ITranslate} from '../../assets/translations/uk';
 import {Switch} from 'react-native-gesture-handler';
 import {selectorsOrder} from '../../redux/order/orderReducer';
 import {selectorsUser} from '../../redux/user/userReducer';
+import {selectorsOther} from '../../redux/other/otherReducer';
 
 interface IWeightUnitProps {
   id: number;
@@ -72,6 +73,9 @@ const WeightUnit = React.memo(
       text,
     } = useTheme();
     const dispatch = useDispatch();
+    const increasePercentage = useSelector(
+      selectorsOther.getIncreasePercentage,
+    );
     const isAuth = useSelector(selectorsUser.isAuth);
     const isAvgWeight = !!avgWeight;
     const isRepeatOrder = useSelector(selectorsOrder.isRepeatOrder);
@@ -308,7 +312,7 @@ const WeightUnit = React.memo(
         </MyButton>
         <MyText style={styles.textInfo}>{t('productInfo')}</MyText>
         <MyText style={styles.textDesc}>
-          {t('productDesc', {weight: format1000Unit(weight)})}
+          {t('productDesc', {weight: increasePercentage})}
         </MyText>
       </View>
     );

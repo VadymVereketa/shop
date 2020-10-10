@@ -34,9 +34,8 @@
 		A21DD6AE2510FA5E008B556E /* PortmoneCardModule.m in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A82510FA5E008B556E /* PortmoneCardModule.m */; };
 		A21DD6AF2510FA5E008B556E /* PortmoneCardModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A92510FA5E008B556E /* PortmoneCardModule.swift */; };
 		A228C0A4252755A100717B34 /* libReact-RCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A228C0A3252755A100717B34 /* libReact-RCTLinking.a */; };
-		A2A1AFE025236C2B00BAF97A /* egersund_mobile_app.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = A2A1AFDF25235ABF00BAF97A /* egersund_mobile_app.entitlements */; };
-		A2CA2D9C2524AB7200DB9D36 /* PortmoneSDKEcom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2B100242513680C00706485 /* PortmoneSDKEcom.framework */; };
-		A2CA2D9D2524AB7200DB9D36 /* PortmoneSDKEcom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A2B100242513680C00706485 /* PortmoneSDKEcom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A25696432531DE5800481D1B /* PortmoneSDKEcom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A25696412531DE5000481D1B /* PortmoneSDKEcom.framework */; };
+		A25696442531DE5800481D1B /* PortmoneSDKEcom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A25696412531DE5000481D1B /* PortmoneSDKEcom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AA1E7DFE7AD34177A12EA43E /* FuturaPT-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88CB0477E4674C9EA6F67EEE /* FuturaPT-Light.ttf */; };
 		C565181994BD45BBA22FE813 /* FuturaPT-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F18BD4CEAB64568B2CB9491 /* FuturaPT-Demi.ttf */; };
 		C60B1860491342B19F60F0B2 /* FuturaPT-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 81D905DC6BFC4D4E8F45A253 /* FuturaPT-Book.ttf */; };
@@ -68,7 +67,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A2CA2D9D2524AB7200DB9D36 /* PortmoneSDKEcom.framework in Embed Frameworks */,
+				A25696442531DE5800481D1B /* PortmoneSDKEcom.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -116,8 +115,7 @@
 		A21DD6A82510FA5E008B556E /* PortmoneCardModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PortmoneCardModule.m; path = ../../../../Downloads/ios/PortmoneCardModule.m; sourceTree = "<group>"; };
 		A21DD6A92510FA5E008B556E /* PortmoneCardModule.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PortmoneCardModule.swift; path = ../../../../Downloads/ios/PortmoneCardModule.swift; sourceTree = "<group>"; };
 		A228C0A3252755A100717B34 /* libReact-RCTLinking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-RCTLinking.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A2A1AFDF25235ABF00BAF97A /* egersund_mobile_app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = egersund_mobile_app.entitlements; path = egersund_mobile_app/egersund_mobile_app.entitlements; sourceTree = "<group>"; };
-		A2B100242513680C00706485 /* PortmoneSDKEcom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PortmoneSDKEcom.framework; sourceTree = "<group>"; };
+		A25696412531DE5000481D1B /* PortmoneSDKEcom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PortmoneSDKEcom.framework; sourceTree = "<group>"; };
 		A6CEF389CD134549AA28016C /* FuturaPT-LightObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-LightObl.ttf"; path = "../src/assets/fonts/FuturaPT-LightObl.ttf"; sourceTree = "<group>"; };
 		A72458FEA8F806BF7429B86B /* Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B67839BF05B223EF70402A71 /* Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -143,7 +141,7 @@
 			files = (
 				A228C0A4252755A100717B34 /* libReact-RCTLinking.a in Frameworks */,
 				5391E7AA5FE94F00C47DDB88 /* libPods-egersund_mobile_app.a in Frameworks */,
-				A2CA2D9C2524AB7200DB9D36 /* PortmoneSDKEcom.framework in Frameworks */,
+				A25696432531DE5800481D1B /* PortmoneSDKEcom.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,7 +184,6 @@
 		13B07FAE1A68108700A75B9A /* egersund_mobile_app */ = {
 			isa = PBXGroup;
 			children = (
-				A2A1AFDF25235ABF00BAF97A /* egersund_mobile_app.entitlements */,
 				A21DD6A72510FA5E008B556E /* PortmoneCardModule.h */,
 				A21DD6A82510FA5E008B556E /* PortmoneCardModule.m */,
 				A21DD6A92510FA5E008B556E /* PortmoneCardModule.swift */,
@@ -245,7 +242,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				A2B100242513680C00706485 /* PortmoneSDKEcom.framework */,
+				A25696412531DE5000481D1B /* PortmoneSDKEcom.framework */,
 				13B07FAE1A68108700A75B9A /* egersund_mobile_app */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* egersund_mobile_appTests */,
@@ -387,7 +384,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = E2J8W9HEEC;
+						DevelopmentTeam = 5N3WF8LBBU;
 						LastSwiftMigration = 1160;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -448,7 +445,6 @@
 				7731781BCF114A3A8FEEB4EB /* FuturaPT-LightObl.ttf in Resources */,
 				7F45503B6B244F2691B9A960 /* FuturaPT-Medium.ttf in Resources */,
 				6A1DC818BFF24FE7824B7E44 /* FuturaPT-MediumObl.ttf in Resources */,
-				A2A1AFE025236C2B00BAF97A /* egersund_mobile_app.entitlements in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,7 +478,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -789,7 +785,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = egersund_mobile_app/egersund_mobile_app.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = E2J8W9HEEC;
+				DEVELOPMENT_TEAM = 5N3WF8LBBU;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -844,7 +840,7 @@
 					"$(inherited)",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.huspi.egersund;
+				PRODUCT_BUNDLE_IDENTIFIER = com.huspi.egersund2;
 				PRODUCT_NAME = egersund_mobile_app;
 				SWIFT_OBJC_BRIDGING_HEADER = "egersund_mobile_app-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -862,7 +858,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = egersund_mobile_app/egersund_mobile_app.entitlements;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = E2J8W9HEEC;
+				DEVELOPMENT_TEAM = 5N3WF8LBBU;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -916,7 +912,7 @@
 					"$(inherited)",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.huspi.egersund;
+				PRODUCT_BUNDLE_IDENTIFIER = com.huspi.egersund2;
 				PRODUCT_NAME = egersund_mobile_app;
 				SWIFT_OBJC_BRIDGING_HEADER = "egersund_mobile_app-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
