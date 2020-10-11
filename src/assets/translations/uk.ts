@@ -56,6 +56,8 @@ const uk = {
   commonSelectWayGet: 'Оберіть спосіб отримання',
   commonSelectWayPayment: 'Оберіть спосіб оплати',
   commonNeedAuth: 'Щоб додати до кошика увійдіть',
+  commonScanCode: 'Скануйте code і забирайте своє замовлення.',
+  commonCode: 'Ваш особистий code',
 
   productInfo: 'Звертаємо Вашу увагу!',
   productDesc:

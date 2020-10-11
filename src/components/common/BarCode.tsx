@@ -8,6 +8,7 @@ import {StyleSheet, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {getFontFamily} from '../../utils/getFontFamily';
 import {BarCodeScreenNavigationProp} from '../navigators/Menu.navigator';
+import t from '../../utils/translate';
 
 interface IBarCodeProps {
   order: IOrderItem;
@@ -32,7 +33,7 @@ const BarCode = ({order}: IBarCodeProps) => {
       style={[styles.qr, {borderColor: border}]}
       onPress={handlePress}>
       <DesignIcon name={'barcode'} size={sizes[14]} fill={'black'} />
-      <MyText style={styles.textOrder}>Ваш особистий code</MyText>
+      <MyText style={styles.textOrder}>{t('commonCode')}</MyText>
     </TouchableOpacity>
   );
 };

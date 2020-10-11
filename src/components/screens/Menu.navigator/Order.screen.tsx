@@ -22,6 +22,7 @@ import {
 } from '../../../context/FormattingContext';
 import {useRepeatOrder} from '../../../useHooks/useRepeatOrder';
 import t from '../../../utils/translate';
+import BarCode from '../../common/BarCode';
 
 const OrderScreen = React.memo(({route}: OrderScreenProps) => {
   const [height, setHeight] = useState(sizes[85]);
@@ -109,6 +110,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
             orderAddress={item.orderAddress}
             orderStatus={item.orderStatus}
           />
+          <BarCode order={item} />
         </View>
         <PressTitle style={styles.press} expand onPress={handleToggle}>
           {t('commonFullInformation')}

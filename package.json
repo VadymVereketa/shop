@@ -32,6 +32,7 @@
     "react-native-reanimated": "^1.13.0",
     "react-native-responsive-dimensions": "^3.1.1",
     "react-native-safe-area-context": "^3.1.4",
+    "react-native-screen-brightness": "^2.0.0-alpha",
     "react-native-screens": "^2.10.1",
     "react-native-sensitive-info": "^5.5.8",
     "react-native-shadow": "^1.2.2",

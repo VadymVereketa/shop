@@ -1,19 +1,29 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-import {
-  BarCodeScreenProps,
-  CertificateScreenProps,
-} from '../../navigators/Menu.navigator';
+import {useFocusEffect} from '@react-navigation/native';
+import {BarCodeScreenProps} from '../../navigators/Menu.navigator';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import Barcode from 'react-native-barcode-builder';
 import MyText from '../../controls/MyText';
+import ScreenBrightness from 'react-native-screen-brightness';
+import t from '../../../utils/translate';
 
 const BarCodeScreen = React.memo((props: BarCodeScreenProps) => {
   const {orderNumber} = props.route.params;
   const insets = useSafeAreaInsets();
   const {border} = useTheme();
+
+  useEffect(() => {
+    ScreenBrightness.getBrightness().then((brightness) => {
+      ScreenBrightness.setBrightness(1); // between 0 and 1
+    });
+    return () => {
+      ScreenBrightness.setBrightness(0.5); // between 0 and 1
+    };
+  }, []);
+
   return (
     <SafeAreaView
       style={[
@@ -36,7 +46,7 @@ const BarCodeScreen = React.memo((props: BarCodeScreenProps) => {
           format="CODE128"
         />
       </View>
-      <MyText>Скануйте code і заберайте своє замовлення.</MyText>
+      <MyText>{t('commonScanCode')}</MyText>
     </SafeAreaView>
   );
 });

@@ -56,6 +56,8 @@ export default {
   commonSelectWayGet: 'Choose the method of receipt',
   commonSelectWayPayment: 'Choose a payment method',
   commonNeedAuth: 'To add to cart, log in',
+  commonScanCode: 'Scan the code and pick up your order.',
+  commonCode: 'Your personal code',
 
   productInfo:
     'The final weight of the product and its amount will be known after weighing and cutting.',
