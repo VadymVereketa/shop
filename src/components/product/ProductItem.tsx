@@ -2,7 +2,7 @@ import {IImgProduct, IProduct} from '../../typings/FetchData';
 import {useResponsiveWidth} from 'react-native-responsive-dimensions';
 import React, {useState} from 'react';
 import {useFormattingContext} from '../../context/FormattingContext';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {selectorsOther} from '../../redux/other/otherReducer';
 import {getIndexProductOption} from '../../utils/getIndexProductOption';
@@ -15,6 +15,10 @@ import {BoxShadow} from 'react-native-shadow';
 import MyText from '../controls/MyText';
 import {ProductScreenNavigationProp} from '../navigators/Secondary.navigator';
 import t from '../../utils/translate';
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import {actionsCart, selectorsCart} from '../../redux/cart/cartReducer';
+import {selectorsUser} from '../../redux/user/userReducer';
+import CartCountItem from '../controls/CartCountInput';
 
 const window = Dimensions.get('window');
 
@@ -25,7 +29,11 @@ interface IProductItemProps {
 const borderRadius = sizes[1];
 
 const ProductItem = React.memo(({product}: IProductItemProps) => {
+  const dispatch = useDispatch();
   const navigation = useNavigation<ProductScreenNavigationProp>();
+  const isAuth = useSelector(selectorsUser.isAuth);
+  const initValue = useSelector(selectorsCart.getCountProduct(product.id)) || 1;
+  const productCart = useSelector(selectorsCart.getCartProduct(product.id));
   const {background, text, lightBackground, theme} = useTheme();
   const {formatPrice} = useFormattingContext();
   const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
@@ -48,6 +56,23 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
     });
   };
 
+  const handleOrder = () => {
+    if (!isAuth) {
+      handlePress();
+      return;
+    }
+    if (available) {
+      dispatch(
+        actionsCart.addProduct({
+          comment: '',
+          count: 1,
+          product: product,
+          alternativeCount: product.avgWeight ? 1 : null,
+        }),
+      );
+    }
+  };
+
   return (
     <View
       style={[
@@ -56,11 +81,13 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
           shadowColor: text,
         },
       ]}>
-      <Image
-        source={getUrlImg(productImage.uuid)}
-        resizeMode={'cover'}
-        style={styles.image}
-      />
+      <TouchableWithoutFeedback onPress={handlePress}>
+        <Image
+          source={getUrlImg(productImage.uuid)}
+          resizeMode={'cover'}
+          style={styles.image}
+        />
+      </TouchableWithoutFeedback>
       <View
         style={[
           styles.content,
@@ -68,13 +95,19 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
         ]}>
         <MyText style={styles.title}>{product.title}</MyText>
         <View>
-          <MyText style={styles.price}>{formatPrice(price)}</MyText>
-          <MyButton
-            ultraWidth={true}
-            styleText={styles.btnText}
-            onPress={handlePress}>
-            {t('btnOrder')}
-          </MyButton>
+          <MyText style={styles.price}>
+            {formatPrice(+price * initValue)}
+          </MyText>
+          {productCart ? (
+            <CartCountItem item={productCart} />
+          ) : (
+            <MyButton
+              ultraWidth={true}
+              styleText={styles.btnText}
+              onPress={handleOrder}>
+              {t('btnOrder')}
+            </MyButton>
+          )}
         </View>
       </View>
     </View>

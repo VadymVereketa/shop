@@ -69,9 +69,7 @@ const Main = () => {
         <ProviderFormattingContext>
           <SafeAreaProvider>
             <ProviderTheme>
-              <SafeAreaProvider>
                 <App />
-              </SafeAreaProvider>
             </ProviderTheme>
           </SafeAreaProvider>
         </ProviderFormattingContext>

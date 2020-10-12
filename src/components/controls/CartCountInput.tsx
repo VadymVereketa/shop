@@ -46,7 +46,7 @@ const CartCountItem = React.memo(({item}: ICartCountItemProps) => {
       isWeightUnit={item.alternativeCount !== null ? false : isWeight}
       onChange={onChange}
       value={count}
-      style={{maxWidth: '50%'}}
+      style={{maxWidth: '100%'}}
     />
   );
 });

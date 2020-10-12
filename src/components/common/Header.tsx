@@ -120,7 +120,12 @@ const Header = React.memo(
             onPress={handleBack}
           />
         ) : (
-          <Logo resizeMode={'cover'} width={sizes[38]} height={sizes[12]} />
+          <View style={{flexDirection: 'row'}}>
+            <Logo resizeMode={'cover'} width={sizes[38]} height={sizes[12]} />
+            <MyText style={{paddingLeft: sizes[8], fontSize: sizes[10]}}>
+              Тестова версія
+            </MyText>
+          </View>
         )}
         <IconButton
           style={{

@@ -26,6 +26,7 @@ import {useFormattingContext} from '../../../context/FormattingContext';
 import {actionsOrder} from '../../../redux/order/orderReducer';
 import AddressBlock from '../../common/AddressBlock';
 import CreditCardBlock from '../../common/CreditCardBlock';
+import BetaTest from '../../common/BetaTest';
 
 const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
   const dispatch = useDispatch();

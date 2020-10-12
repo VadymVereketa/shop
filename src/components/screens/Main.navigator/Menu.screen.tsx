@@ -12,6 +12,7 @@ import DesignIcon from '../../common/DesignIcon';
 import {getSellPoints} from '../../../redux/sellPoints/sellPointsReducer';
 import {selectorsOther} from '../../../redux/other/otherReducer';
 import t from '../../../utils/translate';
+import BetaTest from '../../common/BetaTest';
 
 const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
   const phone = useSelector(selectorsOther.getPhone);
@@ -27,6 +28,7 @@ const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
     <SafeAreaView style={[styles.container]}>
       {isAuth ? (
         <ScrollView>
+          <BetaTest />
           <View style={[styles.infoBlock, {backgroundColor: lightBackground}]}>
             <View>
               <MyText style={{fontSize: sizes[7]}}>{t('profileCall')}</MyText>
@@ -76,7 +78,6 @@ const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
             isBorder>
             {t('profileSettings')}
           </PressTitle>
-
           <View style={[styles.locations, {borderBottomColor: border}]}>
             <MyText>{t('profileLocations')}</MyText>
           </View>
@@ -103,6 +104,7 @@ const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
         <React.Fragment>
           <MyText style={[styles.text]}> {t('profileTitle')}</MyText>
           <View style={{height: 1, backgroundColor: border}} />
+          <BetaTest />
           <PressTitle
             onPress={() => {
               navigation.navigate('AuthNavigator', {screen: 'Login'});
