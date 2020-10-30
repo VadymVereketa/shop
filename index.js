@@ -34,16 +34,19 @@ store.store.dispatch(thunkGetTags);
 store.store.dispatch(fetchGetAllSettings);
 store.store.dispatch(thunkGetSellPoints);
 
-const handleAppStateChange = async (nextAppState) => {
+const handleAppStateChange = (nextAppState) => {
   if (nextAppState === 'background' || nextAppState === 'inactive') {
     const items = store.store.getState().cart.data;
+    const isAuth = store.store.getState().user.isAuth;
     const id = store.store.getState().other.settings[DEFAULT_NAME_SETTING].default_price_sell_point;
 
+    if(!isAuth) return ;
+
     if(items.length > 0) {
-      await service.saveCart(items, id);
+      service.saveCart(items, id);
     }
     else {
-      await service.deleteCart();
+      service.deleteCart();
     }
   }
 };

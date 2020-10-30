@@ -23,22 +23,22 @@ class PortmoneCardViewController: UIViewController {
     private let defaultPaymentType: PaymentType = .payment
     private let paymentFlowType: PaymentFlowType = .byCardAndApplePay
     private let billAmountWcvv: Double = 8000
-    
+
     private var lang: String?
     private var paymentPresenter: PaymentPresenter?
     private var cardStyle: PortmoneCardStyle?
     private var resolver: PortmoneCardResolver?
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
+
         self.cardStyle = PortmoneCardStyle.init()
     }
-    
+
     public func invokePortmoneSdk(lang: String?) {
         self.paymentPresenter = PaymentPresenter(
             delegate: self,
@@ -62,14 +62,14 @@ class PortmoneCardViewController: UIViewController {
             preAuth: preAuth,
             billNumber: billNumber
         )
-        
+
         self.paymentPresenter?.presentPaymentByCard(
             on: self,
             params: paymentParams,
             showReceiptScreen: false
         )
     }
-  
+
 
   //tokenCardPayment(String payeeId, String billNumber, Boolean preAuth, String cardMask, String token, int billAmount, String desc,
   public func tokenCardPayment(payeeId: String,
@@ -89,20 +89,20 @@ class PortmoneCardViewController: UIViewController {
           preAuth: preAuth,
           billNumber: billNumber
       )
-      
+
     let tokenParams = self.getTokenPaymentParams(cardMask: cardMask, token: token)
-    
+
     self.paymentPresenter?.presentPaymentByToken(on: self, payParams: paymentParams, tokenParams: tokenParams, showReceiptScreen: false)
   }
-  
+
      //initCardSaving(String payeeId, String billNumber, String desc
   public func initCardSaving(payeeId: String,billNumber: String, desc: String, competition: @escaping (_ result: FinishPaymentsData?, _ error: Error?) -> Void) {
         self.resolver = PortmoneCardResolver(resolver: competition)
         let savingParams = self.getCardSavingParams(payeeId: payeeId, billNumber: billNumber, desc: desc)
-        
+
         self.paymentPresenter?.presentPreauthCard(on: self, params: savingParams)
     }
-    
+
     private func getTypeUI(type: String) -> PaymentType {
         return defaultPaymentType
     }
@@ -128,10 +128,11 @@ class PortmoneCardViewController: UIViewController {
             billAmount: billAmount,
             payeeId: payeeId,
             type: self.getTypeUI(type: ""),
-            paymentFlowType: paymentFlowType
+            paymentFlowType: paymentFlowType,
+
         )
     }
-  
+
   private func getTokenPaymentParams(
       cardMask: String,
       token: String
@@ -140,7 +141,7 @@ class PortmoneCardViewController: UIViewController {
          cardNumberMasked: cardMask, tokenData: token
       )
   }
-  
+
     private func getCardSavingParams(
         payeeId: String,
         billNumber: String,
@@ -152,7 +153,7 @@ class PortmoneCardViewController: UIViewController {
             billNumber: billNumber
         )
     }
-    
+
     private func dismissView() -> Void {
         self.dismiss(
             animated: true,
@@ -167,19 +168,19 @@ extension PortmoneCardViewController: PortmonePaymentPresenterDelegate {
             self.resolver?.onPaymentFinish(nil, error)
             self.resolver = nil
         }
-        
+
         if bill != nil {
             let token = bill?.token ?? ""
             let cardMask = bill?.cardMask ?? ""
             let billAmount = bill?.billAmount ?? 1
             let billId = bill?.billId ?? ""
-            
+
             let data = FinishPaymentsData(TOKEN: token, CARD_MASK: cardMask, SHOPBILLID: billId, BILL_AMOUNT: billAmount)
             self.resolver?.onPaymentFinish(data, nil)
             self.resolver = nil
         }
     }
-    
+
     func dismissedSDK() {
         let error = NSError(domain: "Result code: \(closeModalCode)", code: closeModalCode, userInfo: nil)
         self.resolver?.onPaymentFinish(nil, error)

@@ -13,7 +13,6 @@ const BetaTest = () => {
 
   return (
     <View style={{alignItems: 'center'}}>
-      <MyText style={{fontSize: sizes[10]}}>Тестова версія</MyText>
       <MyText style={{fontSize: sizes[10]}}>
         Пропозиції та зауваження за номером
       </MyText>

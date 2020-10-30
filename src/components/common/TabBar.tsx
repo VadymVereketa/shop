@@ -91,11 +91,13 @@ const styles = StyleSheet.create({
   cartCon: {
     alignItems: 'center',
     justifyContent: 'center',
+    minWidth: sizes[30],
+    flexGrow: 1,
   },
   btn: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: sizes[32],
+    flexGrow: 1,
   },
   textBtn: {
     fontSize: sizes[6],

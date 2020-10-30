@@ -34,8 +34,8 @@
 		A21DD6AE2510FA5E008B556E /* PortmoneCardModule.m in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A82510FA5E008B556E /* PortmoneCardModule.m */; };
 		A21DD6AF2510FA5E008B556E /* PortmoneCardModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21DD6A92510FA5E008B556E /* PortmoneCardModule.swift */; };
 		A228C0A4252755A100717B34 /* libReact-RCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A228C0A3252755A100717B34 /* libReact-RCTLinking.a */; };
-		A25696432531DE5800481D1B /* PortmoneSDKEcom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A25696412531DE5000481D1B /* PortmoneSDKEcom.framework */; };
-		A25696442531DE5800481D1B /* PortmoneSDKEcom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A25696412531DE5000481D1B /* PortmoneSDKEcom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A24C457B2542C62600A0C85C /* PortmoneSDKEcom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A25696412531DE5000481D1B /* PortmoneSDKEcom.framework */; };
+		A24C457C2542C62600A0C85C /* PortmoneSDKEcom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A25696412531DE5000481D1B /* PortmoneSDKEcom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AA1E7DFE7AD34177A12EA43E /* FuturaPT-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88CB0477E4674C9EA6F67EEE /* FuturaPT-Light.ttf */; };
 		C565181994BD45BBA22FE813 /* FuturaPT-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F18BD4CEAB64568B2CB9491 /* FuturaPT-Demi.ttf */; };
 		C60B1860491342B19F60F0B2 /* FuturaPT-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 81D905DC6BFC4D4E8F45A253 /* FuturaPT-Book.ttf */; };
@@ -61,13 +61,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		A2CA2D9E2524AB7200DB9D36 /* Embed Frameworks */ = {
+		A24C457D2542C62600A0C85C /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				A25696442531DE5800481D1B /* PortmoneSDKEcom.framework in Embed Frameworks */,
+				A24C457C2542C62600A0C85C /* PortmoneSDKEcom.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,7 +141,7 @@
 			files = (
 				A228C0A4252755A100717B34 /* libReact-RCTLinking.a in Frameworks */,
 				5391E7AA5FE94F00C47DDB88 /* libPods-egersund_mobile_app.a in Frameworks */,
-				A25696432531DE5800481D1B /* PortmoneSDKEcom.framework in Frameworks */,
+				A24C457B2542C62600A0C85C /* PortmoneSDKEcom.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,7 +321,7 @@
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				991312440490F4ED1BCC1A27 /* [CP] Copy Pods Resources */,
 				A2E74ED9251CCE270017C84A /* ShellScript */,
-				A2CA2D9E2524AB7200DB9D36 /* Embed Frameworks */,
+				A24C457D2542C62600A0C85C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -384,7 +384,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 5N3WF8LBBU;
+						DevelopmentTeam = E2J8W9HEEC;
 						LastSwiftMigration = 1160;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
@@ -784,8 +784,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = egersund_mobile_app/egersund_mobile_app.entitlements;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 5N3WF8LBBU;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = E2J8W9HEEC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -835,12 +835,12 @@
 				INFOPLIST_FILE = egersund_mobile_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.0.11;
+				MARKETING_VERSION = 0.0.16;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.huspi.egersund2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.huspi.egersund;
 				PRODUCT_NAME = egersund_mobile_app;
 				SWIFT_OBJC_BRIDGING_HEADER = "egersund_mobile_app-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -857,8 +857,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = egersund_mobile_app/egersund_mobile_app.entitlements;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = 5N3WF8LBBU;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = E2J8W9HEEC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -907,12 +907,12 @@
 				INFOPLIST_FILE = egersund_mobile_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.0.11;
+				MARKETING_VERSION = 0.0.16;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.huspi.egersund2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.huspi.egersund;
 				PRODUCT_NAME = egersund_mobile_app;
 				SWIFT_OBJC_BRIDGING_HEADER = "egersund_mobile_app-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

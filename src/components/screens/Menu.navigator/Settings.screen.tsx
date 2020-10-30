@@ -34,12 +34,12 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           onPress={() => navigation.push('ChangePassword', {})}>
           {t('btnChangePassword')}
         </PressTitle>
-        <PressTitle
+        {/* <PressTitle
           style={[styles.itemMenu, {backgroundColor: lightBackground}]}
           styleText={{color: lightText}}
           isBorder>
           {t('btnTextComment')}
-        </PressTitle>
+        </PressTitle>*/}
         <View style={[styles.text, {borderBottomColor: border}]}>
           <MyText style={{paddingLeft: sizes[6]}}>{t('commonLanguage')}</MyText>
         </View>
@@ -54,7 +54,7 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           }}>
           {t('commonUA')}
         </PressTitle>
-        <PressTitle
+        {/* <PressTitle
           style={[styles.itemMenu]}
           onPress={() => setLocale('en')}
           isBorder
@@ -64,7 +64,7 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
             fill: currentLocale === 'en' ? primary : background,
           }}>
           {t('commonEN')}
-        </PressTitle>
+        </PressTitle>*/}
 
         <View style={[styles.text, {borderBottomColor: border}]}>
           <MyText style={{paddingLeft: sizes[6]}}>{t('commonTheme')}</MyText>

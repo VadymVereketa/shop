@@ -33,6 +33,7 @@ export const useCreateOrder = () => {
   const totalPrice = sum + deliveryPrice;
 
   const createOrder = async () => {
+    console.log('---------------start createOrder------------------');
     const address = formatAddress(
       addresses.find((a) => a.id === data.addressId)!,
     );
@@ -44,7 +45,9 @@ export const useCreateOrder = () => {
     );
     data.address = address;
     try {
+      console.log(data);
       const res = await service.createOrder(draftId!, data);
+      console.log(res);
       if (res.success) {
         dispatch(
           actionsOther.setData({
@@ -54,55 +57,73 @@ export const useCreateOrder = () => {
       }
       return res.success;
     } catch (e) {
+      console.log({e});
       return false;
+    } finally {
+      console.log('---------------end createOrder------------------');
     }
   };
 
   const handlePay = async () => {
-    let res: any = null;
+    try {
+      console.log('---------------start handlePay------------------');
+      let res: any = null;
 
-    const billAmount = isWeightProducts
-      ? totalPrice + totalPrice * (increasePercentage / 100)
-      : totalPrice;
-    if (id === -1) {
-      res = await portmone.initCardPayment({
-        billAmount,
-        phoneNumber: user.phone,
-        preAuth: true,
-        billNumber: draftId!.toString(),
-        lang: currentLocale,
-        theme,
-      });
-    } else {
-      res = await portmone.tokenCardPayment({
-        billAmount,
-        preAuth: true,
-        billNumber: draftId!.toString(),
-        desc: card.description,
-        token: card.token,
-        cardMask: card.number,
-        lang: currentLocale,
-        theme,
-      });
-    }
-    if (res.result === 'success') {
-      const result = await service.preAuthPayment({
-        ...res,
-        SHOPORDERNUMBER: draftId,
-      });
-      console.log(result);
-      if (!result.success) {
-        Toast.show('Помилка при оплатi');
+      const billAmount = isWeightProducts
+        ? totalPrice + totalPrice * (increasePercentage / 100)
+        : totalPrice;
+      if (id === -1) {
+        res = await portmone.initCardPayment({
+          billAmount,
+          phoneNumber: user.phone,
+          preAuth: true,
+          billNumber: draftId!.toString(),
+          lang: currentLocale,
+          theme,
+        });
+      } else {
+        res = await portmone.tokenCardPayment({
+          billAmount,
+          preAuth: true,
+          billNumber: draftId!.toString(),
+          desc: card.description,
+          token: card.token,
+          cardMask: card.number,
+          lang: currentLocale,
+          theme,
+        });
       }
+      console.log(res);
+      if (res.result === 'success') {
+        console.log('---------------start preAuthPayment------------------');
+        const result = await service.preAuthPayment({
+          ...res,
+          SHOPORDERNUMBER: draftId,
+        });
+        console.log(result);
+        console.log('---------------start preAuthPayment------------------');
+        if (!result.success) {
+          Toast.show('Помилка при оплатi');
+        }
 
-      return result.success;
+        return result.success;
+      }
+      return false;
+    } catch (e) {
+      console.log({e});
+      return false;
+    } finally {
+      console.log('---------------end handlePay------------------');
     }
-    return false;
   };
 
   const submit = async () => {
+    console.log('\n\n\n---------------=START=------------------');
     setLoading(true);
+    console.log('---------------start saveCart------------------');
     const cart = await service.saveCart(products, idSellPoint!);
+    console.log(cart);
+    console.log('---------------end saveCart------------------');
     if (cart.success) {
       let isPay = true;
       if (paymentType === TypePayment.online) {
@@ -116,10 +137,12 @@ export const useCreateOrder = () => {
           Toast.show('Помилка при створенні замовлення');
         }
         setLoading(false);
+        console.log('\n\n\n---------------end------------------');
         return res;
       }
     }
     setLoading(false);
+    console.log('\n\n\n---------------=END=------------------');
     return false;
   };
 

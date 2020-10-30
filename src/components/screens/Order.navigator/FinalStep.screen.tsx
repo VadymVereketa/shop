@@ -85,7 +85,7 @@ const FinalStepScreen = React.memo(
               <CartItem
                 item={p}
                 key={p.product.id}
-                defaultSellPoint={idSellPoint}
+                defaultSellPoint={snapShot.idSellPoint}
                 isEdit={false}
               />
             );

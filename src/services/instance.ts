@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from '../config';
 import {getLocale, getToken, logOut} from '../../index';
+import service from './service';
 
 const instance = axios.create({
   baseURL: config.baseURL,

@@ -59,7 +59,6 @@ const selectorsOther = {
   getLocale: (state: RootState) => state.other.locale,
   isSettings: (state: RootState) => state.other.settings === null,
   getSetting: (id: string | number) => (state: RootState) => {
-    console.log(id);
     if (!state.other.settings) {
       return {
         step: 30,

@@ -235,6 +235,7 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
           );
         },
         headerTitleStyle: styles.title,
+        headerTitleAlign: 'center',
       }}>
       <Stack.Screen
         name="FirstStep"
