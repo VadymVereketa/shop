@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import {
   AddressNavigatorScreenProps,
   StartNavigatorParamList,
@@ -16,12 +13,15 @@ import CityScreen from '../screens/Address.navigator/City.screen';
 import StreetScreen from '../screens/Address.navigator/Street.screen';
 import t from '../../utils/translate';
 import {IOption} from '../../useHooks/useAvailableDate';
+import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
+import {IAddress} from '../../typings/FetchData';
 
 export type AddressNavigatorParamList = {
   Address: {
     city?: any;
     street?: IOption<number>;
     build?: IOption<number, IExtra>;
+    address?: IAddress;
   };
   Build: {
     street: IOption<number>;

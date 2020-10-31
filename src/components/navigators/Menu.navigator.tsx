@@ -30,6 +30,7 @@ import {View} from 'react-native';
 import MyText from '../controls/MyText';
 import {getFontFamily} from '../../utils/getFontFamily';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import BarCodeScreen from '../screens/Menu.navigator/BarCode.screen';
 
 export type MenuNavigatorParamList = {
   Certificate: {};
@@ -49,6 +50,9 @@ export type MenuNavigatorParamList = {
   };
   EditProfile: {
     field: 'phone' | 'email' | 'name';
+  };
+  BarCode: {
+    orderNumber: number;
   };
 };
 
@@ -193,6 +197,19 @@ export type EditProfileScreenProps = {
   navigation: EditProfileScreenNavigationProp;
 };
 /// EditProfile props
+
+/// BarCode props
+export type BarCodeScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<MenuNavigatorParamList, 'BarCode'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type BarCodeScreenRouteProp = RouteProp<MenuNavigatorParamList, 'BarCode'>;
+
+export type BarCodeScreenProps = {
+  route: BarCodeScreenRouteProp;
+  navigation: BarCodeScreenNavigationProp;
+};
+/// BarCode props
 
 const Stack = createStackNavigator<MenuNavigatorParamList>();
 
@@ -354,6 +371,13 @@ const MenuNavigator = React.memo(
           options={{
             title: t('profileEditProfile'),
           }}
+        />
+        <Stack.Screen
+          name="BarCode"
+          component={BarCodeScreen}
+          options={({route}) => ({
+            title: `№ ${(route.params.orderNumber + '').padStart(9, '0')}`,
+          })}
         />
       </Stack.Navigator>
     );

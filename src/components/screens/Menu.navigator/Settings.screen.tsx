@@ -34,12 +34,12 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           onPress={() => navigation.push('ChangePassword', {})}>
           {t('btnChangePassword')}
         </PressTitle>
-        <PressTitle
+        {/* <PressTitle
           style={[styles.itemMenu, {backgroundColor: lightBackground}]}
           styleText={{color: lightText}}
           isBorder>
           {t('btnTextComment')}
-        </PressTitle>
+        </PressTitle>*/}
         <View style={[styles.text, {borderBottomColor: border}]}>
           <MyText style={{paddingLeft: sizes[6]}}>{t('commonLanguage')}</MyText>
         </View>
@@ -54,10 +54,9 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           }}>
           {t('commonUA')}
         </PressTitle>
-        <PressTitle
-          style={[styles.itemMenu, {backgroundColor: lightBackground}]}
+        {/* <PressTitle
+          style={[styles.itemMenu]}
           onPress={() => setLocale('en')}
-          styleText={{color: lightText}}
           isBorder
           afterIcon={{
             name: 'check-mark',
@@ -65,7 +64,7 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
             fill: currentLocale === 'en' ? primary : background,
           }}>
           {t('commonEN')}
-        </PressTitle>
+        </PressTitle>*/}
 
         <View style={[styles.text, {borderBottomColor: border}]}>
           <MyText style={{paddingLeft: sizes[6]}}>{t('commonTheme')}</MyText>
@@ -83,7 +82,7 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           </MyText>
           <Switch
             trackColor={{false: primary, true: primary}}
-            thumbColor={'white'}
+            thumbColor={background}
             ios_backgroundColor={primary}
             onValueChange={handelChangeTheme}
             value={theme === 'light'}

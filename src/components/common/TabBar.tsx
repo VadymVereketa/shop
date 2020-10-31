@@ -41,6 +41,7 @@ const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
           }
           return (
             <MyButton
+              key={r.key}
               onPress={() => props.navigation.navigate(r.name)}
               ultraWidth={false}
               styleText={styles.cart}
@@ -53,6 +54,7 @@ const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
           const Icon: any = description.tabBarIcon;
           return (
             <TouchableOpacity
+              key={r.key}
               onPress={() => props.navigation.navigate(r.name)}
               style={styles.btn}
               containerStyle={styles.btn}>
@@ -87,7 +89,10 @@ const styles = StyleSheet.create({
     textTransform: 'lowercase',
   },
   cartCon: {
-    flexGrow: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minWidth: sizes[30],
+    flexGrow: 1,
   },
   btn: {
     alignItems: 'center',

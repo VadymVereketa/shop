@@ -165,7 +165,9 @@ const ViewProductItem = React.memo(
           </View>
           <View style={styles.viewPrice}>
             {isEdit ? (
-              <CartCountItem item={item!} />
+              <View style={{width: '50%'}}>
+                <CartCountItem item={item!} />
+              </View>
             ) : (
               <MyText style={{fontFamily: getFontFamily('500')}}>
                 {formatUnit(count, units)}

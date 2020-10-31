@@ -4,7 +4,11 @@ import {ProfileScreenProps} from '../../navigators/Menu.navigator';
 import {useDispatch, useSelector} from 'react-redux';
 import {actionsUser, selectorsUser} from '../../../redux/user/userReducer';
 import {getFontFamily} from '../../../utils/getFontFamily';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 import MyText from '../../controls/MyText';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import PressTitle from '../../controls/PressTitle';
@@ -20,6 +24,9 @@ import CreditCard from '../../common/CreditCard';
 import Toast from 'react-native-simple-toast';
 import {useFormattingContext} from '../../../context/FormattingContext';
 import {actionsOrder} from '../../../redux/order/orderReducer';
+import AddressBlock from '../../common/AddressBlock';
+import CreditCardBlock from '../../common/CreditCardBlock';
+import BetaTest from '../../common/BetaTest';
 
 const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
   const dispatch = useDispatch();
@@ -144,7 +151,7 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
             )}
           </React.Fragment>
         ) : (
-          <View>
+          <React.Fragment>
             {contacts.map((c) => (
               <ContactBlock key={c.id} contact={c} />
             ))}
@@ -153,20 +160,14 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
               onPress={() => navigation.push('Contact', {})}>
               {t('btnTextAddContact')}
             </MyText>
-          </View>
+          </React.Fragment>
         )}
         {addresses.length > 0 && (
           <React.Fragment>
             <MyText style={[styles.text]}>{t('commonAddresses')}</MyText>
-            <View style={[styles.box, {borderColor: border}]}>
-              {addresses.map((a) => {
-                return (
-                  <MyText style={styles.address} numberOfLines={1}>
-                    {formatAddress(a)}
-                  </MyText>
-                );
-              })}
-            </View>
+            {addresses.map((a) => {
+              return <AddressBlock address={a} key={a.id} />;
+            })}
           </React.Fragment>
         )}
         <MyText
@@ -189,16 +190,12 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
           {t('profileLoyaltyCard')}
         </PressTitle>*/}
         {cards.length > 0 && (
-          <View>
+          <React.Fragment>
             <MyText style={styles.text}>{t('commonCards')}</MyText>
             {cards.map((c) => (
-              <CreditCard
-                card={c}
-                isActive={false}
-                style={{marginBottom: sizes[5]}}
-              />
+              <CreditCardBlock card={c} />
             ))}
-          </View>
+          </React.Fragment>
         )}
         <MyText
           style={[styles.textCard, {color: primary}]}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, Linking} from 'react-native';
 import MyText from '../../controls/MyText';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import PressTitle from '../../controls/PressTitle';
@@ -12,6 +12,7 @@ import DesignIcon from '../../common/DesignIcon';
 import {getSellPoints} from '../../../redux/sellPoints/sellPointsReducer';
 import {selectorsOther} from '../../../redux/other/otherReducer';
 import t from '../../../utils/translate';
+import BetaTest from '../../common/BetaTest';
 
 const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
   const phone = useSelector(selectorsOther.getPhone);
@@ -19,10 +20,15 @@ const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
   const {border, lightBackground, primary} = useTheme();
   const sellPoints = useSelector(getSellPoints(false));
 
+  const handlePhone = () => {
+    Linking.openURL(`tel:${phone}`);
+  };
+
   return (
     <SafeAreaView style={[styles.container]}>
       {isAuth ? (
         <ScrollView>
+          <BetaTest />
           <View style={[styles.infoBlock, {backgroundColor: lightBackground}]}>
             <View>
               <MyText style={{fontSize: sizes[7]}}>{t('profileCall')}</MyText>
@@ -33,7 +39,9 @@ const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
             </View>
             <View style={styles.phoneBlock}>
               <DesignIcon name={'phone'} size={sizes[8]} fill={primary} />
-              <MyText style={styles.phone}>{phone}</MyText>
+              <MyText style={styles.phone} onPress={handlePhone}>
+                {phone}
+              </MyText>
             </View>
           </View>
           <PressTitle
@@ -70,7 +78,6 @@ const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
             isBorder>
             {t('profileSettings')}
           </PressTitle>
-
           <View style={[styles.locations, {borderBottomColor: border}]}>
             <MyText>{t('profileLocations')}</MyText>
           </View>
@@ -97,6 +104,7 @@ const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
         <React.Fragment>
           <MyText style={[styles.text]}> {t('profileTitle')}</MyText>
           <View style={{height: 1, backgroundColor: border}} />
+          <BetaTest />
           <PressTitle
             onPress={() => {
               navigation.navigate('AuthNavigator', {screen: 'Login'});

@@ -1,8 +1,5 @@
 import React, {useEffect} from 'react';
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import {StackScreenProps} from '@react-navigation/stack/src/types';
 import ProductScreen from '../screens/Secondary.navigator/Product.screen';
 import {
@@ -27,7 +24,6 @@ import OrderContactScreen from '../screens/Order.navigator/OrderContact.screen';
 import OrderAddressScreen from '../screens/Order.navigator/OrderAddress.screen';
 import RepeatOrderScreen from '../screens/Order.navigator/RepeatOrder.screen';
 import DeliveryScreen from '../screens/Order.navigator/Delivery.screen';
-import {thunkGetTypes} from '../../redux/types/typeReducer';
 import {useDispatch, useSelector} from 'react-redux';
 import PaymentScreen from '../screens/Order.navigator/Payment.screen';
 import service from '../../services/service';
@@ -35,6 +31,7 @@ import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
 import {actionsCart} from '../../redux/cart/cartReducer';
 import {actionsOrder} from '../../redux/order/orderReducer';
 import t from '../../utils/translate';
+import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
 
 export type OrderNavigatorParamList = {
   FirstStep: {};
@@ -219,7 +216,7 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
     <Stack.Navigator
       initialRouteName={'FirstStep'}
       screenOptions={{
-        title: 'Оформлення замовлення',
+        title: t('orderTitleOrder'),
         headerTruncatedBackTitle: '',
         headerBackTitle: '',
         headerLeft: (props) => {
@@ -238,6 +235,7 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
           );
         },
         headerTitleStyle: styles.title,
+        headerTitleAlign: 'center',
       }}>
       <Stack.Screen
         name="FirstStep"

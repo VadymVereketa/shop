@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
   view: {
     borderWidth: 1,
     paddingHorizontal: sizes[6],
-    height: sizes[30],
     flexDirection: 'row',
     alignItems: 'center',
   },

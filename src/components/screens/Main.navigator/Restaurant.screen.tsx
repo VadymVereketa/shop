@@ -30,7 +30,7 @@ const RestaurantScreen = React.memo(
     const categories = route.params.categories;
     const [idCategory, setIdCategory] = useState(-1);
     const [isShow, setIsShow] = useState(false);
-    const [skip, setSkip] = useState(-1);
+    const [skip, setSkip] = useState(0);
     const [countItems, setCountItems] = useState(0);
     const isGlobalSearch = useSelector(selectorsOther.getIsGlobalSearch);
     const [search, setSearch] = useState('');
@@ -38,6 +38,7 @@ const RestaurantScreen = React.memo(
     const {isLoading, request} = useAxios(service.getProducts);
 
     useEffect(() => {
+      SplashScreen.hide();
       setProducts([]);
       setSearch('');
       dispatch(
@@ -46,7 +47,6 @@ const RestaurantScreen = React.memo(
         }),
       );
       dispatch(thunkGetTypes);
-      SplashScreen.hide();
     }, []);
 
     useEffect(() => {

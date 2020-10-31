@@ -28,6 +28,8 @@ import {actionsOrder} from '../../redux/order/orderReducer';
 import {TypeDelivery} from '../../constants/constantsId';
 import {useRepeatOrder} from '../../useHooks/useRepeatOrder';
 import t from '../../utils/translate';
+import DesignIcon from './DesignIcon';
+import BarCode from './BarCode';
 
 interface IOrderItemProps {
   order: IOrderItem;
@@ -77,9 +79,7 @@ const OrderItem = React.memo(({order}: IOrderItemProps) => {
         orderAddress={order.orderAddress}
         orderStatus={order.orderStatus}
       />
-      {/* <View style={[styles.qr, {borderColor: border}]}>
-        <MyText style={styles.textOrder}>Ваш личный QR-code</MyText>
-      </View>*/}
+      <BarCode order={order} />
       <View style={{flexDirection: 'row', marginTop: sizes[8]}}>
         <ScrollView
           horizontal={true}

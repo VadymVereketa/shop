@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, StyleSheet, Text, Alert, Platform, Keyboard} from 'react-native';
 import {AddressScreenProps} from '../../navigators/Address.navigator';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -40,6 +40,7 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
   const paramCity = params.city;
   const paramStreet = params.street;
   const paramBuild = params.build;
+  const paramAddress = params.address;
 
   const refTimer: any = useRef(-1);
   const [isShow, setIsShow] = useState(false);
@@ -49,8 +50,11 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
   const {control, handleSubmit, errors, setValue, clearErrors} = useForm({
     reValidateMode: 'onChange',
     mode: 'onChange',
+    defaultValues: paramAddress as any,
   });
-  const {request, isLoading} = useAxios(service.addAddress);
+  const {request, isLoading} = useAxios(
+    paramAddress ? service.updateAddress : service.addAddress,
+  );
   const isOtherAddress = city !== cities[0].value;
 
   const handlePressBuild = () => {
@@ -77,7 +81,7 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
     navigation.goBack();
   };
 
-  const handleOk = async (data: IAddressRedux) => {
+  const handleOk = async (data: IAddressRedux | any) => {
     if (isOtherAddress) {
       data.buildObj = null;
       data.streetObj = null;
@@ -97,6 +101,7 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
     data.entrance = data.entrance === '' ? null : data.entrance;
     data.floor = data.floor === '' ? null : data.floor;
     const fetchData = getConvertDataToFetch(data);
+    fetchData.id = paramAddress ? paramAddress.id : undefined;
     const res = await request(fetchData);
     console.log(data.buildObj);
     if (res.success) {
@@ -110,11 +115,55 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
             },
           }
         : null;
-
-      dispatch(actionsUser.addAddress(address));
+      paramAddress
+        ? dispatch(actionsUser.updateAddress(address))
+        : dispatch(actionsUser.addAddress(address));
       navigation.goBack();
     }
   };
+
+  useEffect(() => {
+    const handle = async () => {
+      try {
+        if (paramAddress) {
+          let res = await service.getStreets(paramAddress.street.trim());
+          if (res.success) {
+            const s = res.data.find(
+              (d) => d.name === paramAddress.street.trim(),
+            );
+            if (s) {
+              setStreet({label: s.name, value: s.id});
+              res = await service.getAddressesByStrees(s.id);
+              if (res.success) {
+                const b = res.data.find((d) => {
+                  return (
+                    d.buildNumber === paramAddress.buildNumber &&
+                    d.district.name === paramAddress.district
+                  );
+                });
+                setBuild({
+                  value: b.id,
+                  label: `${b.buildNumber} ${b.district.name}`,
+                  extra: {
+                    build: b.buildNumber,
+                    idDeliveryPrice: b.district.deliveryPrice.id,
+                    idDistrict: b.district.id,
+                    name: b.district.name,
+                  },
+                });
+                return;
+              }
+            }
+          }
+        } else {
+          return;
+        }
+      } catch (e) {}
+      setCity(cities[1].value);
+      setValue('district', paramAddress!.district);
+    };
+    handle();
+  }, [paramAddress]);
 
   useDidUpdateEffect(() => {}, [city]);
 
@@ -243,10 +292,10 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
                 textContentType={'none'}
                 value={value}
                 onChangeText={onChange}
-                error={getErrorByObj(errors, 'flat')}
+                error={getErrorByObj(errors, 'flatNumber')}
               />
             )}
-            name="flat"
+            name="flatNumber"
             rules={validation.onlyNumber}
             defaultValue={''}
           />

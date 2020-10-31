@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
   },
   card: {
     marginBottom: sizes[5],
+    height: sizes[30],
   },
 });
 

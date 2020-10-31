@@ -11,10 +11,11 @@ import {ScrollView} from 'react-native-gesture-handler';
 import CartItem from '../../common/CartItem';
 import {useFormattingContext} from '../../../context/FormattingContext';
 import MyButton from '../../controls/MyButton';
+import BetaTest from '../../common/BetaTest';
 
 const CartScreen = React.memo(({navigation}: any) => {
   const insets = useSafeAreaInsets();
-  const {border} = useTheme();
+  const {border, primary} = useTheme();
   const {formatPrice} = useFormattingContext();
   const items = useSelector(selectorsCart.getCartProducts);
   const sum = useSelector(selectorsCart.getGeneralSum);
@@ -37,6 +38,7 @@ const CartScreen = React.memo(({navigation}: any) => {
       ]}>
       <MyText style={[styles.text]}> {t('cartTitle')}</MyText>
       <View style={{height: 1, backgroundColor: border}} />
+      <BetaTest />
       {items.length > 0 ? (
         <React.Fragment>
           <ScrollView

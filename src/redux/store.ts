@@ -9,7 +9,7 @@ export default function configureStore() {
 
   const store = createStore(
     reducers,
-    false
+    true
       ? composeWithDevTools(applyMiddleware(...middlewares))
       : applyMiddleware(...middlewares),
   );

@@ -56,6 +56,7 @@ const MyTextInput = React.memo(
     viewOnTouch,
     afterIcon,
     onClear,
+    placeholder,
     ...props
   }: IMyTextInput) => {
     const animError = useRef(new Animated.Value(-sizes[10])).current;
@@ -148,6 +149,11 @@ const MyTextInput = React.memo(
             onChangeText={onChangeText}
             onFocus={handleFocus}
             onBlur={handleBlur}
+            placeholder={
+              props.textContentType === 'telephoneNumber'
+                ? '38 050 000 00 01'
+                : placeholder
+            }
             {...props}
           />
           {(isClear || afterIcon) && (
