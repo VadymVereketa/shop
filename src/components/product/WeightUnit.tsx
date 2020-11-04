@@ -188,6 +188,9 @@ const WeightUnit = React.memo(
       setIsAlternativeCount((a) => !a);
     };
 
+    const quantityPrice = alternativeCount
+      ? +price * weight * +avgWeight!
+      : price * weight;
     return (
       <View style={styles.con}>
         {isAvgWeight && (
@@ -218,7 +221,7 @@ const WeightUnit = React.memo(
           </View>
         )}
         <View style={styles.viewCount}>
-          <MyText style={[styles.price]}>{formatPrice(+price * weight)}</MyText>
+          <MyText style={[styles.price]}>{formatPrice(quantityPrice)}</MyText>
           <CountInput
             isEditable={true}
             isWeightUnit={!isAlternativeCount}
@@ -348,7 +351,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: sizes[15],
-    fontFamily: getFontFamily('500'),
+    fontFamily: getFontFamily('400'),
   },
   conSlider: {
     marginBottom: sizes[1],

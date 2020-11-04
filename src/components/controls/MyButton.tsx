@@ -59,7 +59,7 @@ const MyButton = React.memo(
         borderColor = primary;
         color = primary;
       } else {
-        borderColor = text;
+        borderColor = border;
         color = text;
       }
       bg = background;

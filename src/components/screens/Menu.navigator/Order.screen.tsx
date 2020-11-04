@@ -140,7 +140,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
                 {item.orderAddress || formatAddress(item.address)}
               </MyText>
             ) : (
-              <View style={{flexDirection: 'row'}}>
+              <View>
                 <MyText style={styles.title}>{item.sellPoint.name}</MyText>
                 <MyText style={styles.text}>{item.sellPoint.address}</MyText>
               </View>

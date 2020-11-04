@@ -131,7 +131,7 @@ const Header = React.memo(
           onPress={() => setIsShow(true)}
           icon={{
             name: 'search',
-            size: sizes[12],
+            size: sizes[10],
             fill: text,
           }}
         />

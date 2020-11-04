@@ -29,9 +29,10 @@ import PaymentScreen from '../screens/Order.navigator/Payment.screen';
 import service from '../../services/service';
 import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
 import {actionsCart} from '../../redux/cart/cartReducer';
-import {actionsOrder} from '../../redux/order/orderReducer';
+import {actionsOrder, selectorsOrder} from '../../redux/order/orderReducer';
 import t from '../../utils/translate';
 import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
+import {TypeDelivery} from '../../constants/constantsId';
 
 export type OrderNavigatorParamList = {
   FirstStep: {};
@@ -187,6 +188,7 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
   const dispatch = useDispatch();
   const draftId = useSelector(selectorsOther.getDraftId);
   const defaultSellPoint = useSelector(selectorsOther.getIdSellPoint);
+  const deliveryType = useSelector(selectorsOrder.getDeliveryType);
   const {text} = useTheme();
 
   useEffect(() => {
@@ -212,6 +214,10 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
     };
   }, []);
 
+  const titleDate =
+    deliveryType && deliveryType.code === TypeDelivery.courier
+      ? t('orderTitleDate')
+      : t('commonDateTime');
   return (
     <Stack.Navigator
       initialRouteName={'FirstStep'}
@@ -275,7 +281,7 @@ const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
         name="Date"
         component={DateScreen}
         options={{
-          title: t('orderTitleDate'),
+          title: titleDate,
         }}
       />
       <Stack.Screen

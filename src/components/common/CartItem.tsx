@@ -36,8 +36,11 @@ const CartItem = React.memo(
       item.product,
       defaultSellPoint || idSellPoint,
     );
+    const count = item.alternativeCount ? item.alternativeCount : +item.count;
     const price = +item.product.productOptions[index].price;
-    const quantityPrice = price * +item.count;
+    const quantityPrice = item.alternativeCount
+      ? price * count * +item.product.avgWeight!
+      : price * +count;
     const imgId =
       item.product.productImages.length > 0
         ? item.product.productImages[0].uuid
@@ -145,7 +148,7 @@ const ViewProductItem = React.memo(
             onPress={removeItem}
             icon={{
               name: 'close',
-              size: sizes[10],
+              size: sizes[7],
               fill: text,
             }}
             style={[styles.iconRemove, {borderColor: border}]}
@@ -233,7 +236,7 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     flex: 0,
     marginRight: sizes[8],
-    padding: sizes[5],
+    padding: sizes[6],
   },
   title: {
     fontSize: sizes[9],

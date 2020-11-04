@@ -15,9 +15,8 @@ const getOptions = ({from, offset, step, to}: ISetting, isRange = false) => {
   let nowH = now.getHours();
   let nowM = now.getMinutes();
 
-  const a = nowM % 10;
-  nowM = nowM + (a === 0 ? 0 : 10 - a);
-
+  const a = nowM % step;
+  nowM = nowM + (a === 0 ? 0 : step - a);
   const minFrom = numberTime(fromH, fromM);
   const maxTo = numberTime(toH, toM);
   const timeNow = numberTime(nowH, nowM);
@@ -57,7 +56,7 @@ const getPartOptions = (
   isRange,
 ) => {
   const res: IOptionDate[] = [];
-  for (let i = start; i <= end; i += step) {
+  for (let i = start; i < end; i += step) {
     const time = isRange ? `${strTime(i)} - ${strTime(i + step)}` : strTime(i);
 
     res.push({

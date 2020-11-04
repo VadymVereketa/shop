@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: sizes[15],
-    fontFamily: getFontFamily('500'),
+    fontFamily: getFontFamily('400'),
   },
   ingredients: {
     fontSize: sizes[9],

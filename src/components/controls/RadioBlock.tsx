@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: sizes[9],
-    fontFamily: getFontFamily('500'),
+    fontFamily: getFontFamily('400'),
   },
   textBlock: {},
   bigCircle: {

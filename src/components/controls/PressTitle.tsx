@@ -37,7 +37,7 @@ const PressTitle = React.memo(
     children,
     afterIcon,
   }: IPressTitleProps) => {
-    const rotate = useRef(new Animated.Value(90)).current;
+    const rotate = useRef(new Animated.Value(-90)).current;
     const [isRotate, setIsRotate] = useState(false);
     const {text, border, background} = useTheme();
 
@@ -52,7 +52,7 @@ const PressTitle = React.memo(
 
     useDidUpdateEffect(() => {
       timing(rotate, {
-        toValue: isRotate ? -90 : 90,
+        toValue: isRotate ? 90 : -90,
         duration: 200,
         easing: Easing.linear,
       }).start();

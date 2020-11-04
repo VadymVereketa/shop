@@ -34,6 +34,9 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
   const isAuth = useSelector(selectorsUser.isAuth);
   const initValue = useSelector(selectorsCart.getCountProduct(product.id)) || 1;
   const productCart = useSelector(selectorsCart.getCartProduct(product.id));
+  const alternativeCount = useSelector(
+    selectorsCart.getAlternativeCountProduct(product.id),
+  );
   const {background, text, lightBackground, theme} = useTheme();
   const {formatPrice} = useFormattingContext();
   const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
@@ -73,6 +76,10 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
     }
   };
 
+  const Price =
+    alternativeCount === null
+      ? formatPrice(+price * initValue)
+      : formatPrice(+price * initValue * +product.avgWeight!);
   return (
     <View
       style={[
@@ -95,11 +102,20 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
         ]}>
         <MyText style={styles.title}>{product.title}</MyText>
         <View>
-          <MyText style={styles.price}>
-            {formatPrice(+price * initValue)}
-          </MyText>
+          <MyText style={styles.price}>{Price}</MyText>
           {productCart ? (
-            <CartCountItem item={productCart} />
+            theme === 'dark' ? (
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderColor: '#01A6E6',
+                  borderRadius: sizes[1],
+                }}>
+                <CartCountItem item={productCart} />
+              </View>
+            ) : (
+              <CartCountItem item={productCart} />
+            )
           ) : (
             <MyButton
               ultraWidth={true}

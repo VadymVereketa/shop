@@ -10,6 +10,7 @@ const ArrowRightIcon = require('../../assets/svg/ic-arrow-right.svg').default;
 const ArrowDownIcon = require('../../assets/svg/ic-arrow-drop.svg').default;
 const CheckIcon = require('../../assets/svg/ic-check-mark.svg').default;
 const CloseIcon = require('../../assets/svg/ic-close.svg').default;
+const Close2Icon = require('../../assets/svg/ic-close-copy-2.svg').default;
 const CopyIcon = require('../../assets/svg/ic-copy.svg').default;
 const FingerprintIcon = require('../../assets/svg/ic-fingerprint.svg').default;
 const LogOutIcon = require('../../assets/svg/ic-log-out.svg').default;
@@ -41,6 +42,7 @@ export type IName =
   | 'arrow-down'
   | 'check-mark'
   | 'close'
+  | 'close2'
   | 'copy'
   | 'fingerprint'
   | 'log-out'
@@ -85,6 +87,8 @@ const getIcon = (name: IName) => {
       return CheckIcon;
     case 'close':
       return CloseIcon;
+    case 'close2':
+      return Close2Icon;
     case 'copy':
       return CopyIcon;
     case 'fingerprint':

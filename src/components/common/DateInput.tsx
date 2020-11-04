@@ -67,7 +67,11 @@ const DateInput = ({navigate}: IDateInputProps) => {
 
   return (
     <View>
-      <MyText style={styles.text}>Дата та час доставки</MyText>
+      <MyText style={styles.text}>
+        {deliveryType.code === TypeDelivery.self
+          ? t('commonDateTime')
+          : t('orderTitleDate')}
+      </MyText>
       <MyTextInput
         editable={false}
         viewOnTouch={handlePressDate}

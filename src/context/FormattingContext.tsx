@@ -55,7 +55,7 @@ const formatDate = (
 ) => {
   const separator = locale === 'uk' ? '.' : '/';
   const day = d.getDate().toString().padStart(2, '0');
-  const month = d.getMonth().toString().padStart(2, '0');
+  const month = (d.getMonth() + 1).toString().padStart(2, '0');
   const year = d.getFullYear();
   let arr: any = locale === 'uk' ? [day, month] : [month, day];
   arr = isLongFormat ? [...arr, year] : arr;

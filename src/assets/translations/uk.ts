@@ -58,6 +58,7 @@ const uk = {
   commonNeedAuth: 'Щоб додати до кошика увійдіть',
   commonScanCode: 'Скануйте code і забирайте своє замовлення.',
   commonCode: 'Ваш особистий code',
+  commonDateTime: 'Дата та час',
 
   productInfo: 'Звертаємо Вашу увагу!',
   productDesc:
@@ -91,7 +92,7 @@ const uk = {
   cartSumOrder: 'Сума за замовлення',
   cartAddComment: 'Додати коментар',
   cartComment: 'Коментар',
-  cartSum: 'Сума:',
+  cartSum: 'Сума',
 
   loginWelcome1: 'Вітаємо в Egersund,',
   loginWelcome2: 'з поверненням!',

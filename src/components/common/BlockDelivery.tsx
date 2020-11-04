@@ -56,6 +56,7 @@ interface IBlockDeliveryProps {
 const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
   const dispatch = useDispatch();
   const navigation = useNavigation<SecondStepScreenNavigationProp>();
+  const defaultDeliveryPrice = useSelector(selectorsOther.getIdDeliveryPrice);
   const {border, primary} = useTheme();
   const sellPoints = useSelector(getSellPoints(false));
   const deliveryTypes = useSelector(selectorsTypes.getDeliveryTypes);
@@ -117,6 +118,22 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
           addressId: addresses[0].id,
         }),
       );
+
+      try {
+        const data = addresses[0];
+
+        dispatch(
+          actionsOrder.setData({
+            idDeliveryPrice: data.addressDictionary!.district.deliveryPrice.id,
+          }),
+        );
+      } catch (e) {
+        dispatch(
+          actionsOrder.setData({
+            idDeliveryPrice: defaultDeliveryPrice,
+          }),
+        );
+      }
     }
   }, [addressId, addresses]);
 

@@ -5,7 +5,7 @@ import {selectorsUser} from '../../../redux/user/userReducer';
 import MyText from '../../controls/MyText';
 import {FirstStepScreenProps} from '../../navigators/Order.navigator';
 import MyButton from '../../controls/MyButton';
-import {ScrollView} from 'react-native-gesture-handler';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {sizes, useTheme} from '../../../context/ThemeContext';
@@ -17,7 +17,7 @@ import t from '../../../utils/translate';
 const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
-  const {primary} = useTheme();
+  const {primary, border} = useTheme();
   const mainClient = useSelector(selectorsUser.getDataUser)!;
   const contacts = useSelector(selectorsUser.getContacts);
   const contact = useSelector(selectorsOrder.getContact);
@@ -47,12 +47,15 @@ const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}>
         <MyText style={styles.title}>{t('orderTitleReceiver')}</MyText>
-        <RadioBlock
-          title={mainClient.name}
-          onPress={() => handlePress(null)}
-          isActive={contact === null}
-          text={mainClient.phone}
-        />
+        <TouchableOpacity
+          style={[
+            styles.block,
+            {borderColor: contact === null ? primary : border},
+          ]}
+          onPress={() => handlePress(null)}>
+          <MyText style={[styles.text, styles.name]}>{mainClient.name}</MyText>
+          <MyText style={[styles.text]}>{mainClient.phone}</MyText>
+        </TouchableOpacity>
         <MyText
           style={[styles.addText, {color: primary}]}
           onPress={() => navigation.push('OrderContact', {})}>
@@ -63,13 +66,22 @@ const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
         )}
         {contacts.map((c) => {
           return (
-            <RadioBlock
-              styleCon={styles.contact}
-              title={`${c.firstName} ${c.lastName}`}
-              text={c.phone}
-              onPress={() => handlePress(c)}
-              isActive={contact ? contact.id === c.id : false}
-            />
+            <TouchableOpacity
+              style={[
+                styles.block,
+                {
+                  borderColor:
+                    contact && contact.id === c.id ? primary : border,
+                },
+              ]}
+              onPress={() => handlePress(c)}>
+              <MyText
+                style={[
+                  styles.text,
+                  styles.name,
+                ]}>{`${c.firstName} ${c.lastName}`}</MyText>
+              <MyText style={[styles.text]}>{c.phone}</MyText>
+            </TouchableOpacity>
           );
         })}
       </ScrollView>
@@ -108,6 +120,18 @@ const styles = StyleSheet.create({
   bottom: {
     marginBottom: sizes[5],
     marginTop: sizes[5],
+  },
+  block: {
+    borderWidth: 1,
+    paddingVertical: sizes[8],
+    paddingHorizontal: sizes[8],
+  },
+  name: {
+    marginBottom: sizes[8],
+  },
+  text: {
+    fontSize: sizes[9],
+    fontFamily: getFontFamily('500'),
   },
 });
 

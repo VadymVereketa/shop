@@ -22,7 +22,7 @@ const FinalStepScreen = React.memo(
   ({navigation, route}: FinalStepScreenProps) => {
     const dispatch = useDispatch();
     const {border, lightBackground} = useTheme();
-    const {formatPrice} = useFormattingContext();
+    const {formatPrice, longFormatDate} = useFormattingContext();
     const defaultSellPoint = useSelector(selectorsOther.getIdSellPoint);
     const client = useSelector(selectorsUser.getUser);
     const contact = useSelector(selectorsOrder.getContact);
@@ -34,6 +34,8 @@ const FinalStepScreen = React.memo(
     const isDelivery = useSelector(selectorsOrder.isDeliveryCourier);
     const address = useSelector(selectorsOrder.getAddress);
     const sellPoint = useSelector(selectorsOrder.getSellPoint)!;
+    const date = useSelector(selectorsOrder.getDate)!;
+    const time = useSelector(selectorsOrder.getTime)!;
     const [snapShot, setSnapshot] = useState({
       sum: 0,
       items: [] as ICartItem[],
@@ -119,6 +121,10 @@ const FinalStepScreen = React.memo(
                 <MyText style={styles.text}>{sellPoint.address}</MyText>
               </View>
             )}
+            <MyText style={styles.title}>{t('commonDateTime')}</MyText>
+            <MyText style={styles.text}>
+              {longFormatDate(date)} {time}
+            </MyText>
           </View>
           <MyButton
             onPress={handleOrders}

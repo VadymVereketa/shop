@@ -1,7 +1,6 @@
 import axios from 'axios';
 import config from '../config';
 import {getLocale, getToken, logOut} from '../../index';
-import service from './service';
 
 const instance = axios.create({
   baseURL: config.baseURL,
@@ -30,10 +29,7 @@ instance.interceptors.response.use(
   (error) => {
     console.log({error});
     if (error.response.status === 401) {
-      const token = getToken();
-      if (token) {
-        logOut();
-      }
+      logOut();
     }
     if (
       !(error.response && error.response.data && error.response.data.message)

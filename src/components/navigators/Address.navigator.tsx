@@ -100,9 +100,15 @@ const AddressNavigator = React.memo(
                     ? props.onPress
                     : () => navigation.push('MainNavigator', {})
                 }
+                hitSlop={{
+                  right: sizes[10],
+                  top: sizes[10],
+                  left: sizes[10],
+                  bottom: sizes[10],
+                }}
                 icon={{
                   name: 'close',
-                  size: sizes[10],
+                  size: sizes[8],
                   fill: text,
                 }}
               />

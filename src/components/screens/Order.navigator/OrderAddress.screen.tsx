@@ -8,15 +8,19 @@ import {
 import {StyleSheet, View} from 'react-native';
 import MyButton from '../../controls/MyButton';
 import {sizes, useTheme} from '../../../context/ThemeContext';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {selectorsUser} from '../../../redux/user/userReducer';
 import MyText from '../../controls/MyText';
 import {formatAddress} from '../../../utils/formatAddress';
 import DesignIcon from '../../common/DesignIcon';
 import t from '../../../utils/translate';
+import {selectorsOther} from '../../../redux/other/otherReducer';
+import {actionsOrder} from '../../../redux/order/orderReducer';
 
 const OrderAddressScreen = ({navigation, route}: OrderAddressScreenProps) => {
+  const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
+  const defaultDeliveryPrice = useSelector(selectorsOther.getIdDeliveryPrice);
   const {border, primary, text, background} = useTheme();
   const addresses = useSelector(selectorsUser.getAddresses);
   const [address, setAddress] = useState(route.params.id);
@@ -26,6 +30,21 @@ const OrderAddressScreen = ({navigation, route}: OrderAddressScreenProps) => {
   };
 
   const handleSubmit = () => {
+    try {
+      const data = addresses.find((a) => a.id === address)!;
+
+      dispatch(
+        actionsOrder.setData({
+          idDeliveryPrice: data.addressDictionary!.district.deliveryPrice.id,
+        }),
+      );
+    } catch (e) {
+      dispatch(
+        actionsOrder.setData({
+          idDeliveryPrice: defaultDeliveryPrice,
+        }),
+      );
+    }
     navigation.navigate(route.params.navigate, {
       idAddress: address,
     });
