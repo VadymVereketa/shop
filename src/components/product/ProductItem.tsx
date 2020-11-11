@@ -68,7 +68,7 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
       dispatch(
         actionsCart.addProduct({
           comment: '',
-          count: 1,
+          count: product.avgWeight ? +product.avgWeight : 1,
           product: product,
           alternativeCount: product.avgWeight ? 1 : null,
         }),

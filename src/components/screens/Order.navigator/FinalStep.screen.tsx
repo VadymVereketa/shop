@@ -69,7 +69,7 @@ const FinalStepScreen = React.memo(
     const cartItems = items.length > 0 ? items : snapShot.items;
     let cartSum = items.length > 0 ? sum : snapShot.sum;
 
-    cartSum = isDelivery ? cartSum + deliveryPrice : cartSum;
+    const totalSum = isDelivery ? cartSum + deliveryPrice : cartSum;
 
     const user = (contact || client)!;
 
@@ -92,9 +92,24 @@ const FinalStepScreen = React.memo(
               />
             );
           })}
+          <View style={{marginTop: sizes[5]}} />
+          {!!deliveryPrice && (
+            <View style={[styles.totalPrice, {marginBottom: 0, marginTop: 0}]}>
+              <MyText style={styles.title}>Доставка</MyText>
+              <MyText style={[styles.price, {fontSize: sizes[10]}]}>
+                {formatPrice(deliveryPrice)}
+              </MyText>
+            </View>
+          )}
+          <View style={[styles.totalPrice, {marginBottom: 0, marginTop: 0}]}>
+            <MyText style={styles.title}>Сума</MyText>
+            <MyText style={[styles.price, {fontSize: sizes[10]}]}>
+              {formatPrice(cartSum)}
+            </MyText>
+          </View>
           <View style={styles.totalPrice}>
             <MyText style={styles.title}>{t('commonSum')}</MyText>
-            <MyText style={styles.price}>{formatPrice(cartSum)}</MyText>
+            <MyText style={styles.price}>{formatPrice(totalSum)}</MyText>
           </View>
 
           <View

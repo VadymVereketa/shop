@@ -46,6 +46,7 @@ const CartItem = React.memo(
         ? item.product.productImages[0].uuid
         : null;
 
+    console.log(count);
     return (
       <ViewProductItem
         id={product.id}
@@ -54,8 +55,8 @@ const CartItem = React.memo(
         item={item}
         title={product.title}
         price={quantityPrice}
-        count={+item.count}
-        units={product.units}
+        count={count}
+        units={item.alternativeCount ? '' : 'кг'}
         comment={item.comment}
       />
     );
@@ -132,6 +133,7 @@ const ViewProductItem = React.memo(
       });
     };
 
+    console.log(count);
     return (
       <Animated.View
         style={[

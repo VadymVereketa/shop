@@ -24,6 +24,7 @@ import {useNavigation} from '@react-navigation/native';
 import {SecondStepScreenNavigationProp} from '../navigators/Order.navigator';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import t from '../../utils/translate';
+import service from '../../services/service';
 
 const getAvailableSellPoints = (
   sellPointsId: number[],
@@ -59,6 +60,7 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
   const defaultDeliveryPrice = useSelector(selectorsOther.getIdDeliveryPrice);
   const {border, primary} = useTheme();
   const sellPoints = useSelector(getSellPoints(false));
+  const items = useSelector(selectorsCart.getCartProducts);
   const deliveryTypes = useSelector(selectorsTypes.getDeliveryTypes);
   const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
   const idSellPoint = useSelector(selectorsOrder.getSellPointId);
@@ -77,14 +79,30 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
     );
   }, [count]);
 
-  const handleSetDeliveryType = (code: TypeDelivery) => {
+  const handleSetDeliveryType = async (code: TypeDelivery) => {
+    if (isLoading) return;
     if (deliveryType && deliveryType.code === code) {
       return;
     }
     if (code === TypeDelivery.courier) {
-      dispatch(fetchUpdateCart(products, ID_SELL_POINT));
+      const res = await dispatch(fetchUpdateCart(products, ID_SELL_POINT));
+      if (!res) {
+        return;
+      }
     } else if (idSellPoint) {
-      dispatch(fetchUpdateCart(products, idSellPoint));
+      let res = await dispatch(fetchUpdateCart(products, idSellPoint));
+
+      if (!res) {
+        res = await dispatch(fetchUpdateCart(products, ID_SELL_POINT));
+        if (!res) {
+          return;
+        }
+        dispatch(
+          actionsOrder.setData({
+            sellPoint: ID_SELL_POINT,
+          }),
+        );
+      }
     }
     dispatch(
       actionsOrder.setData({
@@ -94,6 +112,7 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
   };
 
   const handlePressSellPoint = async (id: number) => {
+    if (isLoading) return;
     setPressId(id);
     const res: any = await dispatch(fetchUpdateCart(products, id));
     if (res) {
