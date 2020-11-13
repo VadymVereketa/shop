@@ -83,9 +83,7 @@ const WeightUnit = React.memo(
     const alternativeCount = useSelector(
       selectorsCart.getAlternativeCountProduct(id),
     );
-    const [isAlternativeCount, setIsAlternativeCount] = useState(
-      alternativeCount !== null,
-    ); //null = false
+    const [isAlternativeCount, setIsAlternativeCount] = useState(isAvgWeight); //null = false
     let initValue = useSelector(selectorsCart.getCountProduct(id));
     const [firstLoad, setFirstLoad] = useState(initValue === null);
     const [weight, setWeight] = useState(initValue !== null ? +initValue : 1);
@@ -109,6 +107,13 @@ const WeightUnit = React.memo(
     };
     const onChangeAlternativeCount = (n) => {
       setWeight(n);
+
+      dispatch(
+        actionsCart.changeCount({
+          count: n * +avgWeight!,
+          id: id,
+        }),
+      );
       dispatch(
         actionsCart.changeAlternativeCount({
           id,
@@ -193,7 +198,7 @@ const WeightUnit = React.memo(
       : price * weight;
     return (
       <View style={styles.con}>
-        {isAvgWeight && (
+        {/*{isAvgWeight && (
           <View style={[styles.viewSwitch, {borderColor: border}]}>
             <MyText style={styles.titleSwitch}>{t('commonSettings')}</MyText>
             <MyText
@@ -219,7 +224,7 @@ const WeightUnit = React.memo(
               {t('commonUnit')}
             </MyText>
           </View>
-        )}
+        )}*/}
         <View style={styles.viewCount}>
           <MyText style={[styles.price]}>{formatPrice(quantityPrice)}</MyText>
           <CountInput

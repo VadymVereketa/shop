@@ -19,6 +19,7 @@ import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {actionsCart, selectorsCart} from '../../redux/cart/cartReducer';
 import {selectorsUser} from '../../redux/user/userReducer';
 import CartCountItem from '../controls/CartCountInput';
+import {ID_UNIT_WEIGHT} from '../../constants/constantsId';
 
 const window = Dimensions.get('window');
 
@@ -40,6 +41,8 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
   const {background, text, lightBackground, theme} = useTheme();
   const {formatPrice} = useFormattingContext();
   const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
+  const isWeightUnit =
+    product.unit && product.unit.externalId === ID_UNIT_WEIGHT;
   const index = getIndexProductOption(product, ID_SELL_POINT);
   const price =
     product.productOptions.length > 0
@@ -49,6 +52,7 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
   const productImage: IImgProduct =
     (product.productImages && product.productImages[0]) || {};
 
+  const isAvgWeight = isWeightUnit && !!product.avgWeight;
   const handlePress = () => {
     navigation.push('SecondaryNavigator', {
       screen: 'Product',
@@ -68,9 +72,9 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
       dispatch(
         actionsCart.addProduct({
           comment: '',
-          count: product.avgWeight ? +product.avgWeight : 1,
+          count: isAvgWeight ? +product.avgWeight! : 1,
           product: product,
-          alternativeCount: product.avgWeight ? 1 : null,
+          alternativeCount: isAvgWeight ? 1 : null,
         }),
       );
     }

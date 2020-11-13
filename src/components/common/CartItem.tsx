@@ -46,7 +46,6 @@ const CartItem = React.memo(
         ? item.product.productImages[0].uuid
         : null;
 
-    console.log(count);
     return (
       <ViewProductItem
         id={product.id}
@@ -69,13 +68,14 @@ interface IPurchaseItemProps {
 
 const PurchaseItem = React.memo(({item}: IPurchaseItemProps) => {
   const {product} = item;
-
-  const quantityPrice = +item.price * +item.count;
+  console.log(item);
+  const quantityPrice = +item.price;
   const imgId =
     item.product.productImages.length > 0
       ? item.product.productImages[0].uuid
       : null;
 
+  const count = item.alternativeCount ? +item.alternativeCount! : +item.count;
   return (
     <ViewProductItem
       id={product.id}
@@ -84,8 +84,8 @@ const PurchaseItem = React.memo(({item}: IPurchaseItemProps) => {
       item={null as any}
       title={product.title}
       price={quantityPrice}
-      count={+item.count}
-      units={product.units}
+      count={count!}
+      units={item.alternativeCount ? '' : 'кг'}
       comment={item.comment}
     />
   );
