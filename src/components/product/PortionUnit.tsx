@@ -69,7 +69,9 @@ const PortionUnit = React.memo(
             }}
           />
         </View>
-        <MyText style={styles.garnish}>{t('commonStorage')}</MyText>
+        {product.ingredients && (
+          <MyText style={styles.garnish}>{t('commonStorage')}</MyText>
+        )}
         <MyText style={styles.ingredients}>{product.ingredients}</MyText>
         {!isRepeatOrder && (
           <MyButton

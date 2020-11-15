@@ -416,6 +416,25 @@ const service = {
   createDraft: async () => {
     return await customFetch(() => instance.post('clients/order/draft'));
   },
+  getExcludeTime: async (d: Date) => {
+    const y = d.getFullYear();
+    const m = (d.getMonth() + 1).toString().padStart(2, '0');
+    const day = d.getDate().toString().padStart(2, '0');
+    try {
+      const res = await instance.get(
+        'delivery/time/exclude/' + `${y}-${m}-${day}`,
+      );
+      return {
+        success: true,
+        data: res.data,
+        date: d,
+      };
+    } catch (e) {
+      return {
+        success: false,
+      };
+    }
+  },
 };
 
 const customFetch = async <T>(func: () => Promise<AxiosResponse<T>>) => {

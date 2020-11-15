@@ -193,7 +193,7 @@ const WeightUnit = React.memo(
       setIsAlternativeCount((a) => !a);
     };
 
-    const quantityPrice = alternativeCount
+    const quantityPrice = isAvgWeight
       ? +price * weight * +avgWeight!
       : price * weight;
     return (

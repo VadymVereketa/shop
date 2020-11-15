@@ -15,6 +15,7 @@ import getOptions from '../../utils/getOptionsDate';
 import {IOptionDate} from '../screens/Order.navigator/Date.screen';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import t from '../../utils/translate';
+import service from '../../services/service';
 
 interface IDateInputProps {
   navigate: string;
@@ -38,6 +39,35 @@ const DateInput = ({navigate}: IDateInputProps) => {
   }, [idSellPoint, deliveryType]);
   const settings = useSelector(selectorsOther.getSetting(name));
   const [options, setOptions] = useState([] as IOptionDate[]);
+  const [excludeTime, setExcludeTime] = useState({} as any);
+  const [isBlock, setIsBlock] = useState(false);
+
+  useEffect(() => {
+    const handle = async () => {
+      setIsBlock(true);
+      try {
+        const res = await Promise.all(
+          [0, 1, 2, 3].map((i) => {
+            const d = new Date();
+            d.setDate(d.getDate() + i);
+            return service.getExcludeTime(d);
+          }),
+        );
+        const obj = {};
+        res.forEach((r) => {
+          if (r.success) {
+            obj[new Date(r.date!).toLocaleDateString()] = r.data;
+            setExcludeTime(obj);
+          }
+        });
+        console.log(obj);
+      } finally {
+        setIsBlock(false);
+      }
+    };
+
+    if (deliveryType && deliveryType!.code === TypeDelivery.courier) handle();
+  }, [deliveryType]);
 
   useEffect(() => {
     setOptions(getOptions(settings, name === DEFAULT_NAME_SETTING));
@@ -55,8 +85,24 @@ const DateInput = ({navigate}: IDateInputProps) => {
   }, [deliveryType]);
 
   const handlePressDate = () => {
+    if (isBlock) {
+      return;
+    }
+    const filterOptions =
+      deliveryType!.code === TypeDelivery.courier
+        ? options.filter((opt) => {
+            const times: string[] =
+              excludeTime[new Date(opt.date).toLocaleDateString()];
+            if (times.length === 0) {
+              return true;
+            }
+            return !times.some((e: any) => {
+              return opt.time === `${e.timeFrom} - ${e.timeTo}`;
+            });
+          })
+        : options;
     navigation.navigate('Date', {
-      options: options,
+      options: filterOptions,
       navigate,
     });
   };

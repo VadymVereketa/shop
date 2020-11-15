@@ -80,10 +80,9 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
     }
   };
 
-  const Price =
-    alternativeCount === null
-      ? formatPrice(+price * initValue)
-      : formatPrice(+price * initValue * +product.avgWeight!);
+  const Price = !isAvgWeight
+    ? formatPrice(+price * initValue)
+    : formatPrice(+price * initValue * +product.avgWeight!);
   return (
     <View
       style={[
