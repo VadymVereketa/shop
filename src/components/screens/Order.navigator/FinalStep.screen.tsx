@@ -50,7 +50,7 @@ const FinalStepScreen = React.memo(
       });
       dispatch(actionsCart.clear(defaultSellPoint));
       return () => {
-        dispatch(actionsOrder.clear());
+        //dispatch(actionsOrder.clear());
       };
     }, []);
 

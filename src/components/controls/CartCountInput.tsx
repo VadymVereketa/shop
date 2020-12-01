@@ -14,6 +14,10 @@ const CartCountItem = React.memo(({item}: ICartCountItemProps) => {
   const isWeight = product.units === ID_UNIT_WEIGHT;
 
   const onChange = (count) => {
+    if (count === 0) {
+      dispatch(actionsCart.removeProduct(product.id));
+    }
+
     if (item.alternativeCount === null) {
       dispatch(
         actionsCart.changeCount({
@@ -47,6 +51,7 @@ const CartCountItem = React.memo(({item}: ICartCountItemProps) => {
       onChange={onChange}
       value={count}
       style={{maxWidth: '100%'}}
+      isRemove={true}
     />
   );
 });

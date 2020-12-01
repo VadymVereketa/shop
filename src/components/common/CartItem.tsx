@@ -55,7 +55,7 @@ const CartItem = React.memo(
         title={product.title}
         price={quantityPrice}
         count={count}
-        units={item.alternativeCount ? '' : 'кг'}
+        units={isWeightUnit ? (item.alternativeCount ? '' : 'кг') : ''}
         comment={item.comment}
       />
     );
@@ -68,7 +68,7 @@ interface IPurchaseItemProps {
 
 const PurchaseItem = React.memo(({item}: IPurchaseItemProps) => {
   const {product} = item;
-  console.log(item);
+  const isWeightUnit = product.units === ID_UNIT_WEIGHT;
   const quantityPrice = +item.price;
   const imgId =
     item.product.productImages.length > 0
@@ -85,7 +85,7 @@ const PurchaseItem = React.memo(({item}: IPurchaseItemProps) => {
       title={product.title}
       price={quantityPrice}
       count={count!}
-      units={item.alternativeCount ? '' : 'кг'}
+      units={isWeightUnit ? (item.alternativeCount ? '' : 'кг') : ''}
       comment={item.comment}
     />
   );

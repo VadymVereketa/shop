@@ -38,7 +38,7 @@ const handleAppStateChange = (nextAppState) => {
   if (nextAppState === 'background' || nextAppState === 'inactive') {
     const items = store.store.getState().cart.data;
     const isAuth = store.store.getState().user.isAuth;
-    const id = store.store.getState().other.settings[DEFAULT_NAME_SETTING].default_price_sell_point;
+    const id = store.store.getState().cart.idSellPoint ? store.store.getState().cart.idSellPoint : store.store.getState().other.settings[DEFAULT_NAME_SETTING].default_price_sell_point;
 
     if(!isAuth) return ;
 

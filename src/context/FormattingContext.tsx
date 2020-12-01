@@ -88,7 +88,7 @@ const ProviderFormattingContext: React.FC<IFormattingContextProps> = ({
         return `${price.toFixed(2)} ${CONSTANTS_UNIT[currentLocale].currency}`;
       },
       formatUnit: (value: number, unit: string) => {
-        let strValue = value.toFixed(FRACTION_DIGIT);
+        let strValue = (+value).toFixed(FRACTION_DIGIT);
         strValue = strValue.replace(/\.?[0]*$/, '');
         if (unit === ID_UNIT_WEIGHT) {
           if (value >= 1) {

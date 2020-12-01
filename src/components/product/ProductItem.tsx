@@ -35,7 +35,7 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
   const isAuth = useSelector(selectorsUser.isAuth);
   const initValue = useSelector(selectorsCart.getCountProduct(product.id)) || 1;
   const productCart = useSelector(selectorsCart.getCartProduct(product.id));
-  const alternativeCount = useSelector(
+  const aValue = useSelector(
     selectorsCart.getAlternativeCountProduct(product.id),
   );
   const {background, text, lightBackground, theme} = useTheme();
@@ -80,9 +80,10 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
     }
   };
 
-  const Price = !isAvgWeight
-    ? formatPrice(+price * initValue)
-    : formatPrice(+price * initValue * +product.avgWeight!);
+  const Price =
+    aValue === null
+      ? formatPrice(+price * initValue)
+      : formatPrice(+price * initValue * +product.avgWeight!);
   return (
     <View
       style={[

@@ -19,6 +19,7 @@ interface ICountInputProps {
   value: number;
   isEditable?: boolean;
   style?: StyleProp<ViewStyle>;
+  isRemove?: boolean;
 }
 
 const compateFloat = (a: number, b: number, c: number) => {
@@ -34,6 +35,7 @@ const CountInput = React.memo(
     onChange,
     value,
     style,
+    isRemove = false,
   }: ICountInputProps) => {
     const {primary, lightBackground, theme} = useTheme();
     const {formatUnit} = useFormattingContext();
@@ -90,14 +92,24 @@ const CountInput = React.memo(
 
     const decr = (e) => {
       if (compateFloat(count, 0.1, 0.01)) {
-        if (compateFloat(count, 0.01, 0.001)) return;
+        if (compateFloat(count, 0.01, 0.001)) {
+          if (isRemove) {
+            onChange(0);
+          }
+          return;
+        }
         setCount((c) => {
           const res = c - 0.01;
           onChange(res);
           return res;
         });
       } else {
-        if (count - step <= 0) return;
+        if (count - step <= 0) {
+          if (isRemove) {
+            onChange(0);
+          }
+          return;
+        }
 
         setCount((c) => {
           const res = c - step;

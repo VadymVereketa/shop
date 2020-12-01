@@ -89,7 +89,7 @@ const DateInput = ({navigate}: IDateInputProps) => {
       return;
     }
     const filterOptions =
-      deliveryType!.code === TypeDelivery.courier
+      deliveryType!.code === TypeDelivery.courier && Object.keys(excludeTime).length > 0
         ? options.filter((opt) => {
             const times: string[] =
               excludeTime[new Date(opt.date).toLocaleDateString()];
