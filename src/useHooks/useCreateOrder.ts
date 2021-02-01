@@ -45,20 +45,43 @@ export const useCreateOrder = () => {
     );
     data.address = address;
     try {
-      console.log(data);
       const res = await service.createOrder(draftId!, data);
-      console.log(res);
-      if (res.success) {
-        dispatch(
-          actionsOther.setData({
-            draftId: null,
-          }),
-        );
+
+      if (!res.success || res.data.message) {
+        throw new Error();
       }
-      return res.success;
+
+      dispatch(
+        actionsOther.setData({
+          draftId: null,
+        }),
+      );
+      dispatch(
+        actionsOrder.setData({
+          numberOrder: res.data.id,
+        }),
+      );
+
+      return true;
     } catch (e) {
-      console.log({e});
-      return false;
+      const res = await service.createOrder(undefined, data);
+
+      if (!res.success || res.data.message) {
+        return false;
+      }
+
+      dispatch(
+        actionsOther.setData({
+          draftId: null,
+        }),
+      );
+      dispatch(
+        actionsOrder.setData({
+          numberOrder: res.data.id,
+        }),
+      );
+
+      return true;
     } finally {
       console.log('---------------end createOrder------------------');
     }

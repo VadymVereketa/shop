@@ -10,11 +10,12 @@ export const usePaymentOptions = () => {
       },
       {
         code: TypePayment.credit,
-        title: 'Оплатити при отриманнi',
+        title: 'Оплатити карткою при отриманні',
       },
       {
         code: TypePayment.online,
-        title: 'Visa/MasterCard',
+        title: 'Оплата карткою в додатку',
+        icon: true,
       },
     ];
   }, []);

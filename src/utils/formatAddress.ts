@@ -7,9 +7,10 @@ export const formatAddress = (address?: IAddressRedux | any) => {
     : address.district;
   const flat = address.flatNumber ? `, кв. ${address.flatNumber}` : '';
   const entrance = address.entrance ? `, під'їзд ${address.entrance}` : '';
+  const floor = address.floor ? `, поверх ${address.floor}` : '';
   return `${district || ''} ${address.street} ${
     address.buildNumber
-  }${flat}${entrance}`;
+  }${flat}${entrance}${floor}`;
 };
 
 export const getConvertDataToFetch = (

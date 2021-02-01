@@ -1,17 +1,13 @@
 import React, {useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {StackScreenProps} from '@react-navigation/stack/src/types';
-import ProductScreen from '../screens/Secondary.navigator/Product.screen';
 import {
   OrderNavigatorScreenProps,
   SecondaryNavigatorScreenProps,
   StartNavigatorParamList,
 } from './Start.navigator';
-import {ICartItem, IProduct, IPurchase} from '../../typings/FetchData';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/core';
 import IconButton from '../controls/IconButton';
 import {sizes, useTheme} from '../../context/ThemeContext';
-import CommentCartScreen from '../screens/Secondary.navigator/CommentCart.screen';
 import FirstStepScreen from '../screens/Order.navigator/FirstStep.screen';
 import SecondStepScreen from '../screens/Order.navigator/SecondStep.screen';
 import ThirdStepScreen from '../screens/Order.navigator/ThirdStep.screen';
@@ -26,13 +22,13 @@ import RepeatOrderScreen from '../screens/Order.navigator/RepeatOrder.screen';
 import DeliveryScreen from '../screens/Order.navigator/Delivery.screen';
 import {useDispatch, useSelector} from 'react-redux';
 import PaymentScreen from '../screens/Order.navigator/Payment.screen';
-import service from '../../services/service';
-import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
+import {selectorsOther} from '../../redux/other/otherReducer';
 import {actionsCart} from '../../redux/cart/cartReducer';
 import {actionsOrder, selectorsOrder} from '../../redux/order/orderReducer';
 import t from '../../utils/translate';
 import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
 import {TypeDelivery} from '../../constants/constantsId';
+import useSaveDraft from '../../useHooks/useSaveDraft';
 
 export type OrderNavigatorParamList = {
   FirstStep: {};
@@ -186,23 +182,13 @@ const Stack = createStackNavigator<OrderNavigatorParamList>();
 
 const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
   const dispatch = useDispatch();
-  const draftId = useSelector(selectorsOther.getDraftId);
   const defaultSellPoint = useSelector(selectorsOther.getIdSellPoint);
   const deliveryType = useSelector(selectorsOrder.getDeliveryType);
+  const saveDraft = useSaveDraft();
   const {text} = useTheme();
 
   useEffect(() => {
-    if (!draftId) {
-      service.createDraft().then((res) => {
-        if (res.success) {
-          dispatch(
-            actionsOther.setData({
-              draftId: res.data.id,
-            }),
-          );
-        }
-      });
-    }
+    saveDraft();
 
     return () => {
       dispatch(actionsCart.updateCart(defaultSellPoint));

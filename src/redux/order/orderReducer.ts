@@ -67,6 +67,9 @@ const selectorsOrder = {
     if (state.order.deliveryType === null) return false;
     return state.order.deliveryType!.code === 'self';
   },
+  getPaymentType: (state: RootState) => {
+    return state.order.paymentType;
+  },
   getCodePayment: (state: RootState) =>
     state.order.paymentType ? state.order.paymentType.code : '',
   getSellPointId: (state: RootState) => state.order.sellPoint,

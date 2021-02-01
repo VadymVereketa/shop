@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {StyleSheet, View} from 'react-native';
 import MyText from '../controls/MyText';
 import MyTextInput from '../controls/MyTextInput';
@@ -41,13 +41,14 @@ const DateInput = ({navigate}: IDateInputProps) => {
   const [options, setOptions] = useState([] as IOptionDate[]);
   const [excludeTime, setExcludeTime] = useState({} as any);
   const [isBlock, setIsBlock] = useState(false);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     const handle = async () => {
       setIsBlock(true);
       try {
         const res = await Promise.all(
-          [0, 1, 2, 3].map((i) => {
+          [0, 1, 2, 3, 4, 5, 6].map((i) => {
             const d = new Date();
             d.setDate(d.getDate() + i);
             return service.getExcludeTime(d);
@@ -60,7 +61,6 @@ const DateInput = ({navigate}: IDateInputProps) => {
             setExcludeTime(obj);
           }
         });
-        console.log(obj);
       } finally {
         setIsBlock(false);
       }
@@ -70,8 +70,17 @@ const DateInput = ({navigate}: IDateInputProps) => {
   }, [deliveryType]);
 
   useEffect(() => {
-    setOptions(getOptions(settings, name === DEFAULT_NAME_SETTING));
-  }, [settings.from, settings.to, name]);
+    const handle = async () => {
+      const d = await service.getCurrentTime();
+      if (isFocused) {
+        console.log(d);
+        const options = getOptions(settings, d, name === DEFAULT_NAME_SETTING);
+        console.log(options);
+        setOptions(options);
+      }
+    };
+    handle();
+  }, [settings.from, settings.to, name, isFocused]);
 
   useDidUpdateEffect(() => {
     if (deliveryType) {
@@ -89,16 +98,19 @@ const DateInput = ({navigate}: IDateInputProps) => {
       return;
     }
     const filterOptions =
-      deliveryType!.code === TypeDelivery.courier && Object.keys(excludeTime).length > 0
+      deliveryType!.code === TypeDelivery.courier &&
+      Object.keys(excludeTime).length > 0
         ? options.filter((opt) => {
             const times: string[] =
               excludeTime[new Date(opt.date).toLocaleDateString()];
-            if (times.length === 0) {
+            if (times && times.length === 0) {
               return true;
             }
-            return !times.some((e: any) => {
-              return opt.time === `${e.timeFrom} - ${e.timeTo}`;
-            });
+            return times
+              ? !times.some((e: any) => {
+                  return opt.time === `${e.timeFrom} - ${e.timeTo}`;
+                })
+              : false;
           })
         : options;
     navigation.navigate('Date', {

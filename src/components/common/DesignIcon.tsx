@@ -29,6 +29,7 @@ const SendIcon = require('../../assets/svg/ic-send.svg').default;
 const MenuKebIcon = require('../../assets/svg/ic-menu-keb.svg').default;
 const ReloadIcon = require('../../assets/svg/ic-reload.svg').default;
 const BarCodeIcon = require('../../assets/svg/ic-barcode.svg').default;
+const Apple = require('../../assets/svg/Apple.svg').default;
 
 export type IName =
   | 'restaurant'
@@ -147,4 +148,9 @@ const DesignIcon = React.memo(({name, size, ...props}: IDesignIconProps) => {
   return <Icon width={size} height={size} {...props} />;
 });
 
+const AppleIcon = React.memo(({name, size, ...props}: any) => {
+  return <Apple width={60} height={30} fill={'black'} />;
+});
+
+export {AppleIcon};
 export default DesignIcon;

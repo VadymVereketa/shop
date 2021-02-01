@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {View, StyleSheet, Linking} from 'react-native';
 import {OrderScreenProps} from '../../navigators/Menu.navigator';
-import {IOrderFull} from '../../../typings/FetchData';
+import {IOrderFull, IProduct} from '../../../typings/FetchData';
 import service from '../../../services/service';
 import {ScrollView} from 'react-native-gesture-handler';
 import InfoOrder from '../../common/InfoOrder';
@@ -23,6 +23,8 @@ import {
 import {useRepeatOrder} from '../../../useHooks/useRepeatOrder';
 import t from '../../../utils/translate';
 import BarCode from '../../common/BarCode';
+import {checkCreateOrder} from '../../../utils/checkCreateOrder';
+import Toast from 'react-native-simple-toast';
 
 const OrderScreen = React.memo(({route}: OrderScreenProps) => {
   const [height, setHeight] = useState(sizes[85]);
@@ -49,10 +51,6 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
     }
   };
 
-  const handlePressPhone = () => {
-    Linking.openURL(`tel:${courier!.phone}`);
-  };
-
   const handleOrder = async () => {
     if (!isReady) return;
 
@@ -62,10 +60,16 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
         item!.purchases.map((p) => p.product.id),
       );
       if (data.success) {
-        repeatOrder(item, data.data);
+        const products: IProduct[] = data.data;
+        if (checkCreateOrder(products)) {
+          repeatOrder(item, data.data);
+        } else {
+          Toast.show('Неможливо створити замовлення');
+        }
       }
-    } catch (e) {}
-    setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -169,14 +173,6 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
               <MyText style={styles.textC}>
                 {courier.firstName} {courier.lastName}
               </MyText>
-              <MyText
-                style={[
-                  styles.textC,
-                  {color: primary, fontFamily: getFontFamily('500')},
-                ]}
-                onPress={handlePressPhone}>
-                {courier.phone}
-              </MyText>
             </View>
           )}
           <View style={[styles.btns, {borderBottomColor: border}]}>
@@ -227,11 +223,32 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
                 .map((p) => {
                   return <PurchaseItem key={p.product.id} item={p} />;
                 })}
-              <View style={styles.sumBlock}>
-                <MyText style={styles.sumText}>{t('commonSum')}</MyText>
-                <MyText style={styles.priceText}>
-                  {formatPrice(+item.productsPrice + deliveryPrice)}
-                </MyText>
+              <View style={{marginTop: sizes[5]}}>
+                {!!deliveryPrice && (
+                  <View
+                    style={[
+                      styles.totalPrice,
+                      {marginBottom: 0, marginTop: 0},
+                    ]}>
+                    <MyText style={styles.title}>Доставка</MyText>
+                    <MyText style={[styles.price, {fontSize: sizes[10]}]}>
+                      {formatPrice(deliveryPrice)}
+                    </MyText>
+                  </View>
+                )}
+                <View
+                  style={[styles.totalPrice, {marginBottom: 0, marginTop: 0}]}>
+                  <MyText style={styles.title}>Сума</MyText>
+                  <MyText style={[styles.price, {fontSize: sizes[10]}]}>
+                    {formatPrice(+item.productsPrice)}
+                  </MyText>
+                </View>
+                <View style={styles.totalPrice}>
+                  <MyText style={styles.title}>{t('commonSum')}</MyText>
+                  <MyText style={styles.price}>
+                    {formatPrice(+item.productsPrice + deliveryPrice)}
+                  </MyText>
+                </View>
               </View>
             </View>
           )}
@@ -303,6 +320,15 @@ const styles = StyleSheet.create({
   },
   sumText: {
     fontSize: sizes[9],
+    fontFamily: getFontFamily('500'),
+  },
+  totalPrice: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  price: {
+    fontSize: sizes[12],
     fontFamily: getFontFamily('500'),
   },
 });

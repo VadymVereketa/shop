@@ -27,7 +27,8 @@ const FinalStepScreen = React.memo(
     const client = useSelector(selectorsUser.getUser);
     const contact = useSelector(selectorsOrder.getContact);
     const deliveryPrice = useSelector(selectorsOrder.getDeliveryPrice);
-    const numberOrder = useSelector(selectorsOrder.getNumberOrder) || 1;
+    const numberOrder = useSelector(selectorsOrder.getNumberOrder)!;
+    const draftId = useSelector(selectorsOther.getDraftId)!;
     const sum = useSelector(selectorsCart.getGeneralSum);
     const idSellPoint = useSelector(selectorsCart.getIdSellPoint);
     const items = useSelector(selectorsCart.getCartProducts);
@@ -50,7 +51,7 @@ const FinalStepScreen = React.memo(
       });
       dispatch(actionsCart.clear(defaultSellPoint));
       return () => {
-        //dispatch(actionsOrder.clear());
+        dispatch(actionsOrder.clear());
       };
     }, []);
 
@@ -79,7 +80,8 @@ const FinalStepScreen = React.memo(
           <MyText style={styles.welcome}>{t('successOrder')}</MyText>
           <View style={[styles.view, {borderBottomColor: border}]}>
             <MyText style={styles.order}>
-              {t('profileMyOrder')} № {numberOrder.toString().padStart(9, '0')}
+              {t('profileMyOrder')} №{' '}
+              {(numberOrder || draftId).toString().padStart(9, '0')}
             </MyText>
           </View>
           {cartItems.map((p) => {

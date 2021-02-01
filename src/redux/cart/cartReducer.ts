@@ -77,7 +77,7 @@ creator.addAction('clear', (state, action) => ({
   data: [],
   idSellPoint: action.payload,
 }));
-creator.addAction(actionsUser.logout, (state) => ({...init, data: []}));
+creator.addAction(actionsUser.logout, (state) => ({...state, data: []}));
 
 const actionsCart = creator.createActions();
 const selectorsCart = {

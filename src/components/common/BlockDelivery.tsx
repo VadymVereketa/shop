@@ -119,6 +119,8 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
       dispatch(
         actionsOrder.setData({
           sellPoint: id,
+          date: null,
+          time: '',
         }),
       );
     }
@@ -166,7 +168,7 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
             }
             onPress={() => handleSetDeliveryType(TypeDelivery.self)}
             styleText={styles.btnText}
-            style={{width: '47%', marginRight: sizes[5]}}
+            style={{marginRight: sizes[5]}}
             type={'default'}>
             {t('btnSelf')}
           </MyButton>
@@ -177,7 +179,7 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
               deliveryType ? deliveryType.code === TypeDelivery.courier : false
             }
             onPress={() => handleSetDeliveryType(TypeDelivery.courier)}
-            style={{width: '47%', marginLeft: sizes[5]}}
+            style={{marginLeft: sizes[5]}}
             styleText={styles.btnText}
             type={'default'}>
             {t('btnDelivery')}

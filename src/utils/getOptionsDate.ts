@@ -1,4 +1,6 @@
 import {IOptionDate} from '../components/screens/Order.navigator/Date.screen';
+import {COUNT_DAY} from '../constants/constantsId';
+import {DateHelper} from './DataHelper';
 
 interface ISetting {
   step: number;
@@ -7,11 +9,15 @@ interface ISetting {
   to: string;
 }
 
-const getOptions = ({from, offset, step, to}: ISetting, isRange = false) => {
+const getOptions = (
+  {from, offset, step, to}: ISetting,
+  currentDate: Date,
+  isRange = false,
+) => {
   let res: IOptionDate[] = [];
   const [fromH, fromM] = from.split(':').map(parseFloat);
   const [toH, toM] = to.split(':').map(parseFloat);
-  let now = new Date();
+  let now = currentDate;
   let nowH = now.getHours();
   let nowM = now.getMinutes();
 

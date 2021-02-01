@@ -5,6 +5,7 @@ import {
   IContact,
   IOrderFull,
   IOrderItem,
+  IProduct,
 } from '../../typings/FetchData';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {getFontFamily} from '../../utils/getFontFamily';
@@ -21,15 +22,12 @@ import IconButton from '../controls/IconButton';
 import InfoOrder from './InfoOrder';
 import {OrdersScreenNavigationProp} from '../navigators/Menu.navigator';
 import service from '../../services/service';
-import {actionsCart} from '../../redux/cart/cartReducer';
-import {IReceiver} from '../../redux/order/orderTypes';
-import {useDispatch} from 'react-redux';
-import {actionsOrder} from '../../redux/order/orderReducer';
-import {TypeDelivery} from '../../constants/constantsId';
 import {useRepeatOrder} from '../../useHooks/useRepeatOrder';
 import t from '../../utils/translate';
 import DesignIcon from './DesignIcon';
 import BarCode from './BarCode';
+import {checkCreateOrder} from '../../utils/checkCreateOrder';
+import Toast from 'react-native-simple-toast';
 
 interface IOrderItemProps {
   order: IOrderItem;
@@ -64,7 +62,14 @@ const OrderItem = React.memo(({order}: IOrderItemProps) => {
         service.getProductsByIds(order!.purchases.map((p) => p.product.id)),
       ]);
       if (datas[0].success && datas[1].success) {
-        repeatOrder(datas[0].data, datas[1].data);
+        const products: IProduct[] = datas[1].data;
+        if (checkCreateOrder(products)) {
+          repeatOrder(datas[0].data, datas[1].data);
+        } else {
+          Toast.show(
+            'Неможливо створити замовлення.\nДеяких продуктів немає в наявності',
+          );
+        }
       }
     } catch (e) {}
     setIsLoading(false);

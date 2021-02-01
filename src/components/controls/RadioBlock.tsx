@@ -9,7 +9,7 @@ import {sizes, useTheme} from '../../context/ThemeContext';
 import {getFontFamily} from '../../utils/getFontFamily';
 import Animated, {Easing, timing} from 'react-native-reanimated';
 import {useLoadingAnim} from '../../useHooks/useLoadingAnim';
-import DesignIcon from '../common/DesignIcon';
+import DesignIcon, {AppleIcon} from '../common/DesignIcon';
 
 interface IRadioBlockProps {
   isActive?: boolean;
@@ -20,6 +20,7 @@ interface IRadioBlockProps {
   style?: StyleProp<ViewStyle>;
   disabled?: boolean;
   isLoading?: boolean;
+  isIcon?: boolean;
 }
 const RadioBlock = React.memo(
   ({
@@ -31,6 +32,7 @@ const RadioBlock = React.memo(
     title,
     style,
     styleCon,
+    isIcon,
   }: IRadioBlockProps) => {
     const {primary, border} = useTheme();
     const rotateAnim = useLoadingAnim(isLoading);
@@ -68,6 +70,15 @@ const RadioBlock = React.memo(
           <MyText style={styles.title}>{title}</MyText>
           {text && <MyText style={styles.text}>{text}</MyText>}
         </View>
+        {isIcon && (
+          <View
+            style={{
+              flexGrow: 1,
+              alignItems: 'flex-end',
+            }}>
+            <AppleIcon />
+          </View>
+        )}
         {isLoading && (
           <Animated.View
             style={{

@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import {TypePayment} from '../../constants/constantsId';
 import RadioBlock from '../controls/RadioBlock';
 import {sizes} from '../../context/ThemeContext';
@@ -78,6 +78,7 @@ const BlockPayment = () => {
             onPress={() => handleChange(o.code)}
             title={o.title}
             styleCon={styles.item}
+            isIcon={Platform.OS === 'ios' && o.icon}
           />
         );
       })}

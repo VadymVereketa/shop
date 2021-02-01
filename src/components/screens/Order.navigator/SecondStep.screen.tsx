@@ -11,6 +11,8 @@ import {actionsOrder, selectorsOrder} from '../../../redux/order/orderReducer';
 import DateInput from '../../common/DateInput';
 import BlockWrapperOrder from '../../common/BlockWrapperOrder';
 import t from '../../../utils/translate';
+import useSaveDraft from '../../../useHooks/useSaveDraft';
+import {actionsOther} from '../../../redux/other/otherReducer';
 
 const SecondStepScreen = React.memo(
   ({navigation, route}: SecondStepScreenProps) => {
@@ -19,8 +21,10 @@ const SecondStepScreen = React.memo(
     const paramOption = params.option;
     const dispatch = useDispatch();
     const disabled = useSelector(selectorsOrder.isAllowThirdStep);
+    const saveDraft = useSaveDraft();
 
     const handleContinue = () => {
+      saveDraft();
       navigation.navigate('ThirdStep', {});
     };
 

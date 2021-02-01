@@ -181,7 +181,7 @@ const ViewProductItem = React.memo(
             <MyText style={styles.textPrice}>{formatPrice(price)}</MyText>
           </View>
           <TouchableOpacity
-            style={{flexDirection: 'row'}}
+            style={{flexDirection: 'row', maxWidth: '74%'}}
             onPress={() => {
               navigation.navigate('SecondaryNavigator', {
                 screen: 'CommentCart',
@@ -231,6 +231,7 @@ const ViewProductItem = React.memo(
 const styles = StyleSheet.create({
   con: {
     flexDirection: 'row',
+    alignItems: 'flex-start',
     paddingVertical: sizes[7],
     borderBottomWidth: 1,
   },

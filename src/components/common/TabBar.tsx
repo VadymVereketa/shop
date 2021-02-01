@@ -13,6 +13,7 @@ import {
 } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 import MyText from '../controls/MyText';
 import {selectorsOrder} from '../../redux/order/orderReducer';
+import {selectorsOther} from '../../redux/other/otherReducer';
 
 const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
   const sum = useSelector(selectorsCart.getGeneralSum);
@@ -20,6 +21,7 @@ const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
   const {lightText, darkText, background} = useTheme();
   const {bottom} = useSafeAreaInsets();
   const isRepeatOrder = useSelector(selectorsOrder.isRepeatOrder);
+  const isGlobalSearch = useSelector(selectorsOther.getIsGlobalSearch);
 
   const current = props.state.index;
 
@@ -34,7 +36,8 @@ const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
       ]}>
       {props.state.routes.map((r, index) => {
         const description = props.descriptors[r.key].options;
-        const color = current === index ? darkText : lightText;
+        const color =
+          current === index && !isGlobalSearch ? darkText : lightText;
         if (r.name === 'Cart') {
           if (isRepeatOrder) {
             return null;

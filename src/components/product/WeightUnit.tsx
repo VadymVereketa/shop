@@ -21,6 +21,7 @@ import {Switch} from 'react-native-gesture-handler';
 import {selectorsOrder} from '../../redux/order/orderReducer';
 import {selectorsUser} from '../../redux/user/userReducer';
 import {selectorsOther} from '../../redux/other/otherReducer';
+import {IProduct} from '../../typings/FetchData';
 
 interface IWeightUnitProps {
   id: number;
@@ -29,6 +30,7 @@ interface IWeightUnitProps {
   title: ITranslate;
   avgWeight: string | null;
   onOrder: () => any;
+  product: IProduct;
 }
 
 const LENGTH_SLIDER = 1.2;
@@ -61,7 +63,15 @@ const calc = (current: number) => {
 };
 
 const WeightUnit = React.memo(
-  ({id, price, addToCart, title, avgWeight, onOrder}: IWeightUnitProps) => {
+  ({
+    id,
+    price,
+    addToCart,
+    title,
+    avgWeight,
+    onOrder,
+    product,
+  }: IWeightUnitProps) => {
     const w = useResponsiveWidth(100);
     const insets = useSafeAreaInsets();
     const {
@@ -198,6 +208,30 @@ const WeightUnit = React.memo(
       : price * weight;
     return (
       <View style={styles.con}>
+        {avgWeight && (
+          <MyText style={[styles.title, styles.text]}>
+            Середня вага одиниці:{' '}
+            <MyText style={styles.text}>{format1000Unit(+avgWeight!)}</MyText>
+          </MyText>
+        )}
+        {product.ingredients && (
+          <View>
+            <MyText style={[styles.title, styles.text]}>
+              Склад: <MyText style={styles.text}>{product.ingredients}</MyText>
+            </MyText>
+          </View>
+        )}
+        {product.energyValue && (
+          <View
+            style={{
+              marginBottom: sizes[10],
+            }}>
+            <MyText style={[styles.title, styles.text]}>
+              Поживна енергетична цінність на 100 г:{' '}
+              <MyText style={styles.text}>{product.energyValue}</MyText>
+            </MyText>
+          </View>
+        )}
         {/*{isAvgWeight && (
           <View style={[styles.viewSwitch, {borderColor: border}]}>
             <MyText style={styles.titleSwitch}>{t('commonSettings')}</MyText>
@@ -390,6 +424,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingVertical: sizes[12],
     marginBottom: sizes[15],
+  },
+  title: {
+    fontFamily: getFontFamily('500'),
+  },
+  text: {
+    fontSize: sizes[10],
   },
 });
 export default WeightUnit;

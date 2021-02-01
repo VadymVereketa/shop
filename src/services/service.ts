@@ -18,6 +18,8 @@ import {
   ICard,
   IDeliveryType,
   IPaymentType,
+  IProduct,
+  IDraft,
 } from '../typings/FetchData';
 import {IGetProducts, IOrderPost} from '../typings/ServiceTypes';
 import queries from './queries';
@@ -28,6 +30,7 @@ import buildQuery from '../utils/buildQuery';
 import {AxiosResponse} from 'axios';
 import {FRACTION_DIGIT, TypeDelivery} from '../constants/constantsId';
 import {formatAddress} from '../utils/formatAddress';
+import {DateHelper} from '../utils/DataHelper';
 
 const service = {
   getSellPoints: async () => {
@@ -107,8 +110,8 @@ const service = {
     const filter = {
       or: ids.map((id) => ({id: id})),
     };
-    return await customFetch(() =>
-      instance.get('/products' + buildQuery({filter})),
+    return await customFetch<IProduct[]>(() =>
+      instance.get<IProduct[]>('/products' + buildQuery({filter})),
     );
   },
   getOrders: async (opt: {top: number; skip: number}) => {
@@ -194,7 +197,7 @@ const service = {
       return [];
     }
   },
-  createOrder: async (draftId: number, data: IOrderState) => {
+  createOrder: async (draftId: number | undefined, data: IOrderState) => {
     let contact: any = {};
     const addressData: any = {};
     if (data.contact) {
@@ -219,11 +222,14 @@ const service = {
     const [maxH, maxM] = maxTime.split(':').map(parseFloat);
     const [minH, minM] = minTime.split(':').map(parseFloat);
 
-    const maxExecuteDate = new Date(data.date!);
+    let maxExecuteDate = new Date(data.date!);
     maxExecuteDate.setHours(maxH, maxM);
 
-    const minExecuteDate = new Date(data.date!);
+    let minExecuteDate = new Date(data.date!);
     minExecuteDate.setHours(minH, minM);
+
+    maxExecuteDate = DateHelper.getUTCDate(maxExecuteDate);
+    minExecuteDate = DateHelper.getUTCDate(minExecuteDate);
 
     const fetchData: IOrderPost = {
       id: draftId,
@@ -239,6 +245,9 @@ const service = {
       },
       payments: {
         paymentType: data.paymentType!.id,
+      },
+      paymentType: {
+        id: data.paymentType!.id,
       },
       ...contact,
       ...addressData,
@@ -413,8 +422,8 @@ const service = {
       instance.post(config.baseURLCallback + 'payments/pre_auth', data),
     );
   },
-  createDraft: async () => {
-    return await customFetch(() => instance.post('clients/order/draft'));
+  createDraft: async (data?: IDraft) => {
+    return await customFetch(() => instance.post('clients/order/draft', data));
   },
   getExcludeTime: async (d: Date) => {
     const y = d.getFullYear();
@@ -435,6 +444,14 @@ const service = {
       };
     }
   },
+  getCurrentTime: async () => {
+    const res = await customFetch(() => instance.get('clients/order/date'));
+    if (res.success) {
+      const d = new Date(res.data.date);
+      return DateHelper.get2Date(d);
+    }
+    return new Date();
+  },
 };
 
 const customFetch = async <T>(func: () => Promise<AxiosResponse<T>>) => {
@@ -442,7 +459,7 @@ const customFetch = async <T>(func: () => Promise<AxiosResponse<T>>) => {
     const res = await func();
     return {
       success: true,
-      data: res.data,
+      data: res.data as T,
       code: res.status,
     };
   } catch (e) {

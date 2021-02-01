@@ -136,6 +136,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
               avgWeight={product.avgWeight}
               addToCart={addProductToCart}
               onOrder={handleOrder}
+              product={product}
             />
           ) : (
             <PortionUnit

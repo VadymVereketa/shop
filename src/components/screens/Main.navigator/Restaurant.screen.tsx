@@ -135,7 +135,7 @@ const RestaurantScreen = React.memo(
           />
           <CategoryBar
             tags={categories}
-            currentId={idCategory}
+            currentId={isGlobalSearch ? -1 : idCategory}
             onPress={handlePress}
           />
         </View>

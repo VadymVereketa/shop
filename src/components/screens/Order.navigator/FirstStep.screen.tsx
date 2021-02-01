@@ -13,6 +13,8 @@ import {actionsOrder, selectorsOrder} from '../../../redux/order/orderReducer';
 import RadioBlock from '../../controls/RadioBlock';
 import {IContact} from '../../../typings/FetchData';
 import t from '../../../utils/translate';
+import useSaveDraft from '../../../useHooks/useSaveDraft';
+import {actionsOther} from '../../../redux/other/otherReducer';
 
 const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
   const dispatch = useDispatch();
@@ -21,8 +23,10 @@ const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
   const mainClient = useSelector(selectorsUser.getDataUser)!;
   const contacts = useSelector(selectorsUser.getContacts);
   const contact = useSelector(selectorsOrder.getContact);
+  const saveDraft = useSaveDraft();
 
   const handleContinue = () => {
+    saveDraft();
     navigation.push('SecondStep', {});
   };
 
@@ -125,6 +129,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingVertical: sizes[8],
     paddingHorizontal: sizes[8],
+    marginBottom: sizes[5],
   },
   name: {
     marginBottom: sizes[8],

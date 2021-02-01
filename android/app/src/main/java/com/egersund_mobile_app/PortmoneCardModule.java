@@ -98,7 +98,7 @@ public class PortmoneCardModule extends ReactContextBaseJavaModule {
                 "",
                     billAmount,
                 false,
-                true
+                false
             );
             CardPaymentActivity.performTransaction(
                 getCurrentActivity(),

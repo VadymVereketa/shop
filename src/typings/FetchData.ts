@@ -388,3 +388,35 @@ export interface ITag {
   isActive: boolean;
   ord: number;
 }
+
+export interface IDraft {
+  id: number;
+  phone: string;
+  firstName: string;
+  lastName: string;
+  purchases: {
+    product: {
+      id: number;
+    };
+    price: number;
+    comment: string | null;
+    count: number;
+    alternativeCount: number | null;
+  }[];
+  productsPrice: number;
+  sellPoint: {
+    id: number;
+    name: string;
+  };
+  deliveryPrice?: {
+    id: number;
+  };
+  deliveryType?: {
+    id: number;
+  };
+  paymentType?: {
+    id: number;
+  };
+  orderAddress: string;
+  comment: string | null;
+}

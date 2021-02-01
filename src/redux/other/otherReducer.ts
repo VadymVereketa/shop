@@ -52,6 +52,9 @@ creator.addAction('setDeliveryPrices', (state, action) => {
 creator.addAction('setData', (state, action) => {
   return {...state, ...action.payload};
 });
+creator.addAction(actionsOrder.clear, (state, action) => {
+  return {...state, draftId: null};
+});
 const actionsOther = creator.createActions();
 
 const selectorsOther = {
