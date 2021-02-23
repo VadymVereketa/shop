@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -15,7 +15,7 @@ import Logo from '../../common/Logo';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import MyText from '../../controls/MyText';
 import {getFontFamily} from '../../../utils/getFontFamily';
-import MyTextInput from '../../controls/MyTextInput';
+import MyTextInput, {MyTextPhoneInput} from '../../controls/MyTextInput';
 import MyButton, {GhostButton} from '../../controls/MyButton';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Controller, useForm} from 'react-hook-form';
@@ -30,6 +30,7 @@ import {
 import t from '../../../utils/translate';
 import service from '../../../services/service';
 import {actionsCart} from '../../../redux/cart/cartReducer';
+import {getWithoutCodePhone} from '../../../utils/normalizePhone';
 
 const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -37,12 +38,13 @@ const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
   const error = useSelector(selectorsUser.getError);
   const isLoading = useSelector(selectorsUser.getLoading);
   const dispatch = useDispatch();
+
   const {control, handleSubmit, errors} = useForm({
     reValidateMode: 'onChange',
     mode: 'onChange',
   });
   const onSubmit = async (data) => {
-    await dispatch(fetchLogin(data.phone, data.password));
+    await dispatch(fetchLogin(getWithoutCodePhone(data.phone), data.password));
 
     service.getCart().then((res) => {
       if (res.length > 0) {
@@ -86,13 +88,12 @@ const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
           <Controller
             control={control}
             render={({onChange, onBlur, value}) => (
-              <MyTextInput
+              <MyTextPhoneInput
                 label={t('tIPhoneLabel')}
                 placeholder={t('tIPhonePlaceholder')}
                 keyboardType={'phone-pad'}
                 textContentType={'telephoneNumber'}
                 styleCon={styles.inputText}
-                value={value}
                 onChangeText={onChange}
                 error={getErrorByObj(errors, 'phone')}
               />

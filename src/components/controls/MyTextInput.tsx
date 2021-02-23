@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {
   NativeViewGestureHandlerProperties,
   TextInput,
@@ -19,7 +19,10 @@ import {IName} from '../common/DesignIcon';
 import IconButton from './IconButton';
 import Animated, {Easing, timing} from 'react-native-reanimated';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
-import debounce from 'lodash.debounce'; // 4.0.8
+import debounce from 'lodash.debounce';
+import t from '../../utils/translate'; // 4.0.8
+import TextInputMask from 'react-native-text-input-mask';
+import {formatPhone, getIsCustomPhone} from '../../utils/normalizePhone';
 
 type IMyTextInput = NativeViewGestureHandlerProperties &
   TextInputProps & {
@@ -216,6 +219,98 @@ const MyTextInput = React.memo(
   },
 );
 
+type IMyTextPhoneInput = NativeViewGestureHandlerProperties &
+  TextInputProps & {
+    label?: string;
+    isClear?: boolean;
+    afterIcon?: {
+      name: IName;
+      onPress: any;
+      isStroke?: boolean;
+    };
+    styleLabel?: StyleProp<TextStyle>;
+    styleCon?: StyleProp<ViewStyle>;
+    error?: string;
+    viewOnTouch?: any;
+    onClear?: any;
+  };
+
+const MyTextPhoneInput = ({
+  styleCon,
+  styleLabel,
+  style,
+  error,
+  onFocus,
+  onBlur,
+  value = '',
+  onChangeText,
+  defaultValue = '380',
+  ...props
+}: IMyTextPhoneInput) => {
+  const animError = useRef(new Animated.Value(-sizes[10])).current;
+  let {border, lightText, primary, text, errorColor, background} = useTheme();
+  const [isFocus, setIsFocus] = useState(false);
+
+  const handleFocus = (e: any) => {
+    if (onFocus) {
+      onFocus(e);
+    }
+    setIsFocus(true);
+  };
+
+  const handleBlur = (e: any) => {
+    if (onBlur) {
+      onBlur(e);
+    }
+    setIsFocus(false);
+  };
+
+  return (
+    <View style={styleCon}>
+      <MyText style={[styles.textLabel, styleLabel]}>
+        {t('tIPhoneLabel')}
+      </MyText>
+      <View
+        style={[
+          styles.con,
+          {
+            borderColor: isFocus ? primary : border,
+            backgroundColor: background,
+          },
+        ]}>
+        <TextInputMask
+          selectionColor={primary}
+          placeholderTextColor={lightText}
+          style={[styles.textInput, {color: text}, style]}
+          maxFontSizeMultiplier={1.5}
+          autoCapitalize={'none'}
+          onSubmitEditing={Keyboard.dismiss}
+          keyboardType={'phone-pad'}
+          onChangeText={onChangeText}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          mask={'+[00] [000] [000] [00] [00]'}
+          defaultValue={formatPhone(defaultValue, true)}
+          {...props}
+        />
+      </View>
+      <Animated.View
+        style={[
+          styles.error,
+          {
+            transform: [
+              {
+                translateY: animError,
+              },
+            ],
+          },
+        ]}>
+        <MyText style={[styles.errorText, {color: errorColor}]}>{error}</MyText>
+      </Animated.View>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   error: {
     position: 'absolute',
@@ -261,4 +356,5 @@ const styles = StyleSheet.create({
   },
 });
 
+export {MyTextPhoneInput};
 export default MyTextInput;
