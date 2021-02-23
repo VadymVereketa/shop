@@ -6,7 +6,7 @@ import Logo from '../../common/Logo';
 import MyText from '../../controls/MyText';
 import t from '../../../utils/translate';
 import {Controller, useForm} from 'react-hook-form';
-import MyTextInput from '../../controls/MyTextInput';
+import MyTextInput, {MyTextPhoneInput} from '../../controls/MyTextInput';
 import getErrorByObj from '../../../utils/getErrorByObj';
 import validation from '../../../utils/validation';
 import MyButton, {GhostButton} from '../../controls/MyButton';
@@ -61,13 +61,12 @@ const ForgetPasswordScreen = ({
           <Controller
             control={control}
             render={({onChange, onBlur, value}) => (
-              <MyTextInput
-                label={t('tIPhonePlaceholder')}
+              <MyTextPhoneInput
+                label={t('tIPhoneLabel')}
                 placeholder={t('tIPhonePlaceholder')}
                 keyboardType={'phone-pad'}
                 textContentType={'telephoneNumber'}
                 styleCon={styles.inputText}
-                value={value}
                 onChangeText={onChange}
                 error={getErrorByObj(errors, 'phone')}
               />

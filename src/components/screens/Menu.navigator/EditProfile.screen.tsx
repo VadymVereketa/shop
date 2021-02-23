@@ -7,7 +7,7 @@ import MyButton from '../../controls/MyButton';
 import {Controller, useForm} from 'react-hook-form';
 import {useAxios} from '../../../useHooks/useAxios';
 import service from '../../../services/service';
-import MyTextInput from '../../controls/MyTextInput';
+import MyTextInput, {MyTextPhoneInput} from '../../controls/MyTextInput';
 import t from '../../../utils/translate';
 import getErrorByObj from '../../../utils/getErrorByObj';
 import validation from '../../../utils/validation';
@@ -105,24 +105,43 @@ const EditProfileScreen = React.memo(
             marginTop: -insets.top,
           },
         ]}>
-        <Controller
-          control={control}
-          render={({onChange, onBlur, value}) => (
-            <MyTextInput
-              autoFocus
-              label={setting.label}
-              placeholder={setting.placeholder}
-              keyboardType={setting.keyboardType as any}
-              textContentType={setting.textContentType as any}
-              styleCon={styles.inputText}
-              value={value}
-              onChangeText={onChange}
-              error={getErrorByObj(errors, setting.name)}
-            />
-          )}
-          name={setting.name}
-          rules={setting.rules}
-        />
+        {field === 'phone' ? (
+          <Controller
+            control={control}
+            render={({onChange, onBlur, value}) => (
+              <MyTextPhoneInput
+                label={t('tIPhoneLabel')}
+                placeholder={t('tIPhonePlaceholder')}
+                keyboardType={'phone-pad'}
+                textContentType={'telephoneNumber'}
+                styleCon={styles.inputText}
+                onChangeText={onChange}
+                error={getErrorByObj(errors, 'phone')}
+              />
+            )}
+            name={setting.name}
+            rules={setting.rules}
+          />
+        ) : (
+          <Controller
+            control={control}
+            render={({onChange, onBlur, value}) => (
+              <MyTextInput
+                autoFocus
+                label={setting.label}
+                placeholder={setting.placeholder}
+                keyboardType={setting.keyboardType as any}
+                textContentType={setting.textContentType as any}
+                styleCon={styles.inputText}
+                value={value}
+                onChangeText={onChange}
+                error={getErrorByObj(errors, setting.name)}
+              />
+            )}
+            name={setting.name}
+            rules={setting.rules}
+          />
+        )}
         <BlockButtons
           isLoading={isLoading}
           onOk={handleSubmit(handleOk)}

@@ -12,7 +12,7 @@ import {SignUpScreenProps} from '../../navigators/Auth.navigator';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import Logo from '../../common/Logo';
 import MyText from '../../controls/MyText';
-import MyTextInput from '../../controls/MyTextInput';
+import MyTextInput, {MyTextPhoneInput} from '../../controls/MyTextInput';
 import MyButton, {GhostButton} from '../../controls/MyButton';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
@@ -34,6 +34,10 @@ import {
 import {useDispatch, useSelector} from 'react-redux';
 import {useFocusEffect} from '@react-navigation/core';
 import t from '../../../utils/translate';
+import {
+  getIsCustomPhone,
+  getWithoutCodePhone,
+} from '../../../utils/normalizePhone';
 
 interface IFormData {
   name: string;
@@ -56,8 +60,8 @@ const SignUpScreen = React.memo(({navigation}: SignUpScreenProps) => {
   const onSubmit = async (data: IFormData) => {
     const [firstName, lastName] = data.name.split(' ');
     const fetchData: ISignUp = {
-      isPhoneCustom: false,
-      phone: data.phone,
+      isPhoneCustom: getIsCustomPhone(data.phone),
+      phone: getWithoutCodePhone(data.phone),
       firstName,
       lastName: lastName || '',
       confirmedPassword: data.confirmedPassword,
@@ -121,13 +125,12 @@ const SignUpScreen = React.memo(({navigation}: SignUpScreenProps) => {
           <Controller
             control={control}
             render={({onChange, onBlur, value}) => (
-              <MyTextInput
+              <MyTextPhoneInput
                 label={t('tIPhoneLabel')}
                 placeholder={t('tIPhonePlaceholder')}
                 keyboardType={'phone-pad'}
                 textContentType={'telephoneNumber'}
                 styleCon={styles.inputText}
-                value={value}
                 onChangeText={onChange}
                 error={getErrorByObj(errors, 'phone')}
               />

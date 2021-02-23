@@ -27,6 +27,7 @@ import {actionsOrder} from '../../../redux/order/orderReducer';
 import AddressBlock from '../../common/AddressBlock';
 import CreditCardBlock from '../../common/CreditCardBlock';
 import BetaTest from '../../common/BetaTest';
+import {formatPhone} from '../../../utils/normalizePhone';
 
 const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
   const dispatch = useDispatch();
@@ -123,7 +124,7 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
                   })
                 }
                 style={styles.mainText}>
-                {user.phone}
+                {formatPhone(user.phone, user.isPhoneCustom)}
               </MyText>
             </View>
             {user.email ? (

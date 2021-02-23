@@ -12,6 +12,7 @@ import {useDispatch} from 'react-redux';
 import {actionsUser} from '../../redux/user/userReducer';
 import t from '../../utils/translate';
 import ItemWithMenu from './ItemWithMenu';
+import {formatPhone} from '../../utils/normalizePhone';
 
 interface IContactBlockProps {
   contact: IContact;
@@ -56,7 +57,9 @@ const ContactBlock = ({contact}: IContactBlockProps) => {
             style={
               styles.text
             }>{`${contact.firstName} ${contact.lastName}`}</MyText>
-          <MyText style={styles.text}>{contact.phone}</MyText>
+          <MyText style={styles.text}>
+            {formatPhone(contact.phone, contact.isPhoneCustom)}
+          </MyText>
         </React.Fragment>
       }
     />
