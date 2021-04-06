@@ -128,8 +128,7 @@ class PortmoneCardViewController: UIViewController {
             billAmount: billAmount,
             payeeId: payeeId,
             type: self.getTypeUI(type: ""),
-            paymentFlowType: paymentFlowType,
-
+          paymentFlowType: paymentFlowType
         )
     }
 

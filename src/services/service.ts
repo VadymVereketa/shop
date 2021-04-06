@@ -228,9 +228,6 @@ const service = {
     let minExecuteDate = new Date(data.date!);
     minExecuteDate.setHours(minH, minM);
 
-    maxExecuteDate = DateHelper.getUTCDate(maxExecuteDate);
-    minExecuteDate = DateHelper.getUTCDate(minExecuteDate);
-
     const fetchData: IOrderPost = {
       id: draftId,
       comment: '',
@@ -444,11 +441,33 @@ const service = {
       };
     }
   },
+  getExcludeTimeSellPoint: async (d: Date, id: any, isSelfDelivery = true) => {
+    const y = d.getFullYear();
+    const m = (d.getMonth() + 1).toString().padStart(2, '0');
+    const day = d.getDate().toString().padStart(2, '0');
+
+    try {
+      const res = await customFetch(() =>
+        instance.get(
+          `/delivery/time/exclude/${y}-${m}-${day}/${id}/${isSelfDelivery}`,
+        ),
+      );
+      return {
+        success: true,
+        data: res.data,
+        date: d,
+      };
+    } catch (e) {
+      return {
+        success: false,
+      };
+    }
+  },
   getCurrentTime: async () => {
     const res = await customFetch(() => instance.get('clients/order/date'));
     if (res.success) {
       const d = new Date(res.data.date);
-      return DateHelper.get2Date(d);
+      return d;
     }
     return new Date();
   },

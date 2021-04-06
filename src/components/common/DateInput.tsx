@@ -20,6 +20,20 @@ import service from '../../services/service';
 interface IDateInputProps {
   navigate: string;
 }
+
+const strToTime = (str: string) => {
+  const [h, m] = str.split(':').map(parseFloat);
+  return h * 60 + m;
+};
+
+const consistInRange = (from: string, to: string, value: string) => {
+  const fromTime = strToTime(from);
+  const toTime = strToTime(to);
+  const valueTime = strToTime(value);
+
+  return valueTime >= fromTime && valueTime <= toTime;
+};
+
 const DateInput = ({navigate}: IDateInputProps) => {
   const dispatch = useDispatch();
   const navigation = useNavigation<SecondStepScreenNavigationProp>();
@@ -51,31 +65,33 @@ const DateInput = ({navigate}: IDateInputProps) => {
           [0, 1, 2, 3, 4, 5, 6].map((i) => {
             const d = new Date();
             d.setDate(d.getDate() + i);
-            return service.getExcludeTime(d);
+            return name === DEFAULT_NAME_SETTING
+              ? service.getExcludeTime(d)
+              : service.getExcludeTimeSellPoint(d, name);
           }),
         );
         const obj = {};
         res.forEach((r) => {
           if (r.success) {
             obj[new Date(r.date!).toLocaleDateString()] = r.data;
-            setExcludeTime(obj);
           }
         });
+        setExcludeTime(obj);
       } finally {
         setIsBlock(false);
       }
     };
 
-    if (deliveryType && deliveryType!.code === TypeDelivery.courier) handle();
-  }, [deliveryType]);
+    if (deliveryType) {
+      handle();
+    }
+  }, [deliveryType, name]);
 
   useEffect(() => {
     const handle = async () => {
       const d = await service.getCurrentTime();
       if (isFocused) {
-        console.log(d);
         const options = getOptions(settings, d, name === DEFAULT_NAME_SETTING);
-        console.log(options);
         setOptions(options);
       }
     };
@@ -97,26 +113,35 @@ const DateInput = ({navigate}: IDateInputProps) => {
     if (isBlock) {
       return;
     }
-    const filterOptions =
-      deliveryType!.code === TypeDelivery.courier &&
-      Object.keys(excludeTime).length > 0
-        ? options.filter((opt) => {
-            const times: string[] =
-              excludeTime[new Date(opt.date).toLocaleDateString()];
-            if (times && times.length === 0) {
-              return true;
-            }
-            return times
-              ? !times.some((e: any) => {
-                  return opt.time === `${e.timeFrom} - ${e.timeTo}`;
-                })
-              : false;
-          })
-        : options;
-    navigation.navigate('Date', {
-      options: filterOptions,
-      navigate,
-    });
+
+    if (Object.keys(excludeTime).length > 0) {
+      const filterOptions = options.filter((opt) => {
+        const times: string[] =
+          excludeTime[new Date(opt.date).toLocaleDateString()];
+        if (times && times.length === 0) {
+          return true;
+        }
+        return times
+          ? !times.some((e: any) => {
+              if (name === DEFAULT_NAME_SETTING) {
+                const [from, to] = opt.time.split(' - ');
+                return (
+                  consistInRange(e.timeFrom, e.timeTo, from) ||
+                  consistInRange(e.timeFrom, e.timeTo, to)
+                );
+              } else {
+                const [value] = opt.time.split(' - ');
+                return consistInRange(e.timeFrom, e.timeTo, value);
+              }
+            })
+          : false;
+      });
+
+      navigation.navigate('Date', {
+        options: filterOptions,
+        navigate,
+      });
+    }
   };
 
   if (deliveryType === null) return null;

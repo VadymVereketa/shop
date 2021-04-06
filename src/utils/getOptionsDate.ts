@@ -1,6 +1,4 @@
 import {IOptionDate} from '../components/screens/Order.navigator/Date.screen';
-import {COUNT_DAY} from '../constants/constantsId';
-import {DateHelper} from './DataHelper';
 
 interface ISetting {
   step: number;
