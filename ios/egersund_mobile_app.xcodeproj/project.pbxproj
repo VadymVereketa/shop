@@ -11,19 +11,19 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		13B9CB0D860C140CF09DF085 /* libPods-egersund_mobile_app-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF173D9302D5279C96CBEAD /* libPods-egersund_mobile_app-tvOSTests.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* egersund_mobile_appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* egersund_mobile_appTests.m */; };
-		2EE7241C4B8C631D58603548 /* libPods-egersund_mobile_app-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B971D6937940DAB58B3F7EE /* libPods-egersund_mobile_app-tvOSTests.a */; };
-		3290138E6A4BFFCE12A51E91 /* libPods-egersund_mobile_app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 598B09D2E61DC0DBE1E7E6CF /* libPods-egersund_mobile_app.a */; };
+		411AEF754C93810AA475A719 /* libPods-egersund_mobile_app-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B96A468B955F2245E81186BE /* libPods-egersund_mobile_app-tvOS.a */; };
 		5BB4007F08264F69946E3480 /* FuturaPT-BoldObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4B4AEE5E54ED47F4BB96083C /* FuturaPT-BoldObl.ttf */; };
 		5C2203C7949849DFAD85974E /* FuturaPT-DemiObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 22878D59DD1E47D589CBA47A /* FuturaPT-DemiObl.ttf */; };
 		64968133987349C8B25C600E /* FuturaPT-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89206D5F01DA4812BD9B5D94 /* FuturaPT-Bold.ttf */; };
 		6A1DC818BFF24FE7824B7E44 /* FuturaPT-MediumObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 564DAD8CC9CF4E5C95E0128C /* FuturaPT-MediumObl.ttf */; };
 		7731781BCF114A3A8FEEB4EB /* FuturaPT-LightObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A6CEF389CD134549AA28016C /* FuturaPT-LightObl.ttf */; };
-		7C4719C64DB74703DC2DE8D9 /* libPods-egersund_mobile_app-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F6613FA7F1A6D6A74BCB89EA /* libPods-egersund_mobile_app-tvOS.a */; };
 		7F45503B6B244F2691B9A960 /* FuturaPT-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2181673ACF8447928EA59D63 /* FuturaPT-Medium.ttf */; };
+		80315C84AEA2989B8C1CA00A /* libPods-egersund_mobile_app-egersund_mobile_appTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C04D5C3ACFFA0E6AEE30F156 /* libPods-egersund_mobile_app-egersund_mobile_appTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		83ED3383F15844FEA87FDEFA /* FuturaPT-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 26D907E10C514D52872AE26F /* FuturaPT-ExtraBold.ttf */; };
 		939E3DBF50894F46AE1CF07D /* FuturaPT-BookObl.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D767A0C08AE54A44988F8F7A /* FuturaPT-BookObl.ttf */; };
@@ -37,10 +37,11 @@
 		A228C0A4252755A100717B34 /* libReact-RCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A228C0A3252755A100717B34 /* libReact-RCTLinking.a */; };
 		A275852225E39E86003B7412 /* PortmoneSDKEcom.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A275851625E39E4F003B7412 /* PortmoneSDKEcom.framework */; };
 		A275852325E39E86003B7412 /* PortmoneSDKEcom.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A275851625E39E4F003B7412 /* PortmoneSDKEcom.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A2E31746261D08F000EADF6D /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 008F07F21AC5B25A0029DE68 /* main.jsbundle */; };
 		AA1E7DFE7AD34177A12EA43E /* FuturaPT-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 88CB0477E4674C9EA6F67EEE /* FuturaPT-Light.ttf */; };
 		C565181994BD45BBA22FE813 /* FuturaPT-Demi.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8F18BD4CEAB64568B2CB9491 /* FuturaPT-Demi.ttf */; };
 		C60B1860491342B19F60F0B2 /* FuturaPT-Book.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 81D905DC6BFC4D4E8F45A253 /* FuturaPT-Book.ttf */; };
-		F66EDA19D267EA95EA965471 /* libPods-egersund_mobile_app-egersund_mobile_appTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96B3F5C748D656F8755CC6EB /* libPods-egersund_mobile_app-egersund_mobile_appTests.a */; };
+		CBFCC05897E5D21F4E4CF9C0 /* libPods-egersund_mobile_app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2745844EBFC154EB8C59CCB3 /* libPods-egersund_mobile_app.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,27 +86,24 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = egersund_mobile_app/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = egersund_mobile_app/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = egersund_mobile_app/main.m; sourceTree = "<group>"; };
-		1CC272BCEA54BA58BC8FE234 /* Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig"; sourceTree = "<group>"; };
 		2181673ACF8447928EA59D63 /* FuturaPT-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Medium.ttf"; path = "../src/assets/fonts/FuturaPT-Medium.ttf"; sourceTree = "<group>"; };
 		22878D59DD1E47D589CBA47A /* FuturaPT-DemiObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-DemiObl.ttf"; path = "../src/assets/fonts/FuturaPT-DemiObl.ttf"; sourceTree = "<group>"; };
 		26D907E10C514D52872AE26F /* FuturaPT-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-ExtraBold.ttf"; path = "../src/assets/fonts/FuturaPT-ExtraBold.ttf"; sourceTree = "<group>"; };
-		2BE94E4C596B196B6F56BC90 /* Pods-egersund_mobile_app-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-tvOS.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-tvOS/Pods-egersund_mobile_app-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		2745844EBFC154EB8C59CCB3 /* libPods-egersund_mobile_app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-egersund_mobile_app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* egersund_mobile_app-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "egersund_mobile_app-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* egersund_mobile_app-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "egersund_mobile_app-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		303415D7FB45BCFF2A086EB9 /* Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		4B4AEE5E54ED47F4BB96083C /* FuturaPT-BoldObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-BoldObl.ttf"; path = "../src/assets/fonts/FuturaPT-BoldObl.ttf"; sourceTree = "<group>"; };
 		5343794B7C4C4B05B0E79AFA /* FuturaPT-ExtraBoldObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-ExtraBoldObl.ttf"; path = "../src/assets/fonts/FuturaPT-ExtraBoldObl.ttf"; sourceTree = "<group>"; };
 		564DAD8CC9CF4E5C95E0128C /* FuturaPT-MediumObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-MediumObl.ttf"; path = "../src/assets/fonts/FuturaPT-MediumObl.ttf"; sourceTree = "<group>"; };
-		598B09D2E61DC0DBE1E7E6CF /* libPods-egersund_mobile_app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-egersund_mobile_app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5B971D6937940DAB58B3F7EE /* libPods-egersund_mobile_app-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-egersund_mobile_app-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		630876D1720FAF1201C9877F /* Pods-egersund_mobile_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app/Pods-egersund_mobile_app.debug.xcconfig"; sourceTree = "<group>"; };
-		70791B4A2152E65316EFD2D0 /* Pods-egersund_mobile_app-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-tvOS/Pods-egersund_mobile_app-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		5A9358E5BBD9CDEEA4EE542A /* Pods-egersund_mobile_app-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-tvOSTests/Pods-egersund_mobile_app-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		6200A79256A2C00E04D1837A /* Pods-egersund_mobile_app-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-tvOSTests/Pods-egersund_mobile_app-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		7955F7A4E03E702BFD8AE33B /* Pods-egersund_mobile_app-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-tvOS.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-tvOS/Pods-egersund_mobile_app-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = egersund_mobile_app/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		81D905DC6BFC4D4E8F45A253 /* FuturaPT-Book.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Book.ttf"; path = "../src/assets/fonts/FuturaPT-Book.ttf"; sourceTree = "<group>"; };
-		86AFFA648EBABA6CB8CABBD1 /* Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		88CB0477E4674C9EA6F67EEE /* FuturaPT-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Light.ttf"; path = "../src/assets/fonts/FuturaPT-Light.ttf"; sourceTree = "<group>"; };
 		89206D5F01DA4812BD9B5D94 /* FuturaPT-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Bold.ttf"; path = "../src/assets/fonts/FuturaPT-Bold.ttf"; sourceTree = "<group>"; };
 		8F18BD4CEAB64568B2CB9491 /* FuturaPT-Demi.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-Demi.ttf"; path = "../src/assets/fonts/FuturaPT-Demi.ttf"; sourceTree = "<group>"; };
-		96B3F5C748D656F8755CC6EB /* libPods-egersund_mobile_app-egersund_mobile_appTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-egersund_mobile_app-egersund_mobile_appTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A21DD6A12510FA5D008B556E /* egersund_mobile_app-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "egersund_mobile_app-Bridging-Header.h"; sourceTree = "<group>"; };
 		A21DD6A22510FA5D008B556E /* PortmoneCardResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortmoneCardResolver.swift; sourceTree = "<group>"; };
 		A21DD6A42510FA5E008B556E /* PortmoneCardStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PortmoneCardStyle.swift; sourceTree = "<group>"; };
@@ -117,14 +115,17 @@
 		A228C0A3252755A100717B34 /* libReact-RCTLinking.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libReact-RCTLinking.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A231021825BEDA7200801A37 /* PortmoneSDKEcom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PortmoneSDKEcom.framework; path = "../../../../Downloads/IOS-e-Commerce-SDK-1.7.7/PortmoneSDKEcom.framework"; sourceTree = "<group>"; };
 		A275851625E39E4F003B7412 /* PortmoneSDKEcom.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PortmoneSDKEcom.framework; sourceTree = "<group>"; };
+		A40C307A4EF7E615D8A4B53D /* Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig"; sourceTree = "<group>"; };
+		A6CAC1193CA0015257D08616 /* Pods-egersund_mobile_app-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-tvOS/Pods-egersund_mobile_app-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		A6CEF389CD134549AA28016C /* FuturaPT-LightObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-LightObl.ttf"; path = "../src/assets/fonts/FuturaPT-LightObl.ttf"; sourceTree = "<group>"; };
-		BDAC936145257A7B437D71FF /* Pods-egersund_mobile_app-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-tvOSTests/Pods-egersund_mobile_app-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		B50FC35591D7726331588058 /* Pods-egersund_mobile_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app/Pods-egersund_mobile_app.release.xcconfig"; sourceTree = "<group>"; };
+		B96A468B955F2245E81186BE /* libPods-egersund_mobile_app-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-egersund_mobile_app-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C04D5C3ACFFA0E6AEE30F156 /* libPods-egersund_mobile_app-egersund_mobile_appTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-egersund_mobile_app-egersund_mobile_appTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C99A92906C639FC5B5E85DDC /* Pods-egersund_mobile_app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app.debug.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app/Pods-egersund_mobile_app.debug.xcconfig"; sourceTree = "<group>"; };
+		CFF173D9302D5279C96CBEAD /* libPods-egersund_mobile_app-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-egersund_mobile_app-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D767A0C08AE54A44988F8F7A /* FuturaPT-BookObl.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "FuturaPT-BookObl.ttf"; path = "../src/assets/fonts/FuturaPT-BookObl.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		F31F317C82E8883471FE54AA /* Pods-egersund_mobile_app-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app-tvOSTests/Pods-egersund_mobile_app-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		F6613FA7F1A6D6A74BCB89EA /* libPods-egersund_mobile_app-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-egersund_mobile_app-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FB561A184814D4750238F568 /* Pods-egersund_mobile_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-egersund_mobile_app.release.xcconfig"; path = "Target Support Files/Pods-egersund_mobile_app/Pods-egersund_mobile_app.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +133,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F66EDA19D267EA95EA965471 /* libPods-egersund_mobile_app-egersund_mobile_appTests.a in Frameworks */,
+				80315C84AEA2989B8C1CA00A /* libPods-egersund_mobile_app-egersund_mobile_appTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,8 +142,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				A228C0A4252755A100717B34 /* libReact-RCTLinking.a in Frameworks */,
-				3290138E6A4BFFCE12A51E91 /* libPods-egersund_mobile_app.a in Frameworks */,
 				A275852225E39E86003B7412 /* PortmoneSDKEcom.framework in Frameworks */,
+				CBFCC05897E5D21F4E4CF9C0 /* libPods-egersund_mobile_app.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,7 +151,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7C4719C64DB74703DC2DE8D9 /* libPods-egersund_mobile_app-tvOS.a in Frameworks */,
+				411AEF754C93810AA475A719 /* libPods-egersund_mobile_app-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,7 +159,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2EE7241C4B8C631D58603548 /* libPods-egersund_mobile_app-tvOSTests.a in Frameworks */,
+				13B9CB0D860C140CF09DF085 /* libPods-egersund_mobile_app-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -211,10 +212,10 @@
 				A228C0A3252755A100717B34 /* libReact-RCTLinking.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				598B09D2E61DC0DBE1E7E6CF /* libPods-egersund_mobile_app.a */,
-				96B3F5C748D656F8755CC6EB /* libPods-egersund_mobile_app-egersund_mobile_appTests.a */,
-				F6613FA7F1A6D6A74BCB89EA /* libPods-egersund_mobile_app-tvOS.a */,
-				5B971D6937940DAB58B3F7EE /* libPods-egersund_mobile_app-tvOSTests.a */,
+				2745844EBFC154EB8C59CCB3 /* libPods-egersund_mobile_app.a */,
+				C04D5C3ACFFA0E6AEE30F156 /* libPods-egersund_mobile_app-egersund_mobile_appTests.a */,
+				B96A468B955F2245E81186BE /* libPods-egersund_mobile_app-tvOS.a */,
+				CFF173D9302D5279C96CBEAD /* libPods-egersund_mobile_app-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -222,14 +223,14 @@
 		74B6939610239B253E395E3D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				630876D1720FAF1201C9877F /* Pods-egersund_mobile_app.debug.xcconfig */,
-				FB561A184814D4750238F568 /* Pods-egersund_mobile_app.release.xcconfig */,
-				86AFFA648EBABA6CB8CABBD1 /* Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig */,
-				1CC272BCEA54BA58BC8FE234 /* Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig */,
-				70791B4A2152E65316EFD2D0 /* Pods-egersund_mobile_app-tvOS.debug.xcconfig */,
-				2BE94E4C596B196B6F56BC90 /* Pods-egersund_mobile_app-tvOS.release.xcconfig */,
-				BDAC936145257A7B437D71FF /* Pods-egersund_mobile_app-tvOSTests.debug.xcconfig */,
-				F31F317C82E8883471FE54AA /* Pods-egersund_mobile_app-tvOSTests.release.xcconfig */,
+				C99A92906C639FC5B5E85DDC /* Pods-egersund_mobile_app.debug.xcconfig */,
+				B50FC35591D7726331588058 /* Pods-egersund_mobile_app.release.xcconfig */,
+				303415D7FB45BCFF2A086EB9 /* Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig */,
+				A40C307A4EF7E615D8A4B53D /* Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig */,
+				A6CAC1193CA0015257D08616 /* Pods-egersund_mobile_app-tvOS.debug.xcconfig */,
+				7955F7A4E03E702BFD8AE33B /* Pods-egersund_mobile_app-tvOS.release.xcconfig */,
+				5A9358E5BBD9CDEEA4EE542A /* Pods-egersund_mobile_app-tvOSTests.debug.xcconfig */,
+				6200A79256A2C00E04D1837A /* Pods-egersund_mobile_app-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -295,11 +296,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "egersund_mobile_appTests" */;
 			buildPhases = (
-				A4FABDADF4E895DBB4918A92 /* [CP] Check Pods Manifest.lock */,
+				07D7FF1E484155390C38DF7C /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				5154445DC21EBDEACDFBCE7E /* [CP] Copy Pods Resources */,
+				2188A9729A5E252FBE1B0493 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -315,15 +316,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "egersund_mobile_app" */;
 			buildPhases = (
-				F15BDFA5233F5E95CA059B0E /* [CP] Check Pods Manifest.lock */,
+				8AB1C8781750169225676ED9 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				A2E74ED9251CCE270017C84A /* ShellScript */,
-				6AF4343FE19B723121932FD2 /* [CP] Copy Pods Resources */,
 				A275852425E39E86003B7412 /* Embed Frameworks */,
+				CB61662E880185DB8B56DD83 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -338,7 +339,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "egersund_mobile_app-tvOS" */;
 			buildPhases = (
-				99D20DFC580695D15101197C /* [CP] Check Pods Manifest.lock */,
+				E3B187B3AB4728AAB890802A /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -358,7 +359,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "egersund_mobile_app-tvOSTests" */;
 			buildPhases = (
-				C998B85841309F5E65B839AD /* [CP] Check Pods Manifest.lock */,
+				42E750ED2F82DF8DDB8BD898 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -433,6 +434,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2E31746261D08F000EADF6D /* main.jsbundle in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				64968133987349C8B25C600E /* FuturaPT-Bold.ttf in Resources */,
@@ -482,21 +484,29 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+		07D7FF1E484155390C38DF7C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
+			inputFileListPaths = (
 			);
-			name = "Bundle React Native Code And Images";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-egersund_mobile_app-egersund_mobile_appTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
-		5154445DC21EBDEACDFBCE7E /* [CP] Copy Pods Resources */ = {
+		2188A9729A5E252FBE1B0493 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -514,25 +524,21 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-egersund_mobile_app-egersund_mobile_appTests/Pods-egersund_mobile_app-egersund_mobile_appTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		6AF4343FE19B723121932FD2 /* [CP] Copy Pods Resources */ = {
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-egersund_mobile_app/Pods-egersund_mobile_app-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "Bundle React Native Code And Images";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-egersund_mobile_app/Pods-egersund_mobile_app-resources.sh\"\n";
-			showEnvVarsInLog = 0;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		99D20DFC580695D15101197C /* [CP] Check Pods Manifest.lock */ = {
+		42E750ED2F82DF8DDB8BD898 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -547,7 +553,29 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-egersund_mobile_app-tvOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-egersund_mobile_app-tvOSTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8AB1C8781750169225676ED9 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-egersund_mobile_app-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -571,29 +599,25 @@
 			shellPath = /bin/sh;
 			shellScript = "APP_PATH=\"${TARGET_BUILD_DIR}/${WRAPPER_NAME}\"\n\nfind \"$APP_PATH\" -name 'PortmoneSDKEcom*.framework' -type d | while read -r\n  FRAMEWORK\ndo\n  FRAMEWORK_EXECUTABLE_NAME=$(defaults read \"$FRAMEWORK/Info.plist\" CFBundleExecutable)\nFRAMEWORK_EXECUTABLE_PATH=\"$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME\"\vecho \"Executable is $FRAMEWORK_EXECUTABLE_PATH\"\n\nEXTRACTED_ARCHS=()\n\nfor ARCH in $ARCHS\n  do\n    echo \"Extracting $ARCH from $FRAMEWORK_EXECUTABLE_NAME\"\nlipo -extract \"$ARCH\" \"$FRAMEWORK_EXECUTABLE_PATH\" -o\n\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\"\nEXTRACTED_ARCHS+=(\"$FRAMEWORK_EXECUTABLE_PATH-$ARCH\")\ndone\n\necho \"Merging extracted architectures: ${ARCHS}\"\nlipo -o \"$FRAMEWORK_EXECUTABLE_PATH-merged\" -create\n\"${EXTRACTED_ARCHS[@]}\"\nrm \"${EXTRACTED_ARCHS[@]}\"\n\necho \"Replacing original executable with thinned version\"\nrm \"$FRAMEWORK_EXECUTABLE_PATH\"\nmv \"$FRAMEWORK_EXECUTABLE_PATH-merged\" \"$FRAMEWORK_EXECUTABLE_PATH\"\n\ndone\n";
 		};
-		A4FABDADF4E895DBB4918A92 /* [CP] Check Pods Manifest.lock */ = {
+		CB61662E880185DB8B56DD83 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${PODS_ROOT}/Target Support Files/Pods-egersund_mobile_app/Pods-egersund_mobile_app-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-egersund_mobile_app-egersund_mobile_appTests-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-egersund_mobile_app/Pods-egersund_mobile_app-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C998B85841309F5E65B839AD /* [CP] Check Pods Manifest.lock */ = {
+		E3B187B3AB4728AAB890802A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -608,29 +632,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-egersund_mobile_app-tvOSTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F15BDFA5233F5E95CA059B0E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-egersund_mobile_app-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-egersund_mobile_app-tvOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -736,7 +738,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 86AFFA648EBABA6CB8CABBD1 /* Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig */;
+			baseConfigurationReference = 303415D7FB45BCFF2A086EB9 /* Pods-egersund_mobile_app-egersund_mobile_appTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -760,7 +762,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1CC272BCEA54BA58BC8FE234 /* Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig */;
+			baseConfigurationReference = A40C307A4EF7E615D8A4B53D /* Pods-egersund_mobile_app-egersund_mobile_appTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -781,12 +783,12 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 630876D1720FAF1201C9877F /* Pods-egersund_mobile_app.debug.xcconfig */;
+			baseConfigurationReference = C99A92906C639FC5B5E85DDC /* Pods-egersund_mobile_app.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = egersund_mobile_app/egersund_mobile_app.entitlements;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = E2J8W9HEEC;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -837,7 +839,7 @@
 				INFOPLIST_FILE = egersund_mobile_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.0.36;
+				MARKETING_VERSION = 1.0.118;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
@@ -854,12 +856,12 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FB561A184814D4750238F568 /* Pods-egersund_mobile_app.release.xcconfig */;
+			baseConfigurationReference = B50FC35591D7726331588058 /* Pods-egersund_mobile_app.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = egersund_mobile_app/egersund_mobile_app.entitlements;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = E2J8W9HEEC;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -909,7 +911,7 @@
 				INFOPLIST_FILE = egersund_mobile_app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 0.0.36;
+				MARKETING_VERSION = 1.0.118;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-lc++",
@@ -925,7 +927,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70791B4A2152E65316EFD2D0 /* Pods-egersund_mobile_app-tvOS.debug.xcconfig */;
+			baseConfigurationReference = A6CAC1193CA0015257D08616 /* Pods-egersund_mobile_app-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -953,7 +955,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2BE94E4C596B196B6F56BC90 /* Pods-egersund_mobile_app-tvOS.release.xcconfig */;
+			baseConfigurationReference = 7955F7A4E03E702BFD8AE33B /* Pods-egersund_mobile_app-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -981,7 +983,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BDAC936145257A7B437D71FF /* Pods-egersund_mobile_app-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = 5A9358E5BBD9CDEEA4EE542A /* Pods-egersund_mobile_app-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1008,7 +1010,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F31F317C82E8883471FE54AA /* Pods-egersund_mobile_app-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = 6200A79256A2C00E04D1837A /* Pods-egersund_mobile_app-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;

@@ -133,7 +133,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 17
-        versionName "1.117"
+        versionName "1.0.117"
         multiDexEnabled true
     }
     splits {

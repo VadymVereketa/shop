@@ -69,10 +69,21 @@ const queries = {
     return config;
   },
   getOrders: ({top, skip}: {top: number; skip: number}) => {
+    const filter = {
+      'orderStatus/code': {
+        ne: 'draftWeb',
+      },
+    };
     const config: AxiosRequestConfig = {
       url:
         '/clients/orders/' +
-        buildQuery({count: true, top, skip, orderBy: 'createdDate desc'}),
+        buildQuery({
+          count: true,
+          filter,
+          top,
+          skip,
+          orderBy: 'createdDate desc',
+        }),
       method: 'get',
       withCredentials: true,
     };

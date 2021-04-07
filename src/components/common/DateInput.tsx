@@ -141,6 +141,11 @@ const DateInput = ({navigate}: IDateInputProps) => {
         options: filterOptions,
         navigate,
       });
+    } else {
+      navigation.navigate('Date', {
+        options,
+        navigate,
+      });
     }
   };
 
