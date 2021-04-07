@@ -453,7 +453,7 @@ const service = {
         ),
       );
       return {
-        success: true,
+        success: res.success,
         data: res.data,
         date: d,
       };
