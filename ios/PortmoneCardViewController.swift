@@ -123,12 +123,12 @@ class PortmoneCardViewController: UIViewController {
         billNumber: String
     ) -> PaymentParams {
         return PaymentParams(
-            description: phoneNumber,
+            description: "EGERSUND",
             preauthFlag: preAuth,
             billAmount: billAmount,
             payeeId: payeeId,
             type: self.getTypeUI(type: ""),
-          paymentFlowType: paymentFlowType
+          merchantIdentifier: "merchant.ua.egersund.shop", paymentFlowType: paymentFlowType
         )
     }
 
