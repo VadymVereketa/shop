@@ -123,7 +123,7 @@ class PortmoneCardViewController: UIViewController {
         billNumber: String
     ) -> PaymentParams {
         return PaymentParams(
-            description: "EGERSUND",
+            description: phoneNumber,
             preauthFlag: preAuth,
             billAmount: billAmount,
             payeeId: payeeId,

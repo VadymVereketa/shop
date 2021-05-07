@@ -103,7 +103,8 @@ public class PortmoneCardModule extends ReactContextBaseJavaModule {
             CardPaymentActivity.performTransaction(
                 getCurrentActivity(),
                 Constants.REQUEST_CODE,
-                params
+                params,
+                false
             );
             this.promise = promise;
         } catch (IllegalViewOperationException e) {

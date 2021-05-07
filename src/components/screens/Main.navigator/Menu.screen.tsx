@@ -28,7 +28,6 @@ const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
     <SafeAreaView style={[styles.container]}>
       {isAuth ? (
         <ScrollView>
-          <BetaTest />
           <View style={[styles.infoBlock, {backgroundColor: lightBackground}]}>
             <View>
               <MyText style={{fontSize: sizes[7]}}>{t('profileCall')}</MyText>

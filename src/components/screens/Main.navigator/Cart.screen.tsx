@@ -38,7 +38,7 @@ const CartScreen = React.memo(({navigation}: any) => {
       ]}>
       <MyText style={[styles.text]}> {t('cartTitle')}</MyText>
       <View style={{height: 1, backgroundColor: border}} />
-      <BetaTest />
+
       {items.length > 0 ? (
         <React.Fragment>
           <ScrollView

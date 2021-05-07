@@ -1,5 +1,5 @@
 type M = 'dev' | 'test' | 'prod' | 'uat';
-const MODE: string = 'prod';
+const MODE: string = 'test';
 
 const config = (() => {
   switch (MODE) {
