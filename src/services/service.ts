@@ -24,7 +24,7 @@ import {
 import {IGetProducts, IOrderPost} from '../typings/ServiceTypes';
 import queries from './queries';
 import {IOrderState} from '../redux/order/orderTypes';
-import config from '../config';
+import config from '../config/config';
 import {getWithoutCodePhone} from '../utils/normalizePhone';
 import buildQuery from '../utils/buildQuery';
 import {AxiosResponse} from 'axios';

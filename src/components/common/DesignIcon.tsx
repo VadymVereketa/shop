@@ -30,6 +30,7 @@ const MenuKebIcon = require('../../assets/svg/ic-menu-keb.svg').default;
 const ReloadIcon = require('../../assets/svg/ic-reload.svg').default;
 const BarCodeIcon = require('../../assets/svg/ic-barcode.svg').default;
 const Apple = require('../../assets/svg/Apple.svg').default;
+const UpdateApp = require('../../assets/svg/update-app.svg').default;
 
 export type IName =
   | 'restaurant'
@@ -60,6 +61,7 @@ export type IName =
   | 'send'
   | 'reload'
   | 'menu-keb'
+  | 'UpdateApp'
   | 'star-filled';
 
 const getIcon = (name: IName) => {
@@ -122,6 +124,8 @@ const getIcon = (name: IName) => {
       return MapIcon;
     case 'menu-more':
       return MenuMoreIcon;
+    case 'UpdateApp':
+      return UpdateApp;
   }
 };
 
