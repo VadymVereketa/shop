@@ -92,6 +92,7 @@ const DateInput = ({navigate}: IDateInputProps) => {
       const d = await service.getCurrentTime();
       if (isFocused) {
         const options = getOptions(settings, d, name === DEFAULT_NAME_SETTING);
+
         setOptions(options);
       }
     };

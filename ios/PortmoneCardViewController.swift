@@ -128,7 +128,7 @@ class PortmoneCardViewController: UIViewController {
             billAmount: billAmount,
             payeeId: payeeId,
             type: self.getTypeUI(type: ""),
-          paymentFlowType: paymentFlowType
+          merchantIdentifier: "merchant.ua.egersund.shop", paymentFlowType: paymentFlowType
         )
     }
 

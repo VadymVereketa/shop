@@ -76,7 +76,7 @@ const portmone = {
         config.payeeId,
         options.billNumber,
         options.preAuth,
-        options.phoneNumber,
+        'EGERSUND',
         options.billAmount,
       );
     }

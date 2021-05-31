@@ -15,7 +15,9 @@ const getOptions = (
   let res: IOptionDate[] = [];
   const [fromH, fromM] = from.split(':').map(parseFloat);
   const [toH, toM] = to.split(':').map(parseFloat);
+
   let now = currentDate;
+
   let nowH = now.getHours();
   let nowM = now.getMinutes();
 
@@ -25,7 +27,7 @@ const getOptions = (
   const maxTo = numberTime(toH, toM);
   const timeNow = numberTime(nowH, nowM);
 
-  if (timeNow < maxTo - offset - step) {
+  if (timeNow < maxTo - offset) {
     const startTime = Math.max(timeNow + offset, minFrom);
     res = getPartOptions(now, startTime, maxTo, step, isRange);
   }

@@ -447,13 +447,12 @@ const service = {
     const day = d.getDate().toString().padStart(2, '0');
 
     try {
-      const res = await customFetch(() =>
-        instance.get(
-          `/delivery/time/exclude/${y}-${m}-${day}/${id}/${isSelfDelivery}`,
-        ),
+      const res = await instance.get(
+        `/delivery/time/exclude/${y}-${m}-${day}/${id}/${isSelfDelivery}`,
       );
+
       return {
-        success: res.success,
+        success: true,
         data: res.data,
         date: d,
       };
