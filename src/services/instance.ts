@@ -1,5 +1,5 @@
 import axios from 'axios';
-import config from '../config';
+import config from '../config/config';
 import {getLocale, getToken, logOut} from '../../index';
 
 const instance = axios.create({

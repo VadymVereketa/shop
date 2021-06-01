@@ -15,6 +15,8 @@ import {ISellPointsState} from './sellPoints/sellPointsTypes';
 import sellPointsReducer from './sellPoints/sellPointsReducer';
 import AsyncStorage from '@react-native-community/async-storage';
 import {ITypeState} from './types/typeTypes';
+import {IConfigState} from './config/configTypes';
+import configReducer from './config/configReducer';
 
 const otherPersistConfig = {
   key: 'other',
@@ -54,6 +56,7 @@ export interface RootState {
   order: IOrderState;
   sellPoints: ISellPointsState;
   types: ITypeState;
+  config: IConfigState;
 }
 
 export default combineReducers({
@@ -64,4 +67,5 @@ export default combineReducers({
   order: orderReducer,
   sellPoints: persistReducer(sellPointsPersistConfig, sellPointsReducer),
   types: persistReducer(typesPersistConfig, typesReducer),
+  config: configReducer,
 });
