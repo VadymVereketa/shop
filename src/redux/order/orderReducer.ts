@@ -25,6 +25,7 @@ const init: IOrderState = {
   statusPayment: StatusPayment.defult,
   isRepeatOrder: false,
   cardId: -1,
+  expressSellPoint: null,
 };
 
 const creator = new CreatorReducer<IOrderActions, IOrderState>('order');
@@ -61,11 +62,15 @@ const selectorsOrder = {
   },
   isDeliveryCourier: (state: RootState) => {
     if (state.order.deliveryType === null) return false;
-    return state.order.deliveryType!.code === 'courier';
+    return state.order.deliveryType!.code === TypeDelivery.courier;
   },
   isDeliverySelf: (state: RootState) => {
     if (state.order.deliveryType === null) return false;
-    return state.order.deliveryType!.code === 'self';
+    return state.order.deliveryType!.code === TypeDelivery.self;
+  },
+  isDeliveryExpress: (state: RootState) => {
+    if (state.order.deliveryType === null) return false;
+    return state.order.deliveryType!.code === TypeDelivery.express;
   },
   getPaymentType: (state: RootState) => {
     return state.order.paymentType;
@@ -74,7 +79,7 @@ const selectorsOrder = {
     state.order.paymentType ? state.order.paymentType.code : '',
   getSellPointId: (state: RootState) => state.order.sellPoint,
   getSellPoint: (state: RootState) => {
-    return getSellPoint(state.order.sellPoint!)(state);
+    return getSellPoint(state.order.sellPoint!)(state) ?? null;
   },
   getDeliveryPrice: (state: RootState) => {
     if (
@@ -130,6 +135,7 @@ const selectorsOrder = {
   getCardId: (state: RootState) => {
     return state.order.cardId;
   },
+  getExpressSellPoint: (state: RootState) => state.order.expressSellPoint,
 };
 
 export {actionsOrder, selectorsOrder};

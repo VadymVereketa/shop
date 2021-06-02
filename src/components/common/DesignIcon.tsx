@@ -29,8 +29,15 @@ const SendIcon = require('../../assets/svg/ic-send.svg').default;
 const MenuKebIcon = require('../../assets/svg/ic-menu-keb.svg').default;
 const ReloadIcon = require('../../assets/svg/ic-reload.svg').default;
 const BarCodeIcon = require('../../assets/svg/ic-barcode.svg').default;
+const SettingsIcon = require('../../assets/svg/ic-settings.svg').default;
 const Apple = require('../../assets/svg/Apple.svg').default;
 const UpdateApp = require('../../assets/svg/update-app.svg').default;
+
+const CourierDelivery = require('../../assets/svg/courier_delivery.svg')
+  .default;
+const SelfDelivery = require('../../assets/svg/self_delivery.svg').default;
+const ExpressDelivery = require('../../assets/svg/express_delivery.svg')
+  .default;
 
 export type IName =
   | 'restaurant'
@@ -61,11 +68,23 @@ export type IName =
   | 'send'
   | 'reload'
   | 'menu-keb'
+  | 'settings'
   | 'UpdateApp'
+  | 'CourierDelivery'
+  | 'ExpressDelivery'
+  | 'SelfDelivery'
   | 'star-filled';
 
 const getIcon = (name: IName) => {
   switch (name) {
+    case 'settings':
+      return SettingsIcon;
+    case 'CourierDelivery':
+      return CourierDelivery;
+    case 'ExpressDelivery':
+      return ExpressDelivery;
+    case 'SelfDelivery':
+      return SelfDelivery;
     case 'arrow':
       return ArrowIcon;
     case 'barcode':
@@ -156,5 +175,5 @@ const AppleIcon = React.memo(({name, size, ...props}: any) => {
   return <Apple width={60} height={30} fill={'black'} />;
 });
 
-export {AppleIcon};
+export {AppleIcon, SelfDelivery, ExpressDelivery, CourierDelivery};
 export default DesignIcon;

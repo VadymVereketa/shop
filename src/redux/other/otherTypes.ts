@@ -24,6 +24,8 @@ export interface IOtherState {
   draftId: number | null;
   isGlobalSearch: boolean;
   theme: 'light' | 'dark';
+
+  isModalAssortment: boolean;
 }
 
 export interface Settings {

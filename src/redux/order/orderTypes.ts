@@ -3,6 +3,7 @@ import {
   IContact,
   IDeliveryType,
   IPaymentType,
+  ISellPoint,
 } from '../../typings/FetchData';
 
 export interface IOrderState {
@@ -23,6 +24,7 @@ export interface IOrderState {
   statusPayment: StatusPayment;
   isRepeatOrder: boolean;
   cardId: number;
+  expressSellPoint: ISellPoint | null;
 }
 
 export enum StatusPayment {

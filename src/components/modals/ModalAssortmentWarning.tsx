@@ -14,56 +14,68 @@ import MyModal from './MyModal';
 interface IModalUpdateAppProps {
   modalVisible: boolean;
   onClose: any;
-  isRequired?: boolean;
+  onConfirm: any;
 }
 
 const width = responsiveScreenWidth(100) - sizes[40];
 
-const ModalUpdateApp = ({
+const ModalAssortmentWarning = ({
   modalVisible,
   onClose,
-  isRequired = false,
+  onConfirm,
 }: IModalUpdateAppProps) => {
-  const {border, lightText} = useTheme();
-
-  const handleUpdate = async () => {
-    await Linking.openURL(
-      isIOS
-        ? 'https://apps.apple.com/ua/app/egersund/id1529261110'
-        : 'https://play.google.com/store/apps/details?id=com.egersund_mobile_app',
-    );
-  };
+  const {border} = useTheme();
 
   return (
     <MyModal
       modalVisible={modalVisible}
       onClose={onClose}
-      title="Оновіть додаток">
+      title="Зміна відображення асортименту">
       <View
         style={{
-          padding: sizes[15],
           alignItems: 'center',
         }}>
-        <DesignIcon name="UpdateApp" size={responsiveScreenWidth(40)} fill="" />
-        <MyText style={styles.mainText}>
-          Роботу додатку покращено! У ній виправлені помилки і додані корисні
-          функції.
-        </MyText>
-        <MyText style={[styles.subText, {color: lightText}]}>
-          Зазвичай оновлення займає не більше хвилини
-        </MyText>
-        <MyButton
-          onPress={handleUpdate}
+        <View
           style={{
-            marginBottom: sizes[6],
+            padding: sizes[10],
           }}>
-          Оновити
-        </MyButton>
-        {!isRequired && (
-          <MyButton type={'default'} onPress={onClose}>
-            Пропустити
+          <MyText
+            style={{
+              fontSize: sizes[9],
+            }}>
+            Увага! При зміні способу доставки чи магазину,{' '}
+            <MyText
+              style={{
+                fontFamily: getFontFamily('500'),
+              }}>
+              продукти з корзини будуть видалені
+            </MyText>
+            , оскільки асортимент відрізняється.
+          </MyText>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            padding: sizes[10],
+            borderTopWidth: 1,
+            borderTopColor: border,
+          }}>
+          <MyButton
+            style={{
+              marginRight: sizes[4],
+            }}
+            onPress={onClose}
+            type="default">
+            Скасувати
           </MyButton>
-        )}
+          <MyButton
+            onPress={onConfirm}
+            style={{
+              marginLeft: sizes[4],
+            }}>
+            Змінити
+          </MyButton>
+        </View>
       </View>
     </MyModal>
   );
@@ -100,4 +112,4 @@ const styles = StyleSheet.create({
     marginBottom: sizes[6],
   },
 });
-export default ModalUpdateApp;
+export default ModalAssortmentWarning;

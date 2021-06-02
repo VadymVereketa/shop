@@ -19,6 +19,7 @@ const init: IOtherState = {
   draftId: null,
   isGlobalSearch: false,
   theme: 'light',
+  isModalAssortment: false,
 };
 const MAX = 5;
 
@@ -151,6 +152,18 @@ const selectorsOther = {
     return (
       state.other.settings![DEFAULT_NAME_SETTING].preauth_payment! === 'true'
     );
+  },
+  getIsModalAssortment: (state: RootState) => {
+    return state.other.isModalAssortment;
+  },
+  getIDDefaultDeliveryPriceExpress: (state: RootState) => {
+    if (!state.other.settings) return -1;
+    return +state.other.settings![DEFAULT_NAME_SETTING]
+      .default_delivery_price_express!;
+  },
+  getDefaultDeliveryPriceExpress: (state: RootState) => {
+    const id = selectorsOther.getIDDefaultDeliveryPriceExpress(state);
+    return state.other.deliveryPrices.find((d) => d.id === id);
   },
 };
 

@@ -17,26 +17,39 @@ import SplashScreen from 'react-native-splash-screen';
 import Loader from '../../common/Loader';
 import {thunkGetTypes} from '../../../redux/types/typeReducer';
 import ModalUpdateApp from '../../modals/ModalUpdateApp';
+import ModalAssortment from '../../modals/ModalAssortment';
+import ModalAssortmentWarning from '../../modals/ModalAssortmentWarning';
+import {selectorsOrder} from '../../../redux/order/orderReducer';
 
 const window = Dimensions.get('window');
 const width = Math.min(window.width, window.height);
 
 const RestaurantScreen = React.memo(
   ({navigation, route}: RestaurantScreenProps) => {
-    const perPage = 12;
+    const perPage = useRef(12);
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
     const {background} = useTheme();
     const HEADER_HEIGHT = sizes[55];
     const categories = route.params.categories;
     const [idCategory, setIdCategory] = useState(-1);
+    const ID_DEFAULT_SELLPOINT = useSelector(selectorsOther.getIdSellPoint);
+    const isDeliverySelf = useSelector(selectorsOrder.isDeliverySelf);
+    const defaultExpressSellPoint = useSelector(
+      selectorsOrder.getExpressSellPoint,
+    )!;
+    const isModalAssortment = useSelector(selectorsOther.getIsModalAssortment);
+    const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
+    const cartSellPoint = useSelector(selectorsOrder.getSellPoint);
     const [isShow, setIsShow] = useState(false);
     const [skip, setSkip] = useState(0);
     const [countItems, setCountItems] = useState(0);
     const isGlobalSearch = useSelector(selectorsOther.getIsGlobalSearch);
     const [search, setSearch] = useState('');
     const [products, setProducts] = useState([] as IProduct[]);
-    const {isLoading, request} = useAxios(service.getProducts);
+    const {isLoading, request} = useAxios(
+      isExpress ? service.getExpressProducts : service.getProducts,
+    );
 
     useEffect(() => {
       SplashScreen.hide();
@@ -59,29 +72,45 @@ const RestaurantScreen = React.memo(
     useDidUpdateEffect(() => {
       setSkip(0);
       setProducts([]);
-    }, [idCategory, search, isGlobalSearch]);
+    }, [idCategory, search, isGlobalSearch, isModalAssortment]);
 
     useDidUpdateEffect(() => {
-      handleRequest();
-    }, [skip, idCategory, search, isGlobalSearch]);
+      if (!isModalAssortment) {
+        handleRequest();
+      }
+    }, [skip, idCategory, search, isGlobalSearch, isModalAssortment]);
 
     const handleRequest = () => {
       const id = isGlobalSearch ? null : idCategory;
 
-      request<any>({
-        idTag: route.params.isTag ? id : null,
-        top: perPage,
-        skip: skip * perPage,
-        title: search,
-        idCategory: !route.params.isTag ? id : null,
-      }).then((res) => {
-        if (res.success) {
-          setProducts((p) => {
-            return [...p, ...res.data.items];
-          });
-          setCountItems(res.data.count);
-        }
-      });
+      if (isExpress) {
+        request<any>(defaultExpressSellPoint.id).then((res) => {
+          if (res.success) {
+            setProducts((p) => {
+              return [...p, ...res.data.items];
+            });
+            setCountItems(res.data.count);
+          }
+        });
+      } else {
+        request<any>({
+          idTag: route.params.isTag ? id : null,
+          top: perPage.current,
+          skip: skip * perPage.current,
+          title: search,
+          idCategory: !route.params.isTag ? id : null,
+          idSellPoint: isDeliverySelf
+            ? cartSellPoint || ID_DEFAULT_SELLPOINT
+            : undefined,
+        }).then((res) => {
+          if (res.success) {
+            setProducts((p) => {
+              return [...p, ...res.data.items];
+            });
+            setCountItems(res.data.count);
+          }
+        });
+      }
     };
 
     const handlePress = (id: number) => {
@@ -103,6 +132,9 @@ const RestaurantScreen = React.memo(
     };
 
     const handleEventScroll = (event) => {
+      if (isExpress) {
+        return;
+      }
       if (event.nativeEvent && countItems > products.length && !isLoading) {
         const {
           contentOffset: {y},

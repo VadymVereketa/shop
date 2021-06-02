@@ -6,6 +6,7 @@ export const COUNT_DAY = 7;
 export enum TypeDelivery {
   self = 'self',
   courier = 'courier',
+  express = 'express',
 }
 
 export enum TypePayment {

@@ -14,7 +14,10 @@ import {
   thunkGetTags,
 } from './src/redux/category/categoryReducer';
 import {fetchGetAllSettings} from './src/redux/other/otherReducer';
-import {thunkGetSellPoints} from './src/redux/sellPoints/sellPointsReducer';
+import {
+  thunkGetExpressSellPoints,
+  thunkGetSellPoints,
+} from './src/redux/sellPoints/sellPointsReducer';
 import I18n from 'react-native-i18n';
 import en from './src/assets/translations/en';
 import uk from './src/assets/translations/uk';
@@ -37,17 +40,18 @@ store.store.dispatch(thunkGetCustomCategories);
 store.store.dispatch(thunkGetTags);
 store.store.dispatch(fetchGetAllSettings);
 store.store.dispatch(thunkGetSellPoints);
+store.store.dispatch(thunkGetExpressSellPoints);
 
 const handleAppStateChange = (nextAppState) => {
   if (nextAppState === 'background' || nextAppState === 'inactive') {
+    if (!isAuth) return;
+
     const items = store.store.getState().cart.data;
     const isAuth = store.store.getState().user.isAuth;
     const id = store.store.getState().cart.idSellPoint
       ? store.store.getState().cart.idSellPoint
       : store.store.getState().other.settings[DEFAULT_NAME_SETTING]
           .default_price_sell_point;
-
-    if (!isAuth) return;
 
     if (items.length > 0) {
       service.saveCart(items, id);

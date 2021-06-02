@@ -39,7 +39,7 @@ const categoryPersistConfig = {
 const sellPointsPersistConfig = {
   key: 'sellPoints',
   storage: AsyncStorage,
-  whitelist: ['data'],
+  whitelist: ['data', 'expressSellPoints'],
 };
 
 const typesPersistConfig = {
@@ -47,7 +47,11 @@ const typesPersistConfig = {
   storage: AsyncStorage,
   whitelist: ['deliveryTypes', 'paymentTypes', 'pricesTypes'],
 };
-
+const orderPersistConfig = {
+  key: 'order',
+  storage: AsyncStorage,
+  whitelist: ['sellPoint', 'expressSellPoint', 'deliveryType'],
+};
 export interface RootState {
   category: ICategoryState;
   cart: ICartState;
@@ -64,7 +68,7 @@ export default combineReducers({
   cart: cartReducer,
   other: persistReducer(otherPersistConfig, otherReducer),
   user: persistReducer(userPersistConfig, userReducer),
-  order: orderReducer,
+  order: persistReducer(orderPersistConfig, orderReducer),
   sellPoints: persistReducer(sellPointsPersistConfig, sellPointsReducer),
   types: persistReducer(typesPersistConfig, typesReducer),
   config: configReducer,

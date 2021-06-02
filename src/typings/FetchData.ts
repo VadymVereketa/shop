@@ -1,3 +1,5 @@
+import {TypeDelivery} from '../constants/constantsId';
+
 export interface ICategory {
   id: number;
   externalId: string;
@@ -186,7 +188,7 @@ export interface IAddressDictionary {
 
 export interface IDeliveryType {
   id: number;
-  code: string;
+  code: TypeDelivery;
   type: string;
 }
 
@@ -224,6 +226,8 @@ export interface ICart {
   id: number;
   total: string;
   cartProducts: ICartItem[];
+  sellPoint: ISellPoint;
+  deliveryType: IDeliveryType;
 }
 
 export interface IChangePassword {
@@ -281,6 +285,7 @@ export type ISettingCode =
   | 'max_different'
   | 'default_delivery_price'
   | 'increase_percentage'
+  | 'default_delivery_price_express'
   | 'preauth_payment';
 
 export interface IPurchase {

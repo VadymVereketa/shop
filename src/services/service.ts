@@ -36,6 +36,11 @@ const service = {
   getSellPoints: async () => {
     return await customFetch(() => instance.get(queries.getRestaurants().url!));
   },
+  getExpressSellPoints: async () => {
+    return await customFetch(() =>
+      instance.get(queries.getExpressSellPoints().url!),
+    );
+  },
   getTags: async () => {
     return customFetch(() => instance.get(queries.getTags().url!));
   },
@@ -105,7 +110,11 @@ const service = {
   getProducts: async (opt: IGetProducts) => {
     return await customFetch(() => instance.get(queries.getProducts(opt).url!));
   },
-
+  getExpressProducts: async (id: any) => {
+    return await customFetch(() =>
+      instance.get(queries.getProductByExpress(id).url!),
+    );
+  },
   getProductsByIds: async (ids: number[]) => {
     const filter = {
       or: ids.map((id) => ({id: id})),
@@ -190,11 +199,24 @@ const service = {
           p.count = +p.count;
           return p;
         });
-        return res.data.cartProducts;
+
+        return {
+          sellPoint: res.data.sellPoint,
+          items: res.data.cartProducts,
+          deliveryType: res.data.deliveryType,
+        };
       }
-      return [];
+      return {
+        sellPoint: null,
+        items: [],
+        deliveryType: null,
+      };
     } catch (e) {
-      return [];
+      return {
+        sellPoint: null,
+        items: [],
+        deliveryType: null,
+      };
     }
   },
   createOrder: async (draftId: number | undefined, data: IOrderState) => {
