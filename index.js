@@ -42,22 +42,29 @@ store.store.dispatch(fetchGetAllSettings);
 store.store.dispatch(thunkGetSellPoints);
 store.store.dispatch(thunkGetExpressSellPoints);
 
-const handleAppStateChange = (nextAppState) => {
-  if (nextAppState === 'background' || nextAppState === 'inactive') {
-    if (!isAuth) return;
+const handleAppStateChange = async (nextAppState) => {
+  try {
+    if (nextAppState === 'background' || nextAppState === 'inactive') {
+      const root = store.store.getState();
+      const isAuth = root.user.isAuth;
+      if (!isAuth) return;
 
-    const items = store.store.getState().cart.data;
-    const isAuth = store.store.getState().user.isAuth;
-    const id = store.store.getState().cart.idSellPoint
-      ? store.store.getState().cart.idSellPoint
-      : store.store.getState().other.settings[DEFAULT_NAME_SETTING]
-          .default_price_sell_point;
+      const items = root.cart.data;
+      const idDeliveryType = root.order.deliveryType?.id;
+      const id = root.cart.idSellPoint
+        ? root.cart.idSellPoint
+        : root.other.settings[DEFAULT_NAME_SETTING].default_price_sell_point;
 
-    if (items.length > 0) {
-      service.saveCart(items, id);
-    } else {
-      service.deleteCart();
+      console.log(idDeliveryType);
+      if (items.length > 0 && idDeliveryType) {
+        service.saveCart(items, id, idDeliveryType);
+      } else {
+        console.log(2);
+        service.deleteCart();
+      }
     }
+  } catch (e) {
+    console.log({e});
   }
 };
 

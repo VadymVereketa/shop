@@ -1,7 +1,7 @@
 import {CreatorReducer} from '../base/base';
 import {IOrderActions, IOrderState, StatusPayment} from './orderTypes';
 import {RootState} from '../reducer';
-import {selectorsOther} from '../other/otherReducer';
+import otherReducer, {selectorsOther} from '../other/otherReducer';
 import {TypeDelivery} from '../../constants/constantsId';
 import {selectorsTypes} from '../types/typeReducer';
 import {getSellPoint} from '../sellPoints/sellPointsReducer';
@@ -48,7 +48,12 @@ creator.addAction('checkLast', (state) => {
   return state;
 });
 creator.addAction('clear', (state) => {
-  return init;
+  return {
+    ...init,
+    deliveryType: state.deliveryType,
+    expressSellPoint: state.expressSellPoint,
+    sellPoint: state.sellPoint,
+  };
 });
 
 const actionsOrder = creator.createActions();
@@ -91,12 +96,7 @@ const selectorsOrder = {
     if (state.order.addressId === -1) {
       return 0;
     }
-    const address = selectorsUser.getAddressById(state.order.addressId)(state)!;
-    return selectorsOther.getDeliveryPrice(
-      address.addressDictionary
-        ? address.addressDictionary.district.deliveryPrice.id
-        : -1,
-    )(state);
+    return selectorsOther.getDeliveryPrice(state.order.idDeliveryPrice)(state);
   },
 
   isCallBack: (state: RootState) => state.order.isCallBack,
@@ -115,6 +115,8 @@ const selectorsOrder = {
     if (state.order.deliveryType) {
       if (state.order.deliveryType.code === TypeDelivery.self) {
         return state.order.sellPoint !== null && state.order.date !== null;
+      } else if (state.order.deliveryType.code === TypeDelivery.express) {
+        return state.order.addressId !== -1;
       } else {
         return state.order.addressId !== -1 && state.order.date !== null;
       }

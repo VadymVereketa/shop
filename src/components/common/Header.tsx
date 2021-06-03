@@ -196,24 +196,28 @@ const Header = React.memo(
         {deliveryType && (
           <TouchableOpacity
             onPress={handleOpenAssortmentModal}
+            containerStyle={{
+              maxWidth: '70%',
+              overflow: 'hidden',
+            }}
             style={{
               backgroundColor: lightBackground,
               flexDirection: 'row',
               alignItems: 'center',
               padding: sizes[5],
-              paddingHorizontal: sizes[10],
-              marginHorizontal: sizes[5],
+              paddingHorizontal: sizes[7],
+              marginHorizontal: sizes[1],
             }}>
             <MyText
               style={{
                 color: lightText,
-                marginRight: sizes[6],
+                marginRight: sizes[3],
               }}>
               Асорт. для
             </MyText>
             <MyText
               style={{
-                marginRight: sizes[6],
+                marginRight: sizes[3],
                 fontFamily: getFontFamily('400'),
               }}>
               {getTextDeliveryType(deliveryType, selectSellPoint)}

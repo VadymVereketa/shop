@@ -163,7 +163,7 @@ const selectorsOther = {
   },
   getDefaultDeliveryPriceExpress: (state: RootState) => {
     const id = selectorsOther.getIDDefaultDeliveryPriceExpress(state);
-    return state.other.deliveryPrices.find((d) => d.id === id);
+    return state.types.pricesTypes.find((d) => d.id === id);
   },
 };
 

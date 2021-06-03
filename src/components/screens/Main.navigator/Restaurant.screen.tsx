@@ -40,7 +40,7 @@ const RestaurantScreen = React.memo(
     )!;
     const isModalAssortment = useSelector(selectorsOther.getIsModalAssortment);
     const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
-    const cartSellPoint = useSelector(selectorsOrder.getSellPoint);
+    const cartSellPoint = useSelector(selectorsOrder.getSellPointId);
     const [isShow, setIsShow] = useState(false);
     const [skip, setSkip] = useState(0);
     const [countItems, setCountItems] = useState(0);
@@ -83,7 +83,7 @@ const RestaurantScreen = React.memo(
     const handleRequest = () => {
       const id = isGlobalSearch ? null : idCategory;
 
-      if (isExpress) {
+      if (isExpress && defaultExpressSellPoint) {
         request<any>(defaultExpressSellPoint.id).then((res) => {
           if (res.success) {
             setProducts((p) => {
@@ -166,13 +166,23 @@ const RestaurantScreen = React.memo(
             initValue={search}
             onChange={setSearch}
           />
-          <CategoryBar
-            tags={categories}
-            currentId={isGlobalSearch ? -1 : idCategory}
-            onPress={handlePress}
-          />
+          {isExpress ? (
+            <View
+              style={{
+                height: sizes[4],
+              }}
+            />
+          ) : (
+            <CategoryBar
+              tags={categories}
+              currentId={isGlobalSearch ? -1 : idCategory}
+              onPress={handlePress}
+            />
+          )}
         </View>
-        <Loader isLoading={isLoading} top={sizes[30] + insets.top} />
+        {!isExpress && (
+          <Loader isLoading={isLoading} top={sizes[30] + insets.top} />
+        )}
         <FlatGrid
           itemDimension={width / Math.max(Math.floor(width / 230), 2)}
           spacing={-1}
@@ -182,7 +192,7 @@ const RestaurantScreen = React.memo(
           contentContainerStyle={[
             styles.gridView,
             {
-              paddingTop: HEADER_HEIGHT + sizes[5],
+              paddingTop: isExpress ? sizes[28] : HEADER_HEIGHT + sizes[5],
             },
           ]}
           onScroll={handleEventScroll}

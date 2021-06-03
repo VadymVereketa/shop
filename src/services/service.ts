@@ -157,7 +157,11 @@ const service = {
       return null;
     }
   },
-  saveCart: async (products: ICartItem[], idSellPoint: number) => {
+  saveCart: async (
+    products: ICartItem[],
+    idSellPoint: number,
+    idDelivery: number,
+  ) => {
     const data = {
       cartProducts: products.map((p) => {
         return {
@@ -172,13 +176,17 @@ const service = {
         };
       }),
       sellPoint: {
-        id: +idSellPoint,
+        id: idSellPoint,
+      },
+      deliveryType: {
+        id: idDelivery,
       },
     };
-    const res = await customFetch(() =>
-      instance.put<IUpdateCart>('clients/cart', data),
+    return await customFetch(() =>
+      instance.put<IUpdateCart>('clients/cart', data, {
+        withCredentials: true,
+      }),
     );
-    return res;
   },
   deleteCart: async () => {
     return await customFetch(() => instance.delete('clients/cart'));
@@ -232,7 +240,7 @@ const service = {
 
     let time = data.time;
 
-    if (data.deliveryType!.code === TypeDelivery.courier) {
+    if (data.deliveryType!.code !== TypeDelivery.self) {
       addressData.address = {
         id: data.addressId,
       };
@@ -240,15 +248,25 @@ const service = {
       time = `${time}-${time}`;
     }
 
-    const [minTime, maxTime] = time.split('-');
-    const [maxH, maxM] = maxTime.split(':').map(parseFloat);
-    const [minH, minM] = minTime.split(':').map(parseFloat);
+    let maxExecuteDate: Date | undefined = undefined;
+    let minExecuteDate: Date | undefined = maxExecuteDate;
 
-    let maxExecuteDate = new Date(data.date!);
-    maxExecuteDate.setHours(maxH, maxM);
+    if (data.deliveryType!.code !== TypeDelivery.express && data.date) {
+      const [minTime, maxTime] = time.split('-');
+      const [maxH, maxM] = maxTime.split(':').map(parseFloat);
+      const [minH, minM] = minTime.split(':').map(parseFloat);
 
-    let minExecuteDate = new Date(data.date!);
-    minExecuteDate.setHours(minH, minM);
+      maxExecuteDate = new Date(data.date);
+      maxExecuteDate.setHours(maxH, maxM);
+
+      minExecuteDate = new Date(data.date);
+      minExecuteDate.setHours(minH, minM);
+    } else {
+      // time for express delivery
+      maxExecuteDate = new Date();
+      maxExecuteDate.setMinutes(maxExecuteDate.getMinutes() + 30);
+      minExecuteDate = new Date();
+    }
 
     const fetchData: IOrderPost = {
       id: draftId,

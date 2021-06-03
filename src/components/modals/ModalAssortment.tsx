@@ -123,12 +123,6 @@ const ModalAssortment = () => {
           idDeliveryPrice: idDefaultDeliveryPriceExpress,
         }),
       );
-    } else {
-      dispatch(
-        actionsOrder.setData({
-          idDeliveryPrice: idDefaultDeliveryPrice,
-        }),
-      );
     }
   }, [defaultDeliveryType]);
 

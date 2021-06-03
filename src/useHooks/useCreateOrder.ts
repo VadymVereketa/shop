@@ -30,6 +30,7 @@ export const useCreateOrder = () => {
   const products = useSelector(selectorsCart.getCartProducts);
   const idSellPoint = useSelector(selectorsCart.getIdSellPoint);
   const paymentType = useSelector(selectorsOrder.getCodePayment);
+  const deliveryType = useSelector(selectorsOrder.getDeliveryType)!;
   const totalPrice = sum + deliveryPrice;
 
   const createOrder = async () => {
@@ -43,7 +44,7 @@ export const useCreateOrder = () => {
         address,
       }),
     );
-    data.address = address;
+    data.orderAddress = address;
     try {
       const res = await service.createOrder(draftId!, data);
 
@@ -144,7 +145,11 @@ export const useCreateOrder = () => {
     console.log('\n\n\n---------------=START=------------------');
     setLoading(true);
     console.log('---------------start saveCart------------------');
-    const cart = await service.saveCart(products, idSellPoint!);
+    const cart = await service.saveCart(
+      products,
+      idSellPoint!,
+      deliveryType.id,
+    );
     console.log(cart);
     console.log('---------------end saveCart------------------');
     if (cart.success) {

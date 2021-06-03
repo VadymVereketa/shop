@@ -139,12 +139,14 @@ const selectorsCart = {
   },
 };
 
-const fetchUpdateCart = (products: ICartItem[], id: number) => async (
-  dispatch: any,
-) => {
+const fetchUpdateCart = (
+  products: ICartItem[],
+  id: number,
+  idDelivery: number,
+) => async (dispatch: any) => {
   try {
     dispatch(actionsCart.setLoading(true));
-    const res = await service.saveCart(products, id);
+    const res = await service.saveCart(products, id, idDelivery);
     if (res.success) {
       dispatch(actionsCart.updateCart(res.data.sellPoint.id));
     } else {
