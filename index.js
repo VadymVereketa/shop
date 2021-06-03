@@ -9,7 +9,10 @@ import configureStore from './src/redux/store';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import ProviderFormattingContext from './src/context/FormattingContext';
-import {thunkGetCustomCategories, thunkGetTags} from './src/redux/category/categoryReducer';
+import {
+  thunkGetCustomCategories,
+  thunkGetTags,
+} from './src/redux/category/categoryReducer';
 import {fetchGetAllSettings} from './src/redux/other/otherReducer';
 import {thunkGetSellPoints} from './src/redux/sellPoints/sellPointsReducer';
 import I18n from 'react-native-i18n';
@@ -19,8 +22,9 @@ import {actionsUser, refreshUser} from './src/redux/user/userReducer';
 import service from './src/services/service';
 import {actionsCart} from './src/redux/cart/cartReducer';
 import {DEFAULT_NAME_SETTING} from './src/constants/constantsId';
+import {Host} from 'react-native-portalize';
 
-I18n.defaultLocale = "uk";
+I18n.defaultLocale = 'uk';
 I18n.fallbacks = true;
 
 I18n.translations = {
@@ -38,14 +42,16 @@ const handleAppStateChange = (nextAppState) => {
   if (nextAppState === 'background' || nextAppState === 'inactive') {
     const items = store.store.getState().cart.data;
     const isAuth = store.store.getState().user.isAuth;
-    const id = store.store.getState().cart.idSellPoint ? store.store.getState().cart.idSellPoint : store.store.getState().other.settings[DEFAULT_NAME_SETTING].default_price_sell_point;
+    const id = store.store.getState().cart.idSellPoint
+      ? store.store.getState().cart.idSellPoint
+      : store.store.getState().other.settings[DEFAULT_NAME_SETTING]
+          .default_price_sell_point;
 
-    if(!isAuth) return ;
+    if (!isAuth) return;
 
-    if(items.length > 0) {
+    if (items.length > 0) {
       service.saveCart(items, id);
-    }
-    else {
+    } else {
       service.deleteCart();
     }
   }
@@ -72,7 +78,9 @@ const Main = () => {
         <ProviderFormattingContext>
           <SafeAreaProvider>
             <ProviderTheme>
+              <Host>
                 <App />
+              </Host>
             </ProviderTheme>
           </SafeAreaProvider>
         </ProviderFormattingContext>

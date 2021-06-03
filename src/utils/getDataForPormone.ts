@@ -1,4 +1,4 @@
-import config from '../config';
+import config from '../config/config';
 import {v4 as uuidv4} from 'uuid';
 
 export const getDataPortmoneSaveCard = (connectKey: string) => {

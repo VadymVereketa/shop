@@ -1,21 +1,36 @@
 import {NavigationContainer, Theme} from '@react-navigation/native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTheme} from './src/context/ThemeContext';
 import StartNavigator from './src/components/navigators/Start.navigator';
-import {AppState, Linking, Platform, StatusBar} from 'react-native';
+import {Platform, StatusBar} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {refreshUser} from './src/redux/user/userReducer';
-import {actionsCart, selectorsCart} from './src/redux/cart/cartReducer';
+import {actionsCart} from './src/redux/cart/cartReducer';
 import service from './src/services/service';
 import {useFormattingContext} from './src/context/FormattingContext';
 import portmone from './src/utils/portmone';
-import config from './src/config';
-import DeepLinking from 'react-native-deep-linking';
+import config from './src/config/config';
+import loadRemoteConfig from './src/utils/loadRemoteConfig';
+import validateVersion from './src/utils/validateVersion';
+import {selectorsConfig} from './src/redux/config/configReducer';
+import useDidUpdateEffect from './src/useHooks/useDidUpdateEffect';
+import ModalUpdateApp from './src/components/modals/ModalUpdateApp';
 
 const App = () => {
   const dispatch = useDispatch();
+  const [isLoadConfig, setIsLoadConfig] = useState(false);
   const {theme, onChangeTheme, ...colors} = useTheme();
   const {currentLocale} = useFormattingContext();
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isRequired, setIsRequired] = useState(false);
+  const requiredVersion = useSelector(selectorsConfig.getRequiredVersion);
+  const optionalVersion = useSelector(selectorsConfig.getOptionalVersion);
+  const enabledRequiredCheck = useSelector(
+    selectorsConfig.getItemConfig('enabledRequiredCheckVersion'),
+  );
+  const enabledOptionalCheck = useSelector(
+    selectorsConfig.getItemConfig('enabledOptionalCheckVersion'),
+  );
 
   const MyTheme: Theme = {
     dark: theme === 'dark',
@@ -29,49 +44,7 @@ const App = () => {
     },
   };
 
-  const handleUrl = ({url}: any) => {
-    console.log(url);
-    Linking.canOpenURL(url).then((supported) => {
-      if (supported) {
-        DeepLinking.evaluateUrl(url);
-      }
-    });
-  };
-
-  const addRoutesToDeepLinking = () => {
-    DeepLinking.addScheme('https://');
-
-    DeepLinking.addRoute(
-      '/egersund-uat-web.huspi.com/products/1/5',
-      (response) => {
-        console.log('/egersund-uat-web.huspi.com/products/1/5');
-        console.log(response);
-      },
-    );
-
-    DeepLinking.addRoute('/egersund-uat-web.huspi.com', (response) => {
-      console.log('/egersund-uat-web.huspi.com');
-      console.log(response);
-    });
-
-    DeepLinking.addRoute(
-      '/egersund-uat-web.huspi.com/#/avialosos',
-      (response) => {
-        console.log('/egersund-uat-web.huspi.com/#/avialosos');
-        console.log(response);
-      },
-    );
-
-    DeepLinking.addRoute('/egersund-uat-web.huspi.com/shops', (response) => {
-      console.log('/egersund-uat-web.huspi.com/shops');
-      console.log(response);
-    });
-  };
-
   useEffect(() => {
-    addRoutesToDeepLinking();
-    Linking.addEventListener('url', handleUrl);
-
     dispatch(refreshUser);
     service.getCart().then((res) => {
       if (res.length > 0) {
@@ -86,10 +59,24 @@ const App = () => {
         type: 'phone',
       });
     }
-    return () => {
-      Linking.removeEventListener('url', handleUrl);
-    };
   }, []);
+
+  useEffect(() => {
+    loadRemoteConfig(dispatch, false).then(() => {
+      setIsLoadConfig(true);
+    });
+  }, []);
+
+  useDidUpdateEffect(() => {
+    if (isLoadConfig) {
+      if (!validateVersion(requiredVersion) && enabledRequiredCheck) {
+        setIsOpenModal(true);
+        setIsRequired(true);
+      } else if (!validateVersion(optionalVersion) && enabledOptionalCheck) {
+        setIsOpenModal(true);
+      }
+    }
+  }, [isLoadConfig]);
 
   return (
     <NavigationContainer
@@ -100,6 +87,11 @@ const App = () => {
       <StatusBar
         hidden={Platform.OS === 'android'}
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+      />
+      <ModalUpdateApp
+        modalVisible={isOpenModal}
+        isRequired={isRequired}
+        onClose={() => setIsOpenModal(false)}
       />
       <StartNavigator />
     </NavigationContainer>

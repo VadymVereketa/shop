@@ -1,7 +1,7 @@
 import {NativeModules, Platform} from 'react-native';
 import {Locale} from '../context/FormattingContext';
 import {Theme} from '../context/ThemeContext';
-import config from '../config';
+import config from '../config/config';
 const {PortmoneCardModule} = NativeModules;
 
 //invokePortmoneSdk(String lang, String type, String theme)
