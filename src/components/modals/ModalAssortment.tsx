@@ -205,6 +205,7 @@ const ModalAssortment = () => {
           const isMiddle = i > 0 && i < options.length - 1;
           return (
             <View
+              key={i}
               style={{
                 alignItems: 'center',
                 paddingVertical: sizes[10],

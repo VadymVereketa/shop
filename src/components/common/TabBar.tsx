@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexGrow: 1,
-    maxWidth: sizes[50],
+    maxWidth: sizes[70],
   },
   textBtn: {
     fontSize: sizes[6],

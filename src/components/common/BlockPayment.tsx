@@ -20,6 +20,8 @@ const BlockPayment = () => {
   const payments = useSelector(selectorsTypes.getPaymentsTypes);
   const payment = useSelector(selectorsOrder.getCodePayment);
   const cards = useSelector(selectorsUser.getCards);
+  const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
+
   const options = usePaymentOptions();
   const otherCard: ICard = useMemo(() => {
     return {
@@ -68,9 +70,10 @@ const BlockPayment = () => {
     }
   }, []);
 
+  const filterOptions = isExpress ? options : options;
   return (
     <View>
-      {options.map((o, index) => {
+      {filterOptions.map((o, index) => {
         return (
           <RadioBlock
             key={index}

@@ -169,7 +169,7 @@ const Header = React.memo(
         style={[
           styles.con,
           {
-            paddingTop: top ? top : 0,
+            paddingTop: top ? top : sizes[5],
             paddingLeft: insets.left ? insets.left : sizes[5],
             backgroundColor: background,
           },
