@@ -87,6 +87,7 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
 
   const isAvailableExpress = () => {
     return (
+      isExpress &&
       expressSellPoint &&
       availableSellPoints.some((a) => a === expressSellPoint.id)
     );
@@ -222,41 +223,50 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
   return (
     <View>
       <View style={styles.typeDelivery}>
-        {deliveryTypes.some((d) => d.code === TypeDelivery.self) && (
-          <MyButton
-            isActive={
-              deliveryType ? deliveryType.code === TypeDelivery.self : false
-            }
-            onPress={() => handleSetDeliveryType(TypeDelivery.self)}
-            styleText={styles.btnText}
-            style={styles.btn}
-            type={'default'}>
-            {t('btnSelf')}
-          </MyButton>
-        )}
-        {deliveryTypes.some((d) => d.code === TypeDelivery.courier) && (
-          <MyButton
-            isActive={
-              deliveryType ? deliveryType.code === TypeDelivery.courier : false
-            }
-            onPress={() => handleSetDeliveryType(TypeDelivery.courier)}
-            styleText={styles.btnText}
-            style={styles.btn}
-            type={'default'}>
-            {t('btnDelivery')}
-          </MyButton>
-        )}
-        {isAvailableExpress() && (
-          <MyButton
-            isActive={
-              deliveryType ? deliveryType.code === TypeDelivery.express : false
-            }
-            onPress={() => handleSetDeliveryType(TypeDelivery.express)}
-            styleText={styles.btnText}
-            style={styles.btn}
-            type={'default'}>
-            Експрес доставка
-          </MyButton>
+        {!isExpress ? (
+          <React.Fragment>
+            {deliveryTypes.some((d) => d.code === TypeDelivery.self) && (
+              <MyButton
+                isActive={
+                  deliveryType ? deliveryType.code === TypeDelivery.self : false
+                }
+                onPress={() => handleSetDeliveryType(TypeDelivery.self)}
+                styleText={styles.btnText}
+                style={styles.btn}
+                type={'default'}>
+                {t('btnSelf')}
+              </MyButton>
+            )}
+            {deliveryTypes.some((d) => d.code === TypeDelivery.courier) && (
+              <MyButton
+                isActive={
+                  deliveryType
+                    ? deliveryType.code === TypeDelivery.courier
+                    : false
+                }
+                onPress={() => handleSetDeliveryType(TypeDelivery.courier)}
+                styleText={styles.btnText}
+                style={styles.btn}
+                type={'default'}>
+                {t('btnDelivery')}
+              </MyButton>
+            )}
+          </React.Fragment>
+        ) : (
+          isAvailableExpress() && (
+            <MyButton
+              isActive={
+                deliveryType
+                  ? deliveryType.code === TypeDelivery.express
+                  : false
+              }
+              onPress={() => handleSetDeliveryType(TypeDelivery.express)}
+              styleText={styles.btnText}
+              style={styles.btn}
+              type={'default'}>
+              Експрес доставка
+            </MyButton>
+          )
         )}
       </View>
       {deliveryType !== null &&

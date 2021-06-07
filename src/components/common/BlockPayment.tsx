@@ -35,11 +35,19 @@ const BlockPayment = () => {
   useEffect(() => {
     if (payment) return;
 
-    dispatch(
-      actionsOrder.setData({
-        paymentType: payments.find((p) => p.code === TypePayment.cash)!,
-      }),
-    );
+    if (isExpress) {
+      dispatch(
+        actionsOrder.setData({
+          paymentType: payments.find((p) => p.code === TypePayment.online)!,
+        }),
+      );
+    } else {
+      dispatch(
+        actionsOrder.setData({
+          paymentType: payments.find((p) => p.code === TypePayment.cash)!,
+        }),
+      );
+    }
   }, []);
 
   const handleChange = (code: TypePayment) => {
@@ -70,7 +78,10 @@ const BlockPayment = () => {
     }
   }, []);
 
-  const filterOptions = isExpress ? options : options;
+  const filterOptions = isExpress
+    ? options.filter((opt) => opt.code === TypePayment.online)
+    : options;
+
   return (
     <View>
       {filterOptions.map((o, index) => {
