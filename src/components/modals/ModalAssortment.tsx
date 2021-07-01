@@ -154,7 +154,7 @@ const ModalAssortment = () => {
   }, [isModalAssortment]);
 
   const options = [
-    {
+    /* {
       code: TypeDelivery.express,
       title: 'Експрес доставка',
       subtitle: 'Швидка доставка топ позицій',
@@ -168,13 +168,7 @@ const ModalAssortment = () => {
       selected: handleSelectExpressSellpoint,
       icon: 'ExpressDelivery',
       value: expressSellPoint,
-    },
-    {
-      code: TypeDelivery.courier,
-      title: 'Доставка',
-      subtitle: 'Розширений асортимент',
-      icon: 'CourierDelivery',
-    },
+    }, */
     {
       code: TypeDelivery.self,
       title: 'Самовивоз',
@@ -189,6 +183,12 @@ const ModalAssortment = () => {
       selected: handleSelectSellpoint,
       icon: 'SelfDelivery',
       value: sellPoint,
+    },
+    {
+      code: TypeDelivery.courier,
+      title: 'Доставка',
+      subtitle: 'Розширений асортимент',
+      icon: 'CourierDelivery',
     },
   ];
 

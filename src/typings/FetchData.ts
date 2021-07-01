@@ -280,6 +280,7 @@ export type ISettingCode =
   | 'order_time_from'
   | 'order_time_step'
   | 'order_time_to'
+  | 'order_time_range'
   | 'public_message'
   | 'min_different'
   | 'max_different'

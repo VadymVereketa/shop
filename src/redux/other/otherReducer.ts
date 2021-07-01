@@ -69,15 +69,17 @@ const selectorsOther = {
         offset: 60,
         from: '12:00',
         to: '21:00',
+        range: 60,
       };
     }
-    const setting = state.other.settings![id];
+    const setting = state.other.settings![id] || {};
     if (id === DEFAULT_NAME_SETTING) {
       return {
         step: setting.order_time_step ? +setting.order_time_step : 30,
         offset: setting.order_offset_time ? +setting.order_offset_time : 60,
         from: setting.order_time_from ? setting.order_time_from : '12:00',
         to: setting.order_time_to ? setting.order_time_to : '21:00',
+        range: setting.order_time_range ? +setting.order_time_range : 60,
       };
     }
     const sellPoint: any =
@@ -91,6 +93,7 @@ const selectorsOther = {
       offset: setting.order_offset_time ? +setting.order_offset_time : 60,
       from,
       to,
+      range: 60,
     };
   },
   getIdSellPoint: (state: RootState) => {
