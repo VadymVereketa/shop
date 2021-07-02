@@ -31,6 +31,7 @@ import {AxiosResponse} from 'axios';
 import {FRACTION_DIGIT, TypeDelivery} from '../constants/constantsId';
 import {formatAddress} from '../utils/formatAddress';
 import {DateHelper} from '../utils/DataHelper';
+import {IFetchCategory} from '../typings/ICategory';
 
 const service = {
   getSellPoints: async () => {
@@ -43,6 +44,14 @@ const service = {
   },
   getTags: async () => {
     return customFetch(() => instance.get(queries.getTags().url!));
+  },
+
+  getCustomCategories: async () => {
+    const res = await customFetch(() => instance.get('custom_categories'));
+    if (res.success) {
+      return res.data as IFetchCategory[];
+    }
+    return [];
   },
   getCategories: async () => {
     try {

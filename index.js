@@ -10,6 +10,7 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import ProviderFormattingContext from './src/context/FormattingContext';
 import {
+  serviceGetCustomCategories,
   thunkGetCustomCategories,
   thunkGetTags,
 } from './src/redux/category/categoryReducer';
@@ -37,10 +38,10 @@ I18n.translations = {
 
 const store = configureStore();
 store.store.dispatch(thunkGetCustomCategories);
+store.store.dispatch(serviceGetCustomCategories);
 store.store.dispatch(thunkGetTags);
 store.store.dispatch(fetchGetAllSettings);
 store.store.dispatch(thunkGetSellPoints);
-store.store.dispatch(thunkGetExpressSellPoints);
 
 const handleAppStateChange = async (nextAppState) => {
   try {

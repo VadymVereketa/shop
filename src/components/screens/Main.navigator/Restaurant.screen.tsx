@@ -20,6 +20,7 @@ import ModalUpdateApp from '../../modals/ModalUpdateApp';
 import ModalAssortment from '../../modals/ModalAssortment';
 import ModalAssortmentWarning from '../../modals/ModalAssortmentWarning';
 import {selectorsOrder} from '../../../redux/order/orderReducer';
+import {selectorCategory2} from '../../../redux/category/categoryReducer';
 
 const window = Dimensions.get('window');
 const width = Math.min(window.width, window.height);
@@ -32,14 +33,12 @@ const RestaurantScreen = React.memo(
     const {background} = useTheme();
     const HEADER_HEIGHT = sizes[55];
     const categories = route.params.categories;
-    const [idCategory, setIdCategory] = useState(-1);
+
+    const [idCategory, setIdCategory] = useState<any>(null);
     const ID_DEFAULT_SELLPOINT = useSelector(selectorsOther.getIdSellPoint);
     const isDeliverySelf = useSelector(selectorsOrder.isDeliverySelf);
-    const defaultExpressSellPoint = useSelector(
-      selectorsOrder.getExpressSellPoint,
-    )!;
     const isModalAssortment = useSelector(selectorsOther.getIsModalAssortment);
-    const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
+    const isExpress = false;
     const cartSellPoint = useSelector(selectorsOrder.getSellPointId);
     const [isShow, setIsShow] = useState(false);
     const [skip, setSkip] = useState(0);
@@ -47,8 +46,10 @@ const RestaurantScreen = React.memo(
     const isGlobalSearch = useSelector(selectorsOther.getIsGlobalSearch);
     const [search, setSearch] = useState('');
     const [products, setProducts] = useState([] as IProduct[]);
-    const {isLoading, request} = useAxios(
-      isExpress ? service.getExpressProducts : service.getProducts,
+    const {isLoading, request} = useAxios(service.getProducts);
+
+    const idsCategories = useSelector(
+      selectorCategory2.getIdsCategory(idCategory),
     );
 
     useEffect(() => {
@@ -81,36 +82,27 @@ const RestaurantScreen = React.memo(
     }, [skip, idCategory, search, isGlobalSearch, isModalAssortment]);
 
     const handleRequest = () => {
-      const id = isGlobalSearch ? null : idCategory;
+      const idTag = isGlobalSearch ? null : idCategory;
+      const id = isGlobalSearch ? null : idsCategories;
+      console.log(id);
 
-      if (isExpress && defaultExpressSellPoint) {
-        request<any>(defaultExpressSellPoint.id).then((res) => {
-          if (res.success) {
-            setProducts((p) => {
-              return [...p, ...res.data.items];
-            });
-            setCountItems(res.data.count);
-          }
-        });
-      } else {
-        request<any>({
-          idTag: route.params.isTag ? id : null,
-          top: perPage.current,
-          skip: skip * perPage.current,
-          title: search,
-          idCategory: !route.params.isTag ? id : null,
-          idSellPoint: isDeliverySelf
-            ? cartSellPoint || ID_DEFAULT_SELLPOINT
-            : undefined,
-        }).then((res) => {
-          if (res.success) {
-            setProducts((p) => {
-              return [...p, ...res.data.items];
-            });
-            setCountItems(res.data.count);
-          }
-        });
-      }
+      request<any>({
+        idTag: route.params.isTag ? idTag : null,
+        top: perPage.current,
+        skip: skip * perPage.current,
+        title: search,
+        idCategory: !route.params.isTag ? id : null,
+        idSellPoint: isDeliverySelf
+          ? cartSellPoint || ID_DEFAULT_SELLPOINT
+          : undefined,
+      }).then((res) => {
+        if (res.success) {
+          setProducts((p) => {
+            return [...p, ...res.data.items];
+          });
+          setCountItems(res.data.count);
+        }
+      });
     };
 
     const handlePress = (id: number) => {

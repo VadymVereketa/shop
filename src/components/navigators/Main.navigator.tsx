@@ -13,8 +13,12 @@ import MenuScreen from '../screens/Main.navigator/Menu.screen';
 import DesignIcon from '../common/DesignIcon';
 import TabBar from '../common/TabBar';
 import {useSelector} from 'react-redux';
-import {selectorCategory} from '../../redux/category/categoryReducer';
+import {
+  selectorCategory,
+  selectorCategory2,
+} from '../../redux/category/categoryReducer';
 import t from '../../utils/translate';
+import {selectorsConfig} from '../../redux/config/configReducer';
 
 export type MainNavigatorParamList = {
   Restaurant: {
@@ -75,13 +79,26 @@ const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
   const categiesRest = useSelector(selectorCategory.getRestaurant);
   const categiesShop = useSelector(selectorCategory.getShop);
   const categiesTags = useSelector(selectorCategory.getTags);
+  const isNewCategory = useSelector(
+    selectorsConfig.getItemConfig('isNewCategory'),
+  );
+
+  const roots = useSelector(selectorCategory2.getRootCategories);
+  let newCategiesRest: any = roots[0] ? roots[0].children : [];
+  let newCategiesShop: any = roots[1] ? roots[1].children : [];
+
+  const rest = isNewCategory ? newCategiesRest : categiesRest;
+  const shop = isNewCategory ? newCategiesShop : categiesShop;
 
   useEffect(() => {
-    if (categiesRest.length > 0) {
+    if (rest.length > 0) {
       // @ts-ignore
-      props.navigation.navigate('Restaurant', {});
+      props.navigation.navigate('Restaurant', {
+        categories: rest,
+        isTag: false,
+      });
     }
-  }, [categiesRest]);
+  }, [rest]);
 
   return (
     <Tab.Navigator
@@ -94,7 +111,7 @@ const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
         <Tab.Screen
           name="Restaurant"
           initialParams={{
-            categories: categiesRest,
+            categories: rest,
             isTag: false,
           }}
           options={{
@@ -116,7 +133,7 @@ const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
         <Tab.Screen
           name="Shop"
           initialParams={{
-            categories: categiesShop,
+            categories: shop,
             isTag: false,
           }}
           options={{

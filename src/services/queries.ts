@@ -45,7 +45,13 @@ const queries = {
         ne: null,
       };
     } else if (idCategory) {
-      categoryFilter['customCategory/id'] = idCategory;
+      if (Array.isArray(idCategory)) {
+        categoryFilter['customCategory/id'] = {
+          in: idCategory.map((c) => +c),
+        };
+      } else {
+        categoryFilter['customCategory/id'] = idCategory;
+      }
     }
     if (idTag) {
       categoryFilter['groups/id'] = idTag;

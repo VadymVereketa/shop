@@ -40,7 +40,6 @@ const ModalAssortment = () => {
   const isModalAssortment = useSelector(selectorsOther.getIsModalAssortment);
   const DEFAULT_ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
   const deliveryTypes = useSelector(selectorsTypes.getDeliveryTypes);
-  const expressSellPoints = useSelector(selectorSellPoint.getExpressSellPoints);
   const sellPoints = useSelector(getSellPoints(true));
 
   const idDefaultDeliveryPriceExpress = useSelector(
