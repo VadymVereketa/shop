@@ -5701,12 +5701,10 @@ object.values@^1.1.0, object.values@^1.1.1:
     es-abstract "^1.18.0-next.2"
     has "^1.0.3"
 
-odata-query@^6.2.0:
-  version "6.7.0"
-  resolved "https://registry.yarnpkg.com/odata-query/-/odata-query-6.7.0.tgz#ae095fb0c8b85de090a5d7c0e02e530de81da9b9"
-  integrity sha512-sgYf31kOxtWA44+LFiPnF+B5+NJ69ZroXHXTsdFwWmaoHldcLK175adUtNysqQZ5rFAKSyUPgHQlPNX0ptNjuw==
-  dependencies:
-    tslib "^1.10.0"
+odata-query@6.0.0-1:
+  version "6.0.0-1"
+  resolved "https://registry.yarnpkg.com/odata-query/-/odata-query-6.0.0-1.tgz#379349d74a5a26ce507ed30fd4c7cdb13ed9b7c8"
+  integrity sha512-0sKW+q5F2/PpALb97GqqaOjabfhtxIN/uqkbox6MpdS7LFcSTFXrIYYn7k8ye3Rj5eHZYxcYiytay6rzbp9BEg==
 
 on-finished@~2.3.0:
   version "2.3.0"
@@ -7468,7 +7466,7 @@ tr46@^1.0.1:
   dependencies:
     punycode "^2.1.0"
 
-tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0:
+tslib@^1.8.1, tslib@^1.9.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==

@@ -10,11 +10,15 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import ProviderFormattingContext from './src/context/FormattingContext';
 import {
+  serviceGetCustomCategories,
   thunkGetCustomCategories,
   thunkGetTags,
 } from './src/redux/category/categoryReducer';
 import {fetchGetAllSettings} from './src/redux/other/otherReducer';
-import {thunkGetSellPoints} from './src/redux/sellPoints/sellPointsReducer';
+import {
+  thunkGetExpressSellPoints,
+  thunkGetSellPoints,
+} from './src/redux/sellPoints/sellPointsReducer';
 import I18n from 'react-native-i18n';
 import en from './src/assets/translations/en';
 import uk from './src/assets/translations/uk';
@@ -34,26 +38,34 @@ I18n.translations = {
 
 const store = configureStore();
 store.store.dispatch(thunkGetCustomCategories);
+store.store.dispatch(serviceGetCustomCategories);
 store.store.dispatch(thunkGetTags);
 store.store.dispatch(fetchGetAllSettings);
 store.store.dispatch(thunkGetSellPoints);
 
-const handleAppStateChange = (nextAppState) => {
-  if (nextAppState === 'background' || nextAppState === 'inactive') {
-    const items = store.store.getState().cart.data;
-    const isAuth = store.store.getState().user.isAuth;
-    const id = store.store.getState().cart.idSellPoint
-      ? store.store.getState().cart.idSellPoint
-      : store.store.getState().other.settings[DEFAULT_NAME_SETTING]
-          .default_price_sell_point;
+const handleAppStateChange = async (nextAppState) => {
+  try {
+    if (nextAppState === 'background' || nextAppState === 'inactive') {
+      const root = store.store.getState();
+      const isAuth = root.user.isAuth;
+      if (!isAuth) return;
 
-    if (!isAuth) return;
+      const items = root.cart.data;
+      const idDeliveryType = root.order.deliveryType?.id;
+      const id = root.cart.idSellPoint
+        ? root.cart.idSellPoint
+        : root.other.settings[DEFAULT_NAME_SETTING].default_price_sell_point;
 
-    if (items.length > 0) {
-      service.saveCart(items, id);
-    } else {
-      service.deleteCart();
+      console.log(idDeliveryType);
+      if (items.length > 0 && idDeliveryType) {
+        service.saveCart(items, id, idDeliveryType);
+      } else {
+        console.log(2);
+        service.deleteCart();
+      }
     }
+  } catch (e) {
+    console.log({e});
   }
 };
 

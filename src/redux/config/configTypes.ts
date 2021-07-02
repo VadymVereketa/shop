@@ -9,6 +9,8 @@ export interface IConfigState {
   requiredVersionAndroid: number;
   optionalVersionIOS: string;
   requiredVersionIOS: string;
+
+  isNewCategory: boolean;
 }
 
 export type ItemConfigState = keyof IConfigState;

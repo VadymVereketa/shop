@@ -18,6 +18,7 @@ const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
       requiredVersionAndroid: ANDROID_VERSION,
       optionalVersionIOS: IOS_VERSION,
       requiredVersionIOS: IOS_VERSION,
+      isNewCategory: true,
     })
     .then(() => remoteConfig().fetchAndActivate())
     .then((fetchedRemotely) => {
@@ -25,8 +26,8 @@ const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
         const parameters = remoteConfig().getAll();
         const isBool = [
           'enabledOptionalCheckVersion',
-
           'enabledRequiredCheckVersion',
+          'isNewCategory',
         ];
         const isNumber = ['optionalVersionAndroid', 'requiredVersionAndroid'];
         const isString = ['optionalVersionIOS', 'requiredVersionIOS'];

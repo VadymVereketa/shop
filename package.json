@@ -23,7 +23,7 @@
     "@types/react-redux": "^7.1.9",
     "axios": "^0.19.2",
     "lodash.debounce": "^4.0.8",
-    "odata-query": "^6.2.0",
+    "odata-query": "6.0.0-1",
     "react": "16.13.1",
     "react-hook-form": "^6.4.0",
     "react-native": "0.63.2",

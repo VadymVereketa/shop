@@ -17,19 +17,29 @@ import SplashScreen from 'react-native-splash-screen';
 import Loader from '../../common/Loader';
 import {thunkGetTypes} from '../../../redux/types/typeReducer';
 import ModalUpdateApp from '../../modals/ModalUpdateApp';
+import ModalAssortment from '../../modals/ModalAssortment';
+import ModalAssortmentWarning from '../../modals/ModalAssortmentWarning';
+import {selectorsOrder} from '../../../redux/order/orderReducer';
+import {selectorCategory2} from '../../../redux/category/categoryReducer';
 
 const window = Dimensions.get('window');
 const width = Math.min(window.width, window.height);
 
 const RestaurantScreen = React.memo(
   ({navigation, route}: RestaurantScreenProps) => {
-    const perPage = 12;
+    const perPage = useRef(12);
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
     const {background} = useTheme();
     const HEADER_HEIGHT = sizes[55];
     const categories = route.params.categories;
-    const [idCategory, setIdCategory] = useState(-1);
+
+    const [idCategory, setIdCategory] = useState<any>(null);
+    const ID_DEFAULT_SELLPOINT = useSelector(selectorsOther.getIdSellPoint);
+    const isDeliverySelf = useSelector(selectorsOrder.isDeliverySelf);
+    const isModalAssortment = useSelector(selectorsOther.getIsModalAssortment);
+    const isExpress = false;
+    const cartSellPoint = useSelector(selectorsOrder.getSellPointId);
     const [isShow, setIsShow] = useState(false);
     const [skip, setSkip] = useState(0);
     const [countItems, setCountItems] = useState(0);
@@ -37,6 +47,10 @@ const RestaurantScreen = React.memo(
     const [search, setSearch] = useState('');
     const [products, setProducts] = useState([] as IProduct[]);
     const {isLoading, request} = useAxios(service.getProducts);
+
+    const idsCategories = useSelector(
+      selectorCategory2.getIdsCategory(idCategory),
+    );
 
     useEffect(() => {
       SplashScreen.hide();
@@ -59,21 +73,28 @@ const RestaurantScreen = React.memo(
     useDidUpdateEffect(() => {
       setSkip(0);
       setProducts([]);
-    }, [idCategory, search, isGlobalSearch]);
+    }, [idCategory, search, isGlobalSearch, isModalAssortment]);
 
     useDidUpdateEffect(() => {
-      handleRequest();
-    }, [skip, idCategory, search, isGlobalSearch]);
+      if (!isModalAssortment) {
+        handleRequest();
+      }
+    }, [skip, idCategory, search, isGlobalSearch, isModalAssortment]);
 
     const handleRequest = () => {
-      const id = isGlobalSearch ? null : idCategory;
+      const idTag = isGlobalSearch ? null : idCategory;
+      const id = isGlobalSearch ? null : idsCategories;
+      console.log(id);
 
       request<any>({
-        idTag: route.params.isTag ? id : null,
-        top: perPage,
-        skip: skip * perPage,
+        idTag: route.params.isTag ? idTag : null,
+        top: perPage.current,
+        skip: skip * perPage.current,
         title: search,
         idCategory: !route.params.isTag ? id : null,
+        idSellPoint: isDeliverySelf
+          ? cartSellPoint || ID_DEFAULT_SELLPOINT
+          : undefined,
       }).then((res) => {
         if (res.success) {
           setProducts((p) => {
@@ -103,6 +124,9 @@ const RestaurantScreen = React.memo(
     };
 
     const handleEventScroll = (event) => {
+      if (isExpress) {
+        return;
+      }
       if (event.nativeEvent && countItems > products.length && !isLoading) {
         const {
           contentOffset: {y},
@@ -134,13 +158,23 @@ const RestaurantScreen = React.memo(
             initValue={search}
             onChange={setSearch}
           />
-          <CategoryBar
-            tags={categories}
-            currentId={isGlobalSearch ? -1 : idCategory}
-            onPress={handlePress}
-          />
+          {isExpress ? (
+            <View
+              style={{
+                height: sizes[4],
+              }}
+            />
+          ) : (
+            <CategoryBar
+              tags={categories}
+              currentId={isGlobalSearch ? -1 : idCategory}
+              onPress={handlePress}
+            />
+          )}
         </View>
-        <Loader isLoading={isLoading} top={sizes[30] + insets.top} />
+        {!isExpress && (
+          <Loader isLoading={isLoading} top={sizes[30] + insets.top} />
+        )}
         <FlatGrid
           itemDimension={width / Math.max(Math.floor(width / 230), 2)}
           spacing={-1}
@@ -150,7 +184,7 @@ const RestaurantScreen = React.memo(
           contentContainerStyle={[
             styles.gridView,
             {
-              paddingTop: HEADER_HEIGHT + sizes[5],
+              paddingTop: isExpress ? sizes[28] : HEADER_HEIGHT + sizes[5],
             },
           ]}
           onScroll={handleEventScroll}

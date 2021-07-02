@@ -31,13 +31,27 @@ import {AxiosResponse} from 'axios';
 import {FRACTION_DIGIT, TypeDelivery} from '../constants/constantsId';
 import {formatAddress} from '../utils/formatAddress';
 import {DateHelper} from '../utils/DataHelper';
+import {IFetchCategory} from '../typings/ICategory';
 
 const service = {
   getSellPoints: async () => {
     return await customFetch(() => instance.get(queries.getRestaurants().url!));
   },
+  getExpressSellPoints: async () => {
+    return await customFetch(() =>
+      instance.get(queries.getExpressSellPoints().url!),
+    );
+  },
   getTags: async () => {
     return customFetch(() => instance.get(queries.getTags().url!));
+  },
+
+  getCustomCategories: async () => {
+    const res = await customFetch(() => instance.get('custom_categories'));
+    if (res.success) {
+      return res.data as IFetchCategory[];
+    }
+    return [];
   },
   getCategories: async () => {
     try {
@@ -105,7 +119,11 @@ const service = {
   getProducts: async (opt: IGetProducts) => {
     return await customFetch(() => instance.get(queries.getProducts(opt).url!));
   },
-
+  getExpressProducts: async (id: any) => {
+    return await customFetch(() =>
+      instance.get(queries.getProductByExpress(id).url!),
+    );
+  },
   getProductsByIds: async (ids: number[]) => {
     const filter = {
       or: ids.map((id) => ({id: id})),
@@ -148,7 +166,11 @@ const service = {
       return null;
     }
   },
-  saveCart: async (products: ICartItem[], idSellPoint: number) => {
+  saveCart: async (
+    products: ICartItem[],
+    idSellPoint: number,
+    idDelivery: number,
+  ) => {
     const data = {
       cartProducts: products.map((p) => {
         return {
@@ -163,13 +185,17 @@ const service = {
         };
       }),
       sellPoint: {
-        id: +idSellPoint,
+        id: idSellPoint,
+      },
+      deliveryType: {
+        id: idDelivery,
       },
     };
-    const res = await customFetch(() =>
-      instance.put<IUpdateCart>('clients/cart', data),
+    return await customFetch(() =>
+      instance.put<IUpdateCart>('clients/cart', data, {
+        withCredentials: true,
+      }),
     );
-    return res;
   },
   deleteCart: async () => {
     return await customFetch(() => instance.delete('clients/cart'));
@@ -190,11 +216,24 @@ const service = {
           p.count = +p.count;
           return p;
         });
-        return res.data.cartProducts;
+
+        return {
+          sellPoint: res.data.sellPoint,
+          items: res.data.cartProducts,
+          deliveryType: res.data.deliveryType,
+        };
       }
-      return [];
+      return {
+        sellPoint: null,
+        items: [],
+        deliveryType: null,
+      };
     } catch (e) {
-      return [];
+      return {
+        sellPoint: null,
+        items: [],
+        deliveryType: null,
+      };
     }
   },
   createOrder: async (draftId: number | undefined, data: IOrderState) => {
@@ -210,7 +249,7 @@ const service = {
 
     let time = data.time;
 
-    if (data.deliveryType!.code === TypeDelivery.courier) {
+    if (data.deliveryType!.code !== TypeDelivery.self) {
       addressData.address = {
         id: data.addressId,
       };
@@ -218,15 +257,25 @@ const service = {
       time = `${time}-${time}`;
     }
 
-    const [minTime, maxTime] = time.split('-');
-    const [maxH, maxM] = maxTime.split(':').map(parseFloat);
-    const [minH, minM] = minTime.split(':').map(parseFloat);
+    let maxExecuteDate: Date | undefined = undefined;
+    let minExecuteDate: Date | undefined = maxExecuteDate;
 
-    let maxExecuteDate = new Date(data.date!);
-    maxExecuteDate.setHours(maxH, maxM);
+    if (data.deliveryType!.code !== TypeDelivery.express && data.date) {
+      const [minTime, maxTime] = time.split('-');
+      const [maxH, maxM] = maxTime.split(':').map(parseFloat);
+      const [minH, minM] = minTime.split(':').map(parseFloat);
 
-    let minExecuteDate = new Date(data.date!);
-    minExecuteDate.setHours(minH, minM);
+      maxExecuteDate = new Date(data.date);
+      maxExecuteDate.setHours(maxH, maxM);
+
+      minExecuteDate = new Date(data.date);
+      minExecuteDate.setHours(minH, minM);
+    } else {
+      // time for express delivery
+      maxExecuteDate = new Date();
+      maxExecuteDate.setMinutes(maxExecuteDate.getMinutes() + 30);
+      minExecuteDate = new Date();
+    }
 
     const fetchData: IOrderPost = {
       id: draftId,

@@ -19,6 +19,7 @@ const init: IOtherState = {
   draftId: null,
   isGlobalSearch: false,
   theme: 'light',
+  isModalAssortment: false,
 };
 const MAX = 5;
 
@@ -68,15 +69,17 @@ const selectorsOther = {
         offset: 60,
         from: '12:00',
         to: '21:00',
+        range: 60,
       };
     }
-    const setting = state.other.settings![id];
+    const setting = state.other.settings![id] || {};
     if (id === DEFAULT_NAME_SETTING) {
       return {
         step: setting.order_time_step ? +setting.order_time_step : 30,
         offset: setting.order_offset_time ? +setting.order_offset_time : 60,
         from: setting.order_time_from ? setting.order_time_from : '12:00',
         to: setting.order_time_to ? setting.order_time_to : '21:00',
+        range: setting.order_time_range ? +setting.order_time_range : 60,
       };
     }
     const sellPoint: any =
@@ -90,6 +93,7 @@ const selectorsOther = {
       offset: setting.order_offset_time ? +setting.order_offset_time : 60,
       from,
       to,
+      range: 60,
     };
   },
   getIdSellPoint: (state: RootState) => {
@@ -151,6 +155,18 @@ const selectorsOther = {
     return (
       state.other.settings![DEFAULT_NAME_SETTING].preauth_payment! === 'true'
     );
+  },
+  getIsModalAssortment: (state: RootState) => {
+    return state.other.isModalAssortment;
+  },
+  getIDDefaultDeliveryPriceExpress: (state: RootState) => {
+    if (!state.other.settings) return -1;
+    return +state.other.settings![DEFAULT_NAME_SETTING]
+      .default_delivery_price_express!;
+  },
+  getDefaultDeliveryPriceExpress: (state: RootState) => {
+    const id = selectorsOther.getIDDefaultDeliveryPriceExpress(state);
+    return state.types.pricesTypes.find((d) => d.id === id);
   },
 };
 

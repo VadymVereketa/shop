@@ -21,6 +21,7 @@ const SecondStepScreen = React.memo(
     const paramOption = params.option;
     const dispatch = useDispatch();
     const disabled = useSelector(selectorsOrder.isAllowThirdStep);
+    const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
     const saveDraft = useSaveDraft();
 
     const handleContinue = () => {
@@ -53,7 +54,7 @@ const SecondStepScreen = React.memo(
       <BlockWrapperOrder disabled={!disabled} handleContinue={handleContinue}>
         <MyText style={styles.text}>{t('commonSelectWayGet')}</MyText>
         <BlockDelivery navigate={'SecondStep'} />
-        <DateInput navigate={'SecondStep'} />
+        {!isExpress && <DateInput navigate={'SecondStep'} />}
       </BlockWrapperOrder>
     );
   },
