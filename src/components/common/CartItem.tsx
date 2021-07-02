@@ -133,7 +133,6 @@ const ViewProductItem = React.memo(
       });
     };
 
-    console.log(count);
     return (
       <Animated.View
         style={[

@@ -1,8 +1,11 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import {ANDROID_VERSION, IOS_VERSION} from '../config/configVersion';
 import {actionsConfig} from '../redux/config/configReducer';
 
 const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
+  console.log('loadRemoteConfig');
+
   if (immediately) {
     await remoteConfig().fetch(0);
   } else {
@@ -18,7 +21,7 @@ const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
       requiredVersionAndroid: ANDROID_VERSION,
       optionalVersionIOS: IOS_VERSION,
       requiredVersionIOS: IOS_VERSION,
-      isNewCategory: true,
+      isNewCategory: false,
     })
     .then(() => remoteConfig().fetchAndActivate())
     .then((fetchedRemotely) => {
@@ -32,9 +35,18 @@ const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
         const isNumber = ['optionalVersionAndroid', 'requiredVersionAndroid'];
         const isString = ['optionalVersionIOS', 'requiredVersionIOS'];
         try {
-          Object.entries(parameters).forEach(($) => {
+          Object.entries(parameters).forEach(async ($) => {
             const [key, entry] = $;
             if (isBool.some((s) => s === key)) {
+              if (key === 'isNewCategory') {
+                console.log(key, entry.asBoolean());
+              }
+              if (key === 'isNewCategory' && immediately) {
+                console.log('save, ', entry.asBoolean().toString());
+
+                await AsyncStorage.setItem(key, entry.asBoolean().toString());
+              }
+              console.log(2);
               dispatch(
                 actionsConfig.setData({
                   [key]: entry.asBoolean(),
@@ -47,7 +59,6 @@ const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
                 }),
               );
             } else if (isString.some((s) => s === key)) {
-              console.log(`${key}: `, entry.asString());
               dispatch(
                 actionsConfig.setData({
                   [key]: entry.asString(),

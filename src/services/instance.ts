@@ -31,7 +31,6 @@ instance.interceptors.response.use(
     return value;
   },
   (error) => {
-    console.log({error});
     if (error.response.status === 401) {
       logOut();
     }

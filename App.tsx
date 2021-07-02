@@ -12,21 +12,27 @@ import portmone from './src/utils/portmone';
 import config from './src/config/config';
 import loadRemoteConfig from './src/utils/loadRemoteConfig';
 import validateVersion from './src/utils/validateVersion';
-import {selectorsConfig} from './src/redux/config/configReducer';
+import {actionsConfig, selectorsConfig} from './src/redux/config/configReducer';
 import useDidUpdateEffect from './src/useHooks/useDidUpdateEffect';
 import ModalUpdateApp from './src/components/modals/ModalUpdateApp';
-import {actionsOther} from './src/redux/other/otherReducer';
+import {actionsOther, selectorsOther} from './src/redux/other/otherReducer';
 import ModalAssortment from './src/components/modals/ModalAssortment';
-import {RootState} from './src/redux/reducer';
 import {TypeDelivery} from './src/constants/constantsId';
 import {actionsOrder} from './src/redux/order/orderReducer';
-import {
-  selectorSellPoint,
-  getSellPoints,
-} from './src/redux/sellPoints/sellPointsReducer';
-import store from './src/redux/store';
+import {getSellPoints} from './src/redux/sellPoints/sellPointsReducer';
 import getIsNotExistInPO from './src/useHooks/getIsNotExistInPO';
 import getIsExistSellPoint from './src/useHooks/isExistSellPoint';
+import useHandlerMessaging, {
+  TypeHandlerMessaging,
+} from './src/useHooks/useHandlerMessaging';
+import messaging, {
+  FirebaseMessagingTypes,
+} from '@react-native-firebase/messaging';
+import {getUniqueId} from 'react-native-device-info';
+import {TitleTopics} from './src/typings/TypeTopic';
+import {isIOS, isAndroid} from './src/utils/isPlatform';
+import {requestNotificationPermission} from './src/utils/requestNotificationPermission';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -36,6 +42,7 @@ const App = () => {
   const {currentLocale} = useFormattingContext();
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isRequired, setIsRequired] = useState(false);
+  const tokenNotification = useSelector(selectorsOther.getTokenNotification);
   const requiredVersion = useSelector(selectorsConfig.getRequiredVersion);
   const optionalVersion = useSelector(selectorsConfig.getOptionalVersion);
   const enabledRequiredCheck = useSelector(
@@ -44,9 +51,57 @@ const App = () => {
   const enabledOptionalCheck = useSelector(
     selectorsConfig.getItemConfig('enabledOptionalCheckVersion'),
   );
-
-  const expressSellPoints = useSelector(selectorSellPoint.getExpressSellPoints);
   const sellPoints = useSelector(getSellPoints(true));
+  const switchHandlerMessaging = useHandlerMessaging();
+
+  const handleCatchMessageOpenedApp = (
+    remoteMessage: FirebaseMessagingTypes.RemoteMessage | null,
+  ) => {
+    console.log(
+      '------------------>    ' +
+        (isIOS ? 'IOS' : 'ANDROID') +
+        ': handleCatchMessageOpenedApp!',
+      remoteMessage,
+    );
+    if (remoteMessage) {
+      switchHandlerMessaging(TypeHandlerMessaging.openApp, remoteMessage);
+    }
+  };
+
+  const handleMessage = async (
+    remoteMessage: FirebaseMessagingTypes.RemoteMessage,
+  ) => {
+    console.log(
+      '------------------>    ' +
+        (isIOS ? 'IOS' : 'ANDROID') +
+        ': handleMessage!',
+      remoteMessage,
+    );
+    if (remoteMessage) {
+      switchHandlerMessaging(TypeHandlerMessaging.message, remoteMessage);
+    }
+  };
+
+  /// Notification handlers
+  useEffect(() => {
+    messaging().subscribeToTopic(TitleTopics.system);
+
+    messaging().onNotificationOpenedApp(handleCatchMessageOpenedApp);
+    if (isAndroid) {
+      messaging().getInitialNotification().then(handleCatchMessageOpenedApp);
+    }
+
+    const unsubscribe = messaging().onMessage(handleMessage);
+
+    const unsubscribeToken = messaging().onTokenRefresh(
+      async (refreshToken) => {},
+    );
+
+    return () => {
+      unsubscribe();
+      unsubscribeToken();
+    };
+  }, []);
 
   const MyTheme: Theme = {
     dark: theme === 'dark',
@@ -69,7 +124,10 @@ const App = () => {
           if (!sellPoint || items.length === 0 || deliveryType === null) {
             return false;
           }
-          const allSellPoints = [...sellPoints, ...expressSellPoints];
+          if (deliveryType && deliveryType.code === TypeDelivery.express) {
+            return false;
+          }
+          const allSellPoints = sellPoints;
           const isExistSellPoint = getIsExistSellPoint(
             allSellPoints,
             sellPoint.id,
@@ -89,8 +147,7 @@ const App = () => {
             actionsOrder.setData({
               deliveryType,
               sellPoint: sellPoint.id,
-              expressSellPoint:
-                deliveryType.code === TypeDelivery.express ? sellPoint : null,
+              expressSellPoint: null,
             }),
           );
 
@@ -121,8 +178,21 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    loadRemoteConfig(dispatch, false).then(() => {
+    handleNotificationPermission();
+    loadRemoteConfig(dispatch, false).then(async () => {
       setIsLoadConfig(true);
+      const isNewCategory = await AsyncStorage.getItem('isNewCategory');
+      console.log(1);
+
+      if (isNewCategory) {
+        console.log('isNewCategory, ', isNewCategory);
+
+        dispatch(
+          actionsConfig.setData({
+            isNewCategory: isNewCategory === 'true' ? true : false,
+          }),
+        );
+      }
     });
   }, []);
 
@@ -136,6 +206,22 @@ const App = () => {
       }
     }
   }, [isLoadConfig]);
+
+  const handleNotificationPermission = async () => {
+    const res = (await requestNotificationPermission({
+      alert: true,
+      sound: true,
+      criticalAlert: true,
+      badge: true,
+    })) as FirebaseMessagingTypes.AuthorizationStatus;
+
+    if ([1, 2].some((n) => n === res)) {
+      if (tokenNotification === null) {
+        const id = await getUniqueId();
+        const token = await messaging().getToken();
+      }
+    }
+  };
 
   return (
     <NavigationContainer

@@ -84,7 +84,6 @@ const RestaurantScreen = React.memo(
     const handleRequest = () => {
       const idTag = isGlobalSearch ? null : idCategory;
       const id = isGlobalSearch ? null : idsCategories;
-      console.log(id);
 
       request<any>({
         idTag: route.params.isTag ? idTag : null,
