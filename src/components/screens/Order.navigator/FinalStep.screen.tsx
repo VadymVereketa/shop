@@ -32,9 +32,11 @@ const FinalStepScreen = React.memo(
     const sum = useSelector(selectorsCart.getGeneralSum);
     const idSellPoint = useSelector(selectorsCart.getIdSellPoint);
     const items = useSelector(selectorsCart.getCartProducts);
-    const isDelivery = useSelector(selectorsOrder.isDeliveryCourier);
+    const isSelf = useSelector(selectorsOrder.isDeliverySelf);
+    const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
     const address = useSelector(selectorsOrder.getAddress);
     const sellPoint = useSelector(selectorsOrder.getSellPoint)!;
+    const expressSellPoint = useSelector(selectorsOrder.getExpressSellPoint)!;
     const date = useSelector(selectorsOrder.getDate)!;
     const time = useSelector(selectorsOrder.getTime)!;
     const [snapShot, setSnapshot] = useState({
@@ -70,9 +72,11 @@ const FinalStepScreen = React.memo(
     const cartItems = items.length > 0 ? items : snapShot.items;
     let cartSum = items.length > 0 ? sum : snapShot.sum;
 
-    const totalSum = isDelivery ? cartSum + deliveryPrice : cartSum;
+    const totalSum = isSelf ? cartSum : cartSum + deliveryPrice;
 
     const user = (contact || client)!;
+
+    const sp = sellPoint ?? expressSellPoint;
 
     return (
       <SafeAreaView style={[styles.container]}>
@@ -126,7 +130,7 @@ const FinalStepScreen = React.memo(
               user!.lastName
             }`}</MyText>
             <MyText style={styles.text}>{user.phone}</MyText>
-            {isDelivery ? (
+            {!isSelf ? (
               <View>
                 <MyText style={styles.title}>{t('commonAddress')}</MyText>
                 <MyText style={styles.text}>{formatAddress(address)}</MyText>
@@ -134,14 +138,18 @@ const FinalStepScreen = React.memo(
             ) : (
               <View>
                 <MyText style={styles.title}>{t('btnSelf')}: </MyText>
-                <MyText style={styles.title}>{sellPoint.name}</MyText>
-                <MyText style={styles.text}>{sellPoint.address}</MyText>
+                <MyText style={styles.title}>{sp.name}</MyText>
+                <MyText style={styles.text}>{sp.address}</MyText>
               </View>
             )}
-            <MyText style={styles.title}>{t('commonDateTime')}</MyText>
-            <MyText style={styles.text}>
-              {longFormatDate(date)} {time}
-            </MyText>
+            {!isExpress && (
+              <React.Fragment>
+                <MyText style={styles.title}>{t('commonDateTime')}</MyText>
+                <MyText style={styles.text}>
+                  {longFormatDate(date)} {time}
+                </MyText>
+              </React.Fragment>
+            )}
           </View>
           <MyButton
             onPress={handleOrders}

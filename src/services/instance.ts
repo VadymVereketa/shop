@@ -1,6 +1,8 @@
 import axios from 'axios';
-import config from '../config';
+import config from '../config/config';
 import {getLocale, getToken, logOut} from '../../index';
+import {isIOS} from '../utils/isPlatform';
+import {ANDROID_VERSION, IOS_VERSION} from '../config/configVersion';
 
 const instance = axios.create({
   baseURL: config.baseURL,
@@ -14,6 +16,8 @@ instance.interceptors.request.use(
       ...instance.defaults.headers,
       'Accept-Language': getLocale() || 'uk',
       ...(token ? {Authorization: `Bearer ${token}`} : {}),
+      'Platform-OS': isIOS ? 'iOS' : 'Android',
+      'App-Version': isIOS ? IOS_VERSION : ANDROID_VERSION,
     };
     return value;
   },
@@ -27,7 +31,6 @@ instance.interceptors.response.use(
     return value;
   },
   (error) => {
-    console.log({error});
     if (error.response.status === 401) {
       logOut();
     }

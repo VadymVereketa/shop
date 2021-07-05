@@ -1,4 +1,4 @@
-import config from '../config';
+import config from '../config/config';
 
 const getUrlImg = (name: string | null) => {
   if (!name) return require('../assets/images/pic-default.png'); //todo default image

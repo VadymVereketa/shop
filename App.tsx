@@ -1,21 +1,106 @@
 import {NavigationContainer, Theme} from '@react-navigation/native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTheme} from './src/context/ThemeContext';
 import StartNavigator from './src/components/navigators/Start.navigator';
-import {AppState, Linking, Platform, StatusBar} from 'react-native';
+import {Platform, StatusBar} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {refreshUser} from './src/redux/user/userReducer';
-import {actionsCart, selectorsCart} from './src/redux/cart/cartReducer';
+import {refreshUser, selectorsUser} from './src/redux/user/userReducer';
+import {actionsCart} from './src/redux/cart/cartReducer';
 import service from './src/services/service';
 import {useFormattingContext} from './src/context/FormattingContext';
 import portmone from './src/utils/portmone';
-import config from './src/config';
-import DeepLinking from 'react-native-deep-linking';
+import config from './src/config/config';
+import loadRemoteConfig from './src/utils/loadRemoteConfig';
+import validateVersion from './src/utils/validateVersion';
+import {selectorsConfig} from './src/redux/config/configReducer';
+import useDidUpdateEffect from './src/useHooks/useDidUpdateEffect';
+import ModalUpdateApp from './src/components/modals/ModalUpdateApp';
+import {actionsOther, selectorsOther} from './src/redux/other/otherReducer';
+import ModalAssortment from './src/components/modals/ModalAssortment';
+import {TypeDelivery} from './src/constants/constantsId';
+import {actionsOrder} from './src/redux/order/orderReducer';
+import {getSellPoints} from './src/redux/sellPoints/sellPointsReducer';
+import getIsNotExistInPO from './src/useHooks/getIsNotExistInPO';
+import getIsExistSellPoint from './src/useHooks/isExistSellPoint';
+import useHandlerMessaging, {
+  TypeHandlerMessaging,
+} from './src/useHooks/useHandlerMessaging';
+import messaging, {
+  FirebaseMessagingTypes,
+} from '@react-native-firebase/messaging';
+import {getUniqueId} from 'react-native-device-info';
+import {TitleTopics} from './src/typings/TypeTopic';
+import {isIOS, isAndroid} from './src/utils/isPlatform';
+import {requestNotificationPermission} from './src/utils/requestNotificationPermission';
 
 const App = () => {
   const dispatch = useDispatch();
+  const isAuth = useSelector(selectorsUser.isAuth);
+  const [isLoadConfig, setIsLoadConfig] = useState(false);
   const {theme, onChangeTheme, ...colors} = useTheme();
   const {currentLocale} = useFormattingContext();
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isRequired, setIsRequired] = useState(false);
+  const tokenNotification = useSelector(selectorsOther.getTokenNotification);
+  const requiredVersion = useSelector(selectorsConfig.getRequiredVersion);
+  const optionalVersion = useSelector(selectorsConfig.getOptionalVersion);
+  const enabledRequiredCheck = useSelector(
+    selectorsConfig.getItemConfig('enabledRequiredCheckVersion'),
+  );
+  const enabledOptionalCheck = useSelector(
+    selectorsConfig.getItemConfig('enabledOptionalCheckVersion'),
+  );
+  const sellPoints = useSelector(getSellPoints(true));
+  const switchHandlerMessaging = useHandlerMessaging();
+
+  const handleCatchMessageOpenedApp = (
+    remoteMessage: FirebaseMessagingTypes.RemoteMessage | null,
+  ) => {
+    console.log(
+      '------------------>    ' +
+        (isIOS ? 'IOS' : 'ANDROID') +
+        ': handleCatchMessageOpenedApp!',
+      remoteMessage,
+    );
+    if (remoteMessage) {
+      switchHandlerMessaging(TypeHandlerMessaging.openApp, remoteMessage);
+    }
+  };
+
+  const handleMessage = async (
+    remoteMessage: FirebaseMessagingTypes.RemoteMessage,
+  ) => {
+    console.log(
+      '------------------>    ' +
+        (isIOS ? 'IOS' : 'ANDROID') +
+        ': handleMessage!',
+      remoteMessage,
+    );
+    if (remoteMessage) {
+      switchHandlerMessaging(TypeHandlerMessaging.message, remoteMessage);
+    }
+  };
+
+  /// Notification handlers
+  useEffect(() => {
+    messaging().subscribeToTopic(TitleTopics.system);
+
+    messaging().onNotificationOpenedApp(handleCatchMessageOpenedApp);
+    if (isAndroid) {
+      messaging().getInitialNotification().then(handleCatchMessageOpenedApp);
+    }
+
+    const unsubscribe = messaging().onMessage(handleMessage);
+
+    const unsubscribeToken = messaging().onTokenRefresh(
+      async (refreshToken) => {},
+    );
+
+    return () => {
+      unsubscribe();
+      unsubscribeToken();
+    };
+  }, []);
 
   const MyTheme: Theme = {
     dark: theme === 'dark',
@@ -29,55 +114,58 @@ const App = () => {
     },
   };
 
-  const handleUrl = ({url}: any) => {
-    console.log(url);
-    Linking.canOpenURL(url).then((supported) => {
-      if (supported) {
-        DeepLinking.evaluateUrl(url);
-      }
-    });
-  };
+  useEffect(() => {
+    if (isAuth) {
+      service
+        .getCart()
+        .then((res) => {
+          const {items, sellPoint, deliveryType} = res;
+          if (!sellPoint || items.length === 0 || deliveryType === null) {
+            return false;
+          }
+          if (deliveryType && deliveryType.code === TypeDelivery.express) {
+            return false;
+          }
+          const allSellPoints = sellPoints;
+          const isExistSellPoint = getIsExistSellPoint(
+            allSellPoints,
+            sellPoint.id,
+          );
 
-  const addRoutesToDeepLinking = () => {
-    DeepLinking.addScheme('https://');
+          if (!isExistSellPoint) {
+            return false;
+          }
 
-    DeepLinking.addRoute(
-      '/egersund-uat-web.huspi.com/products/1/5',
-      (response) => {
-        console.log('/egersund-uat-web.huspi.com/products/1/5');
-        console.log(response);
-      },
-    );
+          const isExistInPO = getIsNotExistInPO(items, sellPoint.id);
+          if (isExistInPO) {
+            return false;
+          }
+          dispatch(actionsCart.setData(items));
+          dispatch(actionsCart.updateCart(sellPoint.id));
+          dispatch(
+            actionsOrder.setData({
+              deliveryType,
+              sellPoint: sellPoint.id,
+              expressSellPoint: null,
+            }),
+          );
 
-    DeepLinking.addRoute('/egersund-uat-web.huspi.com', (response) => {
-      console.log('/egersund-uat-web.huspi.com');
-      console.log(response);
-    });
-
-    DeepLinking.addRoute(
-      '/egersund-uat-web.huspi.com/#/avialosos',
-      (response) => {
-        console.log('/egersund-uat-web.huspi.com/#/avialosos');
-        console.log(response);
-      },
-    );
-
-    DeepLinking.addRoute('/egersund-uat-web.huspi.com/shops', (response) => {
-      console.log('/egersund-uat-web.huspi.com/shops');
-      console.log(response);
-    });
-  };
+          return true;
+        })
+        .then((res) => {
+          if (!res) {
+            dispatch(
+              actionsOther.setData({
+                isModalAssortment: true,
+              }),
+            );
+          }
+        });
+    }
+  }, [isAuth]);
 
   useEffect(() => {
-    addRoutesToDeepLinking();
-    Linking.addEventListener('url', handleUrl);
-
     dispatch(refreshUser);
-    service.getCart().then((res) => {
-      if (res.length > 0) {
-        dispatch(actionsCart.setData(res));
-      }
-    });
 
     if (Platform.OS === 'android') {
       portmone.invokePortmoneSdk({
@@ -86,10 +174,45 @@ const App = () => {
         type: 'phone',
       });
     }
-    return () => {
-      Linking.removeEventListener('url', handleUrl);
-    };
   }, []);
+
+  useEffect(() => {
+    handleNotificationPermission();
+    loadConfig();
+  }, []);
+
+  const loadConfig = async () => {
+    loadRemoteConfig(dispatch, false).then(async () => {
+      setIsLoadConfig(true);
+    });
+  };
+
+  useDidUpdateEffect(() => {
+    if (isLoadConfig) {
+      if (!validateVersion(requiredVersion) && enabledRequiredCheck) {
+        setIsOpenModal(true);
+        setIsRequired(true);
+      } else if (!validateVersion(optionalVersion) && enabledOptionalCheck) {
+        setIsOpenModal(true);
+      }
+    }
+  }, [isLoadConfig]);
+
+  const handleNotificationPermission = async () => {
+    const res = (await requestNotificationPermission({
+      alert: true,
+      sound: true,
+      criticalAlert: true,
+      badge: true,
+    })) as FirebaseMessagingTypes.AuthorizationStatus;
+
+    if ([1, 2].some((n) => n === res)) {
+      if (tokenNotification === null) {
+        const id = await getUniqueId();
+        const token = await messaging().getToken();
+      }
+    }
+  };
 
   return (
     <NavigationContainer
@@ -101,6 +224,12 @@ const App = () => {
         hidden={Platform.OS === 'android'}
         barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
       />
+      <ModalUpdateApp
+        modalVisible={isOpenModal}
+        isRequired={isRequired}
+        onClose={() => setIsOpenModal(false)}
+      />
+      <ModalAssortment />
       <StartNavigator />
     </NavigationContainer>
   );

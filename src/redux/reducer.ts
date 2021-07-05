@@ -15,6 +15,8 @@ import {ISellPointsState} from './sellPoints/sellPointsTypes';
 import sellPointsReducer from './sellPoints/sellPointsReducer';
 import AsyncStorage from '@react-native-community/async-storage';
 import {ITypeState} from './types/typeTypes';
+import {IConfigState} from './config/configTypes';
+import configReducer from './config/configReducer';
 
 const otherPersistConfig = {
   key: 'other',
@@ -37,7 +39,7 @@ const categoryPersistConfig = {
 const sellPointsPersistConfig = {
   key: 'sellPoints',
   storage: AsyncStorage,
-  whitelist: ['data'],
+  whitelist: ['data', 'expressSellPoints'],
 };
 
 const typesPersistConfig = {
@@ -45,7 +47,11 @@ const typesPersistConfig = {
   storage: AsyncStorage,
   whitelist: ['deliveryTypes', 'paymentTypes', 'pricesTypes'],
 };
-
+const orderPersistConfig = {
+  key: 'order',
+  storage: AsyncStorage,
+  whitelist: ['sellPoint', 'expressSellPoint', 'deliveryType'],
+};
 export interface RootState {
   category: ICategoryState;
   cart: ICartState;
@@ -54,6 +60,7 @@ export interface RootState {
   order: IOrderState;
   sellPoints: ISellPointsState;
   types: ITypeState;
+  config: IConfigState;
 }
 
 export default combineReducers({
@@ -61,7 +68,8 @@ export default combineReducers({
   cart: cartReducer,
   other: persistReducer(otherPersistConfig, otherReducer),
   user: persistReducer(userPersistConfig, userReducer),
-  order: orderReducer,
+  order: persistReducer(orderPersistConfig, orderReducer),
   sellPoints: persistReducer(sellPointsPersistConfig, sellPointsReducer),
   types: persistReducer(typesPersistConfig, typesReducer),
+  config: configReducer,
 });

@@ -9,9 +9,16 @@ import configureStore from './src/redux/store';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import ProviderFormattingContext from './src/context/FormattingContext';
-import {thunkGetCustomCategories, thunkGetTags} from './src/redux/category/categoryReducer';
+import {
+  serviceGetCustomCategories,
+  thunkGetCustomCategories,
+  thunkGetTags,
+} from './src/redux/category/categoryReducer';
 import {fetchGetAllSettings} from './src/redux/other/otherReducer';
-import {thunkGetSellPoints} from './src/redux/sellPoints/sellPointsReducer';
+import {
+  thunkGetExpressSellPoints,
+  thunkGetSellPoints,
+} from './src/redux/sellPoints/sellPointsReducer';
 import I18n from 'react-native-i18n';
 import en from './src/assets/translations/en';
 import uk from './src/assets/translations/uk';
@@ -19,8 +26,15 @@ import {actionsUser, refreshUser} from './src/redux/user/userReducer';
 import service from './src/services/service';
 import {actionsCart} from './src/redux/cart/cartReducer';
 import {DEFAULT_NAME_SETTING} from './src/constants/constantsId';
+import {Host} from 'react-native-portalize';
+import messaging from '@react-native-firebase/messaging';
+import {
+  switchHandlerMessaging,
+  TypeHandlerMessaging,
+} from './src/useHooks/useHandlerMessaging';
+import {isIOS} from './src/utils/isPlatform';
 
-I18n.defaultLocale = "uk";
+I18n.defaultLocale = 'uk';
 I18n.fallbacks = true;
 
 I18n.translations = {
@@ -28,26 +42,47 @@ I18n.translations = {
   en,
 };
 
+messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+  console.log(
+    '------------------>    ' +
+      (isIOS ? 'IOS' : 'ANDROID') +
+      ': Message handled in the background!',
+    remoteMessage,
+  );
+  switchHandlerMessaging({
+    type: TypeHandlerMessaging.background,
+    payload: remoteMessage,
+  });
+});
+
 const store = configureStore();
 store.store.dispatch(thunkGetCustomCategories);
+store.store.dispatch(serviceGetCustomCategories);
 store.store.dispatch(thunkGetTags);
 store.store.dispatch(fetchGetAllSettings);
 store.store.dispatch(thunkGetSellPoints);
 
-const handleAppStateChange = (nextAppState) => {
-  if (nextAppState === 'background' || nextAppState === 'inactive') {
-    const items = store.store.getState().cart.data;
-    const isAuth = store.store.getState().user.isAuth;
-    const id = store.store.getState().cart.idSellPoint ? store.store.getState().cart.idSellPoint : store.store.getState().other.settings[DEFAULT_NAME_SETTING].default_price_sell_point;
+const handleAppStateChange = async (nextAppState) => {
+  try {
+    if (nextAppState === 'background' || nextAppState === 'inactive') {
+      const root = store.store.getState();
+      const isAuth = root.user.isAuth;
+      if (!isAuth) return;
 
-    if(!isAuth) return ;
+      const items = root.cart.data;
+      const idDeliveryType = root.order.deliveryType?.id;
+      const id = root.cart.idSellPoint
+        ? root.cart.idSellPoint
+        : root.other.settings[DEFAULT_NAME_SETTING].default_price_sell_point;
 
-    if(items.length > 0) {
-      service.saveCart(items, id);
+      if (items.length > 0 && idDeliveryType) {
+        service.saveCart(items, id, idDeliveryType);
+      } else {
+        service.deleteCart();
+      }
     }
-    else {
-      service.deleteCart();
-    }
+  } catch (e) {
+    console.log({e});
   }
 };
 
@@ -72,7 +107,9 @@ const Main = () => {
         <ProviderFormattingContext>
           <SafeAreaProvider>
             <ProviderTheme>
+              <Host>
                 <App />
+              </Host>
             </ProviderTheme>
           </SafeAreaProvider>
         </ProviderFormattingContext>
