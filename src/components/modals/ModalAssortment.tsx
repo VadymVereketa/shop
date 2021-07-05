@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {Linking, Modal, TouchableOpacity, StyleSheet, View} from 'react-native';
-import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
-import {Portal} from 'react-native-portalize';
+import {TouchableOpacity, StyleSheet, View} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -12,16 +11,12 @@ import {sizes, useTheme} from '../../context/ThemeContext';
 import {actionsCart} from '../../redux/cart/cartReducer';
 import {actionsOrder, selectorsOrder} from '../../redux/order/orderReducer';
 import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
-import {
-  getSellPoints,
-  selectorSellPoint,
-} from '../../redux/sellPoints/sellPointsReducer';
+import {getSellPoints} from '../../redux/sellPoints/sellPointsReducer';
 import {selectorsTypes} from '../../redux/types/typeReducer';
 import {ISellPoint} from '../../typings/FetchData';
 import IOption from '../../typings/IOption';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import {getFontFamily} from '../../utils/getFontFamily';
-import {isIOS} from '../../utils/isPlatform';
 import DesignIcon from '../common/DesignIcon';
 import CustomModalDropdown from '../controls/CustomModalDropdown';
 import MyButton from '../controls/MyButton';
@@ -298,35 +293,5 @@ const ModalAssortment = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalView: {
-    width,
-    backgroundColor: 'white',
-    position: 'absolute',
-  },
-  title: {
-    textAlign: 'center',
-    fontSize: sizes[12],
-    fontFamily: getFontFamily('400'),
-    paddingVertical: sizes[6],
-  },
-  mainText: {
-    textAlign: 'center',
-    fontSize: sizes[9],
-    fontFamily: getFontFamily('400'),
-    marginTop: sizes[10],
-  },
-  subText: {
-    textAlign: 'center',
-    fontSize: sizes[8],
-    fontFamily: getFontFamily('400'),
-    marginTop: sizes[6],
-    marginBottom: sizes[6],
-  },
-});
+const styles = StyleSheet.create({});
 export default ModalAssortment;

@@ -59,7 +59,6 @@ const thunkGetExpressSellPoints = async (
   dispatch(actionsSellPoints.setLoading(false));
   try {
     const res = await service.getExpressSellPoints();
-    console.log(res);
 
     if (!res.success) {
       throw res.data;

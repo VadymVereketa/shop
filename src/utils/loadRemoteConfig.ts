@@ -18,7 +18,7 @@ const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
       requiredVersionAndroid: ANDROID_VERSION,
       optionalVersionIOS: IOS_VERSION,
       requiredVersionIOS: IOS_VERSION,
-      isNewCategory: true,
+      isNewCategory: false,
     })
     .then(() => remoteConfig().fetchAndActivate())
     .then((fetchedRemotely) => {
@@ -32,7 +32,7 @@ const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
         const isNumber = ['optionalVersionAndroid', 'requiredVersionAndroid'];
         const isString = ['optionalVersionIOS', 'requiredVersionIOS'];
         try {
-          Object.entries(parameters).forEach(($) => {
+          Object.entries(parameters).forEach(async ($) => {
             const [key, entry] = $;
             if (isBool.some((s) => s === key)) {
               dispatch(
@@ -47,7 +47,6 @@ const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
                 }),
               );
             } else if (isString.some((s) => s === key)) {
-              console.log(`${key}: `, entry.asString());
               dispatch(
                 actionsConfig.setData({
                   [key]: entry.asString(),

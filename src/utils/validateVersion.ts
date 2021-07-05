@@ -5,11 +5,6 @@ const validateVersion = (version?: string | number | null) => {
     return false;
   }
 
-  console.log({
-    ANDROID_VERSION: ANDROID_VERSION,
-    IOS_VERSION: IOS_VERSION,
-  });
-
   if (typeof version === 'number') {
     return ANDROID_VERSION >= version;
   }

@@ -20,6 +20,7 @@ const init: IOtherState = {
   isGlobalSearch: false,
   theme: 'light',
   isModalAssortment: false,
+  notificationToken: null,
 };
 const MAX = 5;
 
@@ -62,6 +63,7 @@ const selectorsOther = {
   getSearchQueries: (state: RootState) => state.other.searchQueries,
   getLocale: (state: RootState) => state.other.locale,
   isSettings: (state: RootState) => state.other.settings === null,
+  getTokenNotification: (state: RootState) => state.other.notificationToken,
   getSetting: (id: string | number) => (state: RootState) => {
     if (!state.other.settings) {
       return {

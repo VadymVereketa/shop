@@ -26,6 +26,7 @@ export interface IOtherState {
   theme: 'light' | 'dark';
 
   isModalAssortment: boolean;
+  notificationToken: string | null;
 }
 
 export interface Settings {

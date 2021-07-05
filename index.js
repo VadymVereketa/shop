@@ -27,6 +27,12 @@ import service from './src/services/service';
 import {actionsCart} from './src/redux/cart/cartReducer';
 import {DEFAULT_NAME_SETTING} from './src/constants/constantsId';
 import {Host} from 'react-native-portalize';
+import messaging from '@react-native-firebase/messaging';
+import {
+  switchHandlerMessaging,
+  TypeHandlerMessaging,
+} from './src/useHooks/useHandlerMessaging';
+import {isIOS} from './src/utils/isPlatform';
 
 I18n.defaultLocale = 'uk';
 I18n.fallbacks = true;
@@ -35,6 +41,19 @@ I18n.translations = {
   uk,
   en,
 };
+
+messaging().setBackgroundMessageHandler(async (remoteMessage) => {
+  console.log(
+    '------------------>    ' +
+      (isIOS ? 'IOS' : 'ANDROID') +
+      ': Message handled in the background!',
+    remoteMessage,
+  );
+  switchHandlerMessaging({
+    type: TypeHandlerMessaging.background,
+    payload: remoteMessage,
+  });
+});
 
 const store = configureStore();
 store.store.dispatch(thunkGetCustomCategories);
@@ -56,11 +75,9 @@ const handleAppStateChange = async (nextAppState) => {
         ? root.cart.idSellPoint
         : root.other.settings[DEFAULT_NAME_SETTING].default_price_sell_point;
 
-      console.log(idDeliveryType);
       if (items.length > 0 && idDeliveryType) {
         service.saveCart(items, id, idDeliveryType);
       } else {
-        console.log(2);
         service.deleteCart();
       }
     }
