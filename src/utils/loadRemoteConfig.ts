@@ -1,11 +1,8 @@
-import AsyncStorage from '@react-native-community/async-storage';
 import remoteConfig from '@react-native-firebase/remote-config';
 import {ANDROID_VERSION, IOS_VERSION} from '../config/configVersion';
 import {actionsConfig} from '../redux/config/configReducer';
 
 const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
-  console.log('loadRemoteConfig');
-
   if (immediately) {
     await remoteConfig().fetch(0);
   } else {
@@ -38,15 +35,6 @@ const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
           Object.entries(parameters).forEach(async ($) => {
             const [key, entry] = $;
             if (isBool.some((s) => s === key)) {
-              if (key === 'isNewCategory') {
-                console.log(key, entry.asBoolean());
-              }
-              if (key === 'isNewCategory' && immediately) {
-                console.log('save, ', entry.asBoolean().toString());
-
-                await AsyncStorage.setItem(key, entry.asBoolean().toString());
-              }
-              console.log(2);
               dispatch(
                 actionsConfig.setData({
                   [key]: entry.asBoolean(),

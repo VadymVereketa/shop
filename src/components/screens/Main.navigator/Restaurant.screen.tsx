@@ -16,9 +16,6 @@ import ProductItem from '../../product/ProductItem';
 import SplashScreen from 'react-native-splash-screen';
 import Loader from '../../common/Loader';
 import {thunkGetTypes} from '../../../redux/types/typeReducer';
-import ModalUpdateApp from '../../modals/ModalUpdateApp';
-import ModalAssortment from '../../modals/ModalAssortment';
-import ModalAssortmentWarning from '../../modals/ModalAssortmentWarning';
 import {selectorsOrder} from '../../../redux/order/orderReducer';
 import {selectorCategory2} from '../../../redux/category/categoryReducer';
 

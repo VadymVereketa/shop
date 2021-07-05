@@ -107,7 +107,7 @@ const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
       }}
       initialRouteName={'Restaurant'}
       tabBar={(props) => <TabBar {...props} />}>
-      {categiesRest.length > 0 && (
+      {rest.length > 0 && (
         <Tab.Screen
           name="Restaurant"
           initialParams={{
@@ -129,7 +129,7 @@ const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
           component={RestaurantScreen}
         />
       )}
-      {categiesShop.length > 0 && (
+      {shop.length > 0 && (
         <Tab.Screen
           name="Shop"
           initialParams={{

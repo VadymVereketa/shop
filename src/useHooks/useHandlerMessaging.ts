@@ -36,7 +36,7 @@ const switchHandlerMessaging = ({payload, type, dispatch}: IOptions) => {
 };
 
 class HandlersTopic {
-  public static handlersSystemTopics({payload, dispatch}: IOptions) {
+  public static handlersSystemTopics({payload, dispatch, type}: IOptions) {
     const data: IDataMessage = payload.data as any;
     if (data.type === TypeTopics.config) {
       HandlersSystemTopic.handlerMessagingConfig(dispatch);

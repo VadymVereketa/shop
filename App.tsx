@@ -12,7 +12,7 @@ import portmone from './src/utils/portmone';
 import config from './src/config/config';
 import loadRemoteConfig from './src/utils/loadRemoteConfig';
 import validateVersion from './src/utils/validateVersion';
-import {actionsConfig, selectorsConfig} from './src/redux/config/configReducer';
+import {selectorsConfig} from './src/redux/config/configReducer';
 import useDidUpdateEffect from './src/useHooks/useDidUpdateEffect';
 import ModalUpdateApp from './src/components/modals/ModalUpdateApp';
 import {actionsOther, selectorsOther} from './src/redux/other/otherReducer';
@@ -32,7 +32,6 @@ import {getUniqueId} from 'react-native-device-info';
 import {TitleTopics} from './src/typings/TypeTopic';
 import {isIOS, isAndroid} from './src/utils/isPlatform';
 import {requestNotificationPermission} from './src/utils/requestNotificationPermission';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -179,22 +178,14 @@ const App = () => {
 
   useEffect(() => {
     handleNotificationPermission();
+    loadConfig();
+  }, []);
+
+  const loadConfig = async () => {
     loadRemoteConfig(dispatch, false).then(async () => {
       setIsLoadConfig(true);
-      const isNewCategory = await AsyncStorage.getItem('isNewCategory');
-      console.log(1);
-
-      if (isNewCategory) {
-        console.log('isNewCategory, ', isNewCategory);
-
-        dispatch(
-          actionsConfig.setData({
-            isNewCategory: isNewCategory === 'true' ? true : false,
-          }),
-        );
-      }
     });
-  }, []);
+  };
 
   useDidUpdateEffect(() => {
     if (isLoadConfig) {

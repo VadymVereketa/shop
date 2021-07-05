@@ -32,6 +32,7 @@ import {
   switchHandlerMessaging,
   TypeHandlerMessaging,
 } from './src/useHooks/useHandlerMessaging';
+import {isIOS} from './src/utils/isPlatform';
 
 I18n.defaultLocale = 'uk';
 I18n.fallbacks = true;
