@@ -12,11 +12,15 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {FlatGrid} from 'react-native-super-grid';
 import {useSelector} from 'react-redux';
 import {colorWithOpacity, sizes, useTheme} from '../../context/ThemeContext';
-import {selectorCategory2} from '../../redux/category/categoryReducer';
+import {
+  selectorCategory,
+  selectorCategory2,
+} from '../../redux/category/categoryReducer';
 import {selectorsOrder} from '../../redux/order/orderReducer';
 import {selectorsOther} from '../../redux/other/otherReducer';
 import service from '../../services/service';
 import {IProduct} from '../../typings/FetchData';
+import TypeSortProduct from '../../typings/TypeSortProduct';
 import {useAxios} from '../../useHooks/useAxios';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import Loader from '../common/Loader';
@@ -33,6 +37,7 @@ interface IProductsProps {
   isTag: boolean;
   onPress?: (p: IProduct) => void;
   style?: StyleProp<ViewStyle>;
+  sort: TypeSortProduct | null;
 }
 
 const Products = ({
@@ -43,6 +48,7 @@ const Products = ({
   search,
   onPress,
   style,
+  sort,
 }: IProductsProps) => {
   const {primary} = useTheme();
   const insets = useSafeAreaInsets();
@@ -59,17 +65,18 @@ const Products = ({
   const idsCategories = useSelector(
     selectorCategory2.getIdsCategory(idCategory),
   );
+  const idsTags = useSelector(selectorCategory.getTagsIds);
 
   useDidUpdateEffect(() => {
     setProducts([]);
-  }, [search]);
+  }, [search, idCategory, sort]);
 
   useDidUpdateEffect(() => {
     handleRequest();
-  }, [skip, idCategory, search, isGlobalSearch]);
+  }, [skip, idCategory, search, isGlobalSearch, sort]);
 
   const handleRequest = () => {
-    const idTag = isGlobalSearch ? null : idCategory;
+    const idTag = idCategory === -1 ? idsTags : idCategory;
     const id = isGlobalSearch ? null : idsCategories;
 
     request<any>({
@@ -78,6 +85,7 @@ const Products = ({
       skip: skip * perPage,
       title: search,
       idCategory: !isTag ? id : null,
+      sort,
       idSellPoint: isDeliverySelf
         ? cartSellPoint || ID_DEFAULT_SELLPOINT
         : undefined,

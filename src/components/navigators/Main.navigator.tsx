@@ -21,6 +21,7 @@ import t from '../../utils/translate';
 import {selectorsConfig} from '../../redux/config/configReducer';
 import {IFetchCategory} from '../../typings/ICategory';
 import CategoryNavigator from './Category.navigator';
+import TagsNavigator from './Tags.navigator';
 
 export type MainNavigatorParamList = {
   Restaurant: {
@@ -30,9 +31,8 @@ export type MainNavigatorParamList = {
     category: IFetchCategory;
   };
   Cart: {};
-  TagProducts: {
+  Tag: {
     categories: {id: number; name: string}[];
-    isTag: boolean;
   };
   Menu: {};
 };
@@ -73,6 +73,16 @@ export type CartNavigatorProps = {
   navigation: CartNavigatorNavigationProp;
 };
 
+type TagNavigatorNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<MainNavigatorParamList, 'Tag'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type TagNavigatorRouteProp = RouteProp<MainNavigatorParamList, 'Tag'>;
+
+export type TagNavigatorProps = {
+  route: TagNavigatorRouteProp;
+  navigation: TagNavigatorNavigationProp;
+};
 const Tab = createBottomTabNavigator<MainNavigatorParamList>();
 
 const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
@@ -144,10 +154,9 @@ const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
       <Tab.Screen name="Cart" component={CartScreen} />
       {categiesTags.length > 0 && (
         <Tab.Screen
-          name="TagProducts"
+          name="Tag"
           initialParams={{
             categories: categiesTags,
-            isTag: true,
           }}
           options={{
             title: t('tabBarTagProducts'),
@@ -161,7 +170,7 @@ const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
               );
             },
           }}
-          component={RestaurantScreen}
+          component={TagsNavigator}
         />
       )}
       <Tab.Screen

@@ -15,7 +15,15 @@ import IconButton from '../controls/IconButton';
 import MyText from '../controls/MyText';
 import WrapperHeader from './WrapperHeader';
 
-const ProductsHeader = ({scene, navigation}: StackHeaderProps) => {
+interface IProductsHeaderProps extends StackHeaderProps {
+  isBack: boolean;
+}
+
+const ProductsHeader = ({
+  scene,
+  navigation,
+  isBack = true,
+}: IProductsHeaderProps) => {
   const {text} = useTheme();
   const {headerRight} = scene.descriptor.options;
   const title = scene.descriptor.options.title || '';
@@ -30,7 +38,7 @@ const ProductsHeader = ({scene, navigation}: StackHeaderProps) => {
         style={{
           flexDirection: 'row',
         }}>
-        {navigation.canGoBack() && (
+        {isBack && (
           <IconButton
             onPress={() => navigation.goBack()}
             icon={{

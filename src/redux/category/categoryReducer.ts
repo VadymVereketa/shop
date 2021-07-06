@@ -289,6 +289,12 @@ const selectorCategory = {
     }
     return [];
   },
+  getTagsIds: (state: RootState) => {
+    if (state.category.tags.length > 0) {
+      return state.category.tags.map((t) => t.id);
+    }
+    return [];
+  },
   getRootId: (id: number) => (state: RootState) => {
     const root = state.category.data.find((r) =>
       r.children.some((c) => c.id === id),

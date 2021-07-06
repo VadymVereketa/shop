@@ -19,7 +19,7 @@ interface IMyModalProps {
 
 const MyModal = React.memo(
   ({modalVisible, onClose, children, isClose, style, title}: IMyModalProps) => {
-    const {text, primary, border} = useTheme();
+    const {text, primary, background, border} = useTheme();
 
     return (
       <Portal>
@@ -32,7 +32,14 @@ const MyModal = React.memo(
                   backgroundColor: 'rgba(60, 65, 98, 0.8)',
                 },
               ]}>
-              <View style={[styles.modalView, style]}>
+              <View
+                style={[
+                  styles.modalView,
+                  {
+                    backgroundColor: background,
+                  },
+                  style,
+                ]}>
                 {title && (
                   <View
                     style={{

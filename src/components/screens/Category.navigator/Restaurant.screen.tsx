@@ -9,6 +9,8 @@ import ModalSearchProduct from '../../modals/ModalSearchProduct';
 import Products from '../../product/Products';
 import IconButton from '../../controls/IconButton';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
+import ModalSort from '../../modals/ModalSort';
+import TypeSortProduct from '../../../typings/TypeSortProduct';
 
 interface IHeaderRightProps {
   onPressSort: any;
@@ -52,6 +54,7 @@ const RestaurantScreen = React.memo(
     }, []);
     const [idCategory, setIdCategory] = useState<number | null>(null);
     const [search, setSearch] = useState('');
+    const [sort, setSort] = useState<TypeSortProduct | null>(null);
     const [isShowSearchModal, setIsShowSearchModal] = useState(false);
     const [isShowSortModal, setIsShowSortModal] = useState(false);
 
@@ -116,6 +119,14 @@ const RestaurantScreen = React.memo(
             onClose={() => setIsShowSearchModal(false)}
           />
         )}
+        {isShowSortModal && (
+          <ModalSort
+            defaultSort={sort}
+            onClose={() => setIsShowSortModal(false)}
+            onSelect={(s) => setSort(s)}
+            modalVisible={isShowSortModal}
+          />
+        )}
         <CategoryBar
           tags={joinCategories}
           currentId={idCategory}
@@ -126,6 +137,7 @@ const RestaurantScreen = React.memo(
           isTag={isTag}
           perPage={perPage}
           search={search}
+          sort={sort}
           style={{
             maxHeight: responsiveScreenHeight(78),
           }}
