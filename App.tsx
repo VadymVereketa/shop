@@ -32,6 +32,8 @@ import {getUniqueId} from 'react-native-device-info';
 import {TitleTopics} from './src/typings/TypeTopic';
 import {isIOS, isAndroid} from './src/utils/isPlatform';
 import {requestNotificationPermission} from './src/utils/requestNotificationPermission';
+import {Host} from 'react-native-portalize';
+import {isReadyRef, navigationRef} from './src/utils/navigationRef';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -216,6 +218,10 @@ const App = () => {
 
   return (
     <NavigationContainer
+      ref={navigationRef}
+      onReady={() => {
+        isReadyRef.current = true;
+      }}
       theme={MyTheme}
       linking={{
         prefixes: [config.domen],

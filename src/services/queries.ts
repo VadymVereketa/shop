@@ -2,6 +2,7 @@ import {AxiosRequestConfig} from 'axios';
 import buildQuery from '../utils/buildQuery';
 import {IGetProducts} from '../typings/ServiceTypes';
 import {Platform} from 'react-native';
+import {getSortFilter} from '../typings/TypeSortProduct';
 
 const queries = {
   getExpressSellPoints: () => {
@@ -35,6 +36,7 @@ const queries = {
     idCategory,
     idTag,
     idSellPoint,
+    sort,
   }: IGetProducts) => {
     const categoryFilter = {
       'productOptions/available': true,
@@ -76,6 +78,8 @@ const queries = {
       ],
     };
 
+    const orderBy = getSortFilter(sort);
+
     const config: AxiosRequestConfig = {
       url:
         `products${idSellPoint ? `/sell_point/${idSellPoint}` : ''}` +
@@ -84,7 +88,7 @@ const queries = {
           count: true,
           top,
           skip,
-          orderBy: 'productOptions/available desc',
+          orderBy,
         }),
       method: 'get',
     };

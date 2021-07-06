@@ -33,6 +33,7 @@ const SettingsIcon = require('../../assets/svg/ic-settings.svg').default;
 const Apple = require('../../assets/svg/Apple.svg').default;
 const UpdateApp = require('../../assets/svg/update-app.svg').default;
 const Logo = require('../../assets/svg/logo.svg').default;
+const SortIcon = require('../../assets/svg/ic-sort.svg').default;
 
 const CourierDelivery = require('../../assets/svg/courier_delivery.svg')
   .default;
@@ -42,6 +43,7 @@ const ExpressDelivery = require('../../assets/svg/express_delivery.svg')
 
 export type IName =
   | 'restaurant'
+  | 'sort'
   | 'logo'
   | 'barcode'
   | 'store'
@@ -79,6 +81,8 @@ export type IName =
 
 const getIcon = (name: IName) => {
   switch (name) {
+    case 'sort':
+      return SortIcon;
     case 'logo':
       return Logo;
     case 'settings':

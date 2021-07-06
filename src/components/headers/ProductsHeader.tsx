@@ -1,6 +1,6 @@
 import {StackHeaderProps} from '@react-navigation/stack';
 import React, {useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {sizes, useTheme} from '../../context/ThemeContext';
@@ -20,22 +20,28 @@ const ProductsHeader = ({scene, navigation}: StackHeaderProps) => {
   const {headerRight} = scene.descriptor.options;
   const title = scene.descriptor.options.title || '';
 
-  console.log(title);
-
   return (
-    <WrapperHeader>
-      {navigation.canGoBack() && (
-        <IconButton
-          onPress={() => navigation.goBack()}
-          icon={{
-            name: 'arrow',
-            size: sizes[10],
-            fill: text,
-          }}
-        />
-      )}
-
-      <MyText style={styles.title}>{title}</MyText>
+    <WrapperHeader
+      style={{
+        justifyContent: 'space-between',
+        paddingHorizontal: sizes[8],
+      }}>
+      <View
+        style={{
+          flexDirection: 'row',
+        }}>
+        {navigation.canGoBack() && (
+          <IconButton
+            onPress={() => navigation.goBack()}
+            icon={{
+              name: 'arrow',
+              size: sizes[10],
+              fill: text,
+            }}
+          />
+        )}
+        <MyText style={styles.title}>{title}</MyText>
+      </View>
       {headerRight && headerRight({tintColor: text})}
     </WrapperHeader>
   );

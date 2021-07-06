@@ -46,7 +46,10 @@ const MainHeader = ({scene}: StackHeaderProps) => {
   };
 
   return (
-    <WrapperHeader>
+    <WrapperHeader
+      style={{
+        justifyContent: 'space-between',
+      }}>
       <DesignIcon name="logo" size={sizes[20]} fill="white" />
       {deliveryType && (
         <TouchableOpacity

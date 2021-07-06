@@ -1,3 +1,5 @@
+import TypeSortProduct from './TypeSortProduct';
+
 export interface IQueryOptions {
   top?: number;
   skip?: number;
@@ -8,6 +10,7 @@ export interface IGetProducts extends IQueryOptions {
   idTag?: number | null | undefined;
   title?: string;
   idSellPoint?: number;
+  sort?: TypeSortProduct | null;
 }
 
 export interface IOrderPost {

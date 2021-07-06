@@ -33,6 +33,7 @@ import {
   TypeHandlerMessaging,
 } from './src/useHooks/useHandlerMessaging';
 import {isIOS} from './src/utils/isPlatform';
+import {thunkGetTypes} from './src/redux/types/typeReducer';
 
 I18n.defaultLocale = 'uk';
 I18n.fallbacks = true;
@@ -61,6 +62,7 @@ store.store.dispatch(serviceGetCustomCategories);
 store.store.dispatch(thunkGetTags);
 store.store.dispatch(fetchGetAllSettings);
 store.store.dispatch(thunkGetSellPoints);
+store.store.dispatch(thunkGetTypes);
 
 const handleAppStateChange = async (nextAppState) => {
   try {

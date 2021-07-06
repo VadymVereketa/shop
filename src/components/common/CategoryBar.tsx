@@ -20,7 +20,7 @@ const CategoryBar = React.memo(
     return (
       <ScrollView
         style={{
-          paddingVertical: sizes[14],
+          marginVertical: sizes[10],
           paddingHorizontal: sizes[5],
         }}
         horizontal={true}

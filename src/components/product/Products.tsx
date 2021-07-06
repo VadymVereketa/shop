@@ -1,7 +1,25 @@
-import React from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import React, {useState} from 'react';
+import {
+  ActivityIndicator,
+  Dimensions,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from 'react-native';
+import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {FlatGrid} from 'react-native-super-grid';
+import {useSelector} from 'react-redux';
+import {colorWithOpacity, sizes, useTheme} from '../../context/ThemeContext';
+import {selectorCategory2} from '../../redux/category/categoryReducer';
+import {selectorsOrder} from '../../redux/order/orderReducer';
+import {selectorsOther} from '../../redux/other/otherReducer';
+import service from '../../services/service';
 import {IProduct} from '../../typings/FetchData';
+import {useAxios} from '../../useHooks/useAxios';
+import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
+import Loader from '../common/Loader';
 import ProductItem from './ProductItem';
 
 const window = Dimensions.get('window');
@@ -9,23 +27,111 @@ const width = Math.min(window.width, window.height);
 
 interface IProductsProps {
   scrollEnabled?: boolean;
-  products: IProduct[];
-  onScroll?: any;
+  search: string;
+  perPage: number;
+  idCategory: any;
+  isTag: boolean;
+  onPress?: (p: IProduct) => void;
+  style?: StyleProp<ViewStyle>;
 }
 
-const Products = ({products, onScroll, scrollEnabled}: IProductsProps) => {
+const Products = ({
+  scrollEnabled = true,
+  idCategory,
+  isTag,
+  perPage,
+  search,
+  onPress,
+  style,
+}: IProductsProps) => {
+  const {primary} = useTheme();
+  const insets = useSafeAreaInsets();
+  const [skip, setSkip] = useState(0);
+  const [countItems, setCountItems] = useState(0);
+  const {isLoading, request} = useAxios(service.getProducts);
+  const [products, setProducts] = useState([] as IProduct[]);
+
+  const ID_DEFAULT_SELLPOINT = useSelector(selectorsOther.getIdSellPoint);
+  const isDeliverySelf = useSelector(selectorsOrder.isDeliverySelf);
+  const cartSellPoint = useSelector(selectorsOrder.getSellPointId);
+
+  const isGlobalSearch = idCategory === -1;
+  const idsCategories = useSelector(
+    selectorCategory2.getIdsCategory(idCategory),
+  );
+
+  useDidUpdateEffect(() => {
+    setProducts([]);
+  }, [search]);
+
+  useDidUpdateEffect(() => {
+    handleRequest();
+  }, [skip, idCategory, search, isGlobalSearch]);
+
+  const handleRequest = () => {
+    const idTag = isGlobalSearch ? null : idCategory;
+    const id = isGlobalSearch ? null : idsCategories;
+
+    request<any>({
+      idTag: isTag ? idTag : null,
+      top: perPage,
+      skip: skip * perPage,
+      title: search,
+      idCategory: !isTag ? id : null,
+      idSellPoint: isDeliverySelf
+        ? cartSellPoint || ID_DEFAULT_SELLPOINT
+        : undefined,
+    }).then((res) => {
+      if (res.success) {
+        setProducts((p) => {
+          return [...p, ...res.data.items];
+        });
+        setCountItems(res.data.count);
+      }
+    });
+  };
+
+  const handleEventScroll = () => {
+    if (countItems > products.length && !isLoading) {
+      setSkip((s) => {
+        return s + 1;
+      });
+    }
+  };
+
   return (
     <FlatGrid
-      itemDimension={width / Math.max(Math.floor(width / 230), 2)}
-      spacing={-1}
-      scrollEnabled={scrollEnabled}
+      itemDimension={Math.floor(width / Math.max(Math.floor(width / 230), 2))}
+      spacing={0}
+      additionalRowStyle={{}}
+      style={[
+        {
+          flexGrow: 1,
+        },
+        style,
+      ]}
+      contentContainerStyle={{
+        paddingBottom: insets.bottom + sizes[20],
+      }}
+      ListFooterComponent={
+        isLoading
+          ? () => (
+              <ActivityIndicator
+                style={{paddingVertical: sizes[10]}}
+                color={primary}
+                size="small"
+              />
+            )
+          : undefined
+      }
+      scrollEnabled={true}
       data={products}
       bounces={false}
-      onScroll={onScroll}
-      scrollEventThrottle={16}
+      onEndReached={handleEventScroll}
+      onEndReachedThreshold={0.2}
       renderItem={({item}) => (
         <View key={item.id} style={[styles.itemContainer]}>
-          <ProductItem product={item} />
+          <ProductItem product={item} onPress={onPress} />
         </View>
       )}
     />
@@ -33,7 +139,10 @@ const Products = ({products, onScroll, scrollEnabled}: IProductsProps) => {
 };
 
 const styles = StyleSheet.create({
-  itemContainer: {},
+  itemContainer: {
+    flexGrow: 1,
+    padding: sizes[2],
+  },
 });
 
 export default Products;

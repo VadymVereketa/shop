@@ -2,11 +2,13 @@ import React, {useState} from 'react';
 import {Modal, StyleSheet, View} from 'react-native';
 import {GestureHandlerRootView, ScrollView} from 'react-native-gesture-handler';
 import {Portal} from 'react-native-portalize';
+import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {colorWithOpacity, sizes, useTheme} from '../../context/ThemeContext';
 import t from '../../utils/translate';
 import IconButton from '../controls/IconButton';
 import MyTextInput from '../controls/MyTextInput';
+import Products from '../product/Products';
 
 interface IModalSearchProductProps {
   modalVisible: boolean;
@@ -78,10 +80,25 @@ const ModalSearchProduct = ({
               }}
             />
           </View>
-          <ScrollView
+          <View
             style={{
               backgroundColor: colorWithOpacity(lightBackground, 0.8),
-            }}></ScrollView>
+              flexGrow: 1,
+            }}>
+            {isInnerSearch && (
+              <Products
+                idCategory={-1}
+                isTag={false}
+                perPage={12}
+                search={defaultSearch}
+                scrollEnabled={false}
+                onPress={handleClose}
+                style={{
+                  maxHeight: responsiveScreenHeight(92),
+                }}
+              />
+            )}
+          </View>
         </GestureHandlerRootView>
       </Modal>
     </Portal>
