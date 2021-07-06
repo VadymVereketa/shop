@@ -178,7 +178,9 @@ const actionsCategory = creator.createActions();
 
 const serviceGetCustomCategories = async (dispatch: any) => {
   const res = await service.getCustomCategories();
-  const rootsCategory = res.filter((c) => c.parent === null);
+  const rootsCategory = res
+    .filter((c) => c.parent === null)
+    .sort((a, b) => a.ord - b.ord);
   const result: ITreeCategory = {};
 
   res.forEach((c) => {
@@ -393,7 +395,7 @@ const selectorCategory2 = {
   },
 
   getIdsCategory: (id: any) => (state: RootState) => {
-    if (!id) {
+    if (!id || id === -1) {
       return id;
     }
     if (state.config.isNewCategory) {

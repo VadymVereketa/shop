@@ -1,9 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {Dimensions, StyleSheet, View, SafeAreaView} from 'react-native';
 import {RestaurantScreenProps} from '../../navigators/Main.navigator';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import {FlatGrid} from 'react-native-super-grid';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Header from '../../common/Header';
 import {useDispatch, useSelector} from 'react-redux';
 import CategoryBar from '../../common/CategoryBar';
@@ -18,20 +18,24 @@ import Loader from '../../common/Loader';
 import {thunkGetTypes} from '../../../redux/types/typeReducer';
 import {selectorsOrder} from '../../../redux/order/orderReducer';
 import {selectorCategory2} from '../../../redux/category/categoryReducer';
+import {ProductsScreenProps} from '../../navigators/Category.navigator';
+import ModalSearchProduct from '../../modals/ModalSearchProduct';
+import Products from '../../product/Products';
 
 const window = Dimensions.get('window');
 const width = Math.min(window.width, window.height);
 
 const RestaurantScreen = React.memo(
-  ({navigation, route}: RestaurantScreenProps) => {
+  ({navigation, route}: ProductsScreenProps) => {
     const perPage = useRef(12);
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
-    const {background} = useTheme();
-    const HEADER_HEIGHT = sizes[55];
-    const categories = route.params.categories;
+    const {categories, isTag, parentCategoryName} = route.params;
 
-    const [idCategory, setIdCategory] = useState<any>(null);
+    const joinCategories = useMemo(() => {
+      return [{id: -1, name: 'ВСЕ'}, ...categories];
+    }, []);
+    const [idCategory, setIdCategory] = useState<number | null>(null);
     const ID_DEFAULT_SELLPOINT = useSelector(selectorsOther.getIdSellPoint);
     const isDeliverySelf = useSelector(selectorsOrder.isDeliverySelf);
     const isModalAssortment = useSelector(selectorsOther.getIsModalAssortment);
@@ -40,14 +44,23 @@ const RestaurantScreen = React.memo(
     const [isShow, setIsShow] = useState(false);
     const [skip, setSkip] = useState(0);
     const [countItems, setCountItems] = useState(0);
-    const isGlobalSearch = useSelector(selectorsOther.getIsGlobalSearch);
+    const isGlobalSearch = idCategory === -1;
     const [search, setSearch] = useState('');
+    const [isShowSearchModal, setIsShowSearchModal] = useState(true);
     const [products, setProducts] = useState([] as IProduct[]);
     const {isLoading, request} = useAxios(service.getProducts);
 
     const idsCategories = useSelector(
       selectorCategory2.getIdsCategory(idCategory),
     );
+
+    useEffect(() => {
+      if (parentCategoryName) {
+        navigation.setOptions({
+          title: parentCategoryName,
+        });
+      }
+    }, [parentCategoryName]);
 
     useEffect(() => {
       SplashScreen.hide();
@@ -120,9 +133,6 @@ const RestaurantScreen = React.memo(
     };
 
     const handleEventScroll = (event) => {
-      if (isExpress) {
-        return;
-      }
       if (event.nativeEvent && countItems > products.length && !isLoading) {
         const {
           contentOffset: {y},
@@ -141,55 +151,25 @@ const RestaurantScreen = React.memo(
             marginBottom: -insets.bottom,
           },
         ]}>
-        <View
-          style={[
-            styles.header,
-            {
-              backgroundColor: background,
-            },
-          ]}>
-          <Header
-            isShow={isShow}
-            setIsShow={setIsShow}
-            initValue={search}
-            onChange={setSearch}
+        {isShowSearchModal && (
+          <ModalSearchProduct
+            onSubmit={(str) => setSearch(str)}
+            defaultSearch={search}
+            modalVisible={isShowSearchModal}
+            isInnerSearch
+            onClose={() => setIsShowSearchModal(false)}
           />
-          {isExpress ? (
-            <View
-              style={{
-                height: sizes[4],
-              }}
-            />
-          ) : (
-            <CategoryBar
-              tags={categories}
-              currentId={isGlobalSearch ? -1 : idCategory}
-              onPress={handlePress}
-            />
-          )}
-        </View>
-        {!isExpress && (
-          <Loader isLoading={isLoading} top={sizes[30] + insets.top} />
         )}
-        <FlatGrid
-          itemDimension={width / Math.max(Math.floor(width / 230), 2)}
-          spacing={-1}
-          scrollEnabled={!isShow}
-          data={products}
-          bounces={false}
-          contentContainerStyle={[
-            styles.gridView,
-            {
-              paddingTop: isExpress ? sizes[28] : HEADER_HEIGHT + sizes[5],
-            },
-          ]}
+        <CategoryBar
+          tags={joinCategories}
+          currentId={idCategory}
+          onPress={handlePress}
+        />
+        {!isExpress && <Loader isLoading={isLoading} top={-sizes[20]} />}
+        <Products
+          products={products}
           onScroll={handleEventScroll}
-          scrollEventThrottle={16}
-          renderItem={({item}) => (
-            <View key={item.id} style={[styles.itemContainer]}>
-              <ProductItem product={item} />
-            </View>
-          )}
+          scrollEnabled={!isShow}
         />
       </SafeAreaView>
     );
@@ -197,13 +177,10 @@ const RestaurantScreen = React.memo(
 );
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
+  container: {},
   gridView: {},
   itemContainer: {
-    flex: 1,
-    margin: sizes[5],
+    marginHorizontal: sizes[5],
   },
   header: {
     position: 'absolute',

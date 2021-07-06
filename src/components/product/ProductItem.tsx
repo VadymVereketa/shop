@@ -90,6 +90,7 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
         styles.con,
         {
           shadowColor: text,
+          backgroundColor: background,
         },
       ]}>
       <TouchableWithoutFeedback onPress={handlePress}>
