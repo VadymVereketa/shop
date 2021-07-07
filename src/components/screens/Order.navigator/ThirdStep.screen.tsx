@@ -45,7 +45,7 @@ const ThirdStepScreen = React.memo(
         const [h, m] = time.split(':').map(parseFloat);
         date.setHours(h, m);
         if (currentDate.getTime() >= date.getTime()) {
-          Toast.show('Виберіть будь ласка дату');
+          Toast.show(t('selectDate'));
           dispatch(
             actionsOrder.setData({
               date: null,

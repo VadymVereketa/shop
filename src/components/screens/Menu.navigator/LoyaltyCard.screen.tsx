@@ -46,25 +46,23 @@ const LoyaltyCardScreen = React.memo(({navigation}: LoyaltyCardScreenProps) => {
             </PressTitle>
           );
         })}
-        <MyText style={styles.title}>Iнформація</MyText>
+        <MyText style={styles.title}>{t('loyaltyCardInformation')}</MyText>
         <MyText style={styles.text}>
-          1. Карта є власнiстю Egersund Seafood.
+          {t('loyaltyCardInformationList1')}
         </MyText>
         <MyText style={styles.text}>
-          2. Карта дійсна у всіх ресторанах Egersund seafood.
+          {t('loyaltyCardInformationList2')}
         </MyText>
         <MyText style={styles.text}>
-          3. Власник карти має право забронювати стіл в будь-якому ресторані
-          Egersund seafood.
+          {t('loyaltyCardInformationList3')}
         </MyText>
-        <MyText style={styles.text}>4. Карта не є кредитною.</MyText>
-        <MyText style={styles.text}>5. Карта є накопичувальною.</MyText>
+        <MyText style={styles.text}>{t('loyaltyCardInformationList4')}</MyText>
+        <MyText style={styles.text}>{t('loyaltyCardInformationList5')}</MyText>
         <MyText style={styles.text}>
-          6. Загублена карта відновлюється за номером телефону власника.
+          {t('loyaltyCardInformationList6')}
         </MyText>
         <MyText style={styles.text}>
-          7. Власник карти має право отримати інформацію про спеціальні
-          пропозиції представлені в ресторані.
+          {t('loyaltyCardInformationList7')}
         </MyText>
       </ScrollView>
     </SafeAreaView>

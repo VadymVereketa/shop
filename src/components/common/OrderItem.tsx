@@ -67,7 +67,7 @@ const OrderItem = React.memo(({order}: IOrderItemProps) => {
           repeatOrder(datas[0].data, datas[1].data);
         } else {
           Toast.show(
-            'Неможливо створити замовлення.\nДеяких продуктів немає в наявності',
+            `${t('unableToCreateOrder')}\n${t('productsAreNotAvailable')}`,
           );
         }
       }

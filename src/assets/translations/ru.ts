@@ -1,4 +1,4 @@
-const uk = {
+const ru = {
   tabBarRestaurant: 'Ресторан',
   tabBarShop: 'Магазин',
   tabBarTagProducts: 'Пропозиції',
@@ -213,6 +213,4 @@ const uk = {
   loyaltyCardInformationList7: '7. Власник карти має право отримати інформацію про спеціальні пропозиції представлені в ресторані.',
 } as const;
 
-export type ITranslate = keyof typeof uk;
-
-export default uk;
+export default ru;
