@@ -213,6 +213,4 @@ const ru = {
   loyaltyCardInformationList7: '7. Власник карти має право отримати інформацію про спеціальні пропозиції представлені в ресторані.',
 } as const;
 
-export type ITranslate = keyof typeof ru;
-
 export default ru;
