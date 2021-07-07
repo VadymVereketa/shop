@@ -12,6 +12,7 @@ import {useFormattingContext} from '../../context/FormattingContext';
 import {FRACTION_DIGIT} from '../../constants/constantsId';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import MyText from './MyText';
+import t from '../../utils/translate';
 
 interface ICountInputProps {
   isWeightUnit: boolean;
@@ -170,7 +171,7 @@ const CountInput = React.memo(
           <MyText
             onPress={handleEdit}
             style={[styles.inputText, {color: primary}]}>
-            {formatUnit(count, isWeightUnit ? 'кг' : 'other')}
+            {formatUnit(count, isWeightUnit ? `${t('commonKg')}` : 'other')}
           </MyText>
         )}
         <IconButton

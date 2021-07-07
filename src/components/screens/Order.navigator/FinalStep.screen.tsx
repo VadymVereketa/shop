@@ -101,14 +101,14 @@ const FinalStepScreen = React.memo(
           <View style={{marginTop: sizes[5]}} />
           {!!deliveryPrice && (
             <View style={[styles.totalPrice, {marginBottom: 0, marginTop: 0}]}>
-              <MyText style={styles.title}>Доставка</MyText>
+              <MyText style={styles.title}>{t('commonDelivery')}</MyText>
               <MyText style={[styles.price, {fontSize: sizes[10]}]}>
                 {formatPrice(deliveryPrice)}
               </MyText>
             </View>
           )}
           <View style={[styles.totalPrice, {marginBottom: 0, marginTop: 0}]}>
-            <MyText style={styles.title}>Сума</MyText>
+            <MyText style={styles.title}>{t('cartSum')}</MyText>
             <MyText style={[styles.price, {fontSize: sizes[10]}]}>
               {formatPrice(cartSum)}
             </MyText>

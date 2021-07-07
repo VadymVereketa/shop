@@ -64,7 +64,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
         if (checkCreateOrder(products)) {
           repeatOrder(item, data.data);
         } else {
-          Toast.show('Неможливо створити замовлення');
+          Toast.show(t('unableToCreateOrder'));
         }
       }
     } finally {
@@ -230,7 +230,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
                       styles.totalPrice,
                       {marginBottom: 0, marginTop: 0},
                     ]}>
-                    <MyText style={styles.title}>Доставка</MyText>
+                    <MyText style={styles.title}>{t('commonDelivery')}</MyText>
                     <MyText style={[styles.price, {fontSize: sizes[10]}]}>
                       {formatPrice(deliveryPrice)}
                     </MyText>
@@ -238,7 +238,7 @@ const OrderScreen = React.memo(({route}: OrderScreenProps) => {
                 )}
                 <View
                   style={[styles.totalPrice, {marginBottom: 0, marginTop: 0}]}>
-                  <MyText style={styles.title}>Сума</MyText>
+                  <MyText style={styles.title}>{t('cartSum')}</MyText>
                   <MyText style={[styles.price, {fontSize: sizes[10]}]}>
                     {formatPrice(+item.productsPrice)}
                   </MyText>

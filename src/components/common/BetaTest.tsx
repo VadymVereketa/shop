@@ -3,6 +3,7 @@ import {Linking, View} from 'react-native';
 import MyText from '../controls/MyText';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {getFontFamily} from '../../utils/getFontFamily';
+import t from '../../utils/translate';
 
 const BetaTest = () => {
   const {primary} = useTheme();
@@ -14,7 +15,7 @@ const BetaTest = () => {
   return (
     <View style={{alignItems: 'center'}}>
       <MyText style={{fontSize: sizes[10]}}>
-        Пропозиції та зауваження за номером
+        {t('betaTestTitle')}
       </MyText>
       <MyText
         style={{

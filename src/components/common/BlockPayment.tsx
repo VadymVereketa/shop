@@ -98,7 +98,7 @@ const BlockPayment = () => {
       })}
       {payment === TypePayment.online && cards.length > 0 && (
         <View>
-          <MyText style={styles.text}>Картки</MyText>
+          <MyText style={styles.text}>{t('commonCards')}</MyText>
           {cards.map((c) => (
             <CreditCard
               style={styles.card}

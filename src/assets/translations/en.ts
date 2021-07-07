@@ -19,6 +19,10 @@ export default {
   btnChangePassword: 'Change password',
   btnHistory: 'History',
   btnReturn: 'Back',
+  btnShow: 'show',
+  btnApply: 'Apply',
+  btnUpdate: 'Refresh',
+  btnSkip: 'Skip',
 
   btnTextAddAddress: '+ Add address',
   btnTextChange: 'Change',
@@ -59,6 +63,11 @@ export default {
   commonScanCode: 'Scan the code and pick up your order.',
   commonCode: 'Your personal code',
   commonDateTime: 'Data and time',
+  commonKg: 'kg',
+  commonSelf: 'Self-pickup',
+  commonDelivery: 'Delivery',
+  commonAssortmentExtended: 'Expanded assortment',
+  commonAssortment: 'Assortment',
 
   productInfo:
     'The final weight of the product and its amount will be known after weighing and cutting.',
@@ -174,4 +183,32 @@ export default {
   certificateRulesThree:
     '3. During the purchase, the face value of the certificate is written off in full. If the purchase price exceeds the face value of the certificate, the difference between the value of the goods and the face value of the certificate shall be paid by bank card or cash.',
   certificateRulesFour: '4. The certificate cannot be used to receive cash.',
+
+  betaTestTitle: 'Suggestions and comments by number',
+  expressDelivery: 'Express delivery',
+  assortmentForShort: 'Assorted. for',
+  unableToCreateOrder: 'Unable to create order.',
+  productsAreNotAvailable: 'Some products are not available',
+  testText: 'text',
+  assortmentCurrentStore: 'Assortment of the selected store',
+  changeShowAssortment: 'Change display of assortment',
+  sortBy: 'Sort by:',
+  averageUnitWeight: 'Average unit weight:',
+  selectDate: 'Please select a date',
+
+  warningChangeWayDeliveryAndStore: 'Warning! When changing the method of delivery or store',
+  warningText1: 'products will be removed from the cart',
+  warningText2: ', because the range is different.',
+
+  appStopWorkByUpdate1: 'The application has improved! It fixes bugs and adds useful features.',
+  appStopWorkByUpdate2: 'The update usually takes no more than a minute',
+
+  loyaltyCardInformation: 'Information',
+  loyaltyCardInformationList1: '1. The card is the property of Egersund Seafood.',
+  loyaltyCardInformationList2: '2. The card is available for all Egersund seafood restaurants.',
+  loyaltyCardInformationList3: '3. The cardholder has the right to reserve a table at any Egersund seafood restaurant.',
+  loyaltyCardInformationList4: '4. The card is not a credit card.',
+  loyaltyCardInformationList5: '5. The card is cumulative.',
+  loyaltyCardInformationList6: `6. The lost card is restored to the owner's phone number.`,
+  loyaltyCardInformationList7: '7. The cardholder has the right to receive information about special offers presented in the restaurant.',
 };

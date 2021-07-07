@@ -55,7 +55,7 @@ const CartItem = React.memo(
         title={product.title}
         price={quantityPrice}
         count={count}
-        units={isWeightUnit ? (item.alternativeCount ? '' : 'кг') : ''}
+        units={isWeightUnit ? (item.alternativeCount ? '' : `${t('commonKg')}`) : ''}
         comment={item.comment}
       />
     );
@@ -85,7 +85,7 @@ const PurchaseItem = React.memo(({item}: IPurchaseItemProps) => {
       title={product.title}
       price={quantityPrice}
       count={count!}
-      units={isWeightUnit ? (item.alternativeCount ? '' : 'кг') : ''}
+      units={isWeightUnit ? (item.alternativeCount ? '' : `${t('commonKg')}`) : ''}
       comment={item.comment}
     />
   );

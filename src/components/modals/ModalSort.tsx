@@ -12,6 +12,7 @@ import TypeSortProduct, {
 } from '../../typings/TypeSortProduct';
 import MyButton from '../controls/MyButton';
 import DesignIcon from '../common/DesignIcon';
+import t from '../../utils/translate';
 
 interface IMyModalProps {
   modalVisible: boolean;
@@ -63,7 +64,7 @@ const ModalSort = React.memo(
                       color: lightText,
                     },
                   ]}>
-                  Cортувати по:
+                  {t('sortBy')}
                 </MyText>
                 <View
                   style={{
@@ -109,7 +110,7 @@ const ModalSort = React.memo(
                     );
                   })}
                 </View>
-                <MyButton onPress={handleSubmit}>Застосувати</MyButton>
+                <MyButton onPress={handleSubmit}>{t('btnApply')}</MyButton>
               </View>
             </View>
           </GestureHandlerRootView>
