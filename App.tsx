@@ -214,6 +214,9 @@ const App = () => {
     }
   };
 
+  if (!isLoadConfig) {
+    return null;
+  }
   return (
     <NavigationContainer
       theme={MyTheme}
