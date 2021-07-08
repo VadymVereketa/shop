@@ -11,7 +11,7 @@ const init: IConfigState = {
   optionalVersionIOS: IOS_VERSION,
   requiredVersionAndroid: ANDROID_VERSION,
   requiredVersionIOS: IOS_VERSION,
-  isNewCategory: true,
+  isNewCategory: false,
 };
 
 const creator = new CreatorReducer<IConfigActions, IConfigState>('config');
