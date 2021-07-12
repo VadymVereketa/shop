@@ -29,9 +29,9 @@ const LocationScreen = React.memo((props: LocationScreenProps) => {
         <View style={[styles.box, {borderColor: border}]}>
           <View style={styles.viewText}>
             <MyText style={styles.subTitle}>{t('commonSchedule')}</MyText>
-            <MyText style={styles.text}>
-              {t('commonDays')} {sellPoint.workTime}
-            </MyText>
+            <MyText style={styles.text}>{sellPoint.workingHours1}</MyText>
+            <MyText style={styles.text}>{sellPoint.workingHours2}</MyText>
+            <MyText style={styles.text}>{sellPoint.workingHoursNotes}</MyText>
           </View>
           <MyText style={styles.subTitle}>{t('commonOrderSelf')}</MyText>
           <MyText style={[styles.text, {color: primary}]}>

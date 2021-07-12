@@ -3,7 +3,9 @@ import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import SplashScreen from 'react-native-splash-screen';
+import {useSelector} from 'react-redux';
 import {sizes, useTheme} from '../../../context/ThemeContext';
+import {selectorCategory2} from '../../../redux/category/categoryReducer';
 import {IFetchCategory} from '../../../typings/ICategory';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import CategoryItem from '../../common/CategoryItem';
@@ -40,9 +42,12 @@ const HeaderRight = ({onPressSearch}: IHeaderRightProps) => {
 };
 
 const CategoryScreen = ({route, navigation}: CategoryScreenProps) => {
-  const {treeCategory} = route.params;
+  const paramTreeCategory = route.params.treeCategory;
   const [isShowSearchModal, setIsShowSearchModal] = useState(false);
   const [search, setSearch] = useState('');
+  const treeCategory = useSelector(
+    selectorCategory2.getCategoriesById(paramTreeCategory.id),
+  );
 
   const handlePressSearch = () => {
     setIsShowSearchModal(true);

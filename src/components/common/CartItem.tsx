@@ -52,10 +52,12 @@ const CartItem = React.memo(
         imgId={imgId}
         isEdit={isEdit}
         item={item}
-        title={product.title}
+        title={product.shortDescription}
         price={quantityPrice}
         count={count}
-        units={isWeightUnit ? (item.alternativeCount ? '' : `${t('commonKg')}`) : ''}
+        units={
+          isWeightUnit ? (item.alternativeCount ? '' : `${t('commonKg')}`) : ''
+        }
         comment={item.comment}
       />
     );
@@ -82,10 +84,12 @@ const PurchaseItem = React.memo(({item}: IPurchaseItemProps) => {
       imgId={imgId}
       isEdit={false}
       item={null as any}
-      title={product.title}
+      title={product.shortDescription}
       price={quantityPrice}
       count={count!}
-      units={isWeightUnit ? (item.alternativeCount ? '' : `${t('commonKg')}`) : ''}
+      units={
+        isWeightUnit ? (item.alternativeCount ? '' : `${t('commonKg')}`) : ''
+      }
       comment={item.comment}
     />
   );

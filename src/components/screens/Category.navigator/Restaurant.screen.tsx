@@ -11,6 +11,7 @@ import IconButton from '../../controls/IconButton';
 import {responsiveScreenHeight} from 'react-native-responsive-dimensions';
 import ModalSort from '../../modals/ModalSort';
 import TypeSortProduct from '../../../typings/TypeSortProduct';
+import t from '../../../utils/translate';
 
 interface IHeaderRightProps {
   onPressSort: any;
@@ -50,7 +51,7 @@ const RestaurantScreen = React.memo(
     const insets = useSafeAreaInsets();
     const {categories, isTag, parentCategoryName} = route.params;
     const joinCategories = useMemo(() => {
-      return [{id: -1, name: 'ВСЕ'}, ...categories];
+      return [{id: -1, name: t('allCategories')}, ...categories];
     }, []);
     const [idCategory, setIdCategory] = useState<number | null>(null);
     const [search, setSearch] = useState('');

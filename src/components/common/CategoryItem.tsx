@@ -27,7 +27,9 @@ const CategoryItem = ({
 }: ICategoryItemProps) => {
   const {primary, background} = useTheme();
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.con, style]}>
+    <TouchableOpacity
+      onPress={onPress}
+      style={[styles.con, {backgroundColor: background}, style]}>
       <Image style={styles.image} source={getUrlImg(category.categoryImages)} />
       <MyText
         style={[

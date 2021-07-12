@@ -81,6 +81,9 @@ export interface ISellPoint {
   isActive: boolean;
   img: string | null;
   sellPointImage: IImgProduct | null;
+  workingHours1?: string;
+  workingHours2?: string;
+  workingHoursNotes?: string;
 }
 
 export interface IUnit {

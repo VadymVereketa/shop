@@ -1,3 +1,4 @@
+import t from '../utils/translate';
 import {IVariant} from './IVariant';
 
 enum TypeSortProduct {
@@ -8,11 +9,11 @@ enum TypeSortProduct {
 const useGetOptionsSortProduct = () => {
   const options: IVariant<string, TypeSortProduct>[] = [
     {
-      label: 'дешевше спочатку',
+      label: t('cheapSort'),
       value: TypeSortProduct.askPrice,
     },
     {
-      label: 'дорожче спочатку',
+      label: t('expensiveSort'),
       value: TypeSortProduct.descPrice,
     },
   ];

@@ -9,6 +9,7 @@ import {actionsOther} from '../../redux/other/otherReducer';
 import {getSellPoints} from '../../redux/sellPoints/sellPointsReducer';
 import useGetTranslateForDeliveryType from '../../useHooks/useGetTranslateForDeliveryType';
 import {getFontFamily} from '../../utils/getFontFamily';
+import t from '../../utils/translate';
 import DesignIcon from '../common/DesignIcon';
 import MyText from '../controls/MyText';
 import WrapperHeader from './WrapperHeader';
@@ -71,7 +72,7 @@ const MainHeader = ({scene}: StackHeaderProps) => {
               color: lightText,
               marginRight: sizes[3],
             }}>
-            Асорт. для
+            {t('assortmentForShort')}
           </MyText>
           <MyText
             style={{

@@ -81,6 +81,7 @@ const ModalAssortment = () => {
 
   const handleSelectSellpoint = (data: ISellPoint) => {
     setSellPoint(data);
+    handleSelectDeliveryType(TypeDelivery.self);
   };
 
   const handleSelectExpressSellpoint = (data: ISellPoint) => {

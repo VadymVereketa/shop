@@ -217,7 +217,8 @@ const WeightUnit = React.memo(
         {product.ingredients && (
           <View>
             <MyText style={[styles.title, styles.text]}>
-              {t('commonStorage')}<MyText style={styles.text}>{product.ingredients}</MyText>
+              {t('commonStorage')}
+              <MyText style={styles.text}>{product.ingredients}</MyText>
             </MyText>
           </View>
         )}
