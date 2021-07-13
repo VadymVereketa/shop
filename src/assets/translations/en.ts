@@ -156,7 +156,7 @@ const en = {
   certificateRulesFour: `4. The certificate cannot be used to receive cash.`,
   betaTestTitle: `Suggestions and comments by number`,
   expressDelivery: `Express delivery`,
-  assortmentForShort: `Assorted. for`,
+  assortmentForShort: `Range for`,
   unableToCreateOrder: `Unable to create order.`,
   productsAreNotAvailable: `Some products are not available`,
   testText: `text`,
@@ -181,5 +181,9 @@ const en = {
   allCategories: `All`,
   expensiveSort: `From expensive to cheap`,
   cheapSort: `From cheap to expensive`,
+  assortmentBtnText: `Delivery`,
+  cashPayment: `Cash`,
+  cartPaymetnInGet: `Pay by card upon receipt`,
+  onlinePayment: `Payment by card`,
 };
 export default en;

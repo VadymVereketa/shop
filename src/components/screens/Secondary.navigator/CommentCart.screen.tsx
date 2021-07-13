@@ -75,7 +75,7 @@ const CommentCartScreen = React.memo(({navigation, route}: any) => {
     item.product.productImages.length > 0
       ? item.product.productImages[0].uuid
       : null;
-  const title = item.product.title;
+  const title = item.product.shortDescription;
 
   return (
     <KeyboardAvoidingView

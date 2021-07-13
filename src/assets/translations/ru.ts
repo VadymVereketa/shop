@@ -156,7 +156,7 @@ const ru = {
   certificateRulesFour: `4. Сертификат не может быть использован для получения наличных.`,
   betaTestTitle: `Предложения и замечания по номеру`,
   expressDelivery: `Экспресс доставка`,
-  assortmentForShort: `Асс. для`,
+  assortmentForShort: `Ассорт. для`,
   unableToCreateOrder: `Невозможно создать заказ.`,
   productsAreNotAvailable: `Некоторых продуктов нет в наличии`,
   testText: `text`,
@@ -181,5 +181,9 @@ const ru = {
   allCategories: `Все`,
   expensiveSort: `От дорогих к дешевым `,
   cheapSort: `От дешевых к дорогим `,
+  assortmentBtnText: `Доставки`,
+  cashPayment: `Наличный расчет`,
+  cartPaymetnInGet: `Оплатить картой при получении`,
+  onlinePayment: `Оплата картой`,
 };
 export default ru;
