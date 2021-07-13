@@ -67,7 +67,7 @@ const en = {
   commonAssortmentExtended: `Expanded assortment`,
   commonAssortment: `Assortment`,
   productInfo: `The final weight of the product and its amount will be known after weighing and cutting.`,
-  productDesc: `When ordering and non-cash payment, the funds will be pre-written off with a deposit for %{weight}. In case the order will weight less, the money will be returned to your card within 24 hours.`,
+  productDesc: `When ordering and non-cash payment, the funds will be pre-written off with a deposit for %{weight}%. In case the order will weight less, the money will be returned to your card within 24 hours.`,
   profileLogin: `Log in`,
   profileSignUp: `Sign up`,
   profileTitle: `Profile`,
