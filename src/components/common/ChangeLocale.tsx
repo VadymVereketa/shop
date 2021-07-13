@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Platform, StyleSheet, View} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {useFormattingContext} from '../../context/FormattingContext';
+import {Locale, useFormattingContext} from '../../context/FormattingContext';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {
   serviceGetCustomCategories,
@@ -53,47 +53,43 @@ const ChangeLocale = ({navigation}: IChangeLocaleProps) => {
     console.log(Date.now());
   };
 
+  const options: {label: string; locale: Locale}[] = [
+    {
+      label: t('commonUA'),
+      locale: 'uk',
+    },
+    {
+      label: t('commonEN'),
+      locale: 'en',
+    },
+    {
+      label: t('commonRU'),
+      locale: 'ru',
+    },
+  ];
+
   return (
     <View>
       <View style={[styles.text, {borderBottomColor: border}]}>
         <MyText style={{paddingLeft: sizes[6]}}>{t('commonLanguage')}</MyText>
       </View>
-      <PressTitle
-        disabled={isChangingLocale}
-        style={styles.itemMenu}
-        onPress={() => setLocale('uk')}
-        isBorder
-        afterIcon={{
-          name: 'check-mark',
-          size: sizes[10],
-          fill: currentLocale === 'uk' ? primary : background,
-        }}>
-        {t('commonUA')}
-      </PressTitle>
-      <PressTitle
-        disabled={isChangingLocale}
-        style={[styles.itemMenu]}
-        onPress={() => setLocale('en')}
-        isBorder
-        afterIcon={{
-          name: 'check-mark',
-          size: sizes[10],
-          fill: currentLocale === 'en' ? primary : background,
-        }}>
-        {t('commonEN')}
-      </PressTitle>
-      <PressTitle
-        disabled={isChangingLocale}
-        style={[styles.itemMenu]}
-        onPress={() => setLocale('ru')}
-        isBorder
-        afterIcon={{
-          name: 'check-mark',
-          size: sizes[10],
-          fill: currentLocale === 'ru' ? primary : background,
-        }}>
-        {t('commonRU')}
-      </PressTitle>
+      {options.map((opt) => {
+        return (
+          <PressTitle
+            key={opt.locale}
+            disabled={isChangingLocale}
+            style={styles.itemMenu}
+            onPress={() => setLocale(opt.locale)}
+            isBorder
+            afterIcon={{
+              name: 'check-mark',
+              size: sizes[10],
+              fill: currentLocale === opt.locale ? primary : background,
+            }}>
+            {opt.label}
+          </PressTitle>
+        );
+      })}
     </View>
   );
 };

@@ -3,20 +3,23 @@ import React, {useState} from 'react';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {sizes, useTheme} from '../../context/ThemeContext';
-import {selectorsCart} from '../../redux/cart/cartReducer';
+import {actionsCart, selectorsCart} from '../../redux/cart/cartReducer';
 import {selectorsOrder, actionsOrder} from '../../redux/order/orderReducer';
-import {actionsOther} from '../../redux/other/otherReducer';
+import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
 import {getSellPoints} from '../../redux/sellPoints/sellPointsReducer';
+import {selectorsUser} from '../../redux/user/userReducer';
 import useGetTranslateForDeliveryType from '../../useHooks/useGetTranslateForDeliveryType';
 import {getFontFamily} from '../../utils/getFontFamily';
 import t from '../../utils/translate';
 import DesignIcon from '../common/DesignIcon';
 import MyText from '../controls/MyText';
+import ModalAssortmentWarning from '../modals/ModalAssortmentWarning';
 import WrapperHeader from './WrapperHeader';
 
 const MainHeader = ({scene}: StackHeaderProps) => {
   const dispatch = useDispatch();
   const {lightBackground, lightText, text} = useTheme();
+  const isAuth = useSelector(selectorsUser.isAuth);
   const sellPoints = useSelector(getSellPoints(true));
   const deliveryType = useSelector(selectorsOrder.getDeliveryType);
   const orderSellPoint = useSelector(selectorsOrder.getSellPointId);
@@ -24,6 +27,7 @@ const MainHeader = ({scene}: StackHeaderProps) => {
   const getTextDeliveryType = useGetTranslateForDeliveryType();
   const [isOpenClearCart, setIsOpenClearCart] = useState(false);
   const isEmptyCart = useSelector(selectorsCart.isEmpty);
+  const idDefaultSellPoint = useSelector(selectorsOther.getIdSellPoint);
   const title = scene.descriptor.options.title || '';
 
   const {headerRight} = scene.descriptor.options;
@@ -46,13 +50,35 @@ const MainHeader = ({scene}: StackHeaderProps) => {
     );
   };
 
+  const handleClearCart = () => {
+    dispatch(actionsCart.clear(idDefaultSellPoint));
+    dispatch(actionsCart.updateCart(idDefaultSellPoint));
+    setIsOpenClearCart(false);
+
+    dispatch(
+      actionsOrder.setData({
+        deliveryType: null,
+      }),
+    );
+    dispatch(
+      actionsOther.setData({
+        isModalAssortment: true,
+      }),
+    );
+  };
+
   return (
     <WrapperHeader
       style={{
         justifyContent: 'space-between',
       }}>
+      <ModalAssortmentWarning
+        modalVisible={isOpenClearCart}
+        onClose={() => setIsOpenClearCart(false)}
+        onConfirm={handleClearCart}
+      />
       <DesignIcon name="logo" size={sizes[20]} fill="white" />
-      {deliveryType && (
+      {deliveryType && isAuth && (
         <TouchableOpacity
           onPress={handleOpenAssortmentModal}
           containerStyle={{

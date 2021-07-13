@@ -8,9 +8,11 @@ import {ScrollView, Switch} from 'react-native-gesture-handler';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import t from '../../../utils/translate';
 import ChangeLocale from '../../common/ChangeLocale';
+import {useFormattingContext} from '../../../context/FormattingContext';
 
 const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
   const {border, primary, background, theme, onChangeTheme} = useTheme();
+  const {currentLocale} = useFormattingContext();
 
   const handelChangeTheme = () => {
     onChangeTheme(theme === 'light' ? 'dark' : 'light');
@@ -20,6 +22,7 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
     <View style={[styles.container]}>
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
         <PressTitle
+          key={currentLocale + 'change_password'}
           style={styles.itemMenu}
           isBorder
           onPress={() => navigation.push('ChangePassword', {})}>
