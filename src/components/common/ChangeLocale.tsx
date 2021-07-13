@@ -1,0 +1,115 @@
+import React, {useState} from 'react';
+import {Platform, StyleSheet, View} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {useFormattingContext} from '../../context/FormattingContext';
+import {sizes, useTheme} from '../../context/ThemeContext';
+import {
+  serviceGetCustomCategories,
+  thunkGetTags,
+} from '../../redux/category/categoryReducer';
+import {thunkGetSellPoints} from '../../redux/sellPoints/sellPointsReducer';
+import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
+import portmone from '../../utils/portmone';
+import t from '../../utils/translate';
+import MyText from '../controls/MyText';
+import PressTitle from '../controls/PressTitle';
+
+interface IChangeLocaleProps {
+  navigation?: any;
+}
+
+const ChangeLocale = ({navigation}: IChangeLocaleProps) => {
+  const {border, primary, background, theme} = useTheme();
+  const dispatch = useDispatch();
+  const [isChangingLocale, setIsChangingLocale] = useState(false);
+  const {currentLocale, setLocale} = useFormattingContext();
+
+  useDidUpdateEffect(() => {
+    changeLocale();
+  }, [currentLocale]);
+
+  const changeLocale = async () => {
+    console.log(Date.now());
+
+    setIsChangingLocale(true);
+    navigation &&
+      navigation.setOptions({
+        title: t('profileSettings'),
+      });
+
+    await dispatch(serviceGetCustomCategories);
+    await dispatch(thunkGetSellPoints);
+    await dispatch(thunkGetTags);
+
+    if (Platform.OS === 'android') {
+      portmone.invokePortmoneSdk({
+        theme,
+        lang: currentLocale,
+        type: 'phone',
+      });
+    }
+
+    setIsChangingLocale(false);
+    console.log(Date.now());
+  };
+
+  return (
+    <View>
+      <View style={[styles.text, {borderBottomColor: border}]}>
+        <MyText style={{paddingLeft: sizes[6]}}>{t('commonLanguage')}</MyText>
+      </View>
+      <PressTitle
+        disabled={isChangingLocale}
+        style={styles.itemMenu}
+        onPress={() => setLocale('uk')}
+        isBorder
+        afterIcon={{
+          name: 'check-mark',
+          size: sizes[10],
+          fill: currentLocale === 'uk' ? primary : background,
+        }}>
+        {t('commonUA')}
+      </PressTitle>
+      <PressTitle
+        disabled={isChangingLocale}
+        style={[styles.itemMenu]}
+        onPress={() => setLocale('en')}
+        isBorder
+        afterIcon={{
+          name: 'check-mark',
+          size: sizes[10],
+          fill: currentLocale === 'en' ? primary : background,
+        }}>
+        {t('commonEN')}
+      </PressTitle>
+      <PressTitle
+        disabled={isChangingLocale}
+        style={[styles.itemMenu]}
+        onPress={() => setLocale('ru')}
+        isBorder
+        afterIcon={{
+          name: 'check-mark',
+          size: sizes[10],
+          fill: currentLocale === 'ru' ? primary : background,
+        }}>
+        {t('commonRU')}
+      </PressTitle>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    marginHorizontal: sizes[5],
+  },
+  itemMenu: {
+    paddingVertical: sizes[9],
+  },
+  text: {
+    paddingTop: sizes[30],
+    paddingBottom: sizes[4],
+    borderBottomWidth: 1,
+  },
+});
+
+export default ChangeLocale;

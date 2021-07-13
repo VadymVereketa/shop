@@ -72,7 +72,7 @@ const CategoryScreen = ({route, navigation}: CategoryScreenProps) => {
     SplashScreen.hide();
   }, []);
 
-  const filterCategory = treeCategory.children.filter((c) => !!c.children);
+  const filterCategory = treeCategory.children;
 
   return (
     <SafeAreaView style={{}}>
@@ -109,9 +109,9 @@ const CategoryScreen = ({route, navigation}: CategoryScreenProps) => {
               }}
               onPress={() => {
                 navigation.navigate('Products', {
-                  categories: item.children,
+                  categories: item.children || [],
                   isTag: false,
-                  parentCategoryName: item.name,
+                  parentCategory: item,
                 });
               }}
               category={item}

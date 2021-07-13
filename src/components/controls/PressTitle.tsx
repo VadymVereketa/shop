@@ -36,6 +36,7 @@ const PressTitle = React.memo(
     onPress,
     children,
     afterIcon,
+    disabled,
   }: IPressTitleProps) => {
     const rotate = useRef(new Animated.Value(-90)).current;
     const [isRotate, setIsRotate] = useState(false);
@@ -60,6 +61,7 @@ const PressTitle = React.memo(
 
     return (
       <TWF
+        disabled={disabled}
         style={[
           styles.con,
           {

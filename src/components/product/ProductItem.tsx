@@ -107,7 +107,7 @@ const ProductItem = React.memo(({product, onPress}: IProductItemProps) => {
           styles.content,
           {backgroundColor: theme === 'dark' ? lightBackground : background},
         ]}>
-        <MyText style={styles.title}>{product.title}</MyText>
+        <MyText style={styles.title}>{product.shortDescription}</MyText>
         <View>
           <MyText style={styles.price}>{Price}</MyText>
           {productCart ? (
