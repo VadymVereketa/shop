@@ -181,23 +181,12 @@ export type PaymentScreenProps = {
 const Stack = createStackNavigator<OrderNavigatorParamList>();
 
 const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
-  const dispatch = useDispatch();
-  const defaultSellPoint = useSelector(selectorsOther.getIdSellPoint);
   const deliveryType = useSelector(selectorsOrder.getDeliveryType);
   const saveDraft = useSaveDraft();
   const {text} = useTheme();
 
   useEffect(() => {
     saveDraft();
-
-    return () => {
-      dispatch(actionsCart.updateCart(defaultSellPoint));
-      dispatch(
-        actionsOrder.setData({
-          sellPoint: null,
-        }),
-      );
-    };
   }, []);
 
   const titleDate =

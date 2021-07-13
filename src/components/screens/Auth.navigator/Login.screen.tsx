@@ -31,6 +31,7 @@ import t from '../../../utils/translate';
 import service from '../../../services/service';
 import {actionsCart} from '../../../redux/cart/cartReducer';
 import {getWithoutCodePhone} from '../../../utils/normalizePhone';
+import {actionsOther} from '../../../redux/other/otherReducer';
 
 const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
   const insets = useSafeAreaInsets();
@@ -45,12 +46,6 @@ const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
   });
   const onSubmit = async (data) => {
     await dispatch(fetchLogin(getWithoutCodePhone(data.phone), data.password));
-
-    service.getCart().then((res) => {
-      if (res.length > 0) {
-        dispatch(actionsCart.setData(res));
-      }
-    });
   };
 
   const handlePassword = () => {

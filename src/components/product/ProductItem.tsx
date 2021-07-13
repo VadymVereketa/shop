@@ -20,18 +20,19 @@ import {actionsCart, selectorsCart} from '../../redux/cart/cartReducer';
 import {selectorsUser} from '../../redux/user/userReducer';
 import CartCountItem from '../controls/CartCountInput';
 import {ID_UNIT_WEIGHT} from '../../constants/constantsId';
+import {navigationRef} from '../../utils/navigationRef';
 
 const window = Dimensions.get('window');
 
 interface IProductItemProps {
   product: IProduct;
+  onPress?: (p: IProduct) => void;
 }
 
 const borderRadius = sizes[1];
 
-const ProductItem = React.memo(({product}: IProductItemProps) => {
+const ProductItem = React.memo(({product, onPress}: IProductItemProps) => {
   const dispatch = useDispatch();
-  const navigation = useNavigation<ProductScreenNavigationProp>();
   const isAuth = useSelector(selectorsUser.isAuth);
   const initValue = useSelector(selectorsCart.getCountProduct(product.id)) || 1;
   const productCart = useSelector(selectorsCart.getCartProduct(product.id));
@@ -54,7 +55,8 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
 
   const isAvgWeight = isWeightUnit && !!product.avgWeight;
   const handlePress = () => {
-    navigation.push('SecondaryNavigator', {
+    onPress && onPress();
+    navigationRef.current.navigate('SecondaryNavigator', {
       screen: 'Product',
       params: {
         id: product.id,
@@ -90,6 +92,7 @@ const ProductItem = React.memo(({product}: IProductItemProps) => {
         styles.con,
         {
           shadowColor: text,
+          backgroundColor: background,
         },
       ]}>
       <TouchableWithoutFeedback onPress={handlePress}>

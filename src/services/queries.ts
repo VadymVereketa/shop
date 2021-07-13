@@ -2,8 +2,22 @@ import {AxiosRequestConfig} from 'axios';
 import buildQuery from '../utils/buildQuery';
 import {IGetProducts} from '../typings/ServiceTypes';
 import {Platform} from 'react-native';
+import {getSortFilter} from '../typings/TypeSortProduct';
 
 const queries = {
+  getExpressSellPoints: () => {
+    const filter = {
+      isActive: true,
+    };
+    const query = buildQuery({filter});
+
+    const config: AxiosRequestConfig = {
+      url: 'express/sell_points' + query,
+      method: 'get',
+    };
+
+    return config;
+  },
   getRestaurants: () => {
     const filter = {};
     const query = buildQuery({filter, orderBy: 'id'});
@@ -15,7 +29,15 @@ const queries = {
 
     return config;
   },
-  getProducts: ({top, skip, title = '', idCategory, idTag}: IGetProducts) => {
+  getProducts: ({
+    top,
+    skip,
+    title = '',
+    idCategory,
+    idTag,
+    idSellPoint,
+    sort,
+  }: IGetProducts) => {
     const categoryFilter = {
       'productOptions/available': true,
     };
@@ -25,10 +47,23 @@ const queries = {
         ne: null,
       };
     } else if (idCategory) {
-      categoryFilter['customCategory/id'] = idCategory;
+      if (Array.isArray(idCategory)) {
+        categoryFilter['customCategory/id'] = {
+          in: idCategory.map((c) => +c),
+        };
+      } else {
+        categoryFilter['customCategory/id'] = idCategory;
+      }
     }
     if (idTag) {
-      categoryFilter['groups/id'] = idTag;
+      if (Array.isArray(idTag)) {
+        categoryFilter['groups/id'] = {
+          in: idTag.map((c) => +c),
+        };
+      } else {
+        categoryFilter['groups/id'] = idTag;
+      }
+
       categoryFilter['customCategory'] = {
         ne: null,
       };
@@ -50,15 +85,17 @@ const queries = {
       ],
     };
 
+    const orderBy = getSortFilter(sort);
+
     const config: AxiosRequestConfig = {
       url:
-        '/products/' +
+        `products${idSellPoint ? `/sell_point/${idSellPoint}` : ''}` +
         buildQuery({
           filter,
           count: true,
           top,
           skip,
-          orderBy: 'productOptions/available desc',
+          orderBy,
         }),
       method: 'get',
     };
@@ -66,6 +103,16 @@ const queries = {
       '%23%23%23',
       encodeURIComponent(title.toLowerCase()),
     );
+    return config;
+  },
+
+  getProductByExpress: (id: number) => {
+    const filter = `$filter=(isActive%20eq%20true and productOptions/price ne 0 and expCollections/id ne null and customCategory ne null)&$expand=expCollections($filter=expCollections/sellPoint/id eq ${id} and expCollections/count gt 0 and expCollections/deletedDate eq null)&$count=true&$orderby=title%20asc`;
+
+    const config: AxiosRequestConfig = {
+      url: `products?` + filter,
+      method: 'get',
+    };
     return config;
   },
   getOrders: ({top, skip}: {top: number; skip: number}) => {

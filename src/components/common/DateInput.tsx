@@ -26,12 +26,24 @@ const strToTime = (str: string) => {
   return h * 60 + m;
 };
 
-const consistInRange = (from: string, to: string, value: string) => {
+const consistInRange = (
+  from: string,
+  to: string,
+  value: string,
+  isFirst?: boolean,
+) => {
   const fromTime = strToTime(from);
   const toTime = strToTime(to);
   const valueTime = strToTime(value);
 
-  return valueTime >= fromTime && valueTime <= toTime;
+  if (isFirst === undefined) {
+    return valueTime >= fromTime && valueTime <= toTime;
+  }
+  if (isFirst) {
+    return valueTime > fromTime && valueTime <= toTime;
+  } else {
+    return valueTime >= fromTime && valueTime < toTime;
+  }
 };
 
 const DateInput = ({navigate}: IDateInputProps) => {
@@ -127,8 +139,8 @@ const DateInput = ({navigate}: IDateInputProps) => {
               if (name === DEFAULT_NAME_SETTING) {
                 const [from, to] = opt.time.split(' - ');
                 return (
-                  consistInRange(e.timeFrom, e.timeTo, from) ||
-                  consistInRange(e.timeFrom, e.timeTo, to)
+                  consistInRange(e.timeFrom, e.timeTo, from, false) ||
+                  consistInRange(e.timeFrom, e.timeTo, to, true)
                 );
               } else {
                 const [value] = opt.time.split(' - ');

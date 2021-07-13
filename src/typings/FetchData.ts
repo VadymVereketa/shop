@@ -1,3 +1,5 @@
+import {TypeDelivery} from '../constants/constantsId';
+
 export interface ICategory {
   id: number;
   externalId: string;
@@ -79,6 +81,9 @@ export interface ISellPoint {
   isActive: boolean;
   img: string | null;
   sellPointImage: IImgProduct | null;
+  workingHours1?: string;
+  workingHours2?: string;
+  workingHoursNotes?: string;
 }
 
 export interface IUnit {
@@ -186,7 +191,7 @@ export interface IAddressDictionary {
 
 export interface IDeliveryType {
   id: number;
-  code: string;
+  code: TypeDelivery;
   type: string;
 }
 
@@ -224,6 +229,8 @@ export interface ICart {
   id: number;
   total: string;
   cartProducts: ICartItem[];
+  sellPoint: ISellPoint;
+  deliveryType: IDeliveryType;
 }
 
 export interface IChangePassword {
@@ -276,11 +283,13 @@ export type ISettingCode =
   | 'order_time_from'
   | 'order_time_step'
   | 'order_time_to'
+  | 'order_time_range'
   | 'public_message'
   | 'min_different'
   | 'max_different'
   | 'default_delivery_price'
   | 'increase_percentage'
+  | 'default_delivery_price_express'
   | 'preauth_payment';
 
 export interface IPurchase {

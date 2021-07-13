@@ -2,6 +2,7 @@ import React from 'react';
 import {Button, Platform} from 'react-native';
 //import {NativeModules} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import t from '../../utils/translate';
 import MyText from '../controls/MyText';
 //const {PortmoneCardModule} = NativeModules;
 
@@ -24,7 +25,7 @@ const TextButton = () => {
         backgroundColor: 'black',
       }}
       onPress={handlePress}>
-      <MyText>text</MyText>
+      <MyText>{t('testText')}</MyText>
     </TouchableOpacity>
   );
 };

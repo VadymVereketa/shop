@@ -8,8 +8,13 @@ import {useFormattingContext} from '../../../context/FormattingContext';
 import {ScrollView, Switch} from 'react-native-gesture-handler';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import t from '../../../utils/translate';
+import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
+import {useDispatch} from 'react-redux';
+import {serviceGetCustomCategories} from '../../../redux/category/categoryReducer';
+import {thunkGetSellPoints} from '../../../redux/sellPoints/sellPointsReducer';
 
 const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
+  const dispatch = useDispatch();
   const {
     border,
     primary,
@@ -24,6 +29,15 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
   const handelChangeTheme = () => {
     onChangeTheme(theme === 'light' ? 'dark' : 'light');
   };
+
+  useDidUpdateEffect(() => {
+    navigation.setOptions({
+      title: t('profileSettings'),
+    });
+
+    dispatch(serviceGetCustomCategories);
+    dispatch(thunkGetSellPoints);
+  }, [currentLocale]);
 
   return (
     <View style={[styles.container]}>
@@ -54,7 +68,7 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           }}>
           {t('commonUA')}
         </PressTitle>
-        {/* <PressTitle
+        <PressTitle
           style={[styles.itemMenu]}
           onPress={() => setLocale('en')}
           isBorder
@@ -64,7 +78,18 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
             fill: currentLocale === 'en' ? primary : background,
           }}>
           {t('commonEN')}
-        </PressTitle>*/}
+        </PressTitle>
+        <PressTitle
+          style={[styles.itemMenu]}
+          onPress={() => setLocale('ru')}
+          isBorder
+          afterIcon={{
+            name: 'check-mark',
+            size: sizes[10],
+            fill: currentLocale === 'ru' ? primary : background,
+          }}>
+          {t('commonRU')}
+        </PressTitle>
 
         <View style={[styles.text, {borderBottomColor: border}]}>
           <MyText style={{paddingLeft: sizes[6]}}>{t('commonTheme')}</MyText>

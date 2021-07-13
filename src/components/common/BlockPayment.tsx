@@ -20,6 +20,8 @@ const BlockPayment = () => {
   const payments = useSelector(selectorsTypes.getPaymentsTypes);
   const payment = useSelector(selectorsOrder.getCodePayment);
   const cards = useSelector(selectorsUser.getCards);
+  const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
+
   const options = usePaymentOptions();
   const otherCard: ICard = useMemo(() => {
     return {
@@ -33,11 +35,19 @@ const BlockPayment = () => {
   useEffect(() => {
     if (payment) return;
 
-    dispatch(
-      actionsOrder.setData({
-        paymentType: payments.find((p) => p.code === TypePayment.cash)!,
-      }),
-    );
+    if (isExpress) {
+      dispatch(
+        actionsOrder.setData({
+          paymentType: payments.find((p) => p.code === TypePayment.online)!,
+        }),
+      );
+    } else {
+      dispatch(
+        actionsOrder.setData({
+          paymentType: payments.find((p) => p.code === TypePayment.cash)!,
+        }),
+      );
+    }
   }, []);
 
   const handleChange = (code: TypePayment) => {
@@ -68,9 +78,13 @@ const BlockPayment = () => {
     }
   }, []);
 
+  const filterOptions = isExpress
+    ? options.filter((opt) => opt.code === TypePayment.online)
+    : options;
+
   return (
     <View>
-      {options.map((o, index) => {
+      {filterOptions.map((o, index) => {
         return (
           <RadioBlock
             key={index}
@@ -84,7 +98,7 @@ const BlockPayment = () => {
       })}
       {payment === TypePayment.online && cards.length > 0 && (
         <View>
-          <MyText style={styles.text}>Картки</MyText>
+          <MyText style={styles.text}>{t('commonCards')}</MyText>
           {cards.map((c) => (
             <CreditCard
               style={styles.card}

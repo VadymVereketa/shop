@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import RestaurantScreen from '../screens/Main.navigator/Restaurant.screen';
+import RestaurantScreen from '../screens/Category.navigator/Restaurant.screen';
 import {
   MainNavigatorScreenProps,
   StartNavigatorParamList,
@@ -13,22 +13,26 @@ import MenuScreen from '../screens/Main.navigator/Menu.screen';
 import DesignIcon from '../common/DesignIcon';
 import TabBar from '../common/TabBar';
 import {useSelector} from 'react-redux';
-import {selectorCategory} from '../../redux/category/categoryReducer';
+import {
+  selectorCategory,
+  selectorCategory2,
+} from '../../redux/category/categoryReducer';
 import t from '../../utils/translate';
+import {selectorsConfig} from '../../redux/config/configReducer';
+import {IFetchCategory} from '../../typings/ICategory';
+import CategoryNavigator from './Category.navigator';
+import TagsNavigator from './Tags.navigator';
 
 export type MainNavigatorParamList = {
   Restaurant: {
-    categories: {id: number; name: string}[];
-    isTag: boolean;
+    category: IFetchCategory;
   };
   Shop: {
-    categories: {id: number; name: string}[];
-    isTag: boolean;
+    category: IFetchCategory;
   };
   Cart: {};
-  TagProducts: {
+  Tag: {
     categories: {id: number; name: string}[];
-    isTag: boolean;
   };
   Menu: {};
 };
@@ -69,33 +73,45 @@ export type CartNavigatorProps = {
   navigation: CartNavigatorNavigationProp;
 };
 
+type TagNavigatorNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<MainNavigatorParamList, 'Tag'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type TagNavigatorRouteProp = RouteProp<MainNavigatorParamList, 'Tag'>;
+
+export type TagNavigatorProps = {
+  route: TagNavigatorRouteProp;
+  navigation: TagNavigatorNavigationProp;
+};
 const Tab = createBottomTabNavigator<MainNavigatorParamList>();
 
 const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
-  const categiesRest = useSelector(selectorCategory.getRestaurant);
-  const categiesShop = useSelector(selectorCategory.getShop);
   const categiesTags = useSelector(selectorCategory.getTags);
+  const roots = useSelector(selectorCategory2.getRootCategories);
 
   useEffect(() => {
-    if (categiesRest.length > 0) {
+    if (roots.length > 0) {
       // @ts-ignore
-      props.navigation.navigate('Restaurant', {});
+      props.navigation.navigate('Restaurant', {
+        categories: roots[0],
+      });
     }
-  }, [categiesRest]);
+  }, [roots.length]);
 
   return (
     <Tab.Navigator
+      backBehavior="history"
       screenOptions={{
         unmountOnBlur: true,
       }}
       initialRouteName={'Restaurant'}
       tabBar={(props) => <TabBar {...props} />}>
-      {categiesRest.length > 0 && (
+      {roots.length > 0 && (
         <Tab.Screen
+          key="Restaurant"
           name="Restaurant"
           initialParams={{
-            categories: categiesRest,
-            isTag: false,
+            category: roots[0],
           }}
           options={{
             title: t('tabBarRestaurant'),
@@ -109,15 +125,15 @@ const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
               );
             },
           }}
-          component={RestaurantScreen}
+          component={CategoryNavigator}
         />
       )}
-      {categiesShop.length > 0 && (
+      {roots.length > 0 && (
         <Tab.Screen
+          key="Shop"
           name="Shop"
           initialParams={{
-            categories: categiesShop,
-            isTag: false,
+            category: roots[1],
           }}
           options={{
             title: t('tabBarShop'),
@@ -131,16 +147,16 @@ const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
               );
             },
           }}
-          component={RestaurantScreen}
+          component={CategoryNavigator}
         />
       )}
+
       <Tab.Screen name="Cart" component={CartScreen} />
       {categiesTags.length > 0 && (
         <Tab.Screen
-          name="TagProducts"
+          name="Tag"
           initialParams={{
             categories: categiesTags,
-            isTag: true,
           }}
           options={{
             title: t('tabBarTagProducts'),
@@ -154,7 +170,7 @@ const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
               );
             },
           }}
-          component={RestaurantScreen}
+          component={TagsNavigator}
         />
       )}
       <Tab.Screen

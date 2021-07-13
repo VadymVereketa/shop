@@ -12,13 +12,23 @@ import Animated, {
   timing,
 } from 'react-native-reanimated';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
-import {Switch, TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import {
+  Switch,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native-gesture-handler';
 import Logo from './Logo';
 import t from '../../utils/translate';
 import {useDispatch, useSelector} from 'react-redux';
-import {selectorsOrder} from '../../redux/order/orderReducer';
+import {actionsOrder, selectorsOrder} from '../../redux/order/orderReducer';
 import MyText from '../controls/MyText';
 import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
+import useGetTranslateForDeliveryType from '../../useHooks/useGetTranslateForDeliveryType';
+import {getSellPoints} from '../../redux/sellPoints/sellPointsReducer';
+import DesignIcon from './DesignIcon';
+import {getFontFamily} from '../../utils/getFontFamily';
+import {actionsCart, selectorsCart} from '../../redux/cart/cartReducer';
+import ModalAssortmentWarning from '../modals/ModalAssortmentWarning';
 
 const window = Dimensions.get('window');
 const height = Math.max(window.height, window.width);
@@ -33,14 +43,29 @@ const Header = React.memo(
   ({isShow, setIsShow, onChange, initValue}: IHeaderProps) => {
     const navigation = useNavigation();
     const dispatch = useDispatch();
-    const HEIGHT = useRef(-200);
+    const HEIGHT = useRef(-height);
     const isGlobalSearch = useSelector(selectorsOther.getIsGlobalSearch);
     const [search, setSearch] = useState('');
     const [isGlobal, setIsGlobal] = useState(isGlobalSearch);
     const valueY = useRef(new Animated.Value(HEIGHT.current)).current;
-    const {text, background, lightBackground, theme, primary} = useTheme();
+    const {
+      text,
+      background,
+      lightText,
+      lightBackground,
+      theme,
+      primary,
+    } = useTheme();
     const {top, ...insets} = useSafeAreaInsets();
     const isRepeatOrder = useSelector(selectorsOrder.isRepeatOrder);
+    const deliveryType = useSelector(selectorsOrder.getDeliveryType);
+    const sellPoints = useSelector(getSellPoints(true));
+    const orderSellPoint = useSelector(selectorsOrder.getSellPointId);
+    const selectSellPoint = sellPoints.find((s) => s.id == orderSellPoint);
+    const getTextDeliveryType = useGetTranslateForDeliveryType();
+    const isEmptyCart = useSelector(selectorsCart.isEmpty);
+    const [isOpenClearCart, setIsOpenClearCart] = useState(false);
+    const idDefaultSellPoint = useSelector(selectorsOther.getIdSellPoint);
 
     useDidUpdateEffect(() => {
       timing(valueY, {
@@ -66,6 +91,45 @@ const Header = React.memo(
       setSearch(initValue);
       setIsShow(false);
       setIsGlobal(isGlobalSearch);
+    };
+
+    const handleOpenAssortmentModal = () => {
+      if (!isEmptyCart) {
+        setIsOpenClearCart(true);
+        return;
+      }
+      dispatch(
+        actionsOther.setData({
+          isModalAssortment: true,
+        }),
+      );
+
+      dispatch(
+        actionsOrder.setData({
+          deliveryType: null,
+        }),
+      );
+    };
+
+    const handleClearCart = () => {
+      dispatch(actionsCart.clear(idDefaultSellPoint));
+      dispatch(actionsCart.updateCart(idDefaultSellPoint));
+      setIsOpenClearCart(false);
+
+      dispatch(
+        actionsOrder.setData({
+          deliveryType: null,
+        }),
+      );
+      dispatch(
+        actionsOther.setData({
+          isModalAssortment: true,
+        }),
+      );
+    };
+
+    const handleCloseClearCart = () => {
+      setIsOpenClearCart(false);
     };
 
     const handleBack = () => {
@@ -105,11 +169,16 @@ const Header = React.memo(
         style={[
           styles.con,
           {
-            paddingTop: top ? top : 0,
+            paddingTop: top ? top : sizes[5],
             paddingLeft: insets.left ? insets.left : sizes[5],
             backgroundColor: background,
           },
         ]}>
+        <ModalAssortmentWarning
+          modalVisible={isOpenClearCart}
+          onClose={handleCloseClearCart}
+          onConfirm={handleClearCart}
+        />
         {isRepeatOrder ? (
           <IconButton
             icon={{
@@ -123,6 +192,38 @@ const Header = React.memo(
           <View>
             <Logo resizeMode={'cover'} width={sizes[38]} height={sizes[12]} />
           </View>
+        )}
+        {deliveryType && (
+          <TouchableOpacity
+            onPress={handleOpenAssortmentModal}
+            containerStyle={{
+              maxWidth: '70%',
+              overflow: 'hidden',
+            }}
+            style={{
+              backgroundColor: lightBackground,
+              flexDirection: 'row',
+              alignItems: 'center',
+              padding: sizes[5],
+              paddingHorizontal: sizes[7],
+              marginHorizontal: sizes[1],
+            }}>
+            <MyText
+              style={{
+                color: lightText,
+                marginRight: sizes[3],
+              }}>
+              {t('assortmentForShort')}
+            </MyText>
+            <MyText
+              style={{
+                marginRight: sizes[3],
+                fontFamily: getFontFamily('400'),
+              }}>
+              {getTextDeliveryType(deliveryType, selectSellPoint)}
+            </MyText>
+            <DesignIcon name={'settings'} size={sizes[8]} fill={text} />
+          </TouchableOpacity>
         )}
         <IconButton
           style={{

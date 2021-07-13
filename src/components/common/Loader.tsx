@@ -1,6 +1,12 @@
 import React, {useEffect, useRef} from 'react';
 import {sizes, useTheme} from '../../context/ThemeContext';
-import Animated, {concat, Easing, timing} from 'react-native-reanimated';
+import Animated, {
+  concat,
+  Easing,
+  Extrapolate,
+  interpolate,
+  timing,
+} from 'react-native-reanimated';
 import {StyleSheet, View} from 'react-native';
 import DesignIcon from './DesignIcon';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
@@ -36,6 +42,12 @@ const Loader = React.memo(({isLoading, top}: ILoaderProps) => {
     }).start();
   };
 
+  const scaleAnim = interpolate(loadTop, {
+    inputRange: [0, sizes[30]],
+    outputRange: [0, 1],
+    extrapolate: Extrapolate.CLAMP,
+  });
+
   return (
     <Animated.View
       style={[
@@ -48,6 +60,9 @@ const Loader = React.memo(({isLoading, top}: ILoaderProps) => {
             },
             {
               rotate: concat(rotateAnim, 'deg'),
+            },
+            {
+              scale: scaleAnim,
             },
           ],
         },

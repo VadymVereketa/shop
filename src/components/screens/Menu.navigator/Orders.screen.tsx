@@ -32,7 +32,6 @@ const OrdersScreen = React.memo((props: OrdersScreenProps) => {
       top: perPage,
       skip: skip * perPage,
     }).then((res) => {
-      console.log(res);
       if (res.success) {
         setOrders((p) => {
           return [...p, ...res.data.items];

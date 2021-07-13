@@ -5,6 +5,8 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Portal} from 'react-native-portalize';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import IconButton from '../controls/IconButton';
+import MyText from '../controls/MyText';
+import {getFontFamily} from '../../utils/getFontFamily';
 
 interface IMyModalProps {
   modalVisible: boolean;
@@ -12,11 +14,12 @@ interface IMyModalProps {
   isClose?: boolean;
   children?: any;
   style?: StyleProp<ViewStyle>;
+  title?: string;
 }
 
 const MyModal = React.memo(
-  ({modalVisible, onClose, children, isClose, style}: IMyModalProps) => {
-    const {text, primary} = useTheme();
+  ({modalVisible, onClose, children, isClose, style, title}: IMyModalProps) => {
+    const {text, primary, background, border} = useTheme();
 
     return (
       <Portal>
@@ -29,23 +32,22 @@ const MyModal = React.memo(
                   backgroundColor: 'rgba(60, 65, 98, 0.8)',
                 },
               ]}>
-              <View style={[styles.modalView, style]}>
-                {isClose && (
-                  <IconButton
-                    hitSlop={{
-                      bottom: sizes[15],
-                      left: sizes[15],
-                      right: sizes[15],
-                      top: sizes[15],
-                    }}
-                    onPress={onClose}
-                    style={styles.btn}
-                    icon={{
-                      name: 'close',
-                      size: sizes[10],
-                      fill: primary,
-                    }}
-                  />
+              <View
+                style={[
+                  styles.modalView,
+                  {
+                    backgroundColor: background,
+                  },
+                  style,
+                ]}>
+                {title && (
+                  <View
+                    style={{
+                      borderBottomWidth: 1,
+                      borderBottomColor: border,
+                    }}>
+                    <MyText style={[styles.title]}>{title}</MyText>
+                  </View>
                 )}
                 {children}
               </View>
@@ -64,11 +66,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalView: {
-    width: responsiveScreenWidth(100) - sizes[40],
+    width: responsiveScreenWidth(100) - sizes[20],
     backgroundColor: 'white',
-    borderRadius: sizes[16],
-    paddingHorizontal: sizes[20],
-    paddingVertical: sizes[40],
     position: 'absolute',
   },
   btn: {
@@ -76,6 +75,12 @@ const styles = StyleSheet.create({
     right: sizes[20],
     top: sizes[20],
     zIndex: 10,
+  },
+  title: {
+    textAlign: 'center',
+    fontSize: sizes[12],
+    fontFamily: getFontFamily('400'),
+    paddingVertical: sizes[6],
   },
 });
 export default MyModal;

@@ -210,14 +210,15 @@ const WeightUnit = React.memo(
       <View style={styles.con}>
         {avgWeight && (
           <MyText style={[styles.title, styles.text]}>
-            Середня вага одиниці:{' '}
+            {t('averageUnitWeight')}{' '}
             <MyText style={styles.text}>{format1000Unit(+avgWeight!)}</MyText>
           </MyText>
         )}
         {product.ingredients && (
           <View>
             <MyText style={[styles.title, styles.text]}>
-              Склад: <MyText style={styles.text}>{product.ingredients}</MyText>
+              {t('commonStorage')}
+              <MyText style={styles.text}>{product.ingredients}</MyText>
             </MyText>
           </View>
         )}
@@ -227,7 +228,7 @@ const WeightUnit = React.memo(
               marginBottom: sizes[10],
             }}>
             <MyText style={[styles.title, styles.text]}>
-              Поживна енергетична цінність на 100 г:{' '}
+              {t('commonEnergyValue')}{' '}
               <MyText style={styles.text}>{product.energyValue}</MyText>
             </MyText>
           </View>

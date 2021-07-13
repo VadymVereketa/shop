@@ -103,7 +103,6 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
     const fetchData = getConvertDataToFetch(data);
     fetchData.id = paramAddress ? paramAddress.id : undefined;
     const res = await request(fetchData);
-    console.log(data.buildObj);
     if (res.success) {
       let address: any = res.data;
       address.addressDictionary = data.buildObj

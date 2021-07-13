@@ -103,7 +103,6 @@ const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
         <React.Fragment>
           <MyText style={[styles.text]}> {t('profileTitle')}</MyText>
           <View style={{height: 1, backgroundColor: border}} />
-          <BetaTest />
           <PressTitle
             onPress={() => {
               navigation.navigate('AuthNavigator', {screen: 'Login'});

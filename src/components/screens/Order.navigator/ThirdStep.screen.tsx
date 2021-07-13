@@ -23,6 +23,7 @@ const ThirdStepScreen = React.memo(
     const dispatch = useDispatch();
     const {loading, submit} = useCreateOrder();
     const idSellPoint = useSelector(selectorsOrder.getSellPointId);
+    const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
     const deliveryType = useSelector(selectorsOrder.getDeliveryType);
     let date = useSelector(selectorsOrder.getDate)!;
     const time = useSelector(selectorsOrder.getTime)!;
@@ -38,20 +39,22 @@ const ThirdStepScreen = React.memo(
     const settings = useSelector(selectorsOther.getSetting(name));
 
     const handleContinue = async () => {
-      let currentDate = await service.getCurrentTime();
-      currentDate.setMinutes(currentDate.getMinutes() + settings.offset - 15);
-      const [h, m] = time.split(':').map(parseFloat);
-      date.setHours(h, m);
-      if (currentDate.getTime() >= date.getTime()) {
-        Toast.show('Виберіть будь ласка дату');
-        dispatch(
-          actionsOrder.setData({
-            date: null,
-            time: '',
-          }),
-        );
-        navigation.navigate('SecondStep', {});
-        return;
+      if (!isExpress) {
+        let currentDate = await service.getCurrentTime();
+        currentDate.setMinutes(currentDate.getMinutes() + settings.offset - 15);
+        const [h, m] = time.split(':').map(parseFloat);
+        date.setHours(h, m);
+        if (currentDate.getTime() >= date.getTime()) {
+          Toast.show(t('selectDate'));
+          dispatch(
+            actionsOrder.setData({
+              date: null,
+              time: '',
+            }),
+          );
+          navigation.navigate('SecondStep', {});
+          return;
+        }
       }
 
       const res = await submit();

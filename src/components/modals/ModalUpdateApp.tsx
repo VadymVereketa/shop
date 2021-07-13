@@ -6,9 +6,11 @@ import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {getFontFamily} from '../../utils/getFontFamily';
 import {isIOS} from '../../utils/isPlatform';
+import t from '../../utils/translate';
 import DesignIcon from '../common/DesignIcon';
 import MyButton from '../controls/MyButton';
 import MyText from '../controls/MyText';
+import MyModal from './MyModal';
 
 interface IModalUpdateAppProps {
   modalVisible: boolean;
@@ -34,55 +36,36 @@ const ModalUpdateApp = ({
   };
 
   return (
-    <Portal>
-      <Modal animationType="fade" transparent={true} visible={modalVisible}>
-        <GestureHandlerRootView style={{flex: 1}}>
-          <View
-            style={[
-              styles.centeredView,
-              {
-                backgroundColor: 'rgba(60, 65, 98, 0.8)',
-              },
-            ]}>
-            <View style={[styles.modalView]}>
-              <MyText style={[styles.title]}>Оновіть додаток</MyText>
-              <View
-                style={{
-                  padding: sizes[15],
-                  alignItems: 'center',
-                  borderTopWidth: 1,
-                  borderTopColor: border,
-                }}>
-                <DesignIcon
-                  name="UpdateApp"
-                  size={responsiveScreenWidth(40)}
-                  fill=""
-                />
-                <MyText style={styles.mainText}>
-                  Роботу додатку покращено! У ній виправлені помилки і додані
-                  корисні функції.
-                </MyText>
-                <MyText style={[styles.subText, {color: lightText}]}>
-                  Зазвичай оновлення займає не більше хвилини
-                </MyText>
-                <MyButton
-                  onPress={handleUpdate}
-                  style={{
-                    marginBottom: sizes[6],
-                  }}>
-                  Оновити
-                </MyButton>
-                {!isRequired && (
-                  <MyButton type={'default'} onPress={onClose}>
-                    Пропустити
-                  </MyButton>
-                )}
-              </View>
-            </View>
-          </View>
-        </GestureHandlerRootView>
-      </Modal>
-    </Portal>
+    <MyModal
+      modalVisible={modalVisible}
+      onClose={onClose}
+      title="Оновіть додаток">
+      <View
+        style={{
+          padding: sizes[15],
+          alignItems: 'center',
+        }}>
+        <DesignIcon name="UpdateApp" size={responsiveScreenWidth(40)} fill="" />
+        <MyText style={styles.mainText}>
+          {t('appStopWorkByUpdate1')}
+        </MyText>
+        <MyText style={[styles.subText, {color: lightText}]}>
+          {t('appStopWorkByUpdate2')}
+        </MyText>
+        <MyButton
+          onPress={handleUpdate}
+          style={{
+            marginBottom: sizes[6],
+          }}>
+          {t('btnUpdate')}
+        </MyButton>
+        {!isRequired && (
+          <MyButton type={'default'} onPress={onClose}>
+            {t('btnSkip')}
+          </MyButton>
+        )}
+      </View>
+    </MyModal>
   );
 };
 

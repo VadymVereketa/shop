@@ -30,6 +30,22 @@ const useTheme = () => {
   return context;
 };
 
+const hexToRgb = (hex: string) => {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result
+    ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
+    : null;
+};
+
+const colorWithOpacity = (color: string, opacity: number) => {
+  const {r, b, g} = hexToRgb(color)!;
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};
+
 const ProviderTheme = ({children}: any) => {
   const dispatch = useDispatch();
   const theme = useSelector(selectorsOther.getTheme);
@@ -82,10 +98,10 @@ const f = (z: number) => {
 const sizes: any = {};
 const widths: any = {};
 
-for (let i = 1; i <= 100; i++) {
+for (let i = 1; i <= 300; i++) {
   sizes[i] = responsiveFontSize(f(i) * (isTablet ? 0.7 : 1));
   widths[i] = responsiveFontSize(f(i));
 }
 
-export {useTheme, sizes, widths};
+export {useTheme, sizes, widths, colorWithOpacity};
 export default ProviderTheme;
