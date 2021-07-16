@@ -56,7 +56,12 @@ const RestaurantScreen = React.memo(
       if (isEmptyCategories) {
         return [];
       }
-      return [{id: -1, name: t('allCategories')}, ...categories];
+
+      const first = parentCategory
+        ? {id: parentCategory.id, name: '...'}
+        : {id: -1, name: t('allCategories')};
+
+      return [first, ...categories];
     }, []);
     const [idCategory, setIdCategory] = useState<number | null>(null);
     const [search, setSearch] = useState('');
