@@ -4,9 +4,11 @@ import {ICategoryState} from './categoryTypes';
 import service from '../../services/service';
 import {RootState} from '../reducer';
 import {IRootCategory, ITag} from '../../typings/FetchData';
+import {IFetchCategory, ITreeCategory} from '../../typings/ICategory';
 
 interface ICategoryActions extends IBaseActions {
   setTags: (tags: ITag[]) => any;
+  setDataItem: (o: Partial<ICategoryState>) => any;
 }
 
 const init: ICategoryState = {
@@ -159,6 +161,8 @@ const init: ICategoryState = {
   error: null,
   isLoading: false,
   tags: [],
+  rootsCategory: [],
+  treeCategories: {},
 };
 
 const creator = new CreatorReducer<ICategoryActions, ICategoryState>(
@@ -167,7 +171,47 @@ const creator = new CreatorReducer<ICategoryActions, ICategoryState>(
 creator.addAction('setTags', (state, action) => {
   return {...state, tags: action.payload};
 });
+creator.addAction('setDataItem', (state, action) => {
+  return {...state, ...action.payload};
+});
 const actionsCategory = creator.createActions();
+
+const serviceGetCustomCategories = async (dispatch: any) => {
+  const res = await service.getCustomCategories();
+  const rootsCategory = res
+    .filter((c) => c.parent === null)
+    .sort((a, b) => a.ord - b.ord);
+  const result: ITreeCategory = {};
+
+  res.forEach((c) => {
+    result[c.id] = c;
+  });
+
+  res.forEach((c) => {
+    if (c.parent) {
+      const category = result[c.parent.id];
+      if (category.children) {
+        category.children.push(c);
+      } else {
+        category.children = [c];
+      }
+    }
+  });
+
+  res.forEach((c) => {
+    const category = result[c.id];
+    if (category.children) {
+      category.children.sort((a, b) => a.ord - b.ord);
+    }
+  });
+
+  dispatch(
+    actionsCategory.setDataItem({
+      rootsCategory,
+      treeCategories: result,
+    }),
+  );
+};
 
 const thunkGetCustomCategories = async (
   dispatch: any,
@@ -271,10 +315,115 @@ const selectorCategory = {
   },
 };
 
+const selectorCategory2 = {
+  getCategories: (state: RootState) => state.category.treeCategories,
+  getRootCategories: (state: RootState) => {
+    const roots = state.category.rootsCategory;
+    return roots.map((r) => state.category.treeCategories[r.id]);
+  },
+  getCategoriesById: (id: any) => (state: RootState) =>
+    state.category.treeCategories[id],
+  getDeepCategoriesById: (id: any) => (state: RootState) => {
+    const root = selectorCategory2.getCategoriesById(id)(state);
+    let result: IFetchCategory[] = [];
+
+    const getChildren = (category: IFetchCategory) => {
+      if (category.children) {
+        result = [...result, ...category.children];
+        category.children.forEach((c) => getChildren(c));
+      }
+    };
+    getChildren(root);
+    return result;
+  },
+  getRootCategory: (id: any) => (state: RootState) => {
+    let category = state.category.treeCategories[id];
+    let parent = category.parent;
+    while (parent !== null) {
+      category = state.category.treeCategories[parent.id];
+      parent = category.parent;
+    }
+    return category;
+  },
+  getChainsCategories: (id: any) => (state: RootState) => {
+    const res = [state.category.treeCategories[id]];
+    let parent = res[0].parent;
+
+    while (parent !== null) {
+      const category = state.category.treeCategories[parent.id];
+      res.unshift(category);
+      parent = category.parent;
+    }
+
+    return res;
+  },
+  hasCategory: (innerCategory: any, outerCategory: any) => (
+    state: RootState,
+  ) => {
+    if (innerCategory === outerCategory) {
+      return true;
+    }
+    let category = state.category.treeCategories[innerCategory];
+    let parent = category.parent;
+    while (parent !== null) {
+      category = state.category.treeCategories[parent.id];
+      parent = category.parent;
+      if (category.id === innerCategory) {
+        return true;
+      }
+    }
+    return false;
+  },
+  getSelfIdOrChildrenIds: (id: any) => (state: RootState) => {
+    const category = state.category.treeCategories[id];
+    if (category.children) {
+      const res = category.children.map((c) => c.id);
+      res.push(id);
+      return res;
+    }
+    return category.id;
+  },
+  isFirstLevelCategory: (id: any) => (state: RootState) => {
+    const category = state.category.treeCategories[id].parent;
+    const roots = state.category.rootsCategory;
+
+    if (category === null) {
+      return false;
+    }
+
+    return roots.some((r) => r.id === category.id);
+  },
+
+  getIdsCategory: (id: any) => (state: RootState) => {
+    if (!id) {
+      return id;
+    }
+    if (state.config.isNewCategory) {
+      const root = state.category.treeCategories[id];
+
+      let result: number[] = [];
+
+      const getChildren = (category: IFetchCategory) => {
+        if (category.children) {
+          category.children.forEach((c) => getChildren(c));
+        } else {
+          result.push(category.id);
+        }
+      };
+      getChildren(root);
+      return result;
+    } else {
+      return id;
+    }
+  },
+};
+
 export {
   actionsCategory,
   thunkGetCustomCategories,
   selectorCategory,
+  selectorCategory2,
   thunkGetTags,
+  serviceGetCustomCategories,
 };
 export default creator.createReducerFetch(init);

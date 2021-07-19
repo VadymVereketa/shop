@@ -36,8 +36,9 @@ const BlockWrapperOrder = React.memo(
     const [isShow, setIsShow] = useState(false);
     const insets = useSafeAreaInsets();
     let sum = useSelector(selectorsCart.getGeneralSum);
-    const isCourier = useSelector(selectorsOrder.isDeliveryCourier);
-    const deliveryPrice = useSelector(selectorsOrder.getDeliveryPrice);
+    const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
+    const isSelf = useSelector(selectorsOrder.isDeliverySelf);
+    const deliveryPrice = useSelector(selectorsOrder.getDeliveryPrice) ?? 0;
     const {lightBackground, background, text, theme} = useTheme();
     const {formatPrice} = useFormattingContext();
 
@@ -53,7 +54,7 @@ const BlockWrapperOrder = React.memo(
       }).start();
     }, [isShow]);
 
-    sum = sum + (isCourier ? deliveryPrice : 0);
+    sum = sum + (!isSelf ? +deliveryPrice : 0);
 
     return (
       <SafeAreaView
@@ -121,11 +122,11 @@ const BlockWrapperOrder = React.memo(
               shadowColor: text,
             },
           ]}>
-          {isCourier && (
+          {!isSelf && (
             <View style={[styles.price, {marginBottom: 0}]}>
               <MyText style={styles.delivery}>{t('btnDelivery')}</MyText>
               <MyText style={styles.bottomBlockText}>
-                {formatPrice(deliveryPrice)}
+                {formatPrice(+deliveryPrice)}
               </MyText>
             </View>
           )}

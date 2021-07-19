@@ -15,7 +15,7 @@ import {formatAddress} from '../../../utils/formatAddress';
 import DesignIcon from '../../common/DesignIcon';
 import t from '../../../utils/translate';
 import {selectorsOther} from '../../../redux/other/otherReducer';
-import {actionsOrder} from '../../../redux/order/orderReducer';
+import {actionsOrder, selectorsOrder} from '../../../redux/order/orderReducer';
 
 const OrderAddressScreen = ({navigation, route}: OrderAddressScreenProps) => {
   const dispatch = useDispatch();
@@ -24,27 +24,31 @@ const OrderAddressScreen = ({navigation, route}: OrderAddressScreenProps) => {
   const {border, primary, text, background} = useTheme();
   const addresses = useSelector(selectorsUser.getAddresses);
   const [address, setAddress] = useState(route.params.id);
+  const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
 
   const handleCancel = () => {
     navigation.goBack();
   };
 
   const handleSubmit = () => {
-    try {
-      const data = addresses.find((a) => a.id === address)!;
+    if (!isExpress) {
+      try {
+        const data = addresses.find((a) => a.id === address)!;
 
-      dispatch(
-        actionsOrder.setData({
-          idDeliveryPrice: data.addressDictionary!.district.deliveryPrice.id,
-        }),
-      );
-    } catch (e) {
-      dispatch(
-        actionsOrder.setData({
-          idDeliveryPrice: defaultDeliveryPrice,
-        }),
-      );
+        dispatch(
+          actionsOrder.setData({
+            idDeliveryPrice: data.addressDictionary!.district.deliveryPrice.id,
+          }),
+        );
+      } catch (e) {
+        dispatch(
+          actionsOrder.setData({
+            idDeliveryPrice: defaultDeliveryPrice,
+          }),
+        );
+      }
     }
+
     navigation.navigate(route.params.navigate, {
       idAddress: address,
     });

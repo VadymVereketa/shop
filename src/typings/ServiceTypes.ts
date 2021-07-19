@@ -7,6 +7,7 @@ export interface IGetProducts extends IQueryOptions {
   idCategory?: number | null | undefined;
   idTag?: number | null | undefined;
   title?: string;
+  idSellPoint?: number;
 }
 
 export interface IOrderPost {

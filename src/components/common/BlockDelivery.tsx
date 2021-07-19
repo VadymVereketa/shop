@@ -58,11 +58,15 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
   const dispatch = useDispatch();
   const navigation = useNavigation<SecondStepScreenNavigationProp>();
   const defaultDeliveryPrice = useSelector(selectorsOther.getIdDeliveryPrice);
+  const defaultDeliveryPriceExpress = useSelector(
+    selectorsOther.getIDDefaultDeliveryPriceExpress,
+  );
   const {border, primary} = useTheme();
   const sellPoints = useSelector(getSellPoints(false));
   const items = useSelector(selectorsCart.getCartProducts);
   const deliveryTypes = useSelector(selectorsTypes.getDeliveryTypes);
   const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
+  const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
   const idSellPoint = useSelector(selectorsOrder.getSellPointId);
   const deliveryType = useSelector(selectorsOrder.getDeliveryType);
   const products = useSelector(selectorsCart.getCartProducts);
@@ -70,30 +74,52 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
   const count = useSelector(selectorsCart.getCountProduct);
   const addresses = useSelector(selectorsUser.getAddresses);
   const addressId = useSelector(selectorsOrder.getAddressId);
+  const expressSellPoint = useSelector(selectorsOrder.getExpressSellPoint);
   const [pressId, setPressId] = useState(0);
 
   const availableSellPoints = useMemo(() => {
-    return getAvailableSellPoints(
-      sellPoints.map((s) => s.id),
-      products,
-    );
+    const items = sellPoints.map((s) => s.id);
+    if (expressSellPoint) {
+      items.push(expressSellPoint.id);
+    }
+    return getAvailableSellPoints(items, products);
   }, [count]);
+
+  const isAvailableExpress = () => {
+    return (
+      isExpress &&
+      expressSellPoint &&
+      availableSellPoints.some((a) => a === expressSellPoint.id)
+    );
+  };
 
   const handleSetDeliveryType = async (code: TypeDelivery) => {
     if (isLoading) return;
     if (deliveryType && deliveryType.code === code) {
       return;
     }
+    if (!deliveryType) {
+      return;
+    }
+
+    const idDeliveryType = deliveryType.id;
+
     if (code === TypeDelivery.courier) {
-      const res = await dispatch(fetchUpdateCart(products, ID_SELL_POINT));
+      const res = await dispatch(
+        fetchUpdateCart(products, ID_SELL_POINT, idDeliveryType),
+      );
       if (!res) {
         return;
       }
     } else if (idSellPoint) {
-      let res = await dispatch(fetchUpdateCart(products, idSellPoint));
+      let res = await dispatch(
+        fetchUpdateCart(products, idSellPoint, idDeliveryType),
+      );
 
       if (!res) {
-        res = await dispatch(fetchUpdateCart(products, ID_SELL_POINT));
+        res = await dispatch(
+          fetchUpdateCart(products, ID_SELL_POINT, idDeliveryType),
+        );
         if (!res) {
           return;
         }
@@ -113,8 +139,16 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
 
   const handlePressSellPoint = async (id: number) => {
     if (isLoading) return;
+
+    if (!deliveryType) {
+      return;
+    }
+
+    const idDeliveryType = deliveryType.id;
     setPressId(id);
-    const res: any = await dispatch(fetchUpdateCart(products, id));
+    const res: any = await dispatch(
+      fetchUpdateCart(products, id, idDeliveryType),
+    );
     if (res) {
       dispatch(
         actionsOrder.setData({
@@ -140,8 +174,36 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
         }),
       );
 
+      if (isExpress) {
+        return;
+      }
       try {
         const data = addresses[0];
+        dispatch(
+          actionsOrder.setData({
+            idDeliveryPrice: data.addressDictionary!.district.deliveryPrice.id,
+          }),
+        );
+      } catch (e) {
+        dispatch(
+          actionsOrder.setData({
+            idDeliveryPrice: defaultDeliveryPrice,
+          }),
+        );
+      }
+    }
+  }, [addressId, addresses, isExpress]);
+
+  useEffect(() => {
+    if (deliveryType?.code === TypeDelivery.express) {
+      dispatch(
+        actionsOrder.setData({
+          idDeliveryPrice: defaultDeliveryPriceExpress,
+        }),
+      );
+    } else if (addressId !== -1) {
+      try {
+        const data = addresses.find((a) => a.id === addressId)!;
 
         dispatch(
           actionsOrder.setData({
@@ -156,34 +218,55 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
         );
       }
     }
-  }, [addressId, addresses]);
+  }, [deliveryType]);
 
   return (
     <View>
       <View style={styles.typeDelivery}>
-        {deliveryTypes.some((d) => d.code === TypeDelivery.self) && (
-          <MyButton
-            isActive={
-              deliveryType ? deliveryType.code === TypeDelivery.self : false
-            }
-            onPress={() => handleSetDeliveryType(TypeDelivery.self)}
-            styleText={styles.btnText}
-            style={{marginRight: sizes[5]}}
-            type={'default'}>
-            {t('btnSelf')}
-          </MyButton>
-        )}
-        {deliveryTypes.some((d) => d.code === TypeDelivery.courier) && (
-          <MyButton
-            isActive={
-              deliveryType ? deliveryType.code === TypeDelivery.courier : false
-            }
-            onPress={() => handleSetDeliveryType(TypeDelivery.courier)}
-            style={{marginLeft: sizes[5]}}
-            styleText={styles.btnText}
-            type={'default'}>
-            {t('btnDelivery')}
-          </MyButton>
+        {!isExpress ? (
+          <React.Fragment>
+            {deliveryTypes.some((d) => d.code === TypeDelivery.self) && (
+              <MyButton
+                isActive={
+                  deliveryType ? deliveryType.code === TypeDelivery.self : false
+                }
+                onPress={() => handleSetDeliveryType(TypeDelivery.self)}
+                styleText={styles.btnText}
+                style={styles.btn}
+                type={'default'}>
+                {t('btnSelf')}
+              </MyButton>
+            )}
+            {deliveryTypes.some((d) => d.code === TypeDelivery.courier) && (
+              <MyButton
+                isActive={
+                  deliveryType
+                    ? deliveryType.code === TypeDelivery.courier
+                    : false
+                }
+                onPress={() => handleSetDeliveryType(TypeDelivery.courier)}
+                styleText={styles.btnText}
+                style={styles.btn}
+                type={'default'}>
+                {t('btnDelivery')}
+              </MyButton>
+            )}
+          </React.Fragment>
+        ) : (
+          isAvailableExpress() && (
+            <MyButton
+              isActive={
+                deliveryType
+                  ? deliveryType.code === TypeDelivery.express
+                  : false
+              }
+              onPress={() => handleSetDeliveryType(TypeDelivery.express)}
+              styleText={styles.btnText}
+              style={styles.btn}
+              type={'default'}>
+              Експрес доставка
+            </MyButton>
+          )
         )}
       </View>
       {deliveryType !== null &&
@@ -246,9 +329,11 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
 
 const styles = StyleSheet.create({
   typeDelivery: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
     marginBottom: sizes[8],
+  },
+  btn: {
+    marginBottom: sizes[5],
   },
   block: {
     marginBottom: sizes[5],

@@ -5,10 +5,11 @@ interface ISetting {
   offset: number;
   from: string;
   to: string;
+  range: number;
 }
 
 const getOptions = (
-  {from, offset, step, to}: ISetting,
+  {from, offset, step, to, range}: ISetting,
   currentDate: Date,
   isRange = false,
 ) => {
@@ -29,12 +30,12 @@ const getOptions = (
 
   if (timeNow < maxTo - offset) {
     const startTime = Math.max(timeNow + offset, minFrom);
-    res = getPartOptions(now, startTime, maxTo, step, isRange);
+    res = getPartOptions(now, startTime, maxTo, step, range, isRange);
   }
   for (let i = 1; i <= 2; i += 1) {
     const d = new Date();
     d.setDate(d.getDate() + i);
-    res.push(...getPartOptions(d, minFrom, maxTo, step, isRange));
+    res.push(...getPartOptions(d, minFrom, maxTo, step, range, isRange));
   }
   res.forEach((_, i) => {
     _.value = i;
@@ -59,11 +60,12 @@ const getPartOptions = (
   start: number,
   end: number,
   step: number,
+  range: number,
   isRange,
 ) => {
   const res: IOptionDate[] = [];
   for (let i = start; i < end; i += step) {
-    const time = isRange ? `${strTime(i)} - ${strTime(i + step)}` : strTime(i);
+    const time = isRange ? `${strTime(i)} - ${strTime(i + range)}` : strTime(i);
 
     res.push({
       value: 0,

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "527803609111",
+    "project_id": "egersund-95495",
+    "storage_bucket": "egersund-95495.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527803609111:android:6ff7ebf944cb6ecec8ac52",
+        "android_client_info": {
+          "package_name": "com.egersund_mobile_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527803609111-ssbfbjsa89ko8uvedf2t1pqtgej9ejno.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.egersund_mobile_app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "527803609111-tuo7l3n6u34anplolfp128veeiamtnk6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9xJ_wTW0mXnEfIkF36z81DScNBX8aSIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527803609111-tuo7l3n6u34anplolfp128veeiamtnk6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "527803609111-b2i6o2d9c0k2keiah0muusrpvmna7nn5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.huspi.egersund",
+                "app_store_id": "1529261110"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

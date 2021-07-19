@@ -22,6 +22,7 @@ const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
   const {bottom} = useSafeAreaInsets();
   const isRepeatOrder = useSelector(selectorsOrder.isRepeatOrder);
   const isGlobalSearch = useSelector(selectorsOther.getIsGlobalSearch);
+  const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
 
   const current = props.state.index;
 
@@ -35,9 +36,16 @@ const TabBar = React.memo((props: BottomTabBarProps<BottomTabBarOptions>) => {
         },
       ]}>
       {props.state.routes.map((r, index) => {
+        if (
+          isExpress &&
+          ['Shop', 'TagProducts'].some((name) => name === r.name)
+        ) {
+          return null;
+        }
         const description = props.descriptors[r.key].options;
         const color =
           current === index && !isGlobalSearch ? darkText : lightText;
+
         if (r.name === 'Cart') {
           if (isRepeatOrder) {
             return null;
@@ -86,6 +94,7 @@ const styles = StyleSheet.create({
     },
     elevation: 10,
     paddingTop: sizes[5],
+    justifyContent: 'space-between',
   },
   cart: {
     fontSize: sizes[7],
@@ -96,11 +105,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     minWidth: sizes[30],
     flexGrow: 1,
+    maxWidth: sizes[50],
   },
   btn: {
     alignItems: 'center',
     justifyContent: 'center',
     flexGrow: 1,
+    maxWidth: sizes[70],
   },
   textBtn: {
     fontSize: sizes[6],
