@@ -63,12 +63,16 @@ const Products = ({
 
   const isGlobalSearch = idCategory === -1;
   const idsCategories = useSelector(
-    selectorCategory2.getIdsCategory(idCategory),
+    selectorCategory2.getSelfIdOrChildrenIds(idCategory),
   );
+  console.log('idsCategories = ', idsCategories);
+
   const idsTags = useSelector(selectorCategory.getTagsIds);
 
   useDidUpdateEffect(() => {
     setProducts([]);
+    setCountItems(0);
+    setSkip(0);
   }, [search, idCategory, sort]);
 
   useDidUpdateEffect(() => {
@@ -138,7 +142,7 @@ const Products = ({
       data={products}
       bounces={false}
       onEndReached={handleEventScroll}
-      onEndReachedThreshold={0.2}
+      onEndReachedThreshold={0.3}
       renderItem={({item}) => (
         <View key={item.id} style={[styles.itemContainer]}>
           <ProductItem product={item} onPress={onPress} />

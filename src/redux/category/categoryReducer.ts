@@ -381,7 +381,21 @@ const selectorCategory2 = {
     return false;
   },
   getSelfIdOrChildrenIds: (id: any) => (state: RootState) => {
+    if (!id) {
+      return id;
+    }
+
     const category = state.category.treeCategories[id];
+    const roots = selectorCategory2.getRootCategories(state);
+
+    if (!category) {
+      return id;
+    }
+    if (category.parent) {
+      if (roots.some((r) => r.id === category.parent!.id)) {
+        return category.id;
+      }
+    }
     if (category.children) {
       const res = category.children.map((c) => c.id);
       res.push(id);
