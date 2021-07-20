@@ -1,20 +1,21 @@
 import {useMemo} from 'react';
 import {TypePayment} from '../constants/constantsId';
+import t from '../utils/translate';
 
 export const usePaymentOptions = () => {
   const options = useMemo(() => {
     return [
       {
         code: TypePayment.cash,
-        title: 'Готівковий розрахунок',
+        title: t('cashPayment'),
       },
       {
         code: TypePayment.credit,
-        title: 'Оплатити карткою при отриманні',
+        title: t('cartPaymetnInGet'),
       },
       {
         code: TypePayment.online,
-        title: 'Оплата карткою в додатку',
+        title: t('onlinePayment'),
         icon: true,
       },
     ];

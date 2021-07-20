@@ -22,6 +22,7 @@ import {
 import I18n from 'react-native-i18n';
 import en from './src/assets/translations/en';
 import uk from './src/assets/translations/uk';
+import ru from './src/assets/translations/ru';
 import {actionsUser, refreshUser} from './src/redux/user/userReducer';
 import service from './src/services/service';
 import {actionsCart} from './src/redux/cart/cartReducer';
@@ -33,6 +34,8 @@ import {
   TypeHandlerMessaging,
 } from './src/useHooks/useHandlerMessaging';
 import {isIOS} from './src/utils/isPlatform';
+import {thunkGetTypes} from './src/redux/types/typeReducer';
+import AsyncStorage from '@react-native-community/async-storage';
 
 I18n.defaultLocale = 'uk';
 I18n.fallbacks = true;
@@ -40,6 +43,7 @@ I18n.fallbacks = true;
 I18n.translations = {
   uk,
   en,
+  ru,
 };
 
 messaging().setBackgroundMessageHandler(async (remoteMessage) => {
@@ -61,6 +65,7 @@ store.store.dispatch(serviceGetCustomCategories);
 store.store.dispatch(thunkGetTags);
 store.store.dispatch(fetchGetAllSettings);
 store.store.dispatch(thunkGetSellPoints);
+store.store.dispatch(thunkGetTypes);
 
 const handleAppStateChange = async (nextAppState) => {
   try {
@@ -92,8 +97,11 @@ export const getToken = () => {
   return store.store.getState().user.token;
 };
 
-export const getLocale = () => {
-  return store.store.getState().other.locale;
+export const getLocale = async () => {
+  return (
+    (await AsyncStorage.getItem('locale')) ||
+    store.store.getState().other.locale
+  );
 };
 
 export const logOut = () => {

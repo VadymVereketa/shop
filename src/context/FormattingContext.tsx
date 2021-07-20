@@ -20,7 +20,7 @@ interface IFormattingContextProps {
   locale?: Locale;
 }
 
-export type Locale = 'en' | 'uk';
+export type Locale = 'en' | 'uk' | 'ru';
 
 interface IConstant {
   currency: string;
@@ -46,6 +46,12 @@ const CONSTANTS_UNIT: ILocaleConstant = {
     w100: 'г',
     w1000: 'кг',
   },
+  ru: {
+    currency: 'грн',
+    piece: 'шт',
+    w100: 'г',
+    w1000: 'кг',
+  },
 };
 
 const formatDate = (
@@ -53,11 +59,11 @@ const formatDate = (
   isLongFormat: boolean = false,
   locale: Locale = 'uk',
 ) => {
-  const separator = locale === 'uk' ? '.' : '/';
+  const separator = locale === 'en' ? '/' : '.';
   const day = d.getDate().toString().padStart(2, '0');
   const month = (d.getMonth() + 1).toString().padStart(2, '0');
   const year = d.getFullYear();
-  let arr: any = locale === 'uk' ? [day, month] : [month, day];
+  let arr: any = locale === 'en' ? [month, day] : [day, month];
   arr = isLongFormat ? [...arr, year] : arr;
   return arr.join(separator);
 };
@@ -98,7 +104,9 @@ const ProviderFormattingContext: React.FC<IFormattingContextProps> = ({
             CONSTANTS_UNIT[currentLocale].w100
           }`;
         } else {
-          return `${value} ${CONSTANTS_UNIT[currentLocale].piece}`;
+          return `${+value.toFixed(FRACTION_DIGIT)} ${
+            CONSTANTS_UNIT[currentLocale].piece
+          }`;
         }
       },
       format1000Unit: (value: number) => {

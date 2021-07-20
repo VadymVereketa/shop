@@ -264,7 +264,7 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
               styleText={styles.btnText}
               style={styles.btn}
               type={'default'}>
-              Експрес доставка
+              {t('expressDelivery')}
             </MyButton>
           )
         )}
@@ -288,7 +288,7 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
         ) : (
           <View
             style={{alignItems: addressId === -1 ? 'flex-start' : 'stretch'}}>
-            <MyText style={styles.title}>Адреса</MyText>
+            <MyText style={styles.title}>{t('commonAddress')}</MyText>
             {addressId === -1 ? (
               <MyText
                 onPress={() => {

@@ -10,11 +10,11 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  (value) => {
+  async (value) => {
     const token = getToken();
     value.headers = {
       ...instance.defaults.headers,
-      'Accept-Language': getLocale() || 'uk',
+      'Accept-Language': (await getLocale()) || 'uk',
       ...(token ? {Authorization: `Bearer ${token}`} : {}),
       'Platform-OS': isIOS ? 'iOS' : 'Android',
       'App-Version': isIOS ? IOS_VERSION : ANDROID_VERSION,

@@ -117,6 +117,7 @@ const EditProfileScreen = React.memo(
                 styleCon={styles.inputText}
                 onChangeText={onChange}
                 error={getErrorByObj(errors, 'phone')}
+                defaultValue={value}
               />
             )}
             name={setting.name}

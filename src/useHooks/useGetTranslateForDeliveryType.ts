@@ -1,5 +1,6 @@
 import {TypeDelivery} from '../constants/constantsId';
 import {IDeliveryType, ISellPoint} from '../typings/FetchData';
+import t from '../utils/translate';
 
 const useGetTranslateForDeliveryType = () => {
   return (deliveryType: IDeliveryType | null, sellPoint?: ISellPoint) => {
@@ -8,7 +9,7 @@ const useGetTranslateForDeliveryType = () => {
     }
     switch (deliveryType.code) {
       case TypeDelivery.courier:
-        return 'Доставки';
+        return t('assortmentBtnText');
       case TypeDelivery.express:
         return 'Експрес-Доставки';
       case TypeDelivery.self:

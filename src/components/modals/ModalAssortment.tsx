@@ -17,6 +17,7 @@ import {ISellPoint} from '../../typings/FetchData';
 import IOption from '../../typings/IOption';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import {getFontFamily} from '../../utils/getFontFamily';
+import t from '../../utils/translate';
 import DesignIcon from '../common/DesignIcon';
 import CustomModalDropdown from '../controls/CustomModalDropdown';
 import MyButton from '../controls/MyButton';
@@ -80,6 +81,7 @@ const ModalAssortment = () => {
 
   const handleSelectSellpoint = (data: ISellPoint) => {
     setSellPoint(data);
+    handleSelectDeliveryType(TypeDelivery.self);
   };
 
   const handleSelectExpressSellpoint = (data: ISellPoint) => {
@@ -165,8 +167,8 @@ const ModalAssortment = () => {
     }, */
     {
       code: TypeDelivery.self,
-      title: 'Самовивоз',
-      subtitle: 'Асортимент обраного магазину',
+      title: `${t('commonSelf')}`,
+      subtitle: `${t('assortmentCurrentStore')}`,
       sellPoints: sellPoints.map((s) => {
         const res: IOption<string, ISellPoint> = {
           label: s.name,
@@ -180,8 +182,8 @@ const ModalAssortment = () => {
     },
     {
       code: TypeDelivery.courier,
-      title: 'Доставка',
-      subtitle: 'Розширений асортимент',
+      title: `${t('commonDelivery')}`,
+      subtitle: `${t('commonAssortmentExtended')}`,
       icon: 'CourierDelivery',
     },
   ];
@@ -193,7 +195,7 @@ const ModalAssortment = () => {
       style={{
         height: responsiveScreenHeight(80),
       }}
-      title="Асортимент">
+      title={t('commonAssortmentExtended')}>
       <ScrollView contentContainerStyle={{}} style={{}}>
         {options.map((opt, i) => {
           const isMiddle = i > 0 && i < options.length - 1;
@@ -286,7 +288,7 @@ const ModalAssortment = () => {
           borderTopColor: border,
         }}>
         <MyButton onPress={handleConfirm} disabled={getDisabledBtn()}>
-          показати
+          {t('btnShow')}
         </MyButton>
       </View>
     </MyModal>
