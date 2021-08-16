@@ -45,7 +45,7 @@ const useSaveDraft = () => {
           id: paymentType.id,
         }
       : undefined,
-    id: draftId!,
+    id: draftId ? draftId : undefined,
     sellPoint: {
       id: sellPointCardId,
       name: '',

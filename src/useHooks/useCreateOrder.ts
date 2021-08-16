@@ -66,16 +66,10 @@ export const useCreateOrder = () => {
       return true;
     } catch (e) {
       const res = await service.createOrder(undefined, data);
-
       if (!res.success || res.data.message) {
         return false;
       }
 
-      dispatch(
-        actionsOther.setData({
-          draftId: null,
-        }),
-      );
       dispatch(
         actionsOrder.setData({
           numberOrder: res.data.id,
@@ -84,6 +78,11 @@ export const useCreateOrder = () => {
 
       return true;
     } finally {
+      dispatch(
+        actionsOther.setData({
+          draftId: null,
+        }),
+      );
       console.log('---------------end createOrder------------------');
     }
   };

@@ -399,7 +399,7 @@ export interface ITag {
 }
 
 export interface IDraft {
-  id: number;
+  id?: number;
   phone: string;
   firstName: string;
   lastName: string;
