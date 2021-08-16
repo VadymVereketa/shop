@@ -127,7 +127,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
           }}
         />
         <View style={styles.body}>
-          <MyText style={[styles.title]}>{product.title}</MyText>
+          <MyText style={[styles.title]}>{product.shortDescription}</MyText>
           {isWeightUnit ? (
             <WeightUnit
               price={price}

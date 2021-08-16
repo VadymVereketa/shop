@@ -6,6 +6,7 @@ import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {getFontFamily} from '../../utils/getFontFamily';
 import {isIOS} from '../../utils/isPlatform';
+import t from '../../utils/translate';
 import DesignIcon from '../common/DesignIcon';
 import MyButton from '../controls/MyButton';
 import MyText from '../controls/MyText';
@@ -46,22 +47,21 @@ const ModalUpdateApp = ({
         }}>
         <DesignIcon name="UpdateApp" size={responsiveScreenWidth(40)} fill="" />
         <MyText style={styles.mainText}>
-          Роботу додатку покращено! У ній виправлені помилки і додані корисні
-          функції.
+          {t('appStopWorkByUpdate1')}
         </MyText>
         <MyText style={[styles.subText, {color: lightText}]}>
-          Зазвичай оновлення займає не більше хвилини
+          {t('appStopWorkByUpdate2')}
         </MyText>
         <MyButton
           onPress={handleUpdate}
           style={{
             marginBottom: sizes[6],
           }}>
-          Оновити
+          {t('btnUpdate')}
         </MyButton>
         {!isRequired && (
           <MyButton type={'default'} onPress={onClose}>
-            Пропустити
+            {t('btnSkip')}
           </MyButton>
         )}
       </View>

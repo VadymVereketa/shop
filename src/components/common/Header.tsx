@@ -213,7 +213,7 @@ const Header = React.memo(
                 color: lightText,
                 marginRight: sizes[3],
               }}>
-              Асорт. для
+              {t('assortmentForShort')}
             </MyText>
             <MyText
               style={{

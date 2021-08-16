@@ -289,6 +289,12 @@ const selectorCategory = {
     }
     return [];
   },
+  getTagsIds: (state: RootState) => {
+    if (state.category.tags.length > 0) {
+      return state.category.tags.map((t) => t.id);
+    }
+    return [];
+  },
   getRootId: (id: number) => (state: RootState) => {
     const root = state.category.data.find((r) =>
       r.children.some((c) => c.id === id),
@@ -375,7 +381,21 @@ const selectorCategory2 = {
     return false;
   },
   getSelfIdOrChildrenIds: (id: any) => (state: RootState) => {
+    if (!id) {
+      return id;
+    }
+
     const category = state.category.treeCategories[id];
+    const roots = selectorCategory2.getRootCategories(state);
+
+    if (!category) {
+      return id;
+    }
+    if (category.parent) {
+      if (roots.some((r) => r.id === category.parent!.id)) {
+        return category.id;
+      }
+    }
     if (category.children) {
       const res = category.children.map((c) => c.id);
       res.push(id);
@@ -395,7 +415,7 @@ const selectorCategory2 = {
   },
 
   getIdsCategory: (id: any) => (state: RootState) => {
-    if (!id) {
+    if (!id || id === -1) {
       return id;
     }
     if (state.config.isNewCategory) {

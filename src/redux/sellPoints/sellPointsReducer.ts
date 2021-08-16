@@ -20,9 +20,7 @@ creator.addAction('setOptionData', (state, action) => {
 });
 const actionsSellPoints = creator.createActions();
 
-const thunkGetSellPoints = async (dispatch: any, getStore: () => RootState) => {
-  if (getStore().sellPoints.data.length > 0) return;
-
+const thunkGetSellPoints = async (dispatch: any) => {
   dispatch(actionsSellPoints.setLoading(false));
   try {
     const res = await service.getSellPoints();

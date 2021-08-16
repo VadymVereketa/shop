@@ -6,6 +6,7 @@ import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {getFontFamily} from '../../utils/getFontFamily';
 import {isIOS} from '../../utils/isPlatform';
+import t from '../../utils/translate';
 import DesignIcon from '../common/DesignIcon';
 import MyButton from '../controls/MyButton';
 import MyText from '../controls/MyText';
@@ -30,7 +31,7 @@ const ModalAssortmentWarning = ({
     <MyModal
       modalVisible={modalVisible}
       onClose={onClose}
-      title="Зміна відображення асортименту">
+      title={t('changeShowAssortment')}>
       <View
         style={{
           alignItems: 'center',
@@ -43,14 +44,14 @@ const ModalAssortmentWarning = ({
             style={{
               fontSize: sizes[9],
             }}>
-            Увага! При зміні способу доставки чи магазину,{' '}
+            {t('warningChangeWayDeliveryAndStore')},{' '}
             <MyText
               style={{
                 fontFamily: getFontFamily('500'),
               }}>
-              продукти з корзини будуть видалені
+              {t('warningText1')}
             </MyText>
-            , оскільки асортимент відрізняється.
+            {t('warningText2')}
           </MyText>
         </View>
         <View
@@ -66,14 +67,14 @@ const ModalAssortmentWarning = ({
             }}
             onPress={onClose}
             type="default">
-            Скасувати
+            {t('btnCancel')}
           </MyButton>
           <MyButton
             onPress={onConfirm}
             style={{
               marginLeft: sizes[4],
             }}>
-            Змінити
+            {t('btnTextChange')}
           </MyButton>
         </View>
       </View>
