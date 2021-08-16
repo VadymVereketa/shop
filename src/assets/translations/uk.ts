@@ -181,6 +181,10 @@ const uk = {
   allCategories: `Всі`,
   expensiveSort: `Від дорогих до дешевих`,
   cheapSort: `Від дешевих до дорогих`,
+  assortmentBtnText: `Доставки`,
+  cashPayment: `Готівковий розрахунок`,
+  cartPaymetnInGet: `Оплатити картою при отриманнi`,
+  onlinePayment: `Оплата карткою`,
 };
 export type ITranslate = keyof typeof uk;
 

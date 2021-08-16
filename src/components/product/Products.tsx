@@ -90,6 +90,8 @@ const Products = ({
         ? cartSellPoint || ID_DEFAULT_SELLPOINT
         : undefined,
     }).then((res) => {
+      console.log(res);
+
       if (res.success) {
         setProducts((p) => {
           return [...p, ...res.data.items];

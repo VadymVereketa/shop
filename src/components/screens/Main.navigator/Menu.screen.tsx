@@ -13,6 +13,7 @@ import {getSellPoints} from '../../../redux/sellPoints/sellPointsReducer';
 import {selectorsOther} from '../../../redux/other/otherReducer';
 import t from '../../../utils/translate';
 import BetaTest from '../../common/BetaTest';
+import ChangeLocale from '../../common/ChangeLocale';
 
 const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
   const phone = useSelector(selectorsOther.getPhone);
@@ -121,6 +122,7 @@ const MenuScreen = React.memo(({navigation}: MenuScreenProps) => {
             style={[styles.btn, {backgroundColor: lightBackground}]}>
             {t('profileSignUp')}
           </PressTitle>
+          <ChangeLocale />
         </React.Fragment>
       )}
     </SafeAreaView>

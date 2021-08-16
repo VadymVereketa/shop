@@ -94,6 +94,7 @@ const ProductItem = React.memo(({product, onPress}: IProductItemProps) => {
           shadowColor: text,
           backgroundColor: background,
         },
+        theme === 'light' ? styles.conShadow : undefined,
       ]}>
       <TouchableWithoutFeedback onPress={handlePress}>
         <Image
@@ -107,7 +108,7 @@ const ProductItem = React.memo(({product, onPress}: IProductItemProps) => {
           styles.content,
           {backgroundColor: theme === 'dark' ? lightBackground : background},
         ]}>
-        <MyText style={styles.title}>{product.title}</MyText>
+        <MyText style={styles.title}>{product.shortDescription}</MyText>
         <View>
           <MyText style={styles.price}>{Price}</MyText>
           {productCart ? (
@@ -143,6 +144,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1,
     borderRadius: 3,
+  },
+  conShadow: {
     shadowOpacity: 0.2,
     shadowRadius: 3,
     shadowOffset: {

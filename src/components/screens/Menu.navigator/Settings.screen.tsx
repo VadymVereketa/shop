@@ -2,47 +2,27 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {SettingsScreenProps} from '../../navigators/Menu.navigator';
 import PressTitle from '../../controls/PressTitle';
-import {sizes, Theme, useTheme} from '../../../context/ThemeContext';
+import {sizes, useTheme} from '../../../context/ThemeContext';
 import MyText from '../../controls/MyText';
-import {useFormattingContext} from '../../../context/FormattingContext';
 import {ScrollView, Switch} from 'react-native-gesture-handler';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import t from '../../../utils/translate';
-import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
-import {useDispatch} from 'react-redux';
-import {serviceGetCustomCategories} from '../../../redux/category/categoryReducer';
-import {thunkGetSellPoints} from '../../../redux/sellPoints/sellPointsReducer';
+import ChangeLocale from '../../common/ChangeLocale';
+import {useFormattingContext} from '../../../context/FormattingContext';
 
 const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
-  const dispatch = useDispatch();
-  const {
-    border,
-    primary,
-    background,
-    theme,
-    onChangeTheme,
-    lightBackground,
-    lightText,
-  } = useTheme();
-  const {currentLocale, setLocale} = useFormattingContext();
+  const {border, primary, background, theme, onChangeTheme} = useTheme();
+  const {currentLocale} = useFormattingContext();
 
   const handelChangeTheme = () => {
     onChangeTheme(theme === 'light' ? 'dark' : 'light');
   };
 
-  useDidUpdateEffect(() => {
-    navigation.setOptions({
-      title: t('profileSettings'),
-    });
-
-    dispatch(serviceGetCustomCategories);
-    dispatch(thunkGetSellPoints);
-  }, [currentLocale]);
-
   return (
     <View style={[styles.container]}>
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
         <PressTitle
+          key={currentLocale + 'change_password'}
           style={styles.itemMenu}
           isBorder
           onPress={() => navigation.push('ChangePassword', {})}>
@@ -54,42 +34,7 @@ const SettingsScreen = React.memo(({navigation}: SettingsScreenProps) => {
           isBorder>
           {t('btnTextComment')}
         </PressTitle>*/}
-        <View style={[styles.text, {borderBottomColor: border}]}>
-          <MyText style={{paddingLeft: sizes[6]}}>{t('commonLanguage')}</MyText>
-        </View>
-        <PressTitle
-          style={styles.itemMenu}
-          onPress={() => setLocale('uk')}
-          isBorder
-          afterIcon={{
-            name: 'check-mark',
-            size: sizes[10],
-            fill: currentLocale === 'uk' ? primary : background,
-          }}>
-          {t('commonUA')}
-        </PressTitle>
-        <PressTitle
-          style={[styles.itemMenu]}
-          onPress={() => setLocale('en')}
-          isBorder
-          afterIcon={{
-            name: 'check-mark',
-            size: sizes[10],
-            fill: currentLocale === 'en' ? primary : background,
-          }}>
-          {t('commonEN')}
-        </PressTitle>
-        <PressTitle
-          style={[styles.itemMenu]}
-          onPress={() => setLocale('ru')}
-          isBorder
-          afterIcon={{
-            name: 'check-mark',
-            size: sizes[10],
-            fill: currentLocale === 'ru' ? primary : background,
-          }}>
-          {t('commonRU')}
-        </PressTitle>
+        <ChangeLocale navigation={navigation} />
 
         <View style={[styles.text, {borderBottomColor: border}]}>
           <MyText style={{paddingLeft: sizes[6]}}>{t('commonTheme')}</MyText>

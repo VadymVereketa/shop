@@ -49,9 +49,19 @@ const RestaurantScreen = React.memo(
   ({navigation, route}: ProductsScreenProps) => {
     const perPage = 12;
     const insets = useSafeAreaInsets();
-    const {categories, isTag, parentCategoryName} = route.params;
+    const {categories, isTag, parentCategory} = route.params;
+    const isEmptyCategories = categories.length === 0;
+
     const joinCategories = useMemo(() => {
-      return [{id: -1, name: t('allCategories')}, ...categories];
+      if (isEmptyCategories) {
+        return [];
+      }
+
+      const first = parentCategory
+        ? {id: parentCategory.id, name: '...'}
+        : {id: -1, name: t('allCategories')};
+
+      return [first, ...categories];
     }, []);
     const [idCategory, setIdCategory] = useState<number | null>(null);
     const [search, setSearch] = useState('');
@@ -68,6 +78,10 @@ const RestaurantScreen = React.memo(
     };
 
     useEffect(() => {
+      if (isEmptyCategories && parentCategory) {
+        setIdCategory(parentCategory.id);
+      }
+
       navigation.setOptions({
         headerRight: () => {
           return (
@@ -81,12 +95,12 @@ const RestaurantScreen = React.memo(
     }, []);
 
     useEffect(() => {
-      if (parentCategoryName) {
+      if (parentCategory) {
         navigation.setOptions({
-          title: search || parentCategoryName,
+          title: search || parentCategory.name,
         });
       }
-    }, [parentCategoryName, search]);
+    }, [parentCategory, search]);
 
     useEffect(() => {
       SplashScreen.hide();
@@ -128,11 +142,13 @@ const RestaurantScreen = React.memo(
             modalVisible={isShowSortModal}
           />
         )}
-        <CategoryBar
-          tags={joinCategories}
-          currentId={idCategory}
-          onPress={handlePress}
-        />
+        {joinCategories.length > 0 && (
+          <CategoryBar
+            tags={joinCategories}
+            currentId={idCategory}
+            onPress={handlePress}
+          />
+        )}
         <Products
           idCategory={idCategory}
           isTag={isTag}
@@ -141,6 +157,7 @@ const RestaurantScreen = React.memo(
           sort={sort}
           style={{
             maxHeight: responsiveScreenHeight(78),
+            paddingTop: joinCategories.length > 0 ? 0 : sizes[2],
           }}
         />
       </SafeAreaView>

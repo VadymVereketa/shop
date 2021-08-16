@@ -25,7 +25,7 @@ export type MenuNavigatorParamList = {
   Products: {
     categories: IFetchCategory[];
     isTag: boolean;
-    parentCategoryName?: string;
+    parentCategory?: IFetchCategory;
   };
 };
 

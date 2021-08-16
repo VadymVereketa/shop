@@ -9,6 +9,8 @@ import {IFetchCategory} from '../../typings/ICategory';
 import {RestaurantScreenProps, TagNavigatorProps} from './Main.navigator';
 import RestaurantScreen from '../screens/Category.navigator/Restaurant.screen';
 import ProductsHeader from '../headers/ProductsHeader';
+import {useSelector} from 'react-redux';
+import {selectorCategory} from '../../redux/category/categoryReducer';
 
 export type MenuNavigatorParamList = {
   Products: {
@@ -33,6 +35,7 @@ export type ProductsScreenProps = {
 const Stack = createStackNavigator<MenuNavigatorParamList>();
 
 const TagsNavigator = React.memo(({navigation, route}: TagNavigatorProps) => {
+  const categiesTags = useSelector(selectorCategory.getTags);
   return (
     <Stack.Navigator
       headerMode="screen"
@@ -42,7 +45,7 @@ const TagsNavigator = React.memo(({navigation, route}: TagNavigatorProps) => {
         name="Products"
         component={RestaurantScreen}
         initialParams={{
-          categories: route.params.categories,
+          categories: categiesTags,
           isTag: true,
         }}
         options={{
