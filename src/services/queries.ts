@@ -117,7 +117,7 @@ const queries = {
   },
   getOrders: ({top, skip}: {top: number; skip: number}) => {
     const filter = {
-      'orderStatus/code': {
+      'order_status/code': {
         ne: 'draftWeb',
       },
     };
