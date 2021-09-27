@@ -10,15 +10,17 @@ import {
   Text,
   TextInput,
   TouchableWithoutFeedback,
+  SafeAreaView,
   View,
 } from 'react-native';
 import CartItem from '../../common/CartItem';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import MyTextInput from '../../controls/MyTextInput';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {
   responsiveHeight,
   responsiveScreenHeight,
+  responsiveScreenWidth,
   useResponsiveHeight,
 } from 'react-native-responsive-dimensions';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -29,36 +31,30 @@ import getUrlImg from '../../../utils/getUrlImg';
 import MyText from '../../controls/MyText';
 import {ICartItem} from '../../../typings/FetchData';
 import {getFontFamily} from '../../../utils/getFontFamily';
+import CheckBox from '../../controls/CheckBox';
+import MyButton from '../../controls/MyButton';
+import t from '../../../utils/translate';
+import {isIOS} from '../../../utils/isPlatform';
 
 const CommentCartScreen = React.memo(({navigation, route}: any) => {
   const dispatch = useDispatch();
-  const mb = responsiveScreenHeight(40);
-  const [hKeyboard, sethKeyboard] = useState(mb);
-  const {border, background} = useTheme();
+  const {border, accent, background, primary} = useTheme();
   const insets = useSafeAreaInsets();
   const item: ICartItem = route.params.item;
   const [comment, setComment] = useState(item.comment);
+  const [selectedServices, setSelectedServices] = useState(item.services || []);
 
-  useFocusEffect(
-    useCallback(() => {
-      Keyboard.addListener('keyboardDidShow', handleKeyboard);
-      Keyboard.addListener('keyboardDidHide', handleKeyboardHide);
-
-      return () => {
-        Keyboard.removeListener('keyboardDidShow', handleKeyboard);
-        Keyboard.removeListener('keyboardDidHide', handleKeyboardHide);
-      };
-    }, []),
-  );
-
-  const handleKeyboard = (event) => {
-    sethKeyboard((h) => {
-      return h === 0 ? sizes[10] : event.endCoordinates.height;
-    });
-  };
-
-  const handleKeyboardHide = (event) => {
-    Platform.OS === 'android' && navigation.goBack();
+  const handleCheck = (id: number) => {
+    const findIndex = selectedServices.findIndex((s) => s === id);
+    if (findIndex === -1) {
+      setSelectedServices((services) => {
+        return [...services, id];
+      });
+    } else {
+      setSelectedServices((services) => {
+        return services.filter((_, i) => i !== findIndex);
+      });
+    }
   };
 
   const saveComment = () => {
@@ -66,73 +62,106 @@ const CommentCartScreen = React.memo(({navigation, route}: any) => {
       actionsCart.setComment({
         comment,
         id: item.product.id,
+        services: selectedServices,
       }),
     );
-    Platform.OS === 'ios' && navigation.goBack();
+    navigation.goBack();
   };
 
-  const imgId =
-    item.product.productImages.length > 0
-      ? item.product.productImages[0].uuid
-      : null;
-  const title = item.product.shortDescription;
+  const services = item.product.services || [];
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS == 'ios' ? 'padding' : (null as any)}
-      style={{flex: 1}}>
-      <View
-        style={[
-          styles.con,
-          {marginBottom: insets.bottom + insets.top + sizes[4]},
-        ]}>
+      keyboardVerticalOffset={responsiveScreenHeight(13.5)}
+      behavior={isIOS ? 'padding' : undefined}
+      contentContainerStyle={{}}
+      style={{
+        flex: 1,
+        paddingHorizontal: sizes[6],
+        marginBottom: insets.bottom,
+      }}>
+      <ScrollView
+        contentContainerStyle={{
+          flex: 1,
+          flexGrow: 1,
+          justifyContent: 'space-between',
+        }}>
         <View
-          style={[
-            styles.item,
-            {
-              backgroundColor: background,
-            },
-          ]}>
-          <Image
-            source={getUrlImg(imgId)}
-            resizeMode={'cover'}
-            style={{
-              width: sizes[37],
-              height: sizes[25],
+          style={{
+            borderColor: primary,
+            borderWidth: 1,
+            borderRadius: sizes[1],
+          }}>
+          <MyTextInput
+            value={comment}
+            onChangeText={setComment}
+            styleWrapper={{
+              borderWidth: 0,
+              borderBottomWidth: 1,
             }}
           />
-          <MyText style={styles.title}>{title}</MyText>
+          {services.length > 0 && (
+            <View
+              style={{
+                paddingHorizontal: sizes[8],
+                paddingVertical: sizes[6],
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                justifyContent: 'space-between',
+              }}>
+              <MyText
+                style={{
+                  width: '100%',
+                  marginBottom: sizes[8],
+                }}>
+                {t('commonWishes') + ':'}
+              </MyText>
+              {item.product.services.map((service) => {
+                return (
+                  <CheckBox
+                    styleCon={{
+                      width: responsiveScreenWidth(41),
+                      marginBottom: sizes[5],
+                    }}
+                    value={service.id}
+                    onChecked={handleCheck}
+                    isChecked={selectedServices.some((s) => s === service.id)}
+                    title={service.name}
+                  />
+                );
+              })}
+            </View>
+          )}
         </View>
         <View
           style={{
-            marginHorizontal: -sizes[5],
-            borderColor: border,
-            borderWidth: 1,
-            paddingVertical: sizes[5],
-            paddingHorizontal: sizes[10],
-            backgroundColor: background,
-            paddingBottom: Platform.OS === 'ios' ? sizes[5] : hKeyboard,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
           }}>
-          <ScrollView
-            contentContainerStyle={{maxHeight: 100}}
-            bounces={false}
-            keyboardDismissMode={'none'}>
-            <MyTextInput
-              autoFocus
-              numberOfLines={2}
-              multiline={true}
-              maxLength={120}
-              onSubmitEditing={(e) => {}}
-              afterIcon={{
-                name: 'send',
-                onPress: saveComment,
-              }}
-              value={comment}
-              onChangeText={setComment}
-            />
-          </ScrollView>
+          <MyButton
+            onPress={() => {
+              navigation.goBack();
+            }}
+            styleText={{
+              color: primary,
+            }}
+            ultraWidth
+            style={{
+              backgroundColor: background,
+              width: '48%',
+            }}>
+            {t('btnCancel')}
+          </MyButton>
+          <MyButton
+            onPress={saveComment}
+            ultraWidth
+            style={{
+              width: '48%',
+            }}>
+            {t('btnAdd')}
+          </MyButton>
         </View>
-      </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 });

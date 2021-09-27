@@ -185,6 +185,8 @@ const uk = {
   cashPayment: `Готівковий розрахунок`,
   cartPaymetnInGet: `Оплатити картою при отриманнi`,
   onlinePayment: `Оплата карткою`,
+  commonWishes: 'Побажання',
+  btnAdd: 'додати',
 };
 export type ITranslate = keyof typeof uk;
 

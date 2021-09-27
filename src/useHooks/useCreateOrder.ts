@@ -11,6 +11,8 @@ import {TypePayment} from '../constants/constantsId';
 import Toast from 'react-native-simple-toast';
 import {useTheme} from '../context/ThemeContext';
 import {useFormattingContext} from '../context/FormattingContext';
+import FirebaseCrash from '../Crashlytics/FirebaseCrash';
+import CrashTypeError from '../typings/CrashTypeError';
 
 export const useCreateOrder = () => {
   const [loading, setLoading] = useState(false);
@@ -34,7 +36,7 @@ export const useCreateOrder = () => {
   const totalPrice = sum + deliveryPrice;
 
   const createOrder = async () => {
-    console.log('---------------start createOrder------------------');
+    FirebaseCrash.log('---------------start createOrder------------------');
     const address = formatAddress(
       addresses.find((a) => a.id === data.addressId)!,
     );
@@ -48,7 +50,7 @@ export const useCreateOrder = () => {
     try {
       const res = await service.createOrder(draftId!, data);
 
-      if (!res.success || res.data.message) {
+      if (!res.success) {
         throw new Error();
       }
 
@@ -65,8 +67,9 @@ export const useCreateOrder = () => {
 
       return true;
     } catch (e) {
+      FirebaseCrash.catch(e, CrashTypeError.createOrder);
       const res = await service.createOrder(undefined, data);
-      if (!res.success || res.data.message) {
+      if (!res.success) {
         return false;
       }
 
@@ -83,13 +86,13 @@ export const useCreateOrder = () => {
           draftId: null,
         }),
       );
-      console.log('---------------end createOrder------------------');
+      FirebaseCrash.log('---------------end createOrder------------------');
     }
   };
 
   const handlePay = async () => {
     try {
-      console.log('---------------start handlePay------------------');
+      FirebaseCrash.log('---------------start handlePay------------------');
       let res: any = null;
 
       const billAmount = isWeightProducts
@@ -116,15 +119,19 @@ export const useCreateOrder = () => {
           theme,
         });
       }
-      console.log(res);
+      FirebaseCrash.log(res);
       if (res.result === 'success') {
-        console.log('---------------start preAuthPayment------------------');
+        FirebaseCrash.log(
+          '---------------start preAuthPayment------------------',
+        );
         const result = await service.preAuthPayment({
           ...res,
           SHOPORDERNUMBER: draftId,
         });
-        console.log(result);
-        console.log('---------------start preAuthPayment------------------');
+        FirebaseCrash.log(result);
+        FirebaseCrash.log(
+          '---------------start preAuthPayment------------------',
+        );
         if (!result.success) {
           Toast.show('Помилка при оплатi');
         }
@@ -132,25 +139,25 @@ export const useCreateOrder = () => {
         return result.success;
       }
       return false;
-    } catch (e) {
-      console.log({e});
+    } catch (e: any) {
+      FirebaseCrash.catch(e, CrashTypeError.portmone);
       return false;
     } finally {
-      console.log('---------------end handlePay------------------');
+      FirebaseCrash.log('---------------end handlePay------------------');
     }
   };
 
   const submit = async () => {
-    console.log('\n\n\n---------------=START=------------------');
+    FirebaseCrash.log('\n\n\n---------------=START=------------------');
     setLoading(true);
-    console.log('---------------start saveCart------------------');
+    FirebaseCrash.log('---------------start saveCart------------------');
     const cart = await service.saveCart(
       products,
       idSellPoint!,
       deliveryType.id,
     );
-    console.log(cart);
-    console.log('---------------end saveCart------------------');
+    FirebaseCrash.log(cart);
+    FirebaseCrash.log('---------------end saveCart------------------');
     if (cart.success) {
       let isPay = true;
       if (paymentType === TypePayment.online) {
@@ -164,12 +171,12 @@ export const useCreateOrder = () => {
           Toast.show('Помилка при створенні замовлення');
         }
         setLoading(false);
-        console.log('\n\n\n---------------end------------------');
+        FirebaseCrash.log('\n\n\n---------------end------------------');
         return res;
       }
     }
     setLoading(false);
-    console.log('\n\n\n---------------=END=------------------');
+    FirebaseCrash.log('\n\n\n---------------=END=------------------');
     return false;
   };
 

@@ -14,6 +14,7 @@ export interface IIncrement {
 export interface IComment {
   id: string | number;
   comment: string;
+  services: number[];
 }
 
 export interface ICartActions extends IBaseActions {
