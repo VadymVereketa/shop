@@ -38,6 +38,14 @@ export interface IProduct {
   weight: string | null; //todo don't get from backend
   avgWeight: string | null;
   customCategory: ICustomCategory;
+  services: IServiceProduct[];
+}
+
+export interface IServiceProduct {
+  id: number;
+  isActive: boolean;
+  name: string;
+  ord: number | null;
 }
 
 export interface ICustomCategory {
@@ -223,6 +231,7 @@ export interface ICartItem {
     productOptions: IProductOption[];
     avgWeight: string | null;
   };
+  services: number[];
 }
 
 export interface ICart {
@@ -399,7 +408,7 @@ export interface ITag {
 }
 
 export interface IDraft {
-  id?: number;
+  id?: number | null;
   phone: string;
   firstName: string;
   lastName: string;

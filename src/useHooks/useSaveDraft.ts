@@ -1,7 +1,7 @@
 import {IDraft} from '../typings/FetchData';
 import {useDispatch, useSelector} from 'react-redux';
 import {selectorsCart} from '../redux/cart/cartReducer';
-import {selectorsOrder} from '../redux/order/orderReducer';
+import {actionsOrder, selectorsOrder} from '../redux/order/orderReducer';
 import {actionsOther, selectorsOther} from '../redux/other/otherReducer';
 import {formatAddress} from '../utils/formatAddress';
 import {selectorsUser} from '../redux/user/userReducer';
@@ -56,8 +56,16 @@ const useSaveDraft = () => {
     phone: user.phone,
   };
 
-  return () => {
-    return service.createDraft(fetchData).then((res) => {
+  return async () => {
+    let res = await service.createDraft(fetchData);
+    if (!res.success) {
+      dispatch(
+        actionsOther.setData({
+          draftId: null,
+        }),
+      );
+      fetchData.id = null;
+      res = await service.createDraft(fetchData);
       if (res.success) {
         dispatch(
           actionsOther.setData({
@@ -65,7 +73,15 @@ const useSaveDraft = () => {
           }),
         );
       }
-    });
+    } else {
+      dispatch(
+        actionsOther.setData({
+          draftId: res.data.id,
+        }),
+      );
+    }
+
+    return res;
   };
 };
 
