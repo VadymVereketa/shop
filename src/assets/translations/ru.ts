@@ -186,5 +186,6 @@ const ru = {
   cartPaymetnInGet: `Оплатить картой при получении`,
   onlinePayment: `Оплата картой`,
   commonWishes: 'Пожелания',
+  btnAdd: 'Добавить',
 };
 export default ru;

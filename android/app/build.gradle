@@ -138,8 +138,8 @@ android {
         applicationId "com.egersund_mobile_app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 30
-        versionName "1.0.130"
+        versionCode 31
+        versionName "1.0.131"
         multiDexEnabled true
     }
     splits {

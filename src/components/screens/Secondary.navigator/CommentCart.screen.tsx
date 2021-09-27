@@ -114,7 +114,7 @@ const CommentCartScreen = React.memo(({navigation, route}: any) => {
                   width: '100%',
                   marginBottom: sizes[8],
                 }}>
-                Побажання:
+                {t('commonWishes') + ':'}
               </MyText>
               {item.product.services.map((service) => {
                 return (
@@ -158,7 +158,7 @@ const CommentCartScreen = React.memo(({navigation, route}: any) => {
             style={{
               width: '48%',
             }}>
-            {'додати'}
+            {t('btnAdd')}
           </MyButton>
         </View>
       </ScrollView>

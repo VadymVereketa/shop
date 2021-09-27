@@ -186,5 +186,6 @@ const en = {
   cartPaymetnInGet: `Pay by card upon receipt`,
   onlinePayment: `Payment by card`,
   commonWishes: 'Wishes',
+  btnAdd: 'Add',
 };
 export default en;
