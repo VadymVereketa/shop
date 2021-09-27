@@ -185,5 +185,6 @@ const ru = {
   cashPayment: `Наличный расчет`,
   cartPaymetnInGet: `Оплатить картой при получении`,
   onlinePayment: `Оплата картой`,
+  commonWishes: 'Пожелания',
 };
 export default ru;

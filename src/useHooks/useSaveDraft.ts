@@ -32,6 +32,7 @@ const useSaveDraft = () => {
         alternativeCount: p.alternativeCount,
         comment: p.comment,
         price: po ? +po.price : 1,
+        services: p.services,
       };
     }),
     comment: null,

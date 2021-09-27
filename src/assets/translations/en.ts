@@ -185,5 +185,6 @@ const en = {
   cashPayment: `Cash`,
   cartPaymetnInGet: `Pay by card upon receipt`,
   onlinePayment: `Payment by card`,
+  commonWishes: 'Wishes',
 };
 export default en;

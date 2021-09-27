@@ -230,6 +230,8 @@ export interface ICartItem {
     productImages: IImgProduct[];
     productOptions: IProductOption[];
     avgWeight: string | null;
+
+    services: IServiceProduct[];
   };
   services: number[];
 }

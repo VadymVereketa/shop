@@ -179,6 +179,7 @@ const service = {
             id: p.product.id,
           },
           comment: p.comment,
+          services: p.services || [],
           alternativeCount: p.alternativeCount
             ? p.alternativeCount.toString()
             : null,

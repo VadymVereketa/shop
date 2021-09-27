@@ -35,6 +35,7 @@ type IMyTextInput = NativeViewGestureHandlerProperties &
     };
     styleLabel?: StyleProp<TextStyle>;
     styleCon?: StyleProp<ViewStyle>;
+    styleWrapper?: StyleProp<ViewStyle>;
     error?: string;
     viewOnTouch?: any;
     onClear?: any;
@@ -56,6 +57,7 @@ const MyTextInput = React.memo(
     style = undefined,
     styleCon = undefined,
     styleLabel = undefined,
+    styleWrapper = undefined,
     viewOnTouch,
     afterIcon,
     onClear,
@@ -138,6 +140,7 @@ const MyTextInput = React.memo(
               borderColor: isFocus ? primary : border,
               backgroundColor: background,
             },
+            styleWrapper,
           ]}>
           <TextInput
             selectionColor={primary}
