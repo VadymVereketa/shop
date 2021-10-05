@@ -103,12 +103,6 @@ const Header = React.memo(
           isModalAssortment: true,
         }),
       );
-
-      dispatch(
-        actionsOrder.setData({
-          deliveryType: null,
-        }),
-      );
     };
 
     const handleClearCart = () => {
@@ -116,11 +110,6 @@ const Header = React.memo(
       dispatch(actionsCart.updateCart(idDefaultSellPoint));
       setIsOpenClearCart(false);
 
-      dispatch(
-        actionsOrder.setData({
-          deliveryType: null,
-        }),
-      );
       dispatch(
         actionsOther.setData({
           isModalAssortment: true,
@@ -193,7 +182,7 @@ const Header = React.memo(
             <Logo resizeMode={'cover'} width={sizes[38]} height={sizes[12]} />
           </View>
         )}
-        {deliveryType && (
+        {deliveryType !== null && (
           <TouchableOpacity
             onPress={handleOpenAssortmentModal}
             containerStyle={{

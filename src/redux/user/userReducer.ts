@@ -139,8 +139,10 @@ const refreshUser = async (dispatch: any) => {
   if (res) {
     dispatch(actionsUser.setData(res));
     dispatch(actionsUser.setAuth(true));
+    return true;
   } else {
     dispatch(actionsUser.logout());
+    return false;
   }
 };
 

@@ -4,7 +4,7 @@ enum Mode {
   PROD = 'PROD',
   UAT = 'UAT',
 }
-const mode: any = Mode.UAT;
+const mode: any = Mode.LOCAL;
 
 const config = (() => {
   switch (mode) {
@@ -59,10 +59,10 @@ const config = (() => {
       //todo test
       return {
         canLink: 'http://huspi.com:3022',
-        baseURL: 'http://huspi.com:3026/api/v1/',
-        baseURLV2: 'http://huspi.com:3026/api/v2/',
+        baseURL: 'http://192.168.31.65:3006/api/v1/',
+        baseURLV2: 'http://192.168.31.65:3006/api/v2/',
         baseURLCallback: 'http://huspi.com:3024/api/v1/',
-        baseUrlImg: 'http://huspi.com:3026/api/v1/images/',
+        baseUrlImg: 'http://192.168.31.65:3006/api/v1/images/',
         payeeId: '26298',
         domen: 'http://huspi.com:3022/',
       };

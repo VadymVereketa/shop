@@ -18,7 +18,7 @@ import ModalUpdateApp from './src/components/modals/ModalUpdateApp';
 import {actionsOther, selectorsOther} from './src/redux/other/otherReducer';
 import ModalAssortment from './src/components/modals/ModalAssortment';
 import {TypeDelivery} from './src/constants/constantsId';
-import {actionsOrder} from './src/redux/order/orderReducer';
+import {actionsOrder, selectorsOrder} from './src/redux/order/orderReducer';
 import {getSellPoints} from './src/redux/sellPoints/sellPointsReducer';
 import getIsNotExistInPO from './src/useHooks/getIsNotExistInPO';
 import getIsExistSellPoint from './src/useHooks/isExistSellPoint';
@@ -37,7 +37,6 @@ import {isReadyRef, navigationRef} from './src/utils/navigationRef';
 
 const App = () => {
   const dispatch = useDispatch();
-  const isAuth = useSelector(selectorsUser.isAuth);
   const [isLoadConfig, setIsLoadConfig] = useState(false);
   const {theme, onChangeTheme, ...colors} = useTheme();
   const {currentLocale} = useFormattingContext();
@@ -46,6 +45,7 @@ const App = () => {
   const tokenNotification = useSelector(selectorsOther.getTokenNotification);
   const requiredVersion = useSelector(selectorsConfig.getRequiredVersion);
   const optionalVersion = useSelector(selectorsConfig.getOptionalVersion);
+  const deliveryType = useSelector(selectorsOrder.getDeliveryType);
   const enabledRequiredCheck = useSelector(
     selectorsConfig.getItemConfig('enabledRequiredCheckVersion'),
   );
@@ -117,58 +117,64 @@ const App = () => {
   };
 
   useEffect(() => {
-    if (isAuth) {
-      service
-        .getCart()
-        .then((res) => {
-          const {items, sellPoint, deliveryType} = res;
-          if (!sellPoint || items.length === 0 || deliveryType === null) {
-            return false;
-          }
-          if (deliveryType && deliveryType.code === TypeDelivery.express) {
-            return false;
-          }
-          const allSellPoints = sellPoints;
-          const isExistSellPoint = getIsExistSellPoint(
-            allSellPoints,
-            sellPoint.id,
-          );
+    dispatch(refreshUser).then((isAuth) => {
+      if (isAuth) {
+        service
+          .getCart()
+          .then((res) => {
+            const {items, sellPoint, deliveryType} = res;
+            if (!sellPoint || items.length === 0 || deliveryType === null) {
+              return false;
+            }
+            if (deliveryType && deliveryType.code === TypeDelivery.express) {
+              return false;
+            }
+            const allSellPoints = sellPoints;
+            const isExistSellPoint = getIsExistSellPoint(
+              allSellPoints,
+              sellPoint.id,
+            );
 
-          if (!isExistSellPoint) {
-            return false;
-          }
+            if (!isExistSellPoint) {
+              return false;
+            }
 
-          const isExistInPO = getIsNotExistInPO(items, sellPoint.id);
-          if (isExistInPO) {
-            return false;
-          }
-          dispatch(actionsCart.setData(items));
-          dispatch(actionsCart.updateCart(sellPoint.id));
-          dispatch(
-            actionsOrder.setData({
-              deliveryType,
-              sellPoint: sellPoint.id,
-              expressSellPoint: null,
-            }),
-          );
-
-          return true;
-        })
-        .then((res) => {
-          if (!res) {
+            const isExistInPO = getIsNotExistInPO(items, sellPoint.id);
+            if (isExistInPO) {
+              return false;
+            }
+            dispatch(actionsCart.setData(items));
+            dispatch(actionsCart.updateCart(sellPoint.id));
             dispatch(
-              actionsOther.setData({
-                isModalAssortment: true,
+              actionsOrder.setData({
+                deliveryType,
+                sellPoint: sellPoint.id,
+                expressSellPoint: null,
               }),
             );
-          }
-        });
-    }
-  }, [isAuth]);
+
+            return true;
+          })
+          .then((res) => {
+            if (!res) {
+              dispatch(
+                actionsOther.setData({
+                  isModalAssortment: true,
+                }),
+              );
+            }
+          });
+      } else {
+        dispatch(
+          actionsOther.setData({
+            isModalAssortment: deliveryType === null,
+          }),
+        );
+      }
+    });
+  }, []);
 
   useEffect(() => {
-    dispatch(refreshUser);
-
     if (Platform.OS === 'android') {
       portmone.invokePortmoneSdk({
         theme,

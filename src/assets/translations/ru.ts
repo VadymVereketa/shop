@@ -187,5 +187,8 @@ const ru = {
   onlinePayment: `Оплата картой`,
   commonWishes: 'Пожелания',
   btnAdd: 'Добавить',
+  citiesKyiv: 'Киев',
+  citiesLviv: 'Львов',
+  citiesSuburbs: 'и пригород',
 };
 export default ru;

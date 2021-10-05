@@ -187,5 +187,8 @@ const en = {
   onlinePayment: `Payment by card`,
   commonWishes: 'Wishes',
   btnAdd: 'Add',
+  citiesKyiv: 'Kyiv',
+  citiesLviv: 'Lviv',
+  citiesSuburbs: 'and suburbs',
 };
 export default en;
