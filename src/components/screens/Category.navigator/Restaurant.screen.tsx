@@ -78,8 +78,10 @@ const RestaurantScreen = React.memo(
     };
 
     useEffect(() => {
-      if (isEmptyCategories && parentCategory) {
+      if (parentCategory) {
         setIdCategory(parentCategory.id);
+      } else {
+        setIdCategory(categories[0].id);
       }
 
       navigation.setOptions({
@@ -105,12 +107,6 @@ const RestaurantScreen = React.memo(
     useEffect(() => {
       SplashScreen.hide();
     }, []);
-
-    useEffect(() => {
-      if (categories.length > 0) {
-        setIdCategory(categories[0].id);
-      }
-    }, [categories]);
 
     const handlePress = (id: number) => {
       setIdCategory(id);

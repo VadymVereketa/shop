@@ -237,6 +237,12 @@ const service = {
     }
   },
   createOrder: async (draftId: number | undefined, data: IOrderState) => {
+    if (!data.date) {
+      return {
+        success: false,
+        data: null,
+      };
+    }
     let contact: any = {};
     const addressData: any = {};
     if (data.contact) {
@@ -260,25 +266,18 @@ const service = {
     let maxExecuteDate: Date | undefined = undefined;
     let minExecuteDate: Date | undefined = maxExecuteDate;
 
-    if (data.deliveryType!.code !== TypeDelivery.express && data.date) {
-      const [minTime, maxTime] = time.split('-');
-      const [maxH, maxM] = maxTime.split(':').map(parseFloat);
-      const [minH, minM] = minTime.split(':').map(parseFloat);
+    const [minTime, maxTime] = time.split('-');
+    const [maxH, maxM] = maxTime.split(':').map(parseFloat);
+    const [minH, minM] = minTime.split(':').map(parseFloat);
 
-      maxExecuteDate = new Date(data.date);
-      maxExecuteDate.setHours(maxH, maxM);
+    maxExecuteDate = new Date(data.date);
+    maxExecuteDate.setHours(maxH, maxM);
 
-      minExecuteDate = new Date(data.date);
-      minExecuteDate.setHours(minH, minM);
-    } else {
-      // time for express delivery
-      maxExecuteDate = new Date();
-      maxExecuteDate.setMinutes(maxExecuteDate.getMinutes() + 30);
-      minExecuteDate = new Date();
-    }
+    minExecuteDate = new Date(data.date);
+    minExecuteDate.setHours(minH, minM);
 
     const fetchData: IOrderPost = {
-      id: draftId,
+      id: draftId ? draftId : undefined,
       comment: '',
       deliveryStatus: {
         id: 1,
