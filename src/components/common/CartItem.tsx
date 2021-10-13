@@ -137,6 +137,19 @@ const ViewProductItem = React.memo(
       });
     };
 
+    const services = item?.product.services || [];
+    const selectedServices = item?.services ?? [];
+
+    const getStrServices = () => {
+      const filterService = services
+        .filter((s) => selectedServices.some((ss) => ss === s.id))
+        .map((s) => s.name);
+      if (filterService.length === 0) {
+        return '';
+      }
+      return `${t('commonWishes')} (${filterService.join(', ')})`;
+    };
+
     return (
       <Animated.View
         style={[
@@ -209,9 +222,9 @@ const ViewProductItem = React.memo(
               ) : (
                 <React.Fragment>
                   <MyText style={styles.titleComment}>
-                    {t('cartComment')}:
+                    {`${t('cartComment')}: `}
+                    <MyText>{comment}</MyText>
                   </MyText>
-                  <MyText>{comment}</MyText>
                 </React.Fragment>
               )
             ) : (
@@ -225,6 +238,9 @@ const ViewProductItem = React.memo(
               )
             )}
           </TouchableOpacity>
+          {selectedServices.length > 0 && (
+            <MyText style={{maxWidth: '85%'}}>{getStrServices()}</MyText>
+          )}
         </View>
       </Animated.View>
     );

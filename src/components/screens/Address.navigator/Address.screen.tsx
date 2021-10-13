@@ -11,7 +11,6 @@ import {Controller, useForm} from 'react-hook-form';
 import MyTextInput from '../../controls/MyTextInput';
 import t from '../../../utils/translate';
 import getErrorByObj from '../../../utils/getErrorByObj';
-import validation from '../../../utils/validation';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import {IOption} from '../../../useHooks/useAvailableDate';
 import MyText from '../../controls/MyText';
@@ -21,6 +20,7 @@ import {getConvertDataToFetch} from '../../../utils/formatAddress';
 import {useDispatch} from 'react-redux';
 import {actionsUser} from '../../../redux/user/userReducer';
 import BlockButtons from '../../common/BlockButtons';
+import useValidation from '../../../utils/validation';
 
 const cities = [
   {
@@ -34,6 +34,7 @@ const cities = [
 ];
 
 const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
+  const validation = useValidation();
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const params = route.params || {};
@@ -212,7 +213,6 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
             afterIcon={{
               name: 'map',
               onPress: () => null,
-              isStroke: true,
             }}
             value={cities.find((c) => c.value === city)!.label}
             editable={false}

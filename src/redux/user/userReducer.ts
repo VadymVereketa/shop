@@ -4,6 +4,7 @@ import service from '../../services/service';
 import {RootState} from '../reducer';
 import {IAddress, ICard, ISignUp, IUser} from '../../typings/FetchData';
 import instance from '../../services/instance';
+import {Mode, mode} from '../../config/config';
 
 const init: IUserState = {
   data: null,
@@ -92,15 +93,17 @@ creator.addAction('setAuth', (state, action) => {
 });
 const actionsUser = creator.createActions();
 
-const fetchLogin = (phone: string, password: string) => async (
+const fetchLogin = (phone: string, confirmCode: string) => async (
   dispatch: any,
 ) => {
   return fetchRedux(
-    async () => await service.login(phone, password),
+    async () => await service.login(phone, confirmCode),
     (data: any) => {
       const token = data.token;
       delete data.token;
-      dispatch(actionsUser.setToken(token));
+      if (mode !== Mode.PROD) {
+        dispatch(actionsUser.setToken(token));
+      }
       dispatch(actionsUser.setData(data));
       dispatch(actionsUser.setAuth(true));
     },
@@ -126,6 +129,7 @@ const fetchRedux = (fetch: any, saveData: any) => async (dispatch: any) => {
 
   if (res.success) {
     saveData(res.data);
+    dispatch(actionsUser.setError(''));
   } else {
     dispatch(actionsUser.setError(res.data));
   }
@@ -139,8 +143,10 @@ const refreshUser = async (dispatch: any) => {
   if (res) {
     dispatch(actionsUser.setData(res));
     dispatch(actionsUser.setAuth(true));
+    return true;
   } else {
     dispatch(actionsUser.logout());
+    return false;
   }
 };
 
@@ -148,7 +154,14 @@ const selectorsUser = {
   getUser: (state: RootState) => state.user.data,
   getError: (state: RootState) => state.user.error,
   getLoading: (state: RootState) => state.user.isLoading,
+  getFirstName: (state: RootState) => state.user.data?.firstName ?? '',
   isAuth: (state: RootState) => state.user.isAuth,
+  isNeededEditName: (state: RootState) => {
+    if (state.user.isAuth) {
+      return (state.user?.data?.firstName ?? '').length === 0;
+    }
+    return false;
+  },
   getAddressById: (id?: number | null) => (state: RootState) => {
     if (state.user.data)
       return state.user.data!.addresses.find((a) => a.id === id);

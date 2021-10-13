@@ -6,7 +6,6 @@ import {Controller, useForm} from 'react-hook-form';
 import MyTextInput, {MyTextPhoneInput} from '../controls/MyTextInput';
 import t from '../../utils/translate';
 import getErrorByObj from '../../utils/getErrorByObj';
-import validation from '../../utils/validation';
 import {ScrollView} from 'react-native-gesture-handler';
 import MyButton from '../controls/MyButton';
 import {useAxios} from '../../useHooks/useAxios';
@@ -20,6 +19,7 @@ import {
   getIsCustomPhone,
   getWithoutCodePhone,
 } from '../../utils/normalizePhone';
+import useValidation from '../../utils/validation';
 
 interface IFormContactProps {
   onCancel: any;
@@ -43,6 +43,7 @@ const getDefault = (data?: IContact) => {
 };
 
 const FormContact = ({defaultValues, onCancel, onOk}: IFormContactProps) => {
+  const validation = useValidation();
   const dispatch = useDispatch();
   const {errorColor} = useTheme();
   const {request, isLoading} = useAxios(

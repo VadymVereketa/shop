@@ -50,7 +50,7 @@ const typesPersistConfig = {
 const orderPersistConfig = {
   key: 'order',
   storage: AsyncStorage,
-  whitelist: ['sellPoint', 'expressSellPoint', 'deliveryType'],
+  whitelist: ['sellPoint', 'deliveryType'],
 };
 export interface RootState {
   category: ICategoryState;
