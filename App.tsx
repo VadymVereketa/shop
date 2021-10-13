@@ -41,6 +41,8 @@ const App = () => {
   const {theme, onChangeTheme, ...colors} = useTheme();
   const {currentLocale} = useFormattingContext();
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const isNeededEditName = useSelector(selectorsUser.isNeededEditName);
+  const [isRefreshUser, setIsRefreshUser] = useState(false);
   const [isRequired, setIsRequired] = useState(false);
   const tokenNotification = useSelector(selectorsOther.getTokenNotification);
   const requiredVersion = useSelector(selectorsConfig.getRequiredVersion);
@@ -118,6 +120,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(refreshUser).then((isAuth) => {
+      setIsRefreshUser(true);
       if (isAuth) {
         service
           .getCart()
@@ -148,7 +151,8 @@ const App = () => {
             dispatch(
               actionsOrder.setData({
                 deliveryType,
-                sellPoint: sellPoint.id,
+                sellPoint:
+                  deliveryType.code === TypeDelivery.self ? sellPoint.id : null,
                 expressSellPoint: null,
               }),
             );
@@ -244,7 +248,8 @@ const App = () => {
         isRequired={isRequired}
         onClose={() => setIsOpenModal(false)}
       />
-      <ModalAssortment />
+      {isRefreshUser && !isNeededEditName && <ModalAssortment />}
+
       <StartNavigator />
     </NavigationContainer>
   );

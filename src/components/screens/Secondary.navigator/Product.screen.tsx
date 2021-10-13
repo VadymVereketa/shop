@@ -18,6 +18,7 @@ import {
 } from 'react-native-responsive-dimensions';
 import {
   ScrollView,
+  TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native-gesture-handler';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -39,6 +40,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import t from '../../../utils/translate';
+import DesignIcon from '../../common/DesignIcon';
+import LoginButton from '../../common/LoginButton';
 
 const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
   const window = Dimensions.get('window');
@@ -53,7 +56,14 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
   const isProductInCart = useSelector(
     selectorsCart.checkProductInCart(product.id),
   );
-  const {border, text, background, theme, lightBackground} = useTheme();
+  const {
+    border,
+    text,
+    background,
+    primary,
+    theme,
+    lightBackground,
+  } = useTheme();
   const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
   const index = getIndexProductOption(product, ID_SELL_POINT);
   const price =
@@ -82,6 +92,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
           comment: '',
           product: product!,
           alternativeCount,
+          services: [],
         }),
       );
     }
@@ -194,41 +205,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
               backgroundColor: background,
             }}>
             <MyText style={styles.text}>{t('commonNeedAuth')}</MyText>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                backgroundColor: background,
-              }}>
-              <MyButton
-                containerStyle={{maxWidth: (w - sizes[20]) / 2}}
-                styleText={styles.btn}
-                type={'default'}
-                onPress={() =>
-                  navigation.push('AuthNavigator', {
-                    screen: 'Login',
-                  })
-                }
-                isActive>
-                {t('profileLogin')}
-              </MyButton>
-              <MyButton
-                containerStyle={{
-                  maxWidth: (w - sizes[20]) / 2,
-                }}
-                styleText={styles.btn}
-                style={{
-                  borderColor: border,
-                }}
-                onPress={() =>
-                  navigation.push('AuthNavigator', {
-                    screen: 'SignUp',
-                  })
-                }
-                type={'default'}>
-                {t('profileSignUp')}
-              </MyButton>
-            </View>
+            <LoginButton />
           </View>
         </Animated.View>
       )}

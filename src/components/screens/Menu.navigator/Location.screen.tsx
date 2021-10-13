@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, StyleSheet, Text, Image} from 'react-native';
+import {View, StyleSheet, SafeAreaView, Image} from 'react-native';
 import {LocationScreenProps} from '../../navigators/Menu.navigator';
-import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import {ScrollView} from 'react-native-gesture-handler';
 import {getFontFamily} from '../../../utils/getFontFamily';
@@ -13,11 +13,10 @@ import t from '../../../utils/translate';
 const LocationScreen = React.memo((props: LocationScreenProps) => {
   const {sellPoint} = props.route.params;
   const {primary, border} = useTheme();
-  const insets = useSafeAreaInsets();
   const img = sellPoint.sellPointImage ? sellPoint.sellPointImage.uuid : null;
 
   return (
-    <SafeAreaView style={[styles.container, {marginTop: -insets.top}]}>
+    <SafeAreaView style={[styles.container]}>
       <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
         <MyText style={styles.title}>{sellPoint.name}</MyText>
         <MyText style={styles.address}>{sellPoint.address}</MyText>

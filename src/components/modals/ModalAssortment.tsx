@@ -91,6 +91,16 @@ const ModalAssortment = () => {
     handleSelectDeliveryType(TypeDelivery.self);
   };
 
+  useEffect(() => {
+    if (deliveryType) {
+      if (deliveryType.code === TypeDelivery.courier) {
+        actionsOrder.setData({
+          sellPoint: null,
+        });
+      }
+    }
+  }, []);
+
   useDidUpdateEffect(() => {
     if (defaultDeliveryType === null) {
       if (sellPoint) {
@@ -172,7 +182,7 @@ const ModalAssortment = () => {
         contentContainerStyle={styles.contentContainerStyle}
         style={{}}>
         {options.map((opt) => {
-          return <ItemTypeDelivery {...opt} />;
+          return <ItemTypeDelivery key={opt.code} {...opt} />;
         })}
       </ScrollView>
       {deliveryType && (
@@ -202,12 +212,13 @@ const ItemTypeDelivery = <T,>({
   return (
     <View>
       <MyText style={styles.itemTitle}>{title}</MyText>
-      {options.map((opt) => {
+      {options.map((opt, i) => {
         const isActive = opt.extra ? opt.extra.isActive : false;
         const isSelected = value === opt.value;
 
         return (
           <TouchableOpacity
+            key={i}
             onPress={() => selected(opt.value)}
             disabled={!isActive}
             containerStyle={{

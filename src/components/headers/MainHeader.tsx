@@ -89,7 +89,7 @@ const MainHeader = ({scene}: StackHeaderProps) => {
             }}>
             {t('assortmentForShort')}
           </MyText>
-          <DesignIcon name={'MarkerIcon'} size={sizes[9]} fill={background} />
+          <DesignIcon name={'MarkerIcon'} size={sizes[9]} fill={primary} />
           <MyText
             style={{
               marginLeft: sizes[3],

@@ -183,7 +183,6 @@ const MainNavigator = React.memo((props: MainNavigatorScreenProps) => {
                 name={'menu-more'}
                 size={props.size}
                 fill={props.color}
-                stroke={props.color}
               />
             );
           },

@@ -105,51 +105,50 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
         </View>
         {toggle ? (
           <React.Fragment>
-            <View style={[styles.box, {borderColor: border}]}>
-              <MyText
-                onPress={() =>
-                  navigation.push('EditProfile', {
-                    field: 'name',
-                  })
-                }
-                style={styles.mainText}>{`${user!.firstName} ${
+            <TouchableOpacity
+              onPress={() =>
+                navigation.push('EditProfile', {
+                  field: 'name',
+                })
+              }
+              style={[styles.box, {borderColor: border}]}>
+              <MyText style={styles.mainText}>{`${user!.firstName} ${
                 user!.lastName
               }`}</MyText>
-            </View>
-            <View style={[styles.box, {borderColor: border}]}>
-              <MyText
-                onPress={() =>
-                  navigation.push('EditProfile', {
-                    field: 'phone',
-                  })
-                }
-                style={styles.mainText}>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.push('EditProfile', {
+                  field: 'phone',
+                })
+              }
+              style={[styles.box, {borderColor: border}]}>
+              <MyText style={styles.mainText}>
                 {formatPhone(user.phone, user.isPhoneCustom)}
               </MyText>
-            </View>
-            {user.email ? (
-              <View style={[styles.box, {borderColor: border}]}>
-                <MyText
-                  onPress={() =>
-                    navigation.push('EditProfile', {
-                      field: 'email',
-                    })
-                  }
-                  style={styles.mainText}>
-                  {user.email}
-                </MyText>
-              </View>
-            ) : (
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.push('EditProfile', {
+                  field: 'email',
+                })
+              }
+              style={[
+                styles.box,
+                {
+                  borderColor: border,
+                },
+              ]}>
               <MyText
-                style={[styles.textCard, {color: primary}]}
-                onPress={() =>
-                  navigation.push('EditProfile', {
-                    field: 'email',
-                  })
-                }>
-                {t('btnTextAddEmail')}
+                style={[
+                  styles.mainText,
+                  {
+                    color: (user.email ?? '').length === 0 ? border : text,
+                  },
+                ]}>
+                {user.email ?? 'Email'}
               </MyText>
-            )}
+            </TouchableOpacity>
           </React.Fragment>
         ) : (
           <React.Fragment>
