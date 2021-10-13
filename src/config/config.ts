@@ -1,9 +1,14 @@
-type M = 'dev' | 'test' | 'prod' | 'uat';
-const MODE: string = 'prod';
+enum Mode {
+  LOCAL = 'LOCAL',
+  DEV = 'DEV',
+  PROD = 'PROD',
+  UAT = 'UAT',
+}
+const mode: any = Mode.PROD;
 
 const config = (() => {
-  switch (MODE) {
-    case 'dev':
+  switch (mode) {
+    case Mode.DEV:
       return {
         canLink: 'http://huspi.com:3022',
         baseURL: 'http://192.168.0.100:3006/api/v1/',
@@ -13,7 +18,7 @@ const config = (() => {
         payeeId: '26298',
         domen: 'http://huspi.com:3022/',
       };
-    case 'prod':
+    case Mode.PROD:
       return {
         canLink: 'http://huspi.com:3022',
         baseURL: 'https://client-api.egersund.ua/api/v1/',
@@ -31,7 +36,7 @@ const config = (() => {
         payeeId: '25989',
         domen: 'http://huspi.com:3042/',*/
       };
-    case 'uat':
+    case Mode.UAT:
       return {
         canLink: 'https://huspi.com:3022',
         baseURL: 'https://egersund-uat.mobile-api.huspi.com/api/v1/',
@@ -64,5 +69,5 @@ const config = (() => {
   }
 })();
 
-export {MODE};
+export {Mode, mode};
 export default config;

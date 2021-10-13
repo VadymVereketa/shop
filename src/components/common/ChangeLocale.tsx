@@ -29,8 +29,6 @@ const ChangeLocale = ({navigation}: IChangeLocaleProps) => {
   }, [currentLocale]);
 
   const changeLocale = async () => {
-    console.log(Date.now());
-
     setIsChangingLocale(true);
     navigation &&
       navigation.setOptions({
@@ -50,7 +48,6 @@ const ChangeLocale = ({navigation}: IChangeLocaleProps) => {
     }
 
     setIsChangingLocale(false);
-    console.log(Date.now());
   };
 
   const options: {label: string; locale: Locale}[] = [

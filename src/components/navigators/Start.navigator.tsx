@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import MainNavigator from './Main.navigator';
 import SecondaryNavigator from './Secondary.navigator';
@@ -11,6 +11,7 @@ import OrderNavigator from './Order.navigator';
 import {selectorsCart} from '../../redux/cart/cartReducer';
 import AddressNavigator from './Address.navigator';
 import {selectorsOrder} from '../../redux/order/orderReducer';
+import FirebaseCrash from '../../Crashlytics/FirebaseCrash';
 
 export type StartNavigatorParamList = {
   MainNavigator: {};
@@ -49,9 +50,16 @@ export type AddressNavigatorScreenProps = StackScreenProps<
 const Stack = createStackNavigator<StartNavigatorParamList>();
 
 const StartNavigator = React.memo(() => {
+  const user = useSelector(selectorsUser.getUser);
   const isAuth = useSelector(selectorsUser.isAuth);
   const count = useSelector(selectorsCart.getGeneralCount);
   const numberOrder = useSelector(selectorsOrder.getNumberOrder);
+
+  useEffect(() => {
+    if (isAuth && user) {
+      FirebaseCrash.init(user!);
+    }
+  }, [isAuth]);
 
   return (
     <Stack.Navigator initialRouteName={'MainNavigator'} headerMode="none">

@@ -1,5 +1,5 @@
 import {CreatorReducer} from '../base/base';
-import {ICartActions, ICartState} from './cartTypes';
+import {ICartActions, ICartState, IComment} from './cartTypes';
 import {RootState} from '../reducer';
 import {ICartItem} from '../../typings/FetchData';
 import service from '../../services/service';
@@ -62,11 +62,11 @@ creator.addAction('changeAlternativeCount', (state, action) => {
 creator.addAction('toggleCart', (state, action) => {
   return {...state, isOpenCart: action.payload};
 });
-creator.addAction('setComment', (state, action) => {
-  const {id, comment} = action.payload;
+creator.addAction<IComment>('setComment', (state, action) => {
+  const {id, comment, services} = action.payload;
   const index = state.data.findIndex((item) => item.product.id == id)!;
   if (index === -1) return state;
-  state.data[index] = {...state.data[index], comment};
+  state.data[index] = {...state.data[index], comment, services};
   return {...state, data: [...state.data]};
 });
 creator.addAction<number>('updateCart', (state, action) => {
