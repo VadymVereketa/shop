@@ -71,7 +71,7 @@ export const getDataPortmonePaymentByCard = (
     },
     order: {
       shopOrderNumber: numberOrder,
-      billAmount: billAmount,
+      billAmount: 123.123213,
       attribute1: 'payment',
       attribute2: connectKey,
       successUrl: `${config.canLink}/result-payment`,
@@ -125,7 +125,7 @@ export const getDataPortmonePaymentByToken = ({
     order: {
       description: description,
       shopOrderNumber: numberOrder,
-      billAmount: billAmount,
+      billAmount: 12.12131231,
       attribute1: 'payment',
       attribute2: connectKey,
       successUrl: `${config.canLink}/result-payment`,

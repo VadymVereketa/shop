@@ -9,7 +9,7 @@ import {
   SecondaryNavigatorScreenProps,
   StartNavigatorParamList,
 } from './Start.navigator';
-import {ICartItem, IProduct} from '../../typings/FetchData';
+import {ICartItem, IProduct, ISellPoint} from '../../typings/FetchData';
 import {CompositeNavigationProp, RouteProp} from '@react-navigation/core';
 import IconButton from '../controls/IconButton';
 import {sizes, useTheme} from '../../context/ThemeContext';
@@ -17,6 +17,9 @@ import CommentCartScreen from '../screens/Secondary.navigator/CommentCart.screen
 import {MenuNavigatorParamList} from './Menu.navigator';
 import ResultScreen from '../screens/Secondary.navigator/Result.screen';
 import t from '../../utils/translate';
+import EditName from '../screens/Secondary.navigator/EditName.screen';
+import LocationsScreen from '../screens/Secondary.navigator/Locations.screen';
+import LocationScreen from '../screens/Menu.navigator/Location.screen';
 
 export type SecondaryNavigatorParamList = {
   Product: {
@@ -30,6 +33,11 @@ export type SecondaryNavigatorParamList = {
     title: string;
     navigator: string;
     screen: string;
+  };
+  EditName: {};
+  Locations: {};
+  Location: {
+    sellPoint: ISellPoint;
   };
 };
 
@@ -56,6 +64,38 @@ export type ResultScreenProps = {
   navigation: ResultScreenNavigationProp;
 };
 /// Result props
+
+/// EditName props
+type EditNameScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<SecondaryNavigatorParamList, 'EditName'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type EditNameScreenRouteProp = RouteProp<
+  SecondaryNavigatorParamList,
+  'EditName'
+>;
+
+export type EditNameScreenProps = {
+  route: EditNameScreenRouteProp;
+  navigation: EditNameScreenNavigationProp;
+};
+/// EditName props
+
+/// Locations props
+type LocationsScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<SecondaryNavigatorParamList, 'Locations'>,
+  StackNavigationProp<StartNavigatorParamList>
+>;
+type LocationsScreenRouteProp = RouteProp<
+  SecondaryNavigatorParamList,
+  'Locations'
+>;
+
+export type LocationsScreenProps = {
+  route: LocationsScreenRouteProp;
+  navigation: LocationsScreenNavigationProp;
+};
+/// Locationsrops
 
 const Stack = createStackNavigator();
 
@@ -95,7 +135,28 @@ const SecondaryNavigator = React.memo(
           },
         }}>
         <Stack.Screen name="Product" component={ProductScreen} />
+        <Stack.Screen
+          name="Locations"
+          options={{
+            title: t('profileLocations'),
+          }}
+          component={LocationsScreen}
+        />
+        <Stack.Screen
+          name="Location"
+          options={{
+            title: t('profileLocation'),
+          }}
+          component={LocationScreen}
+        />
         <Stack.Screen name="CommentCart" component={CommentCartScreen} />
+        <Stack.Screen
+          name="EditName"
+          options={{
+            header: () => null,
+          }}
+          component={EditName}
+        />
         <Stack.Screen
           name="Result"
           component={ResultScreen}

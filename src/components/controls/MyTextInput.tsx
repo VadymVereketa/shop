@@ -35,6 +35,7 @@ type IMyTextInput = NativeViewGestureHandlerProperties &
     };
     styleLabel?: StyleProp<TextStyle>;
     styleCon?: StyleProp<ViewStyle>;
+    styleWrapper?: StyleProp<ViewStyle>;
     error?: string;
     viewOnTouch?: any;
     onClear?: any;
@@ -56,6 +57,7 @@ const MyTextInput = React.memo(
     style = undefined,
     styleCon = undefined,
     styleLabel = undefined,
+    styleWrapper = undefined,
     viewOnTouch,
     afterIcon,
     onClear,
@@ -138,6 +140,7 @@ const MyTextInput = React.memo(
               borderColor: isFocus ? primary : border,
               backgroundColor: background,
             },
+            styleWrapper,
           ]}>
           <TextInput
             selectionColor={primary}
@@ -192,7 +195,6 @@ const MyTextInput = React.memo(
                     name: afterIcon.name,
                     fill: text,
                     size: sizeAfterIcon,
-                    stroke: afterIcon.isStroke ? text : undefined, //todo
                   }}
                 />
               )}
@@ -230,6 +232,7 @@ type IMyTextPhoneInput = NativeViewGestureHandlerProperties &
     };
     styleLabel?: StyleProp<TextStyle>;
     styleCon?: StyleProp<ViewStyle>;
+    styleInner?: StyleProp<ViewStyle>;
     error?: string;
     viewOnTouch?: any;
     onClear?: any;
@@ -245,6 +248,7 @@ const MyTextPhoneInput = ({
   value = '',
   onChangeText,
   defaultValue = '380',
+  styleInner,
   ...props
 }: IMyTextPhoneInput) => {
   const animError = useRef(new Animated.Value(-sizes[10])).current;
@@ -277,6 +281,7 @@ const MyTextPhoneInput = ({
             borderColor: isFocus ? primary : border,
             backgroundColor: background,
           },
+          styleInner,
         ]}>
         <TextInputMask
           selectionColor={primary}

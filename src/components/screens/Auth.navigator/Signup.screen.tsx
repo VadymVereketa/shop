@@ -1,13 +1,5 @@
 import React, {useEffect} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  Platform,
-  KeyboardAvoidingView,
-  Keyboard,
-} from 'react-native';
+import {View, StyleSheet, Platform, KeyboardAvoidingView} from 'react-native';
 import {SignUpScreenProps} from '../../navigators/Auth.navigator';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import Logo from '../../common/Logo';
@@ -17,11 +9,9 @@ import MyButton, {GhostButton} from '../../controls/MyButton';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import DesignIcon from '../../common/DesignIcon';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useForm, Controller} from 'react-hook-form';
 import getErrorByObj from '../../../utils/getErrorByObj';
-import validation from '../../../utils/validation';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import BlockCheckPassword from '../../common/BlockCheckPassword';
 import {ISignUp} from '../../../typings/FetchData';
@@ -32,12 +22,12 @@ import {
   selectorsUser,
 } from '../../../redux/user/userReducer';
 import {useDispatch, useSelector} from 'react-redux';
-import {useFocusEffect} from '@react-navigation/core';
 import t from '../../../utils/translate';
 import {
   getIsCustomPhone,
   getWithoutCodePhone,
 } from '../../../utils/normalizePhone';
+import useValidation from '../../../utils/validation';
 
 interface IFormData {
   name: string;
@@ -47,6 +37,7 @@ interface IFormData {
 }
 
 const SignUpScreen = React.memo(({navigation}: SignUpScreenProps) => {
+  const validation = useValidation();
   const error = useSelector(selectorsUser.getError);
   const isLoading = useSelector(selectorsUser.getLoading);
   const dispatch = useDispatch();

@@ -135,11 +135,11 @@ const service = {
   getOrders: async (opt: {top: number; skip: number}) => {
     return await customFetch(() => instance.get(queries.getOrders(opt).url!));
   },
-  login: async (phone: string, password: string) => {
+  login: async (phone: string, confirmCode: string) => {
     return await customFetch(() =>
-      instance.post<IUser>('auth/login', {
+      instance.post<IUser>(config.baseURLV2 + 'auth/login', {
         phone,
-        password,
+        confirmCode,
       }),
     );
   },
@@ -179,6 +179,7 @@ const service = {
             id: p.product.id,
           },
           comment: p.comment,
+          services: p.services || [],
           alternativeCount: p.alternativeCount
             ? p.alternativeCount.toString()
             : null,
@@ -430,6 +431,13 @@ const service = {
   resetPassword: async (phone: string) => {
     return await customFetch(() =>
       instance.post('auth/confirmationRequest/' + phone),
+    );
+  },
+  sendLoginCode: async ({phone, token}: {phone: string; token: string}) => {
+    return await customFetch(() =>
+      instance.post(
+        `${config.baseURLV2}auth/confirmationRequest/${phone}?token=${token}`,
+      ),
     );
   },
   restorePassword: async ({phone, code}: {phone: string; code: string}) => {

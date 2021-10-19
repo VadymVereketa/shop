@@ -8,18 +8,19 @@ import t from '../../../utils/translate';
 import {Controller, useForm} from 'react-hook-form';
 import MyTextInput, {MyTextPhoneInput} from '../../controls/MyTextInput';
 import getErrorByObj from '../../../utils/getErrorByObj';
-import validation from '../../../utils/validation';
 import MyButton, {GhostButton} from '../../controls/MyButton';
 import {getFontFamily} from '../../../utils/getFontFamily';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ForgetPasswordScreenProps} from '../../navigators/Auth.navigator';
 import {useAxios} from '../../../useHooks/useAxios';
 import service from '../../../services/service';
+import useValidation from '../../../utils/validation';
 
 const ForgetPasswordScreen = ({
   navigation,
   route,
 }: ForgetPasswordScreenProps) => {
+  const validation = useValidation();
   const insets = useSafeAreaInsets();
   const {control, handleSubmit, errors} = useForm({
     reValidateMode: 'onChange',

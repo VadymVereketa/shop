@@ -26,11 +26,12 @@ import MenuScreen from '../screens/Main.navigator/Menu.screen';
 import ResultScreen from '../screens/Secondary.navigator/Result.screen';
 import ContactScreen from '../screens/Menu.navigator/Contact.screen';
 import EditProfileScreen from '../screens/Menu.navigator/EditProfile.screen';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import MyText from '../controls/MyText';
 import {getFontFamily} from '../../utils/getFontFamily';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import BarCodeScreen from '../screens/Menu.navigator/BarCode.screen';
+import LocationsScreen from '../screens/Secondary.navigator/Locations.screen';
 
 export type MenuNavigatorParamList = {
   Certificate: {};
@@ -38,6 +39,7 @@ export type MenuNavigatorParamList = {
   Location: {
     sellPoint: ISellPoint;
   };
+  Locations: {};
   LoyaltyCard: {};
   Profile: {};
   Settings: {};
@@ -371,6 +373,13 @@ const MenuNavigator = React.memo(
           options={{
             title: t('profileEditProfile'),
           }}
+        />
+        <Stack.Screen
+          name="Locations"
+          options={{
+            title: t('profileLocations'),
+          }}
+          component={LocationsScreen}
         />
         <Stack.Screen
           name="BarCode"
