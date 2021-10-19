@@ -220,71 +220,64 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
     }
   }, [deliveryType]);
 
+  const isOneOfDeliveryTypes = (type: TypeDelivery) => {
+    return (
+      deliveryTypes.some((d) => d.code === TypeDelivery.self) &&
+      deliveryType &&
+      deliveryType.code === type
+    );
+  };
+
   return (
     <View>
       <View style={styles.typeDelivery}>
-        {!isExpress ? (
-          <React.Fragment>
-            {deliveryTypes.some((d) => d.code === TypeDelivery.self) && (
-              <MyButton
-                isActive={
-                  deliveryType ? deliveryType.code === TypeDelivery.self : false
-                }
-                onPress={() => handleSetDeliveryType(TypeDelivery.self)}
-                styleText={styles.btnText}
-                style={styles.btn}
-                type={'default'}>
-                {t('btnSelf')}
-              </MyButton>
-            )}
-            {deliveryTypes.some((d) => d.code === TypeDelivery.courier) && (
-              <MyButton
-                isActive={
-                  deliveryType
-                    ? deliveryType.code === TypeDelivery.courier
-                    : false
-                }
-                onPress={() => handleSetDeliveryType(TypeDelivery.courier)}
-                styleText={styles.btnText}
-                style={styles.btn}
-                type={'default'}>
-                {t('btnDelivery')}
-              </MyButton>
-            )}
-          </React.Fragment>
-        ) : (
-          isAvailableExpress() && (
+        <React.Fragment>
+          {isOneOfDeliveryTypes(TypeDelivery.self) && (
             <MyButton
               isActive={
-                deliveryType
-                  ? deliveryType.code === TypeDelivery.express
-                  : false
+                deliveryType ? deliveryType.code === TypeDelivery.self : false
               }
-              onPress={() => handleSetDeliveryType(TypeDelivery.express)}
+              onPress={() => handleSetDeliveryType(TypeDelivery.self)}
               styleText={styles.btnText}
               style={styles.btn}
               type={'default'}>
-              {t('expressDelivery')}
+              {t('btnSelf')}
             </MyButton>
-          )
-        )}
+          )}
+          {isOneOfDeliveryTypes(TypeDelivery.courier) && (
+            <MyButton
+              isActive={
+                deliveryType
+                  ? deliveryType.code === TypeDelivery.courier
+                  : false
+              }
+              onPress={() => handleSetDeliveryType(TypeDelivery.courier)}
+              styleText={styles.btnText}
+              style={styles.btn}
+              type={'default'}>
+              {t('btnDelivery')}
+            </MyButton>
+          )}
+        </React.Fragment>
       </View>
       {deliveryType !== null &&
         (deliveryType.code === TypeDelivery.self ? (
-          sellPoints.map((s) => {
-            return (
-              <RadioBlock
-                key={s.id}
-                onPress={() => handlePressSellPoint(s.id)}
-                title={s.name}
-                text={s.address!}
-                styleCon={styles.block}
-                isActive={idSellPoint === s.id}
-                isLoading={isLoading && pressId === s.id}
-                disabled={!availableSellPoints.some((a) => a === s.id)}
-              />
-            );
-          })
+          sellPoints
+            .filter((s) => s.id === idSellPoint)
+            .map((s) => {
+              return (
+                <RadioBlock
+                  key={s.id}
+                  onPress={() => handlePressSellPoint(s.id)}
+                  title={s.name}
+                  text={s.address!}
+                  styleCon={styles.block}
+                  isActive={idSellPoint === s.id}
+                  isLoading={isLoading && pressId === s.id}
+                  disabled={!availableSellPoints.some((a) => a === s.id)}
+                />
+              );
+            })
         ) : (
           <View
             style={{alignItems: addressId === -1 ? 'flex-start' : 'stretch'}}>
