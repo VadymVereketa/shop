@@ -38,31 +38,29 @@ interface IExtra {
   text: string;
 }
 const ModalAssortment = () => {
-  const cities = useMemo(() => {
-    return [
-      {
-        label: t('citiesKyiv'),
-        value: 1,
-        extra: {
-          isActive: true,
-          text: t('citiesSuburbs'),
-        },
+  const cities = [
+    {
+      label: t('citiesKyiv'),
+      value: 1,
+      extra: {
+        isActive: true,
+        text: t('citiesSuburbs'),
       },
-      {
-        label: t('citiesLviv'),
-        value: 2,
-        extra: {
-          isActive: false,
-          text: t('citiesSuburbs'),
-        },
+    },
+    {
+      label: t('citiesLviv'),
+      value: 2,
+      extra: {
+        isActive: false,
+        text: t('citiesSuburbs'),
       },
-    ] as IOption<string, number, IExtra>[];
-  }, []);
+    },
+  ] as IOption<string, number, IExtra>[];
   const dispatch = useDispatch();
   const isModalAssortment = useSelector(selectorsOther.getIsModalAssortment);
   const DEFAULT_ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
   const deliveryTypes = useSelector(selectorsTypes.getDeliveryTypes);
-  const sellPoints = useSelector(getSellPoints(true));
+  const sellPoints = useSelector(getSellPoints(false));
 
   const defaultDeliveryType = useSelector(selectorsOrder.getDeliveryType);
   const defaultSellPoint = useSelector(selectorsOrder.getSellPoint);
