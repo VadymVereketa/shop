@@ -103,21 +103,6 @@ const selectorsOther = {
     return +state.other.settings![DEFAULT_NAME_SETTING]
       .default_price_sell_point!;
   },
-  getDeliveryPrice: (id: number) => (state: RootState) => {
-    const findItem = state.types.pricesTypes.find((d) => d.id === id);
-    if (findItem) {
-      return +findItem.price;
-    } else {
-      return +state.types.pricesTypes.find(
-        (d) => d.id === selectorsOther.getIdDeliveryPrice(state),
-      )!.price;
-    }
-  },
-  getIdDeliveryPrice: (state: RootState) => {
-    if (!state.other.settings) return -1;
-    return +state.other.settings![DEFAULT_NAME_SETTING].default_delivery_price!; // get id
-  },
-
   getPhone: (state: RootState) => {
     if (!state.other.settings) return '';
     return state.other.settings![DEFAULT_NAME_SETTING].delivery_phone!;
@@ -160,15 +145,6 @@ const selectorsOther = {
   },
   getIsModalAssortment: (state: RootState) => {
     return state.other.isModalAssortment;
-  },
-  getIDDefaultDeliveryPriceExpress: (state: RootState) => {
-    if (!state.other.settings) return -1;
-    return +state.other.settings![DEFAULT_NAME_SETTING]
-      .default_delivery_price_express!;
-  },
-  getDefaultDeliveryPriceExpress: (state: RootState) => {
-    const id = selectorsOther.getIDDefaultDeliveryPriceExpress(state);
-    return state.types.pricesTypes.find((d) => d.id === id);
   },
 };
 

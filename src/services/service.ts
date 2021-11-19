@@ -32,8 +32,12 @@ import {FRACTION_DIGIT, TypeDelivery} from '../constants/constantsId';
 import {formatAddress} from '../utils/formatAddress';
 import {DateHelper} from '../utils/DataHelper';
 import {IFetchCategory} from '../typings/ICategory';
+import {ICityFetch} from '../typings/ICity';
 
 const service = {
+  getCities: async () => {
+    return await customFetch(() => instance.get<ICityFetch[]>('city'));
+  },
   getSellPoints: async () => {
     return await customFetch(() => instance.get(queries.getRestaurants().url!));
   },

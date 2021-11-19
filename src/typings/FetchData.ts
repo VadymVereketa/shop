@@ -399,6 +399,8 @@ export interface IDeliveryPrice {
   id: number;
   price: string;
   description: string;
+  externalId: string;
+  isActive: boolean;
 }
 
 export interface ITag {

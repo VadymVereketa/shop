@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {TypeDelivery} from '../../constants/constantsId';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {actionsCart} from '../../redux/cart/cartReducer';
+import {actionsCity, SelectorCity} from '../../redux/city/cityReducer';
 import {actionsOrder, selectorsOrder} from '../../redux/order/orderReducer';
 import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
 import {getSellPoints} from '../../redux/sellPoints/sellPointsReducer';
@@ -36,39 +37,34 @@ const COLORS = {
 interface IExtra {
   isActive: boolean;
   text: string;
+  idSellPoint?: number;
+  idDeliveryPrice?: number;
 }
 const ModalAssortment = () => {
-  const cities = useMemo(() => {
-    return [
-      {
-        label: t('citiesKyiv'),
-        value: 1,
-        extra: {
-          isActive: true,
-          text: t('citiesSuburbs'),
-        },
+  const cities = useSelector(SelectorCity.getCities).map((c) => {
+    return {
+      label: c.name,
+      value: c.id,
+      extra: {
+        isActive: c.isActive,
+        text: t('citiesSuburbs'),
+        idSellPoint: c.setups.default_price_sell_point,
+        idDeliveryPrice: c.setups.default_delivery_price,
       },
-      {
-        label: t('citiesLviv'),
-        value: 2,
-        extra: {
-          isActive: false,
-          text: t('citiesSuburbs'),
-        },
-      },
-    ] as IOption<string, number, IExtra>[];
-  }, []);
+    } as IOption<string, number, IExtra>;
+  });
   const dispatch = useDispatch();
   const isModalAssortment = useSelector(selectorsOther.getIsModalAssortment);
-  const DEFAULT_ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
   const deliveryTypes = useSelector(selectorsTypes.getDeliveryTypes);
-  const sellPoints = useSelector(getSellPoints(true));
+  const sellPoints = useSelector(getSellPoints(false));
 
   const defaultDeliveryType = useSelector(selectorsOrder.getDeliveryType);
   const defaultSellPoint = useSelector(selectorsOrder.getSellPoint);
+  const defaultSelectedCity = useSelector(SelectorCity.getSelectedCityId);
 
   const [deliveryType, setDeliveryType] = useState(defaultDeliveryType);
   const [sellPoint, setSellPoint] = useState(defaultSellPoint);
+  const [selectedCity, setSelectedCity] = useState(defaultSelectedCity);
 
   const onClose = () => {
     dispatch(
@@ -79,7 +75,9 @@ const ModalAssortment = () => {
   };
 
   const handleSelectDeliveryType = (type: TypeDelivery) => {
-    if (type !== TypeDelivery.self) {
+    if (type === TypeDelivery.self) {
+      setSelectedCity(null);
+    } else if (type === TypeDelivery.courier) {
       setSellPoint(null);
     }
     const data = deliveryTypes.find((d) => d.code === type)!;
@@ -103,40 +101,63 @@ const ModalAssortment = () => {
 
   useDidUpdateEffect(() => {
     if (defaultDeliveryType === null) {
-      if (sellPoint) {
-        dispatch(actionsCart.updateCart(sellPoint.id));
-      }
-      dispatch(
-        actionsOrder.setData({
-          deliveryType: deliveryType,
-          sellPoint: sellPoint?.id ?? null,
-        }),
-      );
+      onConfirm();
       onClose();
     }
   }, [deliveryType]);
 
   const handleSelectCity = (data: number) => {
+    setSelectedCity(data);
     handleSelectDeliveryType(TypeDelivery.courier);
   };
 
   const handleConfirm = () => {
-    let id: any = DEFAULT_ID_SELL_POINT;
-    if (deliveryType!.code === TypeDelivery.self) {
-      id = sellPoint?.id;
+    onConfirm();
+    onClose();
+  };
+
+  const onConfirm = () => {
+    if (deliveryType === null) {
+      return;
+    }
+    let idCartSellPoint: number | null = sellPoint?.id ?? null;
+
+    if (deliveryType.code === TypeDelivery.self) {
+      if (sellPoint === null) {
+        return;
+      }
+      dispatch(
+        actionsOrder.setData({
+          sellPoint: sellPoint.id,
+          deliveryType: deliveryType,
+        }),
+      );
+      dispatch(
+        actionsCity.setDataItem({
+          selectedCity: null,
+        }),
+      );
+    } else if (deliveryType!.code === TypeDelivery.courier) {
+      const city = cities.find((c) => c.value === selectedCity) ?? null;
+      if (city === null) {
+        return;
+      }
+      idCartSellPoint = city.extra!.idSellPoint!;
+      dispatch(
+        actionsCity.setDataItem({
+          selectedCity,
+        }),
+      );
+      dispatch(
+        actionsOrder.setData({
+          idDeliveryPrice: city.extra!.idDeliveryPrice,
+          sellPoint: null,
+          deliveryType: deliveryType,
+        }),
+      );
     }
 
-    dispatch(actionsCart.updateCart(id!));
-    if (deliveryType!.code === TypeDelivery.courier) {
-      id = null;
-    }
-    dispatch(
-      actionsOrder.setData({
-        sellPoint: id,
-        deliveryType: deliveryType,
-      }),
-    );
-    onClose();
+    dispatch(actionsCart.updateCart(idCartSellPoint!));
   };
 
   const options = [
@@ -144,8 +165,7 @@ const ModalAssortment = () => {
       code: TypeDelivery.courier,
       title: `${t('btnDelivery')}`,
       options: cities,
-      value:
-        deliveryType?.code === TypeDelivery.courier ? cities[0].value : null,
+      value: selectedCity,
       selected: handleSelectCity,
     },
     {
