@@ -184,7 +184,7 @@ const uk = {
   assortmentBtnText: `Доставки`,
   cashPayment: `Готівковий розрахунок`,
   cartPaymetnInGet: `Оплатити картою при отриманнi`,
-  onlinePayment: `Оплата карткою`,
+  onlinePayment: `Оплата карткою онлайн`,
   enterToLocalAccount1: `Вхід`,
   storeLocations: `Локації магазину`,
   enterToLocalAccount2: ` в особистий кабінет`,
@@ -203,6 +203,7 @@ const uk = {
   citiesKyiv: `Київ`,
   citiesLviv: `Львів`,
   citiesSuburbs: `та пригород`,
+  anotherCity: 'Інше місто',
 };
 export type ITranslate = keyof typeof uk;
 

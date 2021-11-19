@@ -16,6 +16,7 @@ import {IOptionDate} from '../screens/Order.navigator/Date.screen';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import t from '../../utils/translate';
 import service from '../../services/service';
+import {SelectorCity} from '../../redux/city/cityReducer';
 
 interface IDateInputProps {
   navigate: string;
@@ -54,6 +55,7 @@ const DateInput = ({navigate}: IDateInputProps) => {
   const time = useSelector(selectorsOrder.getTime);
   const idSellPoint = useSelector(selectorsOrder.getSellPointId);
   const deliveryType = useSelector(selectorsOrder.getDeliveryType);
+  const selectedCity = useSelector(SelectorCity.getSelectedCity);
   const name = useMemo(() => {
     return deliveryType === null
       ? DEFAULT_NAME_SETTING
@@ -94,6 +96,13 @@ const DateInput = ({navigate}: IDateInputProps) => {
       }
     };
 
+    //TODO: delete
+    if (deliveryType!.code === TypeDelivery.courier && selectedCity !== null) {
+      if (selectedCity.id !== 1) {
+        return;
+      }
+    }
+
     if (deliveryType) {
       handle();
     }
@@ -125,6 +134,16 @@ const DateInput = ({navigate}: IDateInputProps) => {
   const handlePressDate = () => {
     if (isBlock) {
       return;
+    }
+    //TODO: delete
+    if (deliveryType!.code === TypeDelivery.courier && selectedCity !== null) {
+      if (selectedCity.id !== 1) {
+        navigation.navigate('Date', {
+          options,
+          navigate,
+        });
+        return;
+      }
     }
 
     if (Object.keys(excludeTime).length > 0) {

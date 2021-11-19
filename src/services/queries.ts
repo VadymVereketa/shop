@@ -4,6 +4,11 @@ import {IGetProducts} from '../typings/ServiceTypes';
 import {Platform} from 'react-native';
 import {getSortFilter} from '../typings/TypeSortProduct';
 
+interface IGetProductParam {
+  idProduct: number;
+  idSellPoint?: number;
+  idCity?: number;
+}
 const queries = {
   getExpressSellPoints: () => {
     const filter = {
@@ -37,6 +42,7 @@ const queries = {
     idTag,
     idSellPoint,
     sort,
+    idCity,
   }: IGetProducts) => {
     const categoryFilter = {
       'productOptions/available': true,
@@ -87,9 +93,16 @@ const queries = {
 
     const orderBy = getSortFilter(sort);
 
+    let url = 'products';
+    if (idCity) {
+      url = `products/city/${idCity}`;
+    } else if (idSellPoint) {
+      url = `products/sell_point/${idSellPoint}`;
+    }
+
     const config: AxiosRequestConfig = {
       url:
-        `products${idSellPoint ? `/sell_point/${idSellPoint}` : ''}` +
+        url +
         buildQuery({
           filter,
           count: true,
@@ -136,9 +149,15 @@ const queries = {
     };
     return config;
   },
-  getProduct: (id: string | number) => {
+  getProduct: (data: IGetProductParam) => {
+    let endUrl = '';
+    if (data.idCity) {
+      endUrl = `/city/${data.idCity}`;
+    } else if (data.idSellPoint) {
+      endUrl = `/sell_point/${data.idSellPoint}`;
+    }
     const config: AxiosRequestConfig = {
-      url: '/products/' + id,
+      url: `/products/${data.idProduct}${endUrl}`,
       method: 'get',
     };
     return config;

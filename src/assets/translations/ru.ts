@@ -184,7 +184,7 @@ const ru = {
   assortmentBtnText: `Доставки`,
   cashPayment: `Наличный расчет`,
   cartPaymetnInGet: `Оплатить картой при получении`,
-  onlinePayment: `Оплата картой`,
+  onlinePayment: `Оплата картой онлайн`,
   enterToLocalAccount1: `Вход`,
   storeLocations: `Локации магазина`,
   enterToLocalAccount2: ` в личный кабинет`,
@@ -203,5 +203,6 @@ const ru = {
   citiesKyiv: `Киев`,
   citiesLviv: `Львов`,
   citiesSuburbs: `и пригород`,
+  anotherCity: 'Другой город',
 };
 export default ru;

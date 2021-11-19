@@ -10,6 +10,7 @@ export interface IGetProducts extends IQueryOptions {
   idTag?: number | null | undefined;
   title?: string;
   idSellPoint?: number;
+  idCity?: number;
   sort?: TypeSortProduct | null;
 }
 

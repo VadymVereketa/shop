@@ -184,7 +184,7 @@ const en = {
   assortmentBtnText: `Delivery`,
   cashPayment: `Cash`,
   cartPaymetnInGet: `Pay by card upon receipt`,
-  onlinePayment: `Payment by card`,
+  onlinePayment: `Payment by card online`,
   enterToLocalAccount1: `Entrance`,
   storeLocations: `Store locations`,
   enterToLocalAccount2: ` to the personal account`,
@@ -203,5 +203,6 @@ const en = {
   citiesKyiv: `Kyiv`,
   citiesLviv: `Lviv`,
   citiesSuburbs: `and suburbs`,
+  anotherCity: 'Another City',
 };
 export default en;

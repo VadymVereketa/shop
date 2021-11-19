@@ -6,6 +6,7 @@ import {TypeDelivery} from '../../constants/constantsId';
 import {selectorsTypes} from '../types/typeReducer';
 import {getSellPoint} from '../sellPoints/sellPointsReducer';
 import {selectorsUser} from '../user/userReducer';
+import {SelectorCity} from '../city/cityReducer';
 
 const init: IOrderState = {
   address: '',
@@ -51,7 +52,6 @@ creator.addAction('clear', (state) => {
   return {
     ...init,
     deliveryType: state.deliveryType,
-    expressSellPoint: state.expressSellPoint,
     sellPoint: state.sellPoint,
   };
 });
@@ -93,10 +93,12 @@ const selectorsOrder = {
     ) {
       return 0;
     }
-    if (state.order.addressId === -1) {
+    if (state.order.idDeliveryPrice === null) {
       return 0;
     }
-    return selectorsOther.getDeliveryPrice(state.order.idDeliveryPrice)(state);
+    return SelectorCity.getDeliveryPriceById(state.order.idDeliveryPrice)(
+      state,
+    );
   },
 
   isCallBack: (state: RootState) => state.order.isCallBack,

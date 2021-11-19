@@ -11,7 +11,7 @@ const init: ICartState = {
   isLoading: false,
   error: null,
   isOpenCart: false,
-  idSellPoint: -1,
+  idSellPoint: null,
 };
 
 const creator = new CreatorReducer<ICartActions, ICartState>('cart');
@@ -75,7 +75,7 @@ creator.addAction<number>('updateCart', (state, action) => {
 creator.addAction('clear', (state, action) => ({
   ...init,
   data: [],
-  idSellPoint: action.payload,
+  idSellPoint: state.idSellPoint,
 }));
 creator.addAction(actionsUser.logout, (state) => ({...state, data: []}));
 

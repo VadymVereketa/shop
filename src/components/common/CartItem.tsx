@@ -21,7 +21,7 @@ import {ID_UNIT_WEIGHT} from '../../constants/constantsId';
 
 interface ICartItemProps {
   item: ICartItem;
-  defaultSellPoint?: number;
+  defaultSellPoint?: number | null;
   isEdit?: boolean;
 }
 
