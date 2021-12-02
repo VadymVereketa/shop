@@ -17,6 +17,7 @@ import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import t from '../../utils/translate';
 import service from '../../services/service';
 import {SelectorCity} from '../../redux/city/cityReducer';
+import {selectorsCart} from '../../redux/cart/cartReducer';
 
 interface IDateInputProps {
   navigate: string;
@@ -56,6 +57,7 @@ const DateInput = ({navigate}: IDateInputProps) => {
   const idSellPoint = useSelector(selectorsOrder.getSellPointId);
   const deliveryType = useSelector(selectorsOrder.getDeliveryType);
   const selectedCity = useSelector(SelectorCity.getSelectedCity);
+  const timeToPrepare = useSelector(selectorsCart.getTimeToPrepare);
   const name = useMemo(() => {
     return deliveryType === null
       ? DEFAULT_NAME_SETTING
@@ -112,7 +114,12 @@ const DateInput = ({navigate}: IDateInputProps) => {
     const handle = async () => {
       const d = await service.getCurrentTime();
       if (isFocused) {
-        const options = getOptions(settings, d, name === DEFAULT_NAME_SETTING);
+        const options = getOptions(
+          settings,
+          d,
+          name === DEFAULT_NAME_SETTING,
+          timeToPrepare,
+        );
 
         setOptions(options);
       }
