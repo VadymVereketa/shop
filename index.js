@@ -61,7 +61,6 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
 });
 
 const store = configureStore();
-store.store.dispatch(thunkGetCustomCategories);
 store.store.dispatch(serviceGetCustomCategories);
 store.store.dispatch(thunkGetTags);
 store.store.dispatch(fetchGetAllSettings);

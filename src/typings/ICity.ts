@@ -46,4 +46,9 @@ export type ISettingCity = {
 export type ISettingCityCode =
   | 'default_delivery_sell_points' /** Точки продажу з яких проводиться кур'єрська доставка */
   | 'default_price_sell_point' /** Точка продажу за замовчуванням для відображення ціни продукту в замовленні */
-  | 'default_delivery_price'; /** Доставка за замовчуванням" */
+  | 'default_delivery_price' /** Доставка за замовчуванням" */
+  | 'order_time_step'
+  | 'order_offset_time'
+  | 'order_time_from'
+  | 'order_time_to'
+  | 'order_time_range';

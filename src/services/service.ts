@@ -34,6 +34,12 @@ import {DateHelper} from '../utils/DataHelper';
 import {IFetchCategory} from '../typings/ICategory';
 import {ICityFetch} from '../typings/ICity';
 
+type TypeGetExcludeTime = {
+  type: Omit<TypeDelivery, 'drive' | 'express'>;
+  date: Date;
+  placeId: number;
+};
+
 const service = {
   getCities: async () => {
     return await customFetch(() => instance.get<ICityFetch[]>('city'));
@@ -482,18 +488,20 @@ const service = {
   createDraft: async (data?: IDraft) => {
     return await customFetch(() => instance.post('clients/order/draft', data));
   },
-  getExcludeTime: async (d: Date) => {
-    const y = d.getFullYear();
-    const m = (d.getMonth() + 1).toString().padStart(2, '0');
-    const day = d.getDate().toString().padStart(2, '0');
+  getExcludeTime: async ({date, placeId, type}: TypeGetExcludeTime) => {
+    const y = date.getFullYear();
+    const m = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const dateStr = `${y}-${m}-${day}`;
+
     try {
       const res = await instance.get(
-        'delivery/time/exclude/' + `${y}-${m}-${day}`,
+        `delivery/time/exclude/${type}/${dateStr}/${placeId}`,
       );
       return {
         success: true,
         data: res.data,
-        date: d,
+        date: date,
       };
     } catch (e) {
       return {
@@ -501,27 +509,7 @@ const service = {
       };
     }
   },
-  getExcludeTimeSellPoint: async (d: Date, id: any, isSelfDelivery = true) => {
-    const y = d.getFullYear();
-    const m = (d.getMonth() + 1).toString().padStart(2, '0');
-    const day = d.getDate().toString().padStart(2, '0');
 
-    try {
-      const res = await instance.get(
-        `/delivery/time/exclude/${y}-${m}-${day}/${id}/${isSelfDelivery}`,
-      );
-
-      return {
-        success: true,
-        data: res.data,
-        date: d,
-      };
-    } catch (e) {
-      return {
-        success: false,
-      };
-    }
-  },
   getCurrentTime: async () => {
     const res = await customFetch(() => instance.get('clients/order/date'));
     if (res.success) {

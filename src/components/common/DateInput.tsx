@@ -58,6 +58,7 @@ const DateInput = ({navigate}: IDateInputProps) => {
   const deliveryType = useSelector(selectorsOrder.getDeliveryType);
   const selectedCity = useSelector(SelectorCity.getSelectedCity);
   const timeToPrepare = useSelector(selectorsCart.getTimeToPrepare);
+  const idCity = useSelector(SelectorCity.getSelectedCityId)!;
   const name = useMemo(() => {
     return deliveryType === null
       ? DEFAULT_NAME_SETTING
@@ -81,13 +82,18 @@ const DateInput = ({navigate}: IDateInputProps) => {
           [0, 1, 2, 3, 4, 5, 6].map((i) => {
             const d = new Date();
             d.setDate(d.getDate() + i);
-            return name === DEFAULT_NAME_SETTING
-              ? service.getExcludeTime(d)
-              : service.getExcludeTimeSellPoint(d, name);
+
+            return service.getExcludeTime({
+              date: new Date(d),
+              placeId: name === DEFAULT_NAME_SETTING ? idCity : idSellPoint!,
+              type: deliveryType!.code,
+            });
           }),
         );
         const obj = {};
         res.forEach((r) => {
+          console.log(r);
+
           if (r.success) {
             obj[new Date(r.date!).toLocaleDateString()] = r.data;
           }
@@ -97,13 +103,6 @@ const DateInput = ({navigate}: IDateInputProps) => {
         setIsBlock(false);
       }
     };
-
-    //TODO: delete
-    if (deliveryType!.code === TypeDelivery.courier && selectedCity !== null) {
-      if (selectedCity.id !== 1) {
-        return;
-      }
-    }
 
     if (deliveryType) {
       handle();
@@ -141,16 +140,6 @@ const DateInput = ({navigate}: IDateInputProps) => {
   const handlePressDate = () => {
     if (isBlock) {
       return;
-    }
-    //TODO: delete
-    if (deliveryType!.code === TypeDelivery.courier && selectedCity !== null) {
-      if (selectedCity.id !== 1) {
-        navigation.navigate('Date', {
-          options,
-          navigate,
-        });
-        return;
-      }
     }
 
     if (Object.keys(excludeTime).length > 0) {

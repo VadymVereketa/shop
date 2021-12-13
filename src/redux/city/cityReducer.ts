@@ -81,6 +81,33 @@ class SelectorCity {
     };
   }
 
+  static getSettingForDelivery(state: RootState) {
+    const city = SelectorCity.getSelectedCity(state);
+    const defaultSetting = {
+      step: 30,
+      offset: 60,
+      from: '12:00',
+      to: '21:00',
+      range: 60,
+    };
+    if (city === null) {
+      return defaultSetting;
+    }
+    return {
+      step: city.setups.order_time_step
+        ? +city.setups.order_time_step
+        : defaultSetting.step,
+      offset: city.setups.order_offset_time
+        ? +city.setups.order_offset_time
+        : defaultSetting.offset,
+      from: city.setups.order_time_from || defaultSetting.from,
+      to: city.setups.order_time_to || defaultSetting.to,
+      range: city.setups.order_time_range
+        ? +city.setups.order_time_range
+        : defaultSetting.range,
+    };
+  }
+
   //TODO: delete
   static getDeliveryPricesForLviv(state: RootState) {
     const city = SelectorCity.getSelectedCity(state);
