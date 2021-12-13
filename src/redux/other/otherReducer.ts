@@ -5,6 +5,7 @@ import service from '../../services/service';
 import {actionsCart} from '../cart/cartReducer';
 import {DEFAULT_NAME_SETTING} from '../../constants/constantsId';
 import {actionsOrder} from '../order/orderReducer';
+import {SelectorCity} from '../city/cityReducer';
 
 const init: IOtherState = {
   searchQueries: [],
@@ -76,13 +77,7 @@ const selectorsOther = {
     }
     const setting = state.other.settings![id] || {};
     if (id === DEFAULT_NAME_SETTING) {
-      return {
-        step: setting.order_time_step ? +setting.order_time_step : 30,
-        offset: setting.order_offset_time ? +setting.order_offset_time : 60,
-        from: setting.order_time_from ? setting.order_time_from : '12:00',
-        to: setting.order_time_to ? setting.order_time_to : '21:00',
-        range: setting.order_time_range ? +setting.order_time_range : 60,
-      };
+      return SelectorCity.getSettingForDelivery(state);
     }
     const sellPoint: any =
       state.sellPoints.data.find((s) => s.id === +id) || {};
