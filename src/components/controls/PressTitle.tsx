@@ -18,7 +18,7 @@ import Animated, {Easing, timing, concat} from 'react-native-reanimated';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import withPreventDoubleClick from '../../utils/withPreventDoubleClick';
 
-const TWF = withPreventDoubleClick(TouchableWithoutFeedback);
+const TWF = withPreventDoubleClick(TouchableOpacity);
 
 interface IPressTitleProps extends TouchableWithoutFeedbackProps {
   children?: any;

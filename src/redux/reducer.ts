@@ -17,6 +17,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {ITypeState} from './types/typeTypes';
 import {IConfigState} from './config/configTypes';
 import configReducer from './config/configReducer';
+import {ICityState} from './city/cityTypes';
+import cityReducer from './city/cityReducer';
 
 const otherPersistConfig = {
   key: 'other',
@@ -50,7 +52,12 @@ const typesPersistConfig = {
 const orderPersistConfig = {
   key: 'order',
   storage: AsyncStorage,
-  whitelist: ['sellPoint', 'expressSellPoint', 'deliveryType'],
+  whitelist: ['sellPoint', 'deliveryType'],
+};
+const cityPersistConfig = {
+  key: 'city',
+  storage: AsyncStorage,
+  whitelist: ['selectedCity'],
 };
 export interface RootState {
   category: ICategoryState;
@@ -61,6 +68,7 @@ export interface RootState {
   sellPoints: ISellPointsState;
   types: ITypeState;
   config: IConfigState;
+  city: ICityState;
 }
 
 export default combineReducers({
@@ -72,4 +80,5 @@ export default combineReducers({
   sellPoints: persistReducer(sellPointsPersistConfig, sellPointsReducer),
   types: persistReducer(typesPersistConfig, typesReducer),
   config: configReducer,
+  city: persistReducer(cityPersistConfig, cityReducer),
 });

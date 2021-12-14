@@ -36,6 +36,7 @@ import {
 import {isIOS} from './src/utils/isPlatform';
 import {thunkGetTypes} from './src/redux/types/typeReducer';
 import AsyncStorage from '@react-native-community/async-storage';
+import {thunkGetAllCities} from './src/redux/city/cityReducer';
 
 I18n.defaultLocale = 'uk';
 I18n.fallbacks = true;
@@ -60,12 +61,12 @@ messaging().setBackgroundMessageHandler(async (remoteMessage) => {
 });
 
 const store = configureStore();
-store.store.dispatch(thunkGetCustomCategories);
 store.store.dispatch(serviceGetCustomCategories);
 store.store.dispatch(thunkGetTags);
 store.store.dispatch(fetchGetAllSettings);
 store.store.dispatch(thunkGetSellPoints);
 store.store.dispatch(thunkGetTypes);
+store.store.dispatch(thunkGetAllCities);
 
 const handleAppStateChange = async (nextAppState) => {
   try {

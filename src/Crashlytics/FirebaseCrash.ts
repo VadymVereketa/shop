@@ -14,9 +14,9 @@ class FirebaseCrash {
       `User ${user.firstName} by phone (${user.phone}) signed in.`,
     );
 
-    await crashlytics().setUserId(user.id.toString());
+    await crashlytics().setUserId(user.phone.toString());
     await crashlytics().setAttributes({
-      id: user.id.toString(),
+      id: user.phone.toString(),
       email: user.email,
       firstName: user.firstName,
       ENV: mode,

@@ -158,7 +158,7 @@ const CommentCartScreen = React.memo(({navigation, route}: any) => {
             style={{
               width: '48%',
             }}>
-            {t('btnAdd')}
+            {t('cartAddComment')}
           </MyButton>
         </View>
       </ScrollView>

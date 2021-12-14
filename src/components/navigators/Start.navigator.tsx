@@ -12,6 +12,7 @@ import {selectorsCart} from '../../redux/cart/cartReducer';
 import AddressNavigator from './Address.navigator';
 import {selectorsOrder} from '../../redux/order/orderReducer';
 import FirebaseCrash from '../../Crashlytics/FirebaseCrash';
+import {navigationRef} from '../../utils/navigationRef';
 
 export type StartNavigatorParamList = {
   MainNavigator: {};
@@ -52,12 +53,18 @@ const Stack = createStackNavigator<StartNavigatorParamList>();
 const StartNavigator = React.memo(() => {
   const user = useSelector(selectorsUser.getUser);
   const isAuth = useSelector(selectorsUser.isAuth);
+  const isNeededEditName = useSelector(selectorsUser.isNeededEditName);
   const count = useSelector(selectorsCart.getGeneralCount);
   const numberOrder = useSelector(selectorsOrder.getNumberOrder);
 
   useEffect(() => {
     if (isAuth && user) {
       FirebaseCrash.init(user!);
+      if (isNeededEditName) {
+        navigationRef.current.navigate('SecondaryNavigator', {
+          screen: 'EditName',
+        });
+      }
     }
   }, [isAuth]);
 

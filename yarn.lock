@@ -739,6 +739,13 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@haskkor/react-native-recaptchav3@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@haskkor/react-native-recaptchav3/-/react-native-recaptchav3-1.2.1.tgz#e34045af14829d0f56fb677c5a5f0bfd9084f7f1"
+  integrity sha512-sTJJTjAnggNk45jLgyB3cNB+LCV7qgFVDLUJcEcSaDvrQXUZJ3h0l02y+nj/jgx3VQcU6g4VqJSZ+sWwKXE6SA==
+  dependencies:
+    react-native-webview "^9.0.1"
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"
@@ -2948,15 +2955,15 @@ escape-html@~1.0.3:
   resolved "https://registry.yarnpkg.com/escape-html/-/escape-html-1.0.3.tgz#0258eae4d3d0c0974de1c169188ef0051d1d1988"
   integrity sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg=
 
+escape-string-regexp@2.0.0, escape-string-regexp@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
+  integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
+
 escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
-
-escape-string-regexp@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
-  integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
 
 escape-string-regexp@^4.0.0:
   version "4.0.0"
@@ -3949,7 +3956,7 @@ internal-slot@^1.0.3:
     has "^1.0.3"
     side-channel "^1.0.4"
 
-invariant@^2.2.4:
+invariant@2.2.4, invariant@^2.2.4:
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   integrity sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
@@ -6150,6 +6157,11 @@ react-is@^17.0.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.2.tgz#e691d4a8e9c789365655539ab372762b0efb54f0"
   integrity sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
 
+react-native-androw@^0.0.34:
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/react-native-androw/-/react-native-androw-0.0.34.tgz#5c4214b155946004a57916619a518974ebd96b36"
+  integrity sha512-YuW0GxYNzABvPPe6k+JdLUF5CAzKSW5R6IxxA/+fg5gc+4avE1tZgLmnRfNtXJCbW9r90YLYp33S9Uu2pe//fg==
+
 react-native-barcode-builder@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-barcode-builder/-/react-native-barcode-builder-2.0.0.tgz#17e898de7325c9b2fffd6e5e0be3760a05571115"
@@ -6207,6 +6219,11 @@ react-native-reanimated@^1.13.0:
   integrity sha512-i714H24dv6ncpFO7/SZ0PfAMbvjgVbF8Ow2NPtowoZAz8osS54DmTMrkgJ9Za+uEku/s0AEaxqiXG2Xgntvv2g==
   dependencies:
     fbjs "^1.0.0"
+
+react-native-recaptcha-that-works@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-recaptcha-that-works/-/react-native-recaptcha-that-works-1.1.0.tgz#172b9498b4d5887ba7a94e046f962fda709c0bc5"
+  integrity sha512-p/J0xSUZ2/1De4QlzQsvOdGor7c+5YeLC6aNWKKaR+m5/2fU0bvUOBBkmXmaFETM4riUiKSTv9Gdy6E2dSiZPg==
 
 react-native-responsive-dimensions@^3.1.1:
   version "3.1.1"
@@ -6284,6 +6301,22 @@ react-native-uuid@^1.4.9:
   integrity sha1-pSZ0L4/d/mQUUAZVISyo0QnEAik=
   dependencies:
     randombytes "^2.0.3"
+
+react-native-webview@^11.14.0:
+  version "11.14.0"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-11.14.0.tgz#01d7669409d7510c859300c058902c8a8490cbbb"
+  integrity sha512-G5pIYL3dU4rWt4K8W8ZoEDHL3nCR+rnNWsrCP/rJcl1gElxZn2xlpHjNml4myopIzn835NgE0/dJJ9VHvdMg3Q==
+  dependencies:
+    escape-string-regexp "2.0.0"
+    invariant "2.2.4"
+
+react-native-webview@^9.0.1:
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-9.4.0.tgz#108da34a6c7e1c032dcabc942b7e4947ca1d8028"
+  integrity sha512-BBOFUuza0p04+7fNi7TJmB0arpDJzGxHYwTCgI4vj5n/fl7u4jbm7ETp88mf7lo9lP6C6HGLo38KnEy1aXCQkg==
+  dependencies:
+    escape-string-regexp "2.0.0"
+    invariant "2.2.4"
 
 react-native@0.63.2:
   version "0.63.2"

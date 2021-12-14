@@ -16,6 +16,7 @@ import {
   selectorCategory,
   selectorCategory2,
 } from '../../redux/category/categoryReducer';
+import {SelectorCity} from '../../redux/city/cityReducer';
 import {selectorsOrder} from '../../redux/order/orderReducer';
 import {selectorsOther} from '../../redux/other/otherReducer';
 import service from '../../services/service';
@@ -57,7 +58,7 @@ const Products = ({
   const {isLoading, request} = useAxios(service.getProducts);
   const [products, setProducts] = useState([] as IProduct[]);
 
-  const ID_DEFAULT_SELLPOINT = useSelector(selectorsOther.getIdSellPoint);
+  const idSelectedCity = useSelector(SelectorCity.getSelectedCityId)!;
   const isDeliverySelf = useSelector(selectorsOrder.isDeliverySelf);
   const cartSellPoint = useSelector(selectorsOrder.getSellPointId);
 
@@ -89,9 +90,8 @@ const Products = ({
       title: search,
       idCategory: !isTag ? id : null,
       sort,
-      idSellPoint: isDeliverySelf
-        ? cartSellPoint || ID_DEFAULT_SELLPOINT
-        : undefined,
+      idSellPoint: isDeliverySelf ? cartSellPoint : undefined,
+      idCity: isDeliverySelf ? undefined : idSelectedCity,
     }).then((res) => {
       if (res.success) {
         setProducts((p) => {

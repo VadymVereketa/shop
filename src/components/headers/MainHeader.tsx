@@ -18,7 +18,7 @@ import WrapperHeader from './WrapperHeader';
 
 const MainHeader = ({scene}: StackHeaderProps) => {
   const dispatch = useDispatch();
-  const {lightBackground, lightText, text} = useTheme();
+  const {primary, background, lightText, text} = useTheme();
   const isAuth = useSelector(selectorsUser.isAuth);
   const sellPoints = useSelector(getSellPoints(true));
   const deliveryType = useSelector(selectorsOrder.getDeliveryType);
@@ -42,12 +42,6 @@ const MainHeader = ({scene}: StackHeaderProps) => {
         isModalAssortment: true,
       }),
     );
-
-    dispatch(
-      actionsOrder.setData({
-        deliveryType: null,
-      }),
-    );
   };
 
   const handleClearCart = () => {
@@ -55,11 +49,6 @@ const MainHeader = ({scene}: StackHeaderProps) => {
     dispatch(actionsCart.updateCart(idDefaultSellPoint));
     setIsOpenClearCart(false);
 
-    dispatch(
-      actionsOrder.setData({
-        deliveryType: null,
-      }),
-    );
     dispatch(
       actionsOther.setData({
         isModalAssortment: true,
@@ -78,7 +67,7 @@ const MainHeader = ({scene}: StackHeaderProps) => {
         onConfirm={handleClearCart}
       />
       <DesignIcon name="logo" size={sizes[20]} fill="white" />
-      {deliveryType && isAuth && (
+      {deliveryType && (
         <TouchableOpacity
           onPress={handleOpenAssortmentModal}
           containerStyle={{
@@ -100,14 +89,13 @@ const MainHeader = ({scene}: StackHeaderProps) => {
             }}>
             {t('assortmentForShort')}
           </MyText>
+          <DesignIcon name={'MarkerIcon'} size={sizes[9]} fill={primary} />
           <MyText
             style={{
-              marginRight: sizes[3],
+              marginLeft: sizes[3],
               fontFamily: getFontFamily('400'),
             }}>
             {getTextDeliveryType(deliveryType, selectSellPoint)}
-            {'   '}
-            <DesignIcon name={'arrow-down'} size={sizes[5]} fill={text} />
           </MyText>
         </TouchableOpacity>
       )}

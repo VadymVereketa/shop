@@ -4,7 +4,7 @@ import {ICartItem} from '../../typings/FetchData';
 export interface ICartState extends IBaseState {
   data: ICartItem[];
   isOpenCart: boolean;
-  idSellPoint: number;
+  idSellPoint: number | null;
 }
 
 export interface IIncrement {
@@ -27,5 +27,5 @@ export interface ICartActions extends IBaseActions {
   setComment: (obj: IComment) => any;
   toggleCart: (obj: boolean) => any;
   updateCart: (obj: number) => any;
-  clear: (id: number) => any;
+  clear: () => any;
 }

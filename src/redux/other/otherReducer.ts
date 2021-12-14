@@ -5,6 +5,7 @@ import service from '../../services/service';
 import {actionsCart} from '../cart/cartReducer';
 import {DEFAULT_NAME_SETTING} from '../../constants/constantsId';
 import {actionsOrder} from '../order/orderReducer';
+import {SelectorCity} from '../city/cityReducer';
 
 const init: IOtherState = {
   searchQueries: [],
@@ -76,13 +77,7 @@ const selectorsOther = {
     }
     const setting = state.other.settings![id] || {};
     if (id === DEFAULT_NAME_SETTING) {
-      return {
-        step: setting.order_time_step ? +setting.order_time_step : 30,
-        offset: setting.order_offset_time ? +setting.order_offset_time : 60,
-        from: setting.order_time_from ? setting.order_time_from : '12:00',
-        to: setting.order_time_to ? setting.order_time_to : '21:00',
-        range: setting.order_time_range ? +setting.order_time_range : 60,
-      };
+      return SelectorCity.getSettingForDelivery(state);
     }
     const sellPoint: any =
       state.sellPoints.data.find((s) => s.id === +id) || {};
@@ -103,21 +98,6 @@ const selectorsOther = {
     return +state.other.settings![DEFAULT_NAME_SETTING]
       .default_price_sell_point!;
   },
-  getDeliveryPrice: (id: number) => (state: RootState) => {
-    const findItem = state.types.pricesTypes.find((d) => d.id === id);
-    if (findItem) {
-      return +findItem.price;
-    } else {
-      return +state.types.pricesTypes.find(
-        (d) => d.id === selectorsOther.getIdDeliveryPrice(state),
-      )!.price;
-    }
-  },
-  getIdDeliveryPrice: (state: RootState) => {
-    if (!state.other.settings) return -1;
-    return +state.other.settings![DEFAULT_NAME_SETTING].default_delivery_price!; // get id
-  },
-
   getPhone: (state: RootState) => {
     if (!state.other.settings) return '';
     return state.other.settings![DEFAULT_NAME_SETTING].delivery_phone!;
@@ -160,15 +140,6 @@ const selectorsOther = {
   },
   getIsModalAssortment: (state: RootState) => {
     return state.other.isModalAssortment;
-  },
-  getIDDefaultDeliveryPriceExpress: (state: RootState) => {
-    if (!state.other.settings) return -1;
-    return +state.other.settings![DEFAULT_NAME_SETTING]
-      .default_delivery_price_express!;
-  },
-  getDefaultDeliveryPriceExpress: (state: RootState) => {
-    const id = selectorsOther.getIDDefaultDeliveryPriceExpress(state);
-    return state.types.pricesTypes.find((d) => d.id === id);
   },
 };
 
