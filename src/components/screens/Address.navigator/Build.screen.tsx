@@ -1,22 +1,19 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, Keyboard} from 'react-native';
+import {View, StyleSheet, Keyboard} from 'react-native';
 import {BuildScreenProps} from '../../navigators/Address.navigator';
 import {SafeAreaView, useSafeAreaInsets} from 'react-native-safe-area-context';
 import {sizes, useTheme} from '../../../context/ThemeContext';
 import MyTextInput from '../../controls/MyTextInput';
-import {FlatList, ScrollView} from 'react-native-gesture-handler';
-import MyButton from '../../controls/MyButton';
+import {FlatList} from 'react-native-gesture-handler';
 import {IOption} from '../../../useHooks/useAvailableDate';
 import {IAddressDictionary} from '../../../typings/FetchData';
 import {useAxios} from '../../../useHooks/useAxios';
 import service from '../../../services/service';
 import {useSelector} from 'react-redux';
-import {selectorsOther} from '../../../redux/other/otherReducer';
-import MyText from '../../controls/MyText';
-import DesignIcon from '../../common/DesignIcon';
 import BlockButtons from '../../common/BlockButtons';
 import OptionItem from '../../common/OptionItem';
 import t from '../../../utils/translate';
+import {SelectorCity} from '../../../redux/city/cityReducer';
 
 export interface IExtra {
   build: string;
@@ -26,9 +23,9 @@ export interface IExtra {
 }
 const BuildScreen = React.memo(({navigation, route}: BuildScreenProps) => {
   const insets = useSafeAreaInsets();
-  const isDefaultDeliveryPrice = useSelector(selectorsOther.getIdDeliveryPrice);
+  const isDefaultDeliveryPrice = useSelector(SelectorCity.getIdDeliveryPrice);
   const {request} = useAxios(service.getAddressesByStrees);
-  const {border, primary, text, background} = useTheme();
+  const {background} = useTheme();
   const [value, setValue] = useState('');
   const [builds, setBuilds] = useState([] as IOption<number, IExtra>[]);
   const [selected, setSelected] = useState(-1);
