@@ -65,6 +65,16 @@ class SelectorCity {
     );
   }
 
+  static getIdDeliveryPrice(state: RootState) {
+    const city = SelectorCity.getSelectedCity(state);
+
+    if (!city) {
+      return null;
+    }
+
+    return +city.setups.default_delivery_price;
+  }
+
   static getDeliveryPrices(state: RootState) {
     const city = SelectorCity.getSelectedCity(state);
     return city ? city.deliveryPrices : [];
