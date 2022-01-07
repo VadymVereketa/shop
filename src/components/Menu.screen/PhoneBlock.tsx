@@ -20,7 +20,7 @@ const PhoneBlock = () => {
       <View>
         <MyText style={{fontSize: sizes[7]}}>{t('profileCall')}</MyText>
         <MyText style={{fontSize: sizes[7], fontFamily: getFontFamily('500')}}>
-          10:00 - 19:00
+          10:00 - 22:00
         </MyText>
       </View>
       <View style={styles.phoneBlock}>

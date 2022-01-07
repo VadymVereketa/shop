@@ -39,6 +39,7 @@ export interface IProduct {
   avgWeight: string | null;
   customCategory: ICustomCategory;
   services: IServiceProduct[];
+  timeToPrepare: number;
 }
 
 export interface IServiceProduct {
@@ -232,6 +233,7 @@ export interface ICartItem {
     avgWeight: string | null;
 
     services: IServiceProduct[];
+    timeToPrepare: number;
   };
   services: number[];
 }
@@ -399,6 +401,8 @@ export interface IDeliveryPrice {
   id: number;
   price: string;
   description: string;
+  externalId: string;
+  isActive: boolean;
 }
 
 export interface ITag {

@@ -9,14 +9,15 @@ interface ISetting {
 }
 
 const getOptions = (
-  {from, offset, step, to, range}: ISetting,
+  {from, offset: settingOffset, step, to, range}: ISetting,
   currentDate: Date,
   isRange = false,
+  timeToPrepare: number | null,
 ) => {
   let res: IOptionDate[] = [];
   const [fromH, fromM] = from.split(':').map(parseFloat);
   const [toH, toM] = to.split(':').map(parseFloat);
-
+  const offset = timeToPrepare || settingOffset;
   let now = currentDate;
 
   let nowH = now.getHours();

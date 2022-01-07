@@ -42,7 +42,7 @@ const FinalStepScreen = React.memo(
     const [snapShot, setSnapshot] = useState({
       sum: 0,
       items: [] as ICartItem[],
-      idSellPoint: undefined as undefined | number,
+      idSellPoint: null as null | number,
     });
 
     useEffect(() => {
@@ -51,7 +51,7 @@ const FinalStepScreen = React.memo(
         items,
         idSellPoint,
       });
-      dispatch(actionsCart.clear(defaultSellPoint));
+      dispatch(actionsCart.clear());
       return () => {
         dispatch(actionsOrder.clear());
       };

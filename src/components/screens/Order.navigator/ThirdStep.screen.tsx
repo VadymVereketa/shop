@@ -17,13 +17,14 @@ import {
 } from '../../../constants/constantsId';
 import {selectorsOther} from '../../../redux/other/otherReducer';
 import service from '../../../services/service';
+import {selectorsCart} from '../../../redux/cart/cartReducer';
 
 const ThirdStepScreen = React.memo(
   ({navigation, route}: ThirdStepScreenProps) => {
     const dispatch = useDispatch();
     const {loading, submit} = useCreateOrder();
+    const timeToPrepare = useSelector(selectorsCart.getTimeToPrepare);
     const idSellPoint = useSelector(selectorsOrder.getSellPointId);
-    const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
     const deliveryType = useSelector(selectorsOrder.getDeliveryType);
     let date = useSelector(selectorsOrder.getDate)!;
     const time = useSelector(selectorsOrder.getTime)!;
@@ -39,22 +40,21 @@ const ThirdStepScreen = React.memo(
     const settings = useSelector(selectorsOther.getSetting(name));
 
     const handleContinue = async () => {
-      if (!isExpress) {
-        let currentDate = await service.getCurrentTime();
-        currentDate.setMinutes(currentDate.getMinutes() + settings.offset - 15);
-        const [h, m] = time.split(':').map(parseFloat);
-        date.setHours(h, m);
-        if (currentDate.getTime() >= date.getTime()) {
-          Toast.show(t('selectDate'));
-          dispatch(
-            actionsOrder.setData({
-              date: null,
-              time: '',
-            }),
-          );
-          navigation.navigate('SecondStep', {});
-          return;
-        }
+      let currentDate = await service.getCurrentTime();
+      const offsetTime = timeToPrepare || settings.offset - 15;
+      currentDate.setMinutes(currentDate.getMinutes() + offsetTime);
+      const [h, m] = time.split(':').map(parseFloat);
+      date.setHours(h, m);
+      if (currentDate.getTime() >= date.getTime()) {
+        Toast.show(t('selectDate'));
+        dispatch(
+          actionsOrder.setData({
+            date: null,
+            time: '',
+          }),
+        );
+        navigation.navigate('SecondStep', {});
+        return;
       }
 
       const res = await submit();
