@@ -1,5 +1,5 @@
-export interface IBaseState {
-  data: any | null;
+export interface IBaseState<T = any | null> {
+  data: T;
   isLoading: boolean;
   error: any;
 }

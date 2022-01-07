@@ -9,14 +9,16 @@ const window = Dimensions.get('window');
 export type Theme = 'dark' | 'light';
 
 interface IThemeContext {
-  onChangeTheme: (theme: Theme) => Theme;
+  onChangeTheme: (theme: Theme) => any;
   theme: Theme;
 
   primary: string;
   accent: string;
   background: string;
+  background2: string;
   lightBackground: string;
   border: string;
+  border2: string;
   text: string;
   lightText: string;
   darkText: string;
@@ -54,11 +56,13 @@ const ProviderTheme = ({children}: any) => {
     const primary = theme === 'light' ? '#01a6e6' : '#01a6e6';
     const accent = theme === 'light' ? '#18aa13' : '#18aa13';
     const background = theme === 'light' ? '#fff' : '#212126';
+    const background2 = theme === 'light' ? '#F7F9FB' : '#F7F9FB';
     const lightBackground = theme === 'light' ? '#f2f4fa' : '#3c4162';
     const lightText = theme === 'light' ? '#a0a9ba' : '#a0a9ba';
     const darkText = theme === 'light' ? '#121826' : '#f3f4f8';
     const text = theme === 'light' ? '#3c4162' : '#dadeea';
     const border = theme === 'light' ? '#dadeea' : '#3c4162';
+    const border2 = theme === 'light' ? '#E8EEF2' : '#E8EEF2';
     const errorColor = theme === 'light' ? '#dc3545' : '#dc3545';
 
     return {
@@ -79,6 +83,8 @@ const ProviderTheme = ({children}: any) => {
       darkText,
       lightBackground,
       errorColor,
+      background2,
+      border2,
     };
   }, [theme]);
 

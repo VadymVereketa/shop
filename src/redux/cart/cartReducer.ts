@@ -5,13 +5,14 @@ import {ICartItem} from '../../typings/FetchData';
 import service from '../../services/service';
 import {actionsUser} from '../user/userReducer';
 import {ID_UNIT_WEIGHT} from '../../constants/constantsId';
+import {selectorsOrder} from '../order/orderReducer';
 
 const init: ICartState = {
   data: [],
   isLoading: false,
   error: null,
   isOpenCart: false,
-  idSellPoint: -1,
+  idSellPoint: null,
 };
 
 const creator = new CreatorReducer<ICartActions, ICartState>('cart');
@@ -75,7 +76,7 @@ creator.addAction<number>('updateCart', (state, action) => {
 creator.addAction('clear', (state, action) => ({
   ...init,
   data: [],
-  idSellPoint: action.payload,
+  idSellPoint: state.idSellPoint,
 }));
 creator.addAction(actionsUser.logout, (state) => ({...state, data: []}));
 
@@ -136,6 +137,16 @@ const selectorsCart = {
     if (state.cart.data.length === 0) return false;
 
     return state.cart.data.some((p) => p.product.units === ID_UNIT_WEIGHT);
+  },
+  getTimeToPrepare: (state: RootState) => {
+    const isSelf = selectorsOrder.isDeliverySelf(state);
+    if (isSelf) {
+      return (
+        Math.max(...state.cart.data.map((p) => p.product.timeToPrepare)) / 60 +
+        10
+      );
+    }
+    return null;
   },
 };
 

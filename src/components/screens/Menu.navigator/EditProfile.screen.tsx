@@ -10,14 +10,15 @@ import service from '../../../services/service';
 import MyTextInput, {MyTextPhoneInput} from '../../controls/MyTextInput';
 import t from '../../../utils/translate';
 import getErrorByObj from '../../../utils/getErrorByObj';
-import validation from '../../../utils/validation';
 import {IUser} from '../../../typings/FetchData';
 import {useDispatch, useSelector} from 'react-redux';
 import {refreshUser, selectorsUser} from '../../../redux/user/userReducer';
 import {ScrollView} from 'react-native-gesture-handler';
 import BlockButtons from '../../common/BlockButtons';
+import useValidation from '../../../utils/validation';
 
-const getSettingForInput = (name: 'phone' | 'email' | 'name') => {
+const useGetSettingForInput = (name: 'phone' | 'email' | 'name') => {
+  const validation = useValidation();
   switch (name) {
     case 'phone':
       return {
@@ -64,6 +65,7 @@ const EditProfileScreen = React.memo(
   ({navigation, route}: EditProfileScreenProps) => {
     const dispatch = useDispatch();
     const {field} = route.params;
+    const setting = useGetSettingForInput(field);
     const user = useSelector(selectorsUser.getUser)!;
     const insets = useSafeAreaInsets();
     const {request, isLoading} = useAxios(service.updateProfile);
@@ -94,8 +96,6 @@ const EditProfileScreen = React.memo(
       mode: 'onChange',
       defaultValues: getDefaultValue(user, field) as any,
     });
-
-    const setting = getSettingForInput(field);
 
     return (
       <SafeAreaView

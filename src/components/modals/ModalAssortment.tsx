@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {TouchableOpacity, StyleSheet, View} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import React, {useEffect, useState, useMemo} from 'react';
+import {StyleSheet, View} from 'react-native';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {TypeDelivery} from '../../constants/constantsId';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {actionsCart} from '../../redux/cart/cartReducer';
+import {actionsCity, SelectorCity} from '../../redux/city/cityReducer';
 import {actionsOrder, selectorsOrder} from '../../redux/order/orderReducer';
 import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
 import {getSellPoints} from '../../redux/sellPoints/sellPointsReducer';
@@ -24,36 +25,46 @@ import MyButton from '../controls/MyButton';
 import MyText from '../controls/MyText';
 import MyModal from './MyModal';
 
-interface IModalUpdateAppProps {}
+const COLORS = {
+  background: 'background: rgba(60, 65, 98, 1)',
+  text: '#FFFFFF',
+  border: '#595F87',
+  accent: '#6EE5FF',
+  primary: '#01A6E6',
+  lightText: '#A0A9BA',
+};
 
-const width = responsiveScreenWidth(100) - sizes[40];
-
-const sizeCheck = sizes[25];
-
+interface IExtra {
+  isActive: boolean;
+  text: string;
+  idSellPoint?: number;
+  idDeliveryPrice?: number;
+}
 const ModalAssortment = () => {
+  const cities = useSelector(SelectorCity.getCities).map((c) => {
+    return {
+      label: c.name,
+      value: c.id,
+      extra: {
+        isActive: c.isActive,
+        text: t('citiesSuburbs'),
+        idSellPoint: c.setups.default_price_sell_point,
+        idDeliveryPrice: c.setups.default_delivery_price,
+      },
+    } as IOption<string, number, IExtra>;
+  });
   const dispatch = useDispatch();
-  const {border, lightText, primary, lightBackground} = useTheme();
   const isModalAssortment = useSelector(selectorsOther.getIsModalAssortment);
-  const DEFAULT_ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
   const deliveryTypes = useSelector(selectorsTypes.getDeliveryTypes);
-  const sellPoints = useSelector(getSellPoints(true));
-
-  const idDefaultDeliveryPriceExpress = useSelector(
-    selectorsOther.getIDDefaultDeliveryPriceExpress,
-  );
-  const idDefaultDeliveryPrice = useSelector(selectorsOther.getIdDeliveryPrice);
+  const sellPoints = useSelector(getSellPoints(false));
 
   const defaultDeliveryType = useSelector(selectorsOrder.getDeliveryType);
-  const defaultExpressSellPoint = useSelector(
-    selectorsOrder.getExpressSellPoint,
-  );
   const defaultSellPoint = useSelector(selectorsOrder.getSellPoint);
+  const defaultSelectedCity = useSelector(SelectorCity.getSelectedCityId);
 
   const [deliveryType, setDeliveryType] = useState(defaultDeliveryType);
-  const [expressSellPoint, setExpressSellPoint] = useState(
-    defaultExpressSellPoint,
-  );
   const [sellPoint, setSellPoint] = useState(defaultSellPoint);
+  const [selectedCity, setSelectedCity] = useState(defaultSelectedCity);
 
   const onClose = () => {
     dispatch(
@@ -63,20 +74,14 @@ const ModalAssortment = () => {
     );
   };
 
-  useEffect(() => {
-    if (deliveryTypes.length > 0) {
-      handleSelectDeliveryType(TypeDelivery.courier);
-    }
-  }, [deliveryTypes]);
-
   const handleSelectDeliveryType = (type: TypeDelivery) => {
-    if (type !== TypeDelivery.self) {
+    if (type === TypeDelivery.self) {
+      setSelectedCity(null);
+    } else if (type === TypeDelivery.courier) {
       setSellPoint(null);
     }
-    if (type !== TypeDelivery.express) {
-      setExpressSellPoint(null);
-    }
-    setDeliveryType(deliveryTypes.find((d) => d.code === type)!);
+    const data = deliveryTypes.find((d) => d.code === type)!;
+    setDeliveryType(data);
   };
 
   const handleSelectSellpoint = (data: ISellPoint) => {
@@ -84,107 +89,101 @@ const ModalAssortment = () => {
     handleSelectDeliveryType(TypeDelivery.self);
   };
 
-  const handleSelectExpressSellpoint = (data: ISellPoint) => {
-    setExpressSellPoint(data);
+  useEffect(() => {
+    if (deliveryType) {
+      if (deliveryType.code === TypeDelivery.courier) {
+        actionsOrder.setData({
+          sellPoint: null,
+        });
+      }
+    }
+  }, []);
+
+  useDidUpdateEffect(() => {
+    if (defaultDeliveryType === null) {
+      onConfirm();
+      onClose();
+    }
+  }, [deliveryType]);
+
+  const handleSelectCity = (data: number) => {
+    setSelectedCity(data);
+    handleSelectDeliveryType(TypeDelivery.courier);
   };
 
   const handleConfirm = () => {
-    let id: any = DEFAULT_ID_SELL_POINT;
-    if (deliveryType!.code === TypeDelivery.self) {
-      id = sellPoint?.id;
-    } else if (deliveryType!.code === TypeDelivery.express) {
-      id = expressSellPoint!.id;
-    }
-    dispatch(actionsCart.updateCart(id!));
-    if (deliveryType!.code === TypeDelivery.courier) {
-      id = -1;
-    }
-    dispatch(
-      actionsOrder.setData({
-        sellPoint: id,
-        expressSellPoint: expressSellPoint,
-        deliveryType: deliveryType,
-      }),
-    );
+    onConfirm();
     onClose();
   };
 
-  useEffect(() => {
-    if (
-      defaultDeliveryType &&
-      defaultDeliveryType!.code === TypeDelivery.express
-    ) {
+  const onConfirm = () => {
+    if (deliveryType === null) {
+      return;
+    }
+    let idCartSellPoint: number | null = sellPoint?.id ?? null;
+
+    if (deliveryType.code === TypeDelivery.self) {
+      if (sellPoint === null) {
+        return;
+      }
       dispatch(
         actionsOrder.setData({
-          idDeliveryPrice: idDefaultDeliveryPriceExpress,
+          sellPoint: sellPoint.id,
+          deliveryType: deliveryType,
+        }),
+      );
+      dispatch(
+        actionsCity.setDataItem({
+          selectedCity: null,
+        }),
+      );
+    } else if (deliveryType!.code === TypeDelivery.courier) {
+      const city = cities.find((c) => c.value === selectedCity) ?? null;
+      if (city === null) {
+        return;
+      }
+      idCartSellPoint = city.extra!.idSellPoint!;
+      dispatch(
+        actionsCity.setDataItem({
+          selectedCity,
+        }),
+      );
+      dispatch(
+        actionsOrder.setData({
+          idDeliveryPrice: city.extra!.idDeliveryPrice,
+          sellPoint: null,
+          deliveryType: deliveryType,
         }),
       );
     }
-  }, [defaultDeliveryType]);
 
-  const getDisabledBtn = () => {
-    if (!deliveryType) {
-      return false;
-    }
-    if (deliveryType.code === TypeDelivery.self && sellPoint === null) {
-      return true;
-    } else if (
-      deliveryType.code === TypeDelivery.express &&
-      expressSellPoint === null
-    ) {
-      return true;
-    }
-    return false;
+    dispatch(actionsCart.updateCart(idCartSellPoint!));
   };
 
-  useDidUpdateEffect(() => {
-    if (isModalAssortment) {
-      handleSelectDeliveryType(TypeDelivery.courier);
-      dispatch(
-        actionsOrder.setData({
-          sellPoint: null,
-          expressSellPoint: null,
-        }),
-      );
-    }
-  }, [isModalAssortment]);
-
   const options = [
-    /* {
-      code: TypeDelivery.express,
-      title: 'Експрес доставка',
-      subtitle: 'Швидка доставка топ позицій',
-      sellPoints: expressSellPoints.map((s) => {
-        const res: IOption<string, ISellPoint> = {
-          label: s.name,
-          value: s,
-        };
-        return res;
-      }),
-      selected: handleSelectExpressSellpoint,
-      icon: 'ExpressDelivery',
-      value: expressSellPoint,
-    }, */
+    {
+      code: TypeDelivery.courier,
+      title: `${t('btnDelivery')}`,
+      options: cities,
+      value: selectedCity,
+      selected: handleSelectCity,
+    },
     {
       code: TypeDelivery.self,
       title: `${t('commonSelf')}`,
-      subtitle: `${t('assortmentCurrentStore')}`,
-      sellPoints: sellPoints.map((s) => {
-        const res: IOption<string, ISellPoint> = {
+      options: sellPoints.map((s) => {
+        const res: IOption<string, ISellPoint, IExtra> = {
           label: s.name,
           value: s,
+          extra: {
+            isActive: s.isActive,
+            text: s.address ?? '',
+          },
         };
         return res;
       }),
       selected: handleSelectSellpoint,
-      icon: 'SelfDelivery',
       value: sellPoint,
-    },
-    {
-      code: TypeDelivery.courier,
-      title: `${t('commonDelivery')}`,
-      subtitle: `${t('commonAssortmentExtended')}`,
-      icon: 'CourierDelivery',
     },
   ];
 
@@ -192,108 +191,148 @@ const ModalAssortment = () => {
     <MyModal
       modalVisible={isModalAssortment}
       onClose={onClose}
-      style={{
-        height: responsiveScreenHeight(80),
-      }}
-      title={t('commonAssortmentExtended')}>
-      <ScrollView contentContainerStyle={{}} style={{}}>
-        {options.map((opt, i) => {
-          const isMiddle = i > 0 && i < options.length - 1;
-          return (
-            <View
-              key={i}
-              style={{
-                alignItems: 'center',
-                paddingVertical: sizes[10],
-                backgroundColor:
-                  deliveryType?.code === opt.code
-                    ? 'rgba(200, 235, 249, 1)'
-                    : undefined,
-                borderTopWidth: isMiddle ? 1 : 0,
-                borderBottomWidth: isMiddle ? 1 : 0,
-                borderTopColor: border,
-                borderBottomColor: border,
-              }}>
-              <TouchableOpacity
-                activeOpacity={0.1}
-                onPress={() => handleSelectDeliveryType(opt.code)}
-                style={{
-                  borderColor: primary,
-                  borderWidth: 1,
-                  width: sizeCheck,
-                  height: sizeCheck,
-                  borderRadius: sizeCheck / 2,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  backgroundColor: lightBackground,
-                  position: 'absolute',
-                  right: sizes[10],
-                  top: sizes[10],
-                }}>
-                {deliveryType?.code === opt.code && (
-                  <DesignIcon
-                    name={'check-mark'}
-                    size={sizeCheck / 3}
-                    fill={primary}
-                  />
-                )}
-              </TouchableOpacity>
-              <DesignIcon name={opt.icon} size={sizes[70]} />
-              <MyText
-                style={{
-                  fontFamily: getFontFamily('400'),
-                  fontSize: sizes[9],
-                  marginBottom: sizes[1],
-                  marginTop: sizes[5],
-                }}>
-                {opt.title}
-              </MyText>
-              <MyText
-                style={{
-                  color: lightText,
-                  marginBottom: sizes[2],
-                }}>
-                {opt.subtitle}
-              </MyText>
-              {opt.sellPoints && (
-                <CustomModalDropdown<ISellPoint>
-                  animated={false}
-                  label=""
-                  options={opt.sellPoints as any[]}
-                  onSelect={(item1) => {
-                    opt.selected(item1.value as any);
-                  }}
-                  value={opt.value?.name ?? ''}
-                  style={{
-                    width: responsiveScreenWidth(100) - sizes[30],
-                    marginHorizontal: sizes[10],
-                  }}
-                  dropdownStyle={{
-                    width: responsiveScreenWidth(100) - sizes[30],
-                    height: sizes[70],
-                  }}
-                  renderRow={(item) => {
-                    return <MyText style={{}}>{item.option.value.name}</MyText>;
-                  }}
-                />
-              )}
-            </View>
-          );
+      style={styles.modal}>
+      <View style={styles.innerModal}>
+        <MyText style={styles.titleModal}>
+          {t('commonAssortmentExtended') + ':'}
+        </MyText>
+      </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.contentContainerStyle}
+        style={{}}>
+        {options.map((opt) => {
+          return <ItemTypeDelivery key={opt.code} {...opt} />;
         })}
       </ScrollView>
-      <View
-        style={{
-          padding: sizes[10],
-          borderTopWidth: 1,
-          borderTopColor: border,
-        }}>
-        <MyButton onPress={handleConfirm} disabled={getDisabledBtn()}>
-          {t('btnShow')}
-        </MyButton>
-      </View>
+      {deliveryType && (
+        <View style={styles.viewBtn}>
+          <MyButton onPress={handleConfirm}>{t('btnShow')}</MyButton>
+        </View>
+      )}
     </MyModal>
   );
 };
 
-const styles = StyleSheet.create({});
+interface IItemTypeDeliveryProps<T = any> {
+  code: TypeDelivery;
+  title: string;
+  options: IOption<string, any, IExtra>[];
+  selected: (v: any) => any;
+  value: any | null;
+}
+
+const ItemTypeDelivery = <T,>({
+  code,
+  options,
+  selected,
+  title,
+  value,
+}: IItemTypeDeliveryProps<T>) => {
+  return (
+    <View>
+      <MyText style={styles.itemTitle}>{title}</MyText>
+      {options.map((opt, i) => {
+        const isActive = opt.extra ? opt.extra.isActive : false;
+        const isSelected = value === opt.value;
+
+        return (
+          <TouchableOpacity
+            key={i}
+            onPress={() => selected(opt.value)}
+            disabled={!isActive}
+            containerStyle={{
+              opacity: isActive ? 1 : 0.3,
+            }}
+            style={[
+              styles.touchable,
+              {
+                backgroundColor: isSelected ? COLORS.primary : undefined,
+              },
+            ]}>
+            <View>
+              <MyText style={styles.text}>{opt.label}</MyText>
+              <MyText
+                style={{
+                  color: isSelected ? COLORS.text : COLORS.lightText,
+                  fontSize: sizes[8],
+                }}>
+                {opt.extra?.text ?? ''}
+              </MyText>
+            </View>
+            {isSelected && (
+              <View style={styles.circle}>
+                <DesignIcon
+                  name="check-mark"
+                  fill={COLORS.primary}
+                  size={sizes[7]}
+                />
+              </View>
+            )}
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+};
+const styles = StyleSheet.create({
+  modal: {
+    height: responsiveScreenHeight(80),
+    borderRadius: sizes[2],
+    backgroundColor: COLORS.background,
+  },
+  innerModal: {
+    borderBottomColor: COLORS.border,
+    borderBottomWidth: 1,
+    marginHorizontal: sizes[10],
+  },
+  titleModal: {
+    color: COLORS.text,
+    fontFamily: getFontFamily('500'),
+    fontSize: sizes[10],
+    textAlign: 'center',
+    paddingVertical: sizes[10],
+  },
+  contentContainerStyle: {
+    paddingHorizontal: sizes[12],
+  },
+  viewBtn: {
+    padding: sizes[10],
+    paddingTop: 0,
+  },
+  itemTitle: {
+    textAlign: 'center',
+    fontFamily: getFontFamily('400'),
+    fontSize: sizes[18],
+    color: COLORS.accent,
+    paddingVertical: sizes[5],
+    paddingBottom: sizes[10],
+  },
+  touchable: {
+    borderRadius: sizes[2],
+    borderColor: 'rgba(255, 255, 255, 0.500191)',
+    borderWidth: 1,
+    paddingHorizontal: sizes[8],
+    paddingVertical: sizes[6],
+    marginBottom: sizes[5],
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+  },
+  text: {
+    color: COLORS.text,
+    fontSize: sizes[11],
+    fontFamily: getFontFamily('400'),
+  },
+  circle: {
+    width: sizes[20],
+    height: sizes[20],
+    borderRadius: sizes[10],
+    backgroundColor: COLORS.text,
+    alignItems: 'center',
+    justifyContent: 'center',
+    top: 0,
+    bottom: 0,
+  },
+});
 export default ModalAssortment;

@@ -11,29 +11,32 @@ import {Controller, useForm} from 'react-hook-form';
 import MyTextInput from '../../controls/MyTextInput';
 import t from '../../../utils/translate';
 import getErrorByObj from '../../../utils/getErrorByObj';
-import validation from '../../../utils/validation';
 import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import {IOption} from '../../../useHooks/useAvailableDate';
 import MyText from '../../controls/MyText';
 import {IExtra} from './Build.screen';
 import {IAddressRedux} from '../../../typings/FetchData';
 import {getConvertDataToFetch} from '../../../utils/formatAddress';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {actionsUser} from '../../../redux/user/userReducer';
 import BlockButtons from '../../common/BlockButtons';
-
-const cities = [
-  {
-    label: 'Київ',
-    value: 1,
-  },
-  {
-    label: 'Інше місто',
-    value: 2,
-  },
-];
+import useValidation from '../../../utils/validation';
+import {SelectorCity} from '../../../redux/city/cityReducer';
 
 const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
+  const selectedCity = useSelector(SelectorCity.getSelectedCity)!;
+  const cities = [
+    {
+      label: selectedCity.name,
+      value: 1,
+    },
+    {
+      label: t('anotherCity'),
+      value: 2,
+    },
+  ];
+  const isKiev = useSelector(SelectorCity.isKiev);
+  const validation = useValidation();
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const params = route.params || {};
@@ -55,7 +58,7 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
   const {request, isLoading} = useAxios(
     paramAddress ? service.updateAddress : service.addAddress,
   );
-  const isOtherAddress = city !== cities[0].value;
+  const isOtherAddress = isKiev ? city !== cities[0].value : true;
 
   const handlePressBuild = () => {
     if (isOtherAddress) return;
@@ -212,12 +215,11 @@ const AddressScreen = React.memo(({navigation, route}: AddressScreenProps) => {
             afterIcon={{
               name: 'map',
               onPress: () => null,
-              isStroke: true,
             }}
             value={cities.find((c) => c.value === city)!.label}
             editable={false}
           />
-          {isOtherAddress && (
+          {city !== cities[0].value && (
             <Controller
               control={control}
               render={({onChange, onBlur, value}) => (

@@ -4,8 +4,6 @@ import {
   IDeliveryPrice,
   IDeliveryType,
   IPaymentType,
-  IRootCategory,
-  ITag,
 } from '../../typings/FetchData';
 import {ITypeState} from './typeTypes';
 import {RootState} from '../reducer';
@@ -21,7 +19,6 @@ interface ICategoryActions extends IBaseActions {
 const init: ITypeState = {
   deliveryTypes: [],
   paymentTypes: [],
-  pricesTypes: [],
   error: null,
   isLoading: false,
 };
@@ -53,10 +50,6 @@ const thunkGetTypes = async (dispatch: any) => {
       };
       dispatch(actionsTypes.setPayment([...res.data, item]));
     }
-    res = await service.getDeliveryPrices();
-    if (res.success) {
-      dispatch(actionsTypes.setPrices(res.data));
-    }
   } catch (e) {
     dispatch(actionsTypes.setError(e));
   } finally {
@@ -70,13 +63,6 @@ const selectorsTypes = {
   },
   getPaymentsTypes: (state: RootState) => {
     return state.types.paymentTypes;
-  },
-  getPricesTypes: (state: RootState) => {
-    return state.types.pricesTypes;
-  },
-  getDeliveryPrice: (id: number) => (state: RootState) => {
-    const findItem = state.types.pricesTypes.find((d) => d.id === id);
-    return findItem ? +findItem.price : 0;
   },
 };
 

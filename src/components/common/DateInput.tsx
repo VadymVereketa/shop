@@ -16,6 +16,8 @@ import {IOptionDate} from '../screens/Order.navigator/Date.screen';
 import useDidUpdateEffect from '../../useHooks/useDidUpdateEffect';
 import t from '../../utils/translate';
 import service from '../../services/service';
+import {SelectorCity} from '../../redux/city/cityReducer';
+import {selectorsCart} from '../../redux/cart/cartReducer';
 
 interface IDateInputProps {
   navigate: string;
@@ -54,6 +56,9 @@ const DateInput = ({navigate}: IDateInputProps) => {
   const time = useSelector(selectorsOrder.getTime);
   const idSellPoint = useSelector(selectorsOrder.getSellPointId);
   const deliveryType = useSelector(selectorsOrder.getDeliveryType);
+  const selectedCity = useSelector(SelectorCity.getSelectedCity);
+  const timeToPrepare = useSelector(selectorsCart.getTimeToPrepare);
+  const idCity = useSelector(SelectorCity.getSelectedCityId)!;
   const name = useMemo(() => {
     return deliveryType === null
       ? DEFAULT_NAME_SETTING
@@ -77,13 +82,18 @@ const DateInput = ({navigate}: IDateInputProps) => {
           [0, 1, 2, 3, 4, 5, 6].map((i) => {
             const d = new Date();
             d.setDate(d.getDate() + i);
-            return name === DEFAULT_NAME_SETTING
-              ? service.getExcludeTime(d)
-              : service.getExcludeTimeSellPoint(d, name);
+
+            return service.getExcludeTime({
+              date: new Date(d),
+              placeId: name === DEFAULT_NAME_SETTING ? idCity : idSellPoint!,
+              type: deliveryType!.code,
+            });
           }),
         );
         const obj = {};
         res.forEach((r) => {
+          console.log(r);
+
           if (r.success) {
             obj[new Date(r.date!).toLocaleDateString()] = r.data;
           }
@@ -103,7 +113,12 @@ const DateInput = ({navigate}: IDateInputProps) => {
     const handle = async () => {
       const d = await service.getCurrentTime();
       if (isFocused) {
-        const options = getOptions(settings, d, name === DEFAULT_NAME_SETTING);
+        const options = getOptions(
+          settings,
+          d,
+          name === DEFAULT_NAME_SETTING,
+          timeToPrepare,
+        );
 
         setOptions(options);
       }
