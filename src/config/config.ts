@@ -4,7 +4,7 @@ enum Mode {
   PROD = 'PROD',
   UAT = 'UAT',
 }
-const mode: any = Mode.UAT;
+const mode: any = Mode.PROD;
 
 const config = (() => {
   switch (mode) {
