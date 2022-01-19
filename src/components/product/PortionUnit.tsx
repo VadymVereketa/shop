@@ -21,10 +21,18 @@ interface IPortionUnitProps {
   title: ITranslate;
   price: number;
   onOrder: () => any;
+  available: boolean;
 }
 
 const PortionUnit = React.memo(
-  ({product, price, addToCart, title, onOrder}: IPortionUnitProps) => {
+  ({
+    product,
+    price,
+    addToCart,
+    title,
+    onOrder,
+    available,
+  }: IPortionUnitProps) => {
     const w = useResponsiveWidth(100);
     const isRepeatOrder = useSelector(selectorsOrder.isRepeatOrder);
     const {formatPrice} = useFormattingContext();
@@ -75,6 +83,7 @@ const PortionUnit = React.memo(
         <MyText style={styles.ingredients}>{product.ingredients}</MyText>
         {!isRepeatOrder && (
           <MyButton
+            disabled={!available}
             styleText={styles.btnText}
             style={styles.btnTop}
             onPress={handleOrder}>
@@ -82,6 +91,7 @@ const PortionUnit = React.memo(
           </MyButton>
         )}
         <MyButton
+          disabled={!available}
           onPress={handleSubmit}
           style={styles.btnBot}
           styleText={styles.btnText}

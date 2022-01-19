@@ -40,6 +40,12 @@ export interface IProduct {
   customCategory: ICustomCategory;
   services: IServiceProduct[];
   timeToPrepare: number;
+  deliveryOptions:
+    | {
+        available: boolean;
+        id: number;
+      }[]
+    | null;
 }
 
 export interface IServiceProduct {

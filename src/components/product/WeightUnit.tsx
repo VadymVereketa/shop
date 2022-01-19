@@ -31,6 +31,7 @@ interface IWeightUnitProps {
   avgWeight: string | null;
   onOrder: () => any;
   product: IProduct;
+  available: boolean;
 }
 
 const LENGTH_SLIDER = 1.2;
@@ -71,6 +72,7 @@ const WeightUnit = React.memo(
     avgWeight,
     onOrder,
     product,
+    available,
   }: IWeightUnitProps) => {
     const w = useResponsiveWidth(100);
     const insets = useSafeAreaInsets();
