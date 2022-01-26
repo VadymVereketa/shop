@@ -4,16 +4,16 @@ enum Mode {
   PROD = 'PROD',
   UAT = 'UAT',
 }
-const mode: any = Mode.PROD;
+const mode: any = Mode.DEV;
 
 const config = (() => {
   switch (mode) {
     case Mode.DEV:
       return {
         captchaDomain: 'http://huspi.com:3022',
-        baseURL: 'http://192.168.0.100:3006/api/v1/',
-        baseURLV2: 'http://192.168.0.100:3006/api/v2/',
-        baseURLCallback: 'http://192.168.0.100:3004/api/v1/',
+        baseURL: 'http://192.168.31.65:3006/api/v1/',
+        baseURLV2: 'http://192.168.31.65:3006/api/v2/',
+        baseURLCallback: 'http://192.168.31.65:3004/api/v1/',
         baseUrlImg: 'http://huspi.com:3026/api/v1/images/',
         payeeId: '26298',
         domen: 'http://huspi.com:3022/',
