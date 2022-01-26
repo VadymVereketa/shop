@@ -21,6 +21,7 @@ import {selectorsUser} from '../../redux/user/userReducer';
 import CartCountItem from '../controls/CartCountInput';
 import {ID_UNIT_WEIGHT} from '../../constants/constantsId';
 import {navigationRef} from '../../utils/navigationRef';
+import useAvailableProduct from '../../useHooks/useAvailableProduct';
 
 const window = Dimensions.get('window');
 
@@ -49,7 +50,7 @@ const ProductItem = React.memo(({product, onPress}: IProductItemProps) => {
     product.productOptions.length > 0
       ? +product.productOptions[index].price
       : 0;
-  let available = price !== 0;
+  let available = useAvailableProduct()(product);
   const productImage: IImgProduct =
     (product.productImages && product.productImages[0]) || {};
 
@@ -77,6 +78,7 @@ const ProductItem = React.memo(({product, onPress}: IProductItemProps) => {
           count: isAvgWeight ? +product.avgWeight! : 1,
           product: product,
           alternativeCount: isAvgWeight ? 1 : null,
+          services: [],
         }),
       );
     }
@@ -126,6 +128,7 @@ const ProductItem = React.memo(({product, onPress}: IProductItemProps) => {
             )
           ) : (
             <MyButton
+              disabled={!available}
               ultraWidth={true}
               styleText={styles.btnText}
               onPress={handleOrder}>

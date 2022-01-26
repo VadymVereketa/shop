@@ -25,7 +25,7 @@ import uk from './src/assets/translations/uk';
 import ru from './src/assets/translations/ru';
 import {actionsUser, refreshUser} from './src/redux/user/userReducer';
 import service from './src/services/service';
-import {actionsCart} from './src/redux/cart/cartReducer';
+import {actionsCart, fetchSaveCart} from './src/redux/cart/cartReducer';
 import {DEFAULT_NAME_SETTING} from './src/constants/constantsId';
 import {Host} from 'react-native-portalize';
 import messaging from '@react-native-firebase/messaging';
@@ -37,6 +37,7 @@ import {isIOS} from './src/utils/isPlatform';
 import {thunkGetTypes} from './src/redux/types/typeReducer';
 import AsyncStorage from '@react-native-community/async-storage';
 import {thunkGetAllCities} from './src/redux/city/cityReducer';
+import ProviderEventRedux from './src/context/EventReduxContext';
 
 I18n.defaultLocale = 'uk';
 I18n.fallbacks = true;
@@ -81,11 +82,7 @@ const handleAppStateChange = async (nextAppState) => {
         ? root.cart.idSellPoint
         : root.other.settings[DEFAULT_NAME_SETTING].default_price_sell_point;
 
-      if (items.length > 0 && idDeliveryType) {
-        service.saveCart(items, id, idDeliveryType);
-      } else {
-        service.deleteCart();
-      }
+      store.store.dispatch(fetchSaveCart);
     }
   } catch (e) {
     console.log({e});
@@ -114,13 +111,15 @@ const Main = () => {
     <Provider store={store.store}>
       <PersistGate loading={null} persistor={store.persistor}>
         <ProviderFormattingContext>
-          <SafeAreaProvider>
-            <ProviderTheme>
-              <Host>
-                <App />
-              </Host>
-            </ProviderTheme>
-          </SafeAreaProvider>
+          <ProviderEventRedux>
+            <SafeAreaProvider>
+              <ProviderTheme>
+                <Host>
+                  <App />
+                </Host>
+              </ProviderTheme>
+            </SafeAreaProvider>
+          </ProviderEventRedux>
         </ProviderFormattingContext>
       </PersistGate>
     </Provider>

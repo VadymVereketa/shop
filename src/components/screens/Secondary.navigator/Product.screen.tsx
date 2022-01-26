@@ -42,6 +42,7 @@ import useDidUpdateEffect from '../../../useHooks/useDidUpdateEffect';
 import t from '../../../utils/translate';
 import DesignIcon from '../../common/DesignIcon';
 import LoginButton from '../../common/LoginButton';
+import useAvailableProduct from '../../../useHooks/useAvailableProduct';
 
 const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
   const window = Dimensions.get('window');
@@ -70,7 +71,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
     product.productOptions.length > 0
       ? +product.productOptions[index].price
       : 0;
-  let available = price !== 0;
+  let available = useAvailableProduct()(product);
   const isWeightUnit =
     product.unit && product.unit.externalId === ID_UNIT_WEIGHT;
   const productImage: IImgProduct =
@@ -148,6 +149,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
               addToCart={addProductToCart}
               onOrder={handleOrder}
               product={product}
+              available={available}
             />
           ) : (
             <PortionUnit
@@ -156,6 +158,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
               title={title}
               price={price}
               onOrder={handleOrder}
+              available={available}
             />
           )}
           <View style={[styles.border, {backgroundColor: border}]} />
