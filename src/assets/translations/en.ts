@@ -204,5 +204,7 @@ const en = {
   citiesLviv: `Lviv`,
   citiesSuburbs: `and suburbs`,
   anotherCity: 'Another City',
+  changeDeliveryMethod: 'Change delivery method',
+  assortmentDeliverySelfTitle: `Self-pickup order`,
 };
 export default en;

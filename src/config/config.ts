@@ -4,7 +4,7 @@ enum Mode {
   PROD = 'PROD',
   UAT = 'UAT',
 }
-const mode: any = Mode.DEV;
+const mode: any = Mode.UAT;
 
 const config = (() => {
   switch (mode) {
@@ -42,7 +42,8 @@ const config = (() => {
       return {
         baseURL: 'https://egersund-uat-client.huspi.com/api/v1/',
         baseURLV2: 'https://egersund-uat-client.huspi.com/api/v2/',
-        baseURLCallback: 'https://egersund-uat.integration-api/api/v1/',
+        baseURLCallback:
+          'https://egersund-uat.integration-api.huspi.com/api/v1/',
         baseUrlImg: 'https://egersund-uat-client.huspi.com/api/v1/images/',
         payeeId: '26298',
         domen: 'https://egersund-uat-web.huspi.com',

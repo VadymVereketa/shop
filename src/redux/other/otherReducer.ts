@@ -22,6 +22,7 @@ const init: IOtherState = {
   theme: 'light',
   isModalAssortment: false,
   notificationToken: null,
+  isOpenClearCart: false,
 };
 const MAX = 5;
 
@@ -140,6 +141,9 @@ const selectorsOther = {
   },
   getIsModalAssortment: (state: RootState) => {
     return state.other.isModalAssortment;
+  },
+  getIsOpenModalClear: (state: RootState) => {
+    return state.other.isOpenClearCart;
   },
 };
 

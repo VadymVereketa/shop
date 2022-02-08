@@ -48,7 +48,7 @@ const useSaveDraft = () => {
       : undefined,
     id: draftId ? draftId : undefined,
     sellPoint: {
-      id: sellPointCardId,
+      id: sellPointCardId!,
       name: '',
     },
     orderAddress: orderAddress ? formatAddress(orderAddress) : '',
@@ -59,6 +59,9 @@ const useSaveDraft = () => {
 
   return async () => {
     let res = await service.createDraft(fetchData);
+    if (res.code === 401) {
+      return Promise.reject(res);
+    }
     if (!res.success) {
       dispatch(
         actionsOther.setData({
@@ -74,15 +77,9 @@ const useSaveDraft = () => {
           }),
         );
       }
-    } else {
-      dispatch(
-        actionsOther.setData({
-          draftId: res.data.id,
-        }),
-      );
     }
 
-    return res;
+    return res.success ? Promise.resolve(res) : Promise.reject(res);
   };
 };
 

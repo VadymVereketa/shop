@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, SafeAreaView, Image} from 'react-native';
+import {View, StyleSheet, SafeAreaView, Image, Linking} from 'react-native';
 import {LocationScreenProps} from '../../navigators/Menu.navigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {sizes, useTheme} from '../../../context/ThemeContext';
@@ -33,7 +33,11 @@ const LocationScreen = React.memo((props: LocationScreenProps) => {
             <MyText style={styles.text}>{sellPoint.workingHoursNotes}</MyText>
           </View>
           <MyText style={styles.subTitle}>{t('commonOrderSelf')}</MyText>
-          <MyText style={[styles.text, {color: primary}]}>
+          <MyText
+            onPress={() => {
+              Linking.openURL(`tel:${sellPoint.phone}`);
+            }}
+            style={[styles.text, {color: primary}]}>
             {sellPoint.phone}
           </MyText>
         </View>

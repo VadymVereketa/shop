@@ -64,7 +64,7 @@ const uk = {
   commonKg: `кг`,
   commonSelf: `Самовивоз`,
   commonDelivery: `Доставка`,
-  commonAssortmentExtended: `Розширений асортимент`,
+  commonAssortmentExtended: `Відображення ассортименту`,
   commonAssortment: `Асортимент`,
   productInfo: `Звертаємо Вашу увагу!`,
   productDesc: `При замовленні вагового товару сума замовлення може коливатись в межах %{weight}% від запланованої. При безготівковому розрахунку на сайті блокується сума замовлення з врахуванням %{weight}%.  Остаточне списання коштів відбувається тільки після зважування та формування замовлення.`,
@@ -204,6 +204,8 @@ const uk = {
   citiesLviv: `Львів`,
   citiesSuburbs: `та пригород`,
   anotherCity: 'Інше місто',
+  changeDeliveryMethod: 'Змінити спосіб доставки',
+  assortmentDeliverySelfTitle: `Замовлення на самовиніс`,
 };
 export type ITranslate = keyof typeof uk;
 

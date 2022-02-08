@@ -6,7 +6,7 @@ import {sizes, useTheme} from '../../context/ThemeContext';
 import MyButton from '../controls/MyButton';
 import {getFontFamily} from '../../utils/getFontFamily';
 import {selectorsTypes} from '../../redux/types/typeReducer';
-import {selectorsOther} from '../../redux/other/otherReducer';
+import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
 import {TypeDelivery} from '../../constants/constantsId';
 import {actionsOrder, selectorsOrder} from '../../redux/order/orderReducer';
 import RadioBlock from '../controls/RadioBlock';
@@ -254,6 +254,19 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
               {t('btnDelivery')}
             </MyButton>
           )}
+          <MyButton
+            onPress={() => {
+              dispatch(
+                actionsOther.setData({
+                  isOpenClearCart: true,
+                }),
+              );
+            }}
+            styleText={styles.btnText}
+            style={styles.btn}
+            type={'default'}>
+            {t('changeDeliveryMethod')}
+          </MyButton>
         </React.Fragment>
       </View>
       {deliveryType !== null &&

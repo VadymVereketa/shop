@@ -170,7 +170,7 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
             })}
           </React.Fragment>
         )}
-        <MyText
+        {/*  <MyText
           style={{color: primary}}
           onPress={() =>
             navigation.push('AddressNavigator', {
@@ -178,7 +178,7 @@ const ProfileScreen = React.memo(({navigation}: ProfileScreenProps) => {
             })
           }>
           {t('btnTextAddAddress')}
-        </MyText>
+        </MyText> */}
         <PressTitle
           style={styles.press}
           onPress={() => navigation.push('Certificate', {})}>

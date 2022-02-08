@@ -25,30 +25,19 @@ const MainHeader = ({scene}: StackHeaderProps) => {
   const orderSellPoint = useSelector(selectorsOrder.getSellPointId);
   const selectSellPoint = sellPoints.find((s) => s.id == orderSellPoint);
   const getTextDeliveryType = useGetTranslateForDeliveryType();
-  const [isOpenClearCart, setIsOpenClearCart] = useState(false);
   const isEmptyCart = useSelector(selectorsCart.isEmpty);
-  const idDefaultSellPoint = useSelector(selectorsOther.getIdSellPoint);
-  const title = scene.descriptor.options.title || '';
 
   const {headerRight} = scene.descriptor.options;
 
   const handleOpenAssortmentModal = () => {
     if (!isEmptyCart) {
-      setIsOpenClearCart(true);
+      dispatch(
+        actionsOther.setData({
+          isOpenClearCart: true,
+        }),
+      );
       return;
     }
-    dispatch(
-      actionsOther.setData({
-        isModalAssortment: true,
-      }),
-    );
-  };
-
-  const handleClearCart = () => {
-    dispatch(actionsCart.clear(idDefaultSellPoint));
-    dispatch(actionsCart.updateCart(idDefaultSellPoint));
-    setIsOpenClearCart(false);
-
     dispatch(
       actionsOther.setData({
         isModalAssortment: true,
@@ -61,11 +50,6 @@ const MainHeader = ({scene}: StackHeaderProps) => {
       style={{
         justifyContent: 'space-between',
       }}>
-      <ModalAssortmentWarning
-        modalVisible={isOpenClearCart}
-        onClose={() => setIsOpenClearCart(false)}
-        onConfirm={handleClearCart}
-      />
       <DesignIcon name="logo" size={sizes[20]} fill="white" />
       {deliveryType && (
         <TouchableOpacity

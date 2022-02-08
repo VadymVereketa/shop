@@ -61,9 +61,11 @@ const RestaurantScreen = React.memo(
         ? {id: parentCategory.id, name: '...'}
         : {id: -1, name: t('allCategories')};
 
-      return [first, ...categories];
+      return [...categories, first];
     }, []);
-    const [idCategory, setIdCategory] = useState<number | null>(null);
+    const [idCategory, setIdCategory] = useState<number | null>(
+      joinCategories.length > 0 ? joinCategories[0].id : null,
+    );
     const [search, setSearch] = useState('');
     const [sort, setSort] = useState<TypeSortProduct | null>(null);
     const [isShowSearchModal, setIsShowSearchModal] = useState(false);
@@ -79,9 +81,9 @@ const RestaurantScreen = React.memo(
 
     useEffect(() => {
       if (parentCategory) {
-        setIdCategory(parentCategory.id);
+        //setIdCategory(parentCategory.id);
       } else {
-        setIdCategory(categories[0].id);
+        //setIdCategory(categories[0].id);
       }
 
       navigation.setOptions({

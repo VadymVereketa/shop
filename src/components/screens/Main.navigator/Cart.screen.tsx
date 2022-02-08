@@ -12,18 +12,26 @@ import CartItem from '../../common/CartItem';
 import {useFormattingContext} from '../../../context/FormattingContext';
 import MyButton from '../../controls/MyButton';
 import BetaTest from '../../common/BetaTest';
+import {selectorsUser} from '../../../redux/user/userReducer';
 
 const CartScreen = React.memo(({navigation}: any) => {
   const insets = useSafeAreaInsets();
   const {border, primary} = useTheme();
+  const isAuth = useSelector(selectorsUser.isAuth);
   const {formatPrice} = useFormattingContext();
   const items = useSelector(selectorsCart.getCartProducts);
   const sum = useSelector(selectorsCart.getGeneralSum);
 
   const handleOrder = () => {
-    navigation.push('OrderNavigator', {
-      screen: 'FirstStep',
-    });
+    if (isAuth) {
+      navigation.push('OrderNavigator', {
+        screen: 'FirstStep',
+      });
+    } else {
+      navigation.push('AuthNavigator', {
+        screen: 'Login',
+      });
+    }
   };
 
   return (
