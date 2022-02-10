@@ -64,7 +64,7 @@ const ru = {
   commonKg: `кг`,
   commonSelf: `Самовывоз`,
   commonDelivery: `Доставка`,
-  commonAssortmentExtended: `Расширенный ассортимент`,
+  commonAssortmentExtended: `Отображение ассортимента`,
   commonAssortment: `Ассортимент`,
   productInfo: `Обращаем Ваше внимание!`,
   productDesc: `При заказе весового товара сумма заказа может колебаться в пределах % {weight}% от запланированного. При безналичном расчете на сайте блокируется сумма заказа с учетом % {weight}%. Окончательное списание средств происходит только после взвешивания и формирования заказа.`,
@@ -204,5 +204,7 @@ const ru = {
   citiesLviv: `Львов`,
   citiesSuburbs: `и пригород`,
   anotherCity: 'Другой город',
+  changeDeliveryMethod: 'Изменить способ доставки',
+  assortmentDeliverySelfTitle: `Заказ на самовынос`,
 };
 export default ru;

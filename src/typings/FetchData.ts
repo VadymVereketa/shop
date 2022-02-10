@@ -1,4 +1,5 @@
 import {TypeDelivery} from '../constants/constantsId';
+import ICDNImage from './ICDNImage';
 
 export interface ICategory {
   id: number;
@@ -46,6 +47,7 @@ export interface IProduct {
         id: number;
       }[]
     | null;
+  cdnImages: ICDNImage[] | null;
 }
 
 export interface IServiceProduct {

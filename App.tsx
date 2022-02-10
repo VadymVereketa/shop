@@ -34,6 +34,7 @@ import {isIOS, isAndroid} from './src/utils/isPlatform';
 import {requestNotificationPermission} from './src/utils/requestNotificationPermission';
 import {Host} from 'react-native-portalize';
 import {isReadyRef, navigationRef} from './src/utils/navigationRef';
+import ModalAssortmentWarning from './src/components/modals/ModalAssortmentWarning';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -48,6 +49,8 @@ const App = () => {
   const requiredVersion = useSelector(selectorsConfig.getRequiredVersion);
   const optionalVersion = useSelector(selectorsConfig.getOptionalVersion);
   const deliveryType = useSelector(selectorsOrder.getDeliveryType);
+  const idDefaultSellPoint = useSelector(selectorsOther.getIdSellPoint);
+  const isOpenClearCart = useSelector(selectorsOther.getIsOpenModalClear);
   const enabledRequiredCheck = useSelector(
     selectorsConfig.getItemConfig('enabledRequiredCheckVersion'),
   );
@@ -226,6 +229,18 @@ const App = () => {
     }
   };
 
+  const handleClearCart = () => {
+    dispatch(actionsCart.clear());
+    dispatch(actionsCart.updateCart(idDefaultSellPoint));
+
+    dispatch(
+      actionsOther.setData({
+        isModalAssortment: true,
+        isOpenClearCart: false,
+      }),
+    );
+  };
+
   if (!isLoadConfig) {
     return null;
   }
@@ -251,6 +266,17 @@ const App = () => {
       {isRefreshUser && !isNeededEditName && <ModalAssortment />}
 
       <StartNavigator />
+      <ModalAssortmentWarning
+        modalVisible={isOpenClearCart}
+        onClose={() => {
+          dispatch(
+            actionsOther.setData({
+              isOpenClearCart: false,
+            }),
+          );
+        }}
+        onConfirm={handleClearCart}
+      />
     </NavigationContainer>
   );
 };

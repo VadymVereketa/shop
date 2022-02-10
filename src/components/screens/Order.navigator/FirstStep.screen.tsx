@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {selectorsUser} from '../../../redux/user/userReducer';
+import {actionsUser, selectorsUser} from '../../../redux/user/userReducer';
 import MyText from '../../controls/MyText';
 import {FirstStepScreenProps} from '../../navigators/Order.navigator';
 import MyButton from '../../controls/MyButton';
@@ -25,9 +25,23 @@ const FirstStepScreen = React.memo(({navigation}: FirstStepScreenProps) => {
   const contact = useSelector(selectorsOrder.getContact);
   const saveDraft = useSaveDraft();
 
-  const handleContinue = () => {
-    saveDraft();
-    navigation.push('SecondStep', {});
+  const handleContinue = async () => {
+    try {
+      const res = await saveDraft();
+      if (res.success) {
+        dispatch(
+          actionsOther.setData({
+            draftId: res.data.id,
+          }),
+        );
+      }
+
+      navigation.push('SecondStep', {});
+    } catch (res) {
+      if (res.code === 401) {
+        dispatch(actionsUser.logout());
+      }
+    }
   };
 
   const handlePress = (c: IContact | null) => {

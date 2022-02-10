@@ -2,7 +2,7 @@ import {CreatorReducer} from '../base/base';
 import {ICartActions, ICartState} from './cartTypes';
 import {RootState} from '../reducer';
 import service from '../../services/service';
-import {ID_UNIT_WEIGHT} from '../../constants/constantsId';
+import {ID_UNIT_WEIGHT, TypeDelivery} from '../../constants/constantsId';
 import {selectorsOrder} from '../order/orderReducer';
 import {ref_cartProducts} from '../../utils/refReact';
 import cloneArray from '../../utils/cloneArray';
@@ -150,22 +150,6 @@ const selectorsCart = {
   },
 };
 
-const fetchUpdateCart = (
-  products: ICartItem[],
-  id: number,
-  idDelivery: number,
-) => async (dispatch: any) => {
-  dispatch(actionsCart.setLoading(true));
-  const res = await service.saveCart(products, id, idDelivery);
-  if (res.success) {
-    dispatch(actionsCart.updateCart(res.data.sellPoint.id));
-  } else {
-    dispatch(actionsCart.setError(res.data));
-  }
-  dispatch(actionsCart.setLoading(false));
-  return res.success;
-};
-
 const fetchSaveCart = async (dispatch: any, getStore: () => RootState) => {
   const state = getStore();
   const products: ICartItem[] = state.cart.data;
@@ -175,9 +159,20 @@ const fetchSaveCart = async (dispatch: any, getStore: () => RootState) => {
   if (idDelivery === null || idSellPoint === null) {
     return;
   }
+
+  const idCity =
+    deliveryType!.code === TypeDelivery.courier
+      ? state.city.selectedCity
+      : null;
+
   dispatch(actionsCart.setLoading(true));
   if (products.length > 0) {
-    const res = await service.saveCart(products, idSellPoint, idDelivery);
+    const res = await service.saveCart(
+      products,
+      idSellPoint,
+      idDelivery,
+      idCity,
+    );
 
     if (res.success) {
       ref_cartProducts.current = cloneArray(products);
@@ -195,5 +190,5 @@ const fetchSaveCart = async (dispatch: any, getStore: () => RootState) => {
   dispatch(actionsCart.setLoading(false));
 };
 
-export {actionsCart, selectorsCart, fetchSaveCart, fetchUpdateCart};
+export {actionsCart, selectorsCart, fetchSaveCart};
 export default creator.createReducerFetch(init);

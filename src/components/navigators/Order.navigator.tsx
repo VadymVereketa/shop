@@ -22,13 +22,14 @@ import RepeatOrderScreen from '../screens/Order.navigator/RepeatOrder.screen';
 import DeliveryScreen from '../screens/Order.navigator/Delivery.screen';
 import {useDispatch, useSelector} from 'react-redux';
 import PaymentScreen from '../screens/Order.navigator/Payment.screen';
-import {selectorsOther} from '../../redux/other/otherReducer';
+import {actionsOther, selectorsOther} from '../../redux/other/otherReducer';
 import {actionsCart} from '../../redux/cart/cartReducer';
 import {actionsOrder, selectorsOrder} from '../../redux/order/orderReducer';
 import t from '../../utils/translate';
 import {StackNavigationProp} from '@react-navigation/stack/lib/typescript/src/types';
 import {TypeDelivery} from '../../constants/constantsId';
 import useSaveDraft from '../../useHooks/useSaveDraft';
+import {actionsUser} from '../../redux/user/userReducer';
 
 export type OrderNavigatorParamList = {
   FirstStep: {};
@@ -181,12 +182,27 @@ export type PaymentScreenProps = {
 const Stack = createStackNavigator<OrderNavigatorParamList>();
 
 const OrderNavigator = React.memo(({navigation}: OrderNavigatorScreenProps) => {
+  const dispatch = useDispatch();
   const deliveryType = useSelector(selectorsOrder.getDeliveryType);
   const saveDraft = useSaveDraft();
   const {text} = useTheme();
 
   useEffect(() => {
-    saveDraft();
+    saveDraft()
+      .then((res) => {
+        if (res.success) {
+          dispatch(
+            actionsOther.setData({
+              draftId: res.data.id,
+            }),
+          );
+        }
+      })
+      .catch((res) => {
+        if (res.code === 401) {
+          dispatch(actionsUser.logout());
+        }
+      });
   }, []);
 
   const titleDate =

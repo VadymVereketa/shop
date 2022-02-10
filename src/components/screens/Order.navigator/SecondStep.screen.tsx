@@ -13,6 +13,7 @@ import BlockWrapperOrder from '../../common/BlockWrapperOrder';
 import t from '../../../utils/translate';
 import useSaveDraft from '../../../useHooks/useSaveDraft';
 import {actionsOther} from '../../../redux/other/otherReducer';
+import {actionsUser} from '../../../redux/user/userReducer';
 
 const SecondStepScreen = React.memo(
   ({navigation, route}: SecondStepScreenProps) => {
@@ -24,9 +25,22 @@ const SecondStepScreen = React.memo(
     const isExpress = useSelector(selectorsOrder.isDeliveryExpress);
     const saveDraft = useSaveDraft();
 
-    const handleContinue = () => {
-      saveDraft();
-      navigation.navigate('ThirdStep', {});
+    const handleContinue = async () => {
+      try {
+        const res = await saveDraft();
+        if (res.success) {
+          dispatch(
+            actionsOther.setData({
+              draftId: res.data.id,
+            }),
+          );
+        }
+        navigation.navigate('ThirdStep', {});
+      } catch (res) {
+        if (res.code === 401) {
+          dispatch(actionsUser.logout());
+        }
+      }
     };
 
     useDidUpdateEffect(() => {

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, Linking} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MyText from '../../controls/MyText';
 import {sizes, useTheme} from '../../../context/ThemeContext';
@@ -137,9 +137,18 @@ const FinalStepScreen = React.memo(
               </View>
             ) : (
               <View>
-                <MyText style={styles.title}>{t('btnSelf')}: </MyText>
+                <MyText style={styles.title}>
+                  {t('assortmentDeliverySelfTitle')}:{' '}
+                </MyText>
                 <MyText style={styles.title}>{sp.name}</MyText>
                 <MyText style={styles.text}>{sp.address}</MyText>
+                <MyText
+                  onPress={() => {
+                    Linking.openURL(`tel:${sp.phone}`);
+                  }}
+                  style={styles.text}>
+                  {sp.phone}
+                </MyText>
               </View>
             )}
             {!isExpress && (
