@@ -40,6 +40,12 @@ type TypeGetExcludeTime = {
   placeId: number;
 };
 
+interface ICreateOrderProps {
+  idCity: any;
+  draftId: number | undefined;
+  data: IOrderState;
+}
+
 const service = {
   getCities: async () => {
     return await customFetch(() => instance.get<ICityFetch[]>('city'));
@@ -180,6 +186,7 @@ const service = {
     products: ICartItem[],
     idSellPoint: number,
     idDelivery: number,
+    idCity: number | null,
   ) => {
     const data = {
       cartProducts: products.map((p) => {
@@ -202,6 +209,11 @@ const service = {
         id: idDelivery,
       },
     };
+    if (idCity) {
+      data['city'] = {
+        id: idCity,
+      };
+    }
     return await customFetch(() =>
       instance.put<IUpdateCart>('clients/cart', data, {
         withCredentials: true,
@@ -247,7 +259,8 @@ const service = {
       };
     }
   },
-  createOrder: async (draftId: number | undefined, data: IOrderState) => {
+
+  createOrder: async ({data, draftId, idCity}: ICreateOrderProps) => {
     if (!data.date) {
       return {
         success: false,
@@ -317,6 +330,12 @@ const service = {
           : maxExecuteDate,
       minExecuteDate,
     };
+
+    if (idCity && data.deliveryType!.code === TypeDelivery.courier) {
+      fetchData['city'] = {
+        id: idCity,
+      };
+    }
 
     try {
       const res = await instance.post('clients/order', fetchData);

@@ -11,7 +11,7 @@ import {TypeDelivery} from '../../constants/constantsId';
 import {actionsOrder, selectorsOrder} from '../../redux/order/orderReducer';
 import RadioBlock from '../controls/RadioBlock';
 import {ICartItem} from '../../typings/FetchData';
-import {fetchUpdateCart, selectorsCart} from '../../redux/cart/cartReducer';
+import {selectorsCart} from '../../redux/cart/cartReducer';
 import MyText from '../controls/MyText';
 import {selectorsUser} from '../../redux/user/userReducer';
 import {formatAddress} from '../../utils/formatAddress';
@@ -58,7 +58,6 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
   const {border, primary} = useTheme();
   const sellPoints = useSelector(getSellPoints(false));
   const deliveryTypes = useSelector(selectorsTypes.getDeliveryTypes);
-  const ID_SELL_POINT = useSelector(selectorsOther.getIdSellPoint);
   const idSellPoint = useSelector(selectorsOrder.getSellPointId);
   const deliveryType = useSelector(selectorsOrder.getDeliveryType)!;
   const selectedCity = useSelector(SelectorCity.getSelectedCity);
@@ -77,69 +76,6 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
     }
     return getAvailableSellPoints(items, products);
   }, [count]);
-
-  const handleSetDeliveryType = async (code: TypeDelivery) => {
-    if (isLoading) return;
-    if (deliveryType && deliveryType.code === code) {
-      return;
-    }
-    if (!deliveryType) {
-      return;
-    }
-
-    const idDeliveryType = deliveryType.id;
-
-    if (code === TypeDelivery.courier) {
-      const res = await dispatch(
-        fetchUpdateCart(products, ID_SELL_POINT, idDeliveryType),
-      );
-      if (!res) {
-        return;
-      }
-    } else if (idSellPoint) {
-      let res = await dispatch(
-        fetchUpdateCart(products, idSellPoint, idDeliveryType),
-      );
-
-      if (!res) {
-        res = await dispatch(
-          fetchUpdateCart(products, ID_SELL_POINT, idDeliveryType),
-        );
-        if (!res) {
-          return;
-        }
-        dispatch(
-          actionsOrder.setData({
-            sellPoint: ID_SELL_POINT,
-          }),
-        );
-      }
-    }
-    dispatch(
-      actionsOrder.setData({
-        deliveryType: deliveryTypes.find((d) => d.code === code)!,
-      }),
-    );
-  };
-
-  const handlePressSellPoint = async (id: number) => {
-    if (isLoading) return;
-
-    const idDeliveryType = deliveryType.id;
-    setPressId(id);
-    const res: any = await dispatch(
-      fetchUpdateCart(products, id, idDeliveryType),
-    );
-    if (res) {
-      dispatch(
-        actionsOrder.setData({
-          sellPoint: id,
-          date: null,
-          time: '',
-        }),
-      );
-    }
-  };
 
   useEffect(() => {
     //TODO: Delete
@@ -190,32 +126,6 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
     return null;
   };
 
-  /* useEffect(() => {
-    if (deliveryType?.code === TypeDelivery.express) {
-      dispatch(
-        actionsOrder.setData({
-          idDeliveryPrice: defaultDeliveryPriceExpress,
-        }),
-      );
-    } else if (addressId !== -1) {
-      try {
-        const data = addresses.find((a) => a.id === addressId)!;
-
-        dispatch(
-          actionsOrder.setData({
-            idDeliveryPrice: data.addressDictionary!.district.deliveryPrice.id,
-          }),
-        );
-      } catch (e) {
-        dispatch(
-          actionsOrder.setData({
-            idDeliveryPrice: defaultDeliveryPrice,
-          }),
-        );
-      }
-    }
-  }, [deliveryType]); */
-
   const isOneOfDeliveryTypes = (type: TypeDelivery) => {
     return (
       deliveryTypes.some((d) => d.code === TypeDelivery.self) &&
@@ -233,7 +143,6 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
               isActive={
                 deliveryType ? deliveryType.code === TypeDelivery.self : false
               }
-              onPress={() => handleSetDeliveryType(TypeDelivery.self)}
               styleText={styles.btnText}
               style={styles.btn}
               type={'default'}>
@@ -247,7 +156,6 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
                   ? deliveryType.code === TypeDelivery.courier
                   : false
               }
-              onPress={() => handleSetDeliveryType(TypeDelivery.courier)}
               styleText={styles.btnText}
               style={styles.btn}
               type={'default'}>
@@ -276,8 +184,8 @@ const BlockDelivery = React.memo(({navigate}: IBlockDeliveryProps) => {
             .map((s) => {
               return (
                 <RadioBlock
+                  onPress={() => null}
                   key={s.id}
-                  onPress={() => handlePressSellPoint(s.id)}
                   title={s.name}
                   text={s.address!}
                   styleCon={styles.block}

@@ -13,6 +13,7 @@ import {useTheme} from '../context/ThemeContext';
 import {useFormattingContext} from '../context/FormattingContext';
 import FirebaseCrash from '../Crashlytics/FirebaseCrash';
 import CrashTypeError from '../typings/CrashTypeError';
+import {SelectorCity} from '../redux/city/cityReducer';
 
 export const useCreateOrder = () => {
   const [loading, setLoading] = useState(false);
@@ -33,6 +34,7 @@ export const useCreateOrder = () => {
   const idSellPoint = useSelector(selectorsCart.getIdSellPoint);
   const paymentType = useSelector(selectorsOrder.getCodePayment);
   const deliveryType = useSelector(selectorsOrder.getDeliveryType)!;
+  const idCity = useSelector(SelectorCity.getSelectedCityId);
   const totalPrice = sum + deliveryPrice;
 
   const createOrder = async () => {
@@ -48,7 +50,11 @@ export const useCreateOrder = () => {
     );
     data.orderAddress = address;
     try {
-      const res = await service.createOrder(draftId!, data);
+      const res = await service.createOrder({
+        draftId: draftId!,
+        data,
+        idCity,
+      });
 
       if (!res.success) {
         throw new Error();
@@ -68,7 +74,11 @@ export const useCreateOrder = () => {
       return true;
     } catch (e) {
       FirebaseCrash.catch(e, CrashTypeError.createOrder);
-      const res = await service.createOrder(undefined, data);
+      const res = await service.createOrder({
+        data,
+        draftId: undefined,
+        idCity,
+      });
       if (!res.success) {
         return false;
       }
@@ -155,6 +165,7 @@ export const useCreateOrder = () => {
       products,
       idSellPoint!,
       deliveryType.id,
+      idCity,
     );
     FirebaseCrash.log(cart);
     FirebaseCrash.log('---------------end saveCart------------------');

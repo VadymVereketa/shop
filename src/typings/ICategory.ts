@@ -1,3 +1,4 @@
+import ICDNImage from './ICDNImage';
 import {IImage} from './IImage';
 
 export interface IBaseCategory {
@@ -13,6 +14,7 @@ export interface IFetchCategory extends IBaseCategory {
   parent: IBaseCategory | null;
   categoryImages: IImage | null;
   children: IFetchCategory[];
+  cdnImage: ICDNImage | null;
 }
 
 export interface ITreeCategory {
