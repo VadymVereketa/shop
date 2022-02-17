@@ -87,6 +87,9 @@ const VerificationScreen = ({navigation, route}: VerificationScreenProps) => {
   useDidUpdateEffect(() => {
     const valueStr = String(value);
     if (valueStr.length === CELL_COUNT) {
+      console.log(phone);
+      console.log(valueStr);
+
       dispatch(fetchLogin(phone, valueStr)).then((res) => {
         console.log(res);
 

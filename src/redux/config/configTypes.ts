@@ -9,6 +9,7 @@ export interface IConfigState {
   requiredVersionAndroid: number;
   optionalVersionIOS: string;
   requiredVersionIOS: string;
+  cdnURL: string;
 
   isNewCategory: boolean;
 }

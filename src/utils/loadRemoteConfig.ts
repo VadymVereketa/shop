@@ -1,6 +1,7 @@
 import remoteConfig from '@react-native-firebase/remote-config';
 import {ANDROID_VERSION, IOS_VERSION} from '../config/configVersion';
 import {actionsConfig} from '../redux/config/configReducer';
+import {cdnUrlRef} from './navigationRef';
 
 const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
   if (immediately) {
@@ -19,6 +20,7 @@ const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
       optionalVersionIOS: IOS_VERSION,
       requiredVersionIOS: IOS_VERSION,
       isNewCategory: false,
+      cdnURL: 'https://imagedelivery.net/lHorqxvmS2N-7iEdaTakMQ/',
     })
     .then(() => remoteConfig().fetchAndActivate())
     .then((fetchedRemotely) => {
@@ -30,7 +32,7 @@ const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
           'isNewCategory',
         ];
         const isNumber = ['optionalVersionAndroid', 'requiredVersionAndroid'];
-        const isString = ['optionalVersionIOS', 'requiredVersionIOS'];
+        const isString = ['optionalVersionIOS', 'requiredVersionIOS', 'cdnURL'];
         try {
           Object.entries(parameters).forEach(async ($) => {
             const [key, entry] = $;
@@ -47,6 +49,11 @@ const loadRemoteConfig = async (dispatch?: any, immediately = false) => {
                 }),
               );
             } else if (isString.some((s) => s === key)) {
+              if (key === 'cdnURL') {
+                console.log(entry.asString());
+
+                cdnUrlRef.current = entry.asString();
+              }
               dispatch(
                 actionsConfig.setData({
                   [key]: entry.asString(),

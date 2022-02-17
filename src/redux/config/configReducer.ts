@@ -12,6 +12,7 @@ const init: IConfigState = {
   requiredVersionAndroid: ANDROID_VERSION,
   requiredVersionIOS: IOS_VERSION,
   isNewCategory: false,
+  cdnURL: 'https://imagedelivery.net/lHorqxvmS2N-7iEdaTakMQ/',
 };
 
 const creator = new CreatorReducer<IConfigActions, IConfigState>('config');

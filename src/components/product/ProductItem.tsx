@@ -1,5 +1,8 @@
 import {IImgProduct, IProduct} from '../../typings/FetchData';
-import {useResponsiveWidth} from 'react-native-responsive-dimensions';
+import {
+  responsiveScreenWidth,
+  useResponsiveWidth,
+} from 'react-native-responsive-dimensions';
 import React, {useState} from 'react';
 import {useFormattingContext} from '../../context/FormattingContext';
 import {useDispatch, useSelector} from 'react-redux';
@@ -7,7 +10,14 @@ import {useNavigation} from '@react-navigation/native';
 import {selectorsOther} from '../../redux/other/otherReducer';
 import {getIndexProductOption} from '../../utils/getIndexProductOption';
 import {sizes, useTheme} from '../../context/ThemeContext';
-import {Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  Dimensions,
+  Image,
+  PixelRatio,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import getUrlImg from '../../utils/getUrlImg';
 import {getFontFamily} from '../../utils/getFontFamily';
 import MyButton from '../controls/MyButton';
@@ -22,6 +32,11 @@ import CartCountItem from '../controls/CartCountInput';
 import {ID_UNIT_WEIGHT} from '../../constants/constantsId';
 import {navigationRef} from '../../utils/navigationRef';
 import useAvailableProduct from '../../useHooks/useAvailableProduct';
+import {
+  getCDNKeyBySize,
+  ICDNVariantKey,
+  productImage,
+} from '../../typings/ICDNImage';
 
 const window = Dimensions.get('window');
 
@@ -29,6 +44,10 @@ interface IProductItemProps {
   product: IProduct;
   onPress?: (p: IProduct) => void;
 }
+
+const key = getCDNKeyBySize(
+  PixelRatio.getPixelSizeForLayoutSize(responsiveScreenWidth(48)),
+) as ICDNVariantKey;
 
 const borderRadius = sizes[1];
 
@@ -51,8 +70,6 @@ const ProductItem = React.memo(({product, onPress}: IProductItemProps) => {
       ? +product.productOptions[index].price
       : 0;
   let available = useAvailableProduct()(product);
-  const productImage: IImgProduct =
-    (product.productImages && product.productImages[0]) || {};
 
   const isAvgWeight = isWeightUnit && !!product.avgWeight;
   const handlePress = () => {
@@ -100,7 +117,7 @@ const ProductItem = React.memo(({product, onPress}: IProductItemProps) => {
       ]}>
       <TouchableWithoutFeedback onPress={handlePress}>
         <Image
-          source={getUrlImg(productImage.uuid)}
+          source={productImage(product, key)}
           resizeMode={'cover'}
           style={styles.image}
         />

@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, StyleSheet, SafeAreaView, Image, Linking} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  Linking,
+  PixelRatio,
+} from 'react-native';
 import {LocationScreenProps} from '../../navigators/Menu.navigator';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {sizes, useTheme} from '../../../context/ThemeContext';
@@ -9,6 +16,17 @@ import MyText from '../../controls/MyText';
 import getUrlImg from '../../../utils/getUrlImg';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import t from '../../../utils/translate';
+import {
+  getCDNKeyBySize,
+  ICDNVariantKey,
+  sellPointImage,
+} from '../../../typings/ICDNImage';
+
+const key = getCDNKeyBySize(
+  PixelRatio.getPixelSizeForLayoutSize(responsiveScreenWidth(100) - sizes[10]),
+) as ICDNVariantKey;
+
+console.log(key);
 
 const LocationScreen = React.memo((props: LocationScreenProps) => {
   const {sellPoint} = props.route.params;
@@ -21,8 +39,8 @@ const LocationScreen = React.memo((props: LocationScreenProps) => {
         <MyText style={styles.title}>{sellPoint.name}</MyText>
         <MyText style={styles.address}>{sellPoint.address}</MyText>
         <Image
-          source={getUrlImg(img)}
-          resizeMode={'center'}
+          source={sellPointImage(sellPoint, key)}
+          resizeMode={'cover'}
           style={styles.image}
         />
         <View style={[styles.box, {borderColor: border}]}>

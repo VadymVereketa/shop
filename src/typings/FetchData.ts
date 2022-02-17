@@ -101,6 +101,7 @@ export interface ISellPoint {
   workingHours1?: string;
   workingHours2?: string;
   workingHoursNotes?: string;
+  cdnImage: ICDNImage;
 }
 
 export interface IUnit {

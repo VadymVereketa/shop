@@ -83,7 +83,6 @@ const LoginScreen = React.memo(({navigation}: LoginScreenProps) => {
     });
 
     if (res.success) {
-      console.log(res);
       navigation.navigate('Verification', {
         phone,
       });

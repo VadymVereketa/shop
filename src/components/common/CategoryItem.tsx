@@ -1,13 +1,20 @@
 import React from 'react';
 import {
   Image,
+  PixelRatio,
   StyleProp,
   StyleSheet,
   TouchableOpacity,
   ViewStyle,
 } from 'react-native';
+import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import {sizes, useTheme} from '../../context/ThemeContext';
 import {IFetchCategory} from '../../typings/ICategory';
+import {
+  categoryImage,
+  getCDNKeyBySize,
+  ICDNVariantKey,
+} from '../../typings/ICDNImage';
 import {getFontFamily} from '../../utils/getFontFamily';
 import getUrlImg from '../../utils/getUrlImg';
 import MyText from '../controls/MyText';
@@ -18,6 +25,10 @@ interface ICategoryItemProps {
   conStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<ViewStyle>;
 }
+
+const key = getCDNKeyBySize(
+  PixelRatio.getPixelSizeForLayoutSize(responsiveScreenWidth(48)),
+) as ICDNVariantKey;
 
 const CategoryItem = ({
   category,
@@ -30,7 +41,7 @@ const CategoryItem = ({
     <TouchableOpacity
       onPress={onPress}
       style={[styles.con, {backgroundColor: background}, style]}>
-      <Image style={styles.image} source={getUrlImg(category.categoryImages)} />
+      <Image style={styles.image} source={categoryImage(category, key)} />
       <MyText
         style={[
           styles.text,

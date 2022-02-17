@@ -3,6 +3,7 @@ import React from 'react';
 export const isReadyRef: any = React.createRef();
 
 export const navigationRef = React.createRef<any>();
+export const cdnUrlRef: any = React.createRef<any>();
 
 export function navigate(name: string, params: any) {
   if (isReadyRef.current && navigationRef.current) {
