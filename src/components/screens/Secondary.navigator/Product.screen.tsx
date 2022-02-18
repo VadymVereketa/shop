@@ -1,5 +1,12 @@
 import React, {useRef, useState} from 'react';
-import {View, StyleSheet, Text, Image, Dimensions} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  Dimensions,
+  PixelRatio,
+} from 'react-native';
 import {ProductScreenProps} from '../../navigators/Secondary.navigator';
 import CountInput from '../../controls/CountInput';
 import I18n from 'react-native-i18n';
@@ -43,6 +50,11 @@ import t from '../../../utils/translate';
 import DesignIcon from '../../common/DesignIcon';
 import LoginButton from '../../common/LoginButton';
 import useAvailableProduct from '../../../useHooks/useAvailableProduct';
+import {
+  getCDNKeyBySize,
+  ICDNVariantKey,
+  productImage,
+} from '../../../typings/ICDNImage';
 
 const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
   const window = Dimensions.get('window');
@@ -74,8 +86,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
   let available = useAvailableProduct()(product);
   const isWeightUnit =
     product.unit && product.unit.externalId === ID_UNIT_WEIGHT;
-  const productImage: IImgProduct =
-    (product.productImages && product.productImages[0]) || {};
+
   const title: ITranslate = isProductInCart ? 'btnHasInCart' : 'btnAddToCart';
 
   const addProductToCart = async (
@@ -131,7 +142,7 @@ const ProductScreen = React.memo(({navigation, route}: ProductScreenProps) => {
       }}>
       <ScrollView style={[styles.container]}>
         <Image
-          source={getUrlImg(productImage.uuid)}
+          source={productImage(product, ICDNVariantKey['1200x900'])}
           resizeMode={'cover'}
           style={{
             width: w,

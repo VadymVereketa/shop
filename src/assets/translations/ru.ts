@@ -206,5 +206,6 @@ const ru = {
   anotherCity: 'Другой город',
   changeDeliveryMethod: 'Изменить способ доставки',
   assortmentDeliverySelfTitle: `Заказ на самовынос`,
+  commonWishes: `Пожелания`,
 };
 export default ru;

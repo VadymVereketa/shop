@@ -238,6 +238,7 @@ export interface ICartItem {
     ingredients: string;
     units: string;
     productImages: IImgProduct[];
+    cdnImages: ICDNImage[];
     productOptions: IProductOption[];
     avgWeight: string | null;
 

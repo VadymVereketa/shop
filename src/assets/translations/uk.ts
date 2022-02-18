@@ -206,6 +206,7 @@ const uk = {
   anotherCity: 'Інше місто',
   changeDeliveryMethod: 'Змінити спосіб доставки',
   assortmentDeliverySelfTitle: `Замовлення на самовиніс`,
+  commonWishes: `Побажання`,
 };
 export type ITranslate = keyof typeof uk;
 

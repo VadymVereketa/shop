@@ -18,6 +18,7 @@ import getUrlImg from '../../utils/getUrlImg';
 import Animated, {timing, Easing} from 'react-native-reanimated';
 import t from '../../utils/translate';
 import {ID_UNIT_WEIGHT} from '../../constants/constantsId';
+import {ICDNVariantKey, productImage} from '../../typings/ICDNImage';
 
 interface ICartItemProps {
   item: ICartItem;
@@ -83,7 +84,7 @@ const PurchaseItem = React.memo(({item}: IPurchaseItemProps) => {
       id={product.id}
       imgId={imgId}
       isEdit={false}
-      item={null as any}
+      item={item}
       title={product.shortDescription}
       price={quantityPrice}
       count={count!}
@@ -175,7 +176,7 @@ const ViewProductItem = React.memo(
         <View style={{flexGrow: 1}}>
           <View style={{flexDirection: 'row'}}>
             <Image
-              source={getUrlImg(imgId)}
+              source={productImage(item!.product, ICDNVariantKey['550x300'])}
               resizeMode={'cover'}
               style={{
                 width: sizes[37],

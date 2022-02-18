@@ -206,5 +206,6 @@ const en = {
   anotherCity: 'Another City',
   changeDeliveryMethod: 'Change delivery method',
   assortmentDeliverySelfTitle: `Self-pickup order`,
+  Пожелания: `Wishes`,
 };
 export default en;

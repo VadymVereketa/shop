@@ -28,6 +28,7 @@ import DesignIcon from './DesignIcon';
 import BarCode from './BarCode';
 import {checkCreateOrder} from '../../utils/checkCreateOrder';
 import Toast from 'react-native-simple-toast';
+import {ICDNVariantKey, productImage} from '../../typings/ICDNImage';
 
 interface IOrderItemProps {
   order: IOrderItem;
@@ -41,11 +42,7 @@ const OrderItem = React.memo(({order}: IOrderItemProps) => {
   const {formatPrice} = useFormattingContext();
 
   const images = order.purchases.map((purchase) => {
-    const productImages = purchase.product.productImages;
-    if (productImages.length > 0) {
-      return productImages[0].uuid;
-    }
-    return null;
+    return productImage(purchase.product, ICDNVariantKey['150x100']);
   });
 
   const handlePress = () => {
@@ -93,11 +90,7 @@ const OrderItem = React.memo(({order}: IOrderItemProps) => {
           contentContainerStyle={styles.products}>
           {images.map((img) => {
             return (
-              <Image
-                source={getUrlImg(img)}
-                resizeMode={'cover'}
-                style={styles.img}
-              />
+              <Image source={img} resizeMode={'cover'} style={styles.img} />
             );
           })}
         </ScrollView>
